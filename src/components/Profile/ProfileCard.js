@@ -12,6 +12,7 @@ import ProfileTable from "./ProfileTable";
 import { profileHistory } from "../../helper/API/Profile";
 import Loader from "../Loader";
 import TableNavbar from "../TableNavbar";
+import NewProgressbar from "../NewProgressbar";
 
 const ProfileCard = ({
   showProfilePicture,
@@ -132,21 +133,58 @@ const ProfileCard = ({
               </Col>
             </Row>
           </Col>
-          {permissions.newAdmin && (
-            <Col md={6} className="text-end">
-              {/* <div className='d-flex justify-content-end  p-3'> */}
+          <Col md={6} className="text-end d-flex align-items-end flex-column">
+            {permissions.newAdmin && (
               <Button
                 size="lg"
                 onClick={showAddAdmin}
                 className="border-0 fs-6"
-                style={{ backgroundColor: "#C4CCD2" }}
+                style={{ backgroundColor: "#FC671A" }}
               >
                 <i className="bi bi-link-45deg mx-1"></i>
                 Gerar código pra nova conta
               </Button>
-              {/* </div> */}
-            </Col>
-          )}
+            )}
+            <div className="text-start mt-2" style={{ width: "260px" }}>
+              <div>
+                <NewProgressbar
+                  dataPercentage={50}
+                  text="Armazenamento"
+                  text1="usados"
+                />
+              </div>
+              <div>
+                <img src="/assets/img/cloud.svg" />
+                <span
+                  style={{
+                    marginLeft: "10px",
+                    fontSize: "12px",
+                    color: "#FC671A",
+                  }}
+                >
+                  Gerenciar plano
+                </span>
+              </div>
+              <div>
+                <NewProgressbar
+                  dataPercentage={50}
+                  text="Contratos assinados"
+                />
+              </div>
+              <div>
+                <img src="/assets/img/file.svg" />
+                <span
+                  style={{
+                    marginLeft: "10px",
+                    fontSize: "12px",
+                    color: "#FC671A",
+                  }}
+                >
+                  Ver pacotes
+                </span>
+              </div>
+            </div>
+          </Col>
         </Row>
         {/* tabel */}
         {permissions.document && (
@@ -174,11 +212,11 @@ const ProfileCard = ({
             {/* pagination */}
             <Col className="d-flex justify-content-center me-auto " md={12}>
               {/* <Pagination>
-							<Pagination.Prev />
-							{items}
-							<Pagination.Ellipsis />
-							<Pagination.Next />
-						</Pagination> */}
+              <Pagination.Prev />
+              {items}
+              <Pagination.Ellipsis />
+              <Pagination.Next />
+            </Pagination> */}
             </Col>
           </Row>
         )}

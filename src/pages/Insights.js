@@ -27,6 +27,8 @@ import { Link, Navigate } from "react-router-dom";
 import { getContactList } from "../helper/API/contact";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
+import NewLinechart from "../components/CHARTS/NewLinechart1";
+import NewBarChartVisitor from "../components/CHARTS/NewBarchart";
 
 const Insights = () => {
   registerLocale("pt-BR", pt);
@@ -389,6 +391,100 @@ const Insights = () => {
                   </Card>
                 </Col>
               </Row>
+              <div className="mt-3">
+                <span style={{ fontWeight: 700 }}>Documentos</span>
+              </div>
+              <Row className="my-3">
+                {/* third card */}
+                <Col md={6}>
+                  <Card>
+                    <Row className="p-3">
+                      <Col xs={12} sm={12} md={6} className="text-center">
+                        <Row className="pt-3">
+                          <Col md={5} className="">
+                            <img
+                              src="/assets/img/newFile.svg"
+                              style={{
+                                height: "5rem",
+                                width: "5rem",
+                              }}
+                            />
+                          </Col>
+                          <Col md={7} className="d-flex justify-content-center">
+                            <h6
+                              className="fs-color  mb-0"
+                              style={{
+                                fontSize: "12px",
+                              }}
+                            >
+                              Total de documentos
+                              <p className="fs-color-fill px-0">
+                                {recoilChartData?.totalContact}
+                              </p>
+                            </h6>
+                          </Col>
+                        </Row>
+                      </Col>
+                      {/* linechart left */}
+                      <Col
+                        xs={12}
+                        sm={12}
+                        md={6}
+                        className="justify-content-center align-items-center   "
+                      >
+                        <NewLinechart />
+
+                        {recoilChartData?.growth?.contact && (
+                          <div className="d-flex justify-content-center">
+                            <div
+                              className="px-3 fw-bold d-flex align-items-center border-chart-label1"
+                              style={{
+                                color:
+                                  recoilChartData?.growth?.contactIndication ===
+                                  "increment"
+                                    ? "#58A43D"
+                                    : "#A43D3D",
+                              }}
+                            >
+                              {recoilChartData?.growth?.contactIndication ===
+                              "increment" ? (
+                                <img src="assets/img/up.png" className="px-1" />
+                              ) : (
+                                <img
+                                  src="assets/img/down.png"
+                                  className="px-1"
+                                />
+                              )}
+                              {recoilChartData?.growth?.contact.split(" ")[0]}
+                            </div>{" "}
+                            <div
+                              className="border-chart-label2"
+                              style={{
+                                color: "#6F767E",
+                              }}
+                            >
+                              {recoilChartData?.growth?.contact.slice(
+                                recoilChartData?.growth?.contact.indexOf(" ") +
+                                  1
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+                {/* fourth card */}
+                <Col md={6}>
+                  {/* barchart right */}
+                  <Card className="p-3 mt-4 mt-md-0">
+                    <NewBarChartVisitor />
+                  </Card>
+                </Col>
+              </Row>
+              <div className="mt-3">
+                <span style={{ fontWeight: 700 }}>Contratos</span>
+              </div>
               <Row className="my-3">
                 {/* third card */}
                 <Col md={6}>

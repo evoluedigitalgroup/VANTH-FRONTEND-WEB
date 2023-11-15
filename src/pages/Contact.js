@@ -7,6 +7,7 @@ import { getContactList } from "../helper/API/contact";
 import Loader from "../components/Loader";
 import { useRecoilState } from "recoil";
 import { contactTableData } from "../recoil/Atoms";
+import SelectClientModal from "../components/NewContract/SelectClientModal";
 
 const Contact = () => {
   const [tableRow, setTableRow] = useState([]);
@@ -98,10 +99,28 @@ const Contact = () => {
     }
   };
   // console.log("table", table);
+
+  const [showSelectModal, setShowSelectModal] = useState(false);
+
   return (
     <>
       <AfterAuth>
-        <h2 className="mt-3 ms-md-5 ms-3">Contatos</h2>
+        <div className="d-flex align-items-center justify-content-between mt-3 mx-md-5 ms-3">
+          <h2 className="">Contatos</h2>
+          <button
+            onClick={() => setShowSelectModal(true)}
+            className="py-2 px-3"
+            style={{
+              background: "#FC671A",
+              border: "0",
+              borderRadius: "6px",
+              color: "white",
+              fontWeight: 700,
+            }}
+          >
+            Novo contrato
+          </button>
+        </div>
         <Card className="m-5 mx-3 mx-md-5 my-3 p-3 px-4">
           {/* <NAVBAR /> */}
           <TableNavbar
@@ -152,6 +171,10 @@ const Contact = () => {
             />
           )}
         </Card>
+        <SelectClientModal
+          show={showSelectModal}
+          onHide={() => setShowSelectModal(false)}
+        />
       </AfterAuth>
     </>
   );

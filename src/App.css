@@ -618,3 +618,34 @@ width: 100% !important;
   align-items: center;
   /* background: #85A6A2 !important; */
 }
+
+.progress-container,
+.progress {
+    background-color: #C7C7C7;
+    border-radius: 5px;
+    /* position: relative; */
+    height: 5px !important;
+    width: 100%;
+    margin: 0 0px;
+}
+
+.progress {
+    background-color: #FC671A !important;
+    width: 0;
+    transition: width 0.4s linear;
+    margin: 0;
+}
+
+/* .percentage {
+    border-radius: 5px;
+    color: #6F736F;
+    font-size: 15px;
+    padding: 4px;
+    position: absolute;
+    top: 15px;
+    left: 1.5%;
+    transform: translateX(-50%);
+    width: 40px;
+    text-align: center;
+    transition: left 0.4s linear;
+} */

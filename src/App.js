@@ -16,63 +16,54 @@ import "./helper/prototype";
 import { useRecoilValue } from "recoil";
 import { loginAtom } from "./recoil/Atoms";
 import ErrorPage from "./pages/ErrorPage";
+import MyPlan from "./components/MyPlan/MyPlan";
+import "react-multi-carousel/lib/styles.css";
 
 function App() {
-	const login = useRecoilValue(loginAtom);
-	const permissions = login?.permissions;
-	// console.log("permissions", permissions);
-	return (
-		<>
-			<ToastContainer position='top-center' />
+  const login = useRecoilValue(loginAtom);
+  const permissions = login?.permissions;
+  // console.log("permissions", permissions);
+  return (
+    <>
+      <ToastContainer position="top-center" />
 
-			<Routes>
-				<Route path='/' element={<Show />} />
-				<Route path='/error' element={<ErrorPage />} />
-				<Route path='*' element={<Navigate to='error' replace />} />
-				<Route
-					path='/login'
-					element={<Protected Component={Login} />}
-				/>
+      <Routes>
+        <Route path="/" element={<Show />} />
+        <Route path="/error" element={<ErrorPage />} />
+        <Route path="*" element={<Navigate to="error" replace />} />
+        <Route path="/login" element={<Protected Component={Login} />} />
 
-				<Route
-					path='/Insights'
-					element={<Protected Component={Insights} />}
-				/>
-				{permissions?.contact ? (
-					<Route
-						path='/Contatos'
-						element={<Protected Component={Contact} />}
-					/>
-				) : (
-					<Route path='error' element={<ErrorPage />} />
-				)}
-				{permissions?.document ? (
-					<Route
-						path='/Documentos'
-						element={<Protected Component={Documents} />}
-					/>
-				) : (
-					<Route path='error' element={<ErrorPage />} />
-				)}
-				{permissions?.newAdmin ? (
-					<Route
-						path='/Permissoes'
-						element={<Protected Component={Permissões} />}
-					/>
-				) : (
-					<Route path='error' element={<ErrorPage />} />
-				)}
-				<Route
-					path='/perfil'
-					element={<Protected Component={Perfil} />}
-				/>
-				<Route
-					path='/logout'
-					element={<Protected Component={Logout} />}
-				/>
-			</Routes>
-		</>
-	);
+        <Route path="/Insights" element={<Protected Component={Insights} />} />
+        {permissions?.contact ? (
+          <Route path="/Contatos" element={<Protected Component={Contact} />} />
+        ) : (
+          <Route path="error" element={<ErrorPage />} />
+        )}
+        {permissions?.document ? (
+          <Route
+            path="/Documentos"
+            element={<Protected Component={Documents} />}
+          />
+        ) : (
+          <Route path="error" element={<ErrorPage />} />
+        )}
+        {permissions?.newAdmin ? (
+          <Route
+            path="/Permissoes"
+            element={<Protected Component={Permissões} />}
+          />
+        ) : (
+          <Route path="error" element={<ErrorPage />} />
+        )}
+        <Route path="/perfil" element={<Protected Component={Perfil} />} />
+        <Route
+          path="/perfil/my-plan"
+          element={<Protected Component={MyPlan} />}
+        />
+        <Route path="/logout" element={<Protected Component={Logout} />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
