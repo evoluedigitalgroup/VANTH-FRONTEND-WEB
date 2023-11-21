@@ -263,7 +263,7 @@ function BarChartVisitor() {
         <Bar dataKey="Contatos" radius={5}>
           {data?.map((entry, index) => (
             <Cell
-              fill={focusBar === index ? "#FC671A" : "rgba(252, 103, 26,80%)"}
+              fill={focusBar === index ? "#0068FF" : "rgba(0, 102, 255,50%)"}
             />
           ))}
         </Bar>

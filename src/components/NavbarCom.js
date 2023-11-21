@@ -32,8 +32,8 @@ const NavbarCom = () => {
               className="ps-0 d-flex align-items-center h-100 w-100 justify-content-center"
             >
               <img
-                style={{ height: "29px", width: "140px" }}
-                src="/assets/img/vancehDigital.svg"
+                // style={{ width: "300px" }}
+                src="/assets/img/vancehDigital1.svg"
               ></img>
             </Navbar.Brand>
           </Col>

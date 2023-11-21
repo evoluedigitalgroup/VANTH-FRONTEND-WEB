@@ -45,7 +45,7 @@ const SelectClientModal = ({ show, onHide }) => {
                 disabled
                 className="py-2 px-5"
                 style={{
-                  background: "#FC671A",
+                  background: "#0068FF",
                   border: "0",
                   width: "200px",
                   borderRadius: "6px",
@@ -64,7 +64,7 @@ const SelectClientModal = ({ show, onHide }) => {
                 onClick={handleShowTamplateModal}
                 className="py-2 px-5"
                 style={{
-                  background: "#FC671A",
+                  background: "#0068FF",
                   border: "0",
                   width: "200px",
                   borderRadius: "6px",

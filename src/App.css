@@ -36,16 +36,16 @@ body {
 } */
 
 .TBA-Logo {
-  width: 20rem;
-  height: 20rem;
+  width: 400px;
+  height: 400px;
   background-color: rgba(251, 251, 251,80%);
-  border: 2px solid #FC671A;
+  border: 2px solid #0068FF;
   border-radius: 100%;
 }
 
 .TBA-Logo img{
-  height: 62px;
-  width: 250px;
+  height: 285px;
+  width: 428px;
 }
 
 .form-control {
@@ -62,7 +62,7 @@ body {
 
 .form-check-input {
   box-shadow: none !important;
-  border: 1px solid #FC671A  !important;
+  border: 1px solid #0068FF  !important;
 }
 
 .input-group-text {
@@ -104,8 +104,8 @@ body {
 } */
 
 .login-btn {
-  background-color: #FC671A !important;
-  border: 1px solid #FC671A !important;
+  background-color: #0068FF !important;
+  border: 1px solid #0068FF !important;
 }
 
 .active {
@@ -115,7 +115,7 @@ body {
 
 .actives {
   color: #000;
-  border-bottom: 3px solid #FC671A !important;
+  border-bottom: 3px solid #0068FF !important;
 }
 
 .inactive {
@@ -123,7 +123,7 @@ body {
 }
 
 .form-check-input:checked {
-  background-color: #FC671A !important;
+  background-color: #0068FF !important;
 }
 
 /* Navbar */
@@ -139,7 +139,7 @@ body {
   top: 0px !important;
   background: linear-gradient(136.92deg, #151515 21.87%, #000000 82.73%);
   z-index: 5000 !important;
-  border-bottom: 2px solid #FC671A !important;
+  border-bottom: 2px solid #0068FF !important;
 }
 
 .Nav-after {
@@ -147,7 +147,7 @@ body {
 }
 
 .Imgborder {
-  border: 2px solid #FC671A;
+  border: 2px solid #0068FF;
 }
 
 .Nav-after::after {
@@ -157,7 +157,7 @@ body {
   left: 0%;
   height: 3px;
   width: 30% !important;
-  background-color: #FC671A !important;
+  background-color: #0068FF !important;
   transition: 200ms;
 }
 
@@ -225,13 +225,13 @@ body {
   position: absolute;
   height: 25px;
   width: 3px;
-  background-color: #FC671A;
+  background-color: #0068FF;
   top: 0;
   left: -60px;
 }
 
 .bi-calendar-fill::before {
-  color: #FC671A;
+  color: #0068FF;
 }
 
 .c-point {
@@ -338,7 +338,7 @@ body {
 }
 
 .border-left {
-  border-left: 5px solid #FC671A;
+  border-left: 5px solid #0068FF;
 }
 
 .row-height {
@@ -389,7 +389,7 @@ body {
 .form-switch .form-check-input:checked {
   background-color: #dcdddf !important;
   border: 0 !important;
-  background-image: url("data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27><circle r=%273%27 fill=%27%23FC671A%27/></svg>") !important;
+  background-image: url("data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27><circle r=%273%27 fill=%27%230068FF%27/></svg>") !important;
 }
 
 .form-switch .form-check-input {
