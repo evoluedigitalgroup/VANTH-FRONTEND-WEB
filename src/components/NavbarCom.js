@@ -78,6 +78,18 @@ const NavbarCom = () => {
                 <div style={{ marginTop: 20 }}>
                   <i class="bi bi-bell-fill text-white"></i>
                 </div>
+                <div
+                  className="d-flex align-items-center d-md-none"
+                  style={{ marginLeft: 10 }}
+                >
+                  <i
+                    class="bi bi-list"
+                    style={{
+                      color: "white",
+                      fontSize: "22px",
+                    }}
+                  ></i>
+                </div>
               </Nav>
             </Navbar.Collapse>
           </Col>

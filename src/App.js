@@ -18,6 +18,7 @@ import { loginAtom } from "./recoil/Atoms";
 import ErrorPage from "./pages/ErrorPage";
 import MyPlan from "./components/MyPlan/MyPlan";
 import "react-multi-carousel/lib/styles.css";
+import Clients from "./pages/Clients";
 
 function App() {
   const login = useRecoilValue(loginAtom);
@@ -34,6 +35,7 @@ function App() {
         <Route path="/login" element={<Protected Component={Login} />} />
 
         <Route path="/Insights" element={<Protected Component={Insights} />} />
+        <Route path="/Clientes" element={<Protected Component={Clients} />} />
         {permissions?.contact ? (
           <Route path="/Contatos" element={<Protected Component={Contact} />} />
         ) : (

@@ -6,14 +6,14 @@ const UpgradePlan = () => {
       <div
         className="p-3"
         style={{
-          border: "1px solid #FC671A",
+          border: "1px solid #0068FF",
           height: "170px",
           width: "260px",
           borderRadius: "12px",
         }}
       >
         <div>
-          <h6 className="m-0" style={{ fontSize: "14px", color: "#FC671A" }}>
+          <h6 className="m-0" style={{ fontSize: "14px", color: "#0068FF" }}>
             <span style={{ fontWeight: 700 }}>+10</span> Assinaturas de
             contratos
           </h6>
@@ -30,7 +30,7 @@ const UpgradePlan = () => {
             <button
               className="px-3 py-1"
               style={{
-                background: "#FC671A",
+                background: "#0068FF",
                 color: "white",
                 border: "0",
                 borderRadius: "5px",
@@ -41,7 +41,7 @@ const UpgradePlan = () => {
             </button>
             <span
               className=""
-              style={{ color: "#FC671A", fontSize: "14px", fontWeight: 700 }}
+              style={{ color: "#0068FF", fontSize: "14px", fontWeight: 700 }}
             >
               R$ 40,00
             </span>

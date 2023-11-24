@@ -177,7 +177,7 @@ const ChangePassword = ({ open, handleClose }) => {
               <Button
                 onClick={dataSubmit}
                 className="fw-bolder fs-6 w-50 border-0	"
-                style={{ backgroundColor: "#FC671A" }}
+                style={{ backgroundColor: "#0068FF" }}
               >
                 Alterar
               </Button>

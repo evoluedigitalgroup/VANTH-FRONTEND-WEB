@@ -319,7 +319,7 @@ const NewMemberAdd = ({ show, handleClose, refresh, setRefresh }) => {
             disabled={loading}
             style={{
               width: "fit-content",
-              background: "#FC671A",
+              background: "#0068FF",
             }}
           >
             Criar

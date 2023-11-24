@@ -164,7 +164,7 @@ const Documents = () => {
                   setShow(true);
                 }}
                 style={{
-                  backgroundColor: "#FC671A",
+                  backgroundColor: "#0068FF",
                   marginLeft: "2.5rem",
                 }}
                 className="fw-bold align-items-center border-0"

@@ -163,7 +163,7 @@ const ProfilePicture = ({ open, handleClose }) => {
               <Button
                 onClick={onEditProfile}
                 className="fw-bolder fs-6 w-100 border-0 mt-2"
-                style={{ backgroundColor: "#FC671A" }}
+                style={{ backgroundColor: "#0068FF" }}
               >
                 Atualizar
               </Button>

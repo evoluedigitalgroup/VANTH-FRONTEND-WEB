@@ -38,12 +38,12 @@ body {
 .TBA-Logo {
   width: 400px;
   height: 400px;
-  background-color: rgba(251, 251, 251,80%);
-  border: 2px solid #0068FF;
+  background-color: rgba(251, 251, 251, 80%);
+  border: 2px solid #0068ff;
   border-radius: 100%;
 }
 
-.TBA-Logo img{
+.TBA-Logo img {
   height: 285px;
   width: 428px;
 }
@@ -57,12 +57,12 @@ body {
 
 .input-group,
 .form-control {
-  background-color: #F4F6F8 !important;
+  background-color: #f4f6f8 !important;
 }
 
 .form-check-input {
   box-shadow: none !important;
-  border: 1px solid #0068FF  !important;
+  border: 1px solid #0068ff !important;
 }
 
 .input-group-text {
@@ -76,7 +76,7 @@ body {
 .Login {
   max-height: 80% !important;
   border-radius: 10px;
-  background-color: #FBFBFB;
+  background-color: #fbfbfb;
 }
 
 .login-enter {
@@ -104,8 +104,8 @@ body {
 } */
 
 .login-btn {
-  background-color: #0068FF !important;
-  border: 1px solid #0068FF !important;
+  background-color: #0068ff !important;
+  border: 1px solid #0068ff !important;
 }
 
 .active {
@@ -115,21 +115,21 @@ body {
 
 .actives {
   color: #000;
-  border-bottom: 3px solid #0068FF !important;
+  border-bottom: 3px solid #0068ff !important;
 }
 
 .inactive {
-  color: #CED4DB;
+  color: #ced4db;
 }
 
 .form-check-input:checked {
-  background-color: #0068FF !important;
+  background-color: #0068ff !important;
 }
 
 /* Navbar */
 
 .active-to {
-  background-color: #85A6A2 !important;
+  background-color: #85a6a2 !important;
   font-weight: 600 !important;
 }
 
@@ -139,7 +139,7 @@ body {
   top: 0px !important;
   background: linear-gradient(136.92deg, #151515 21.87%, #000000 82.73%);
   z-index: 5000 !important;
-  border-bottom: 2px solid #0068FF !important;
+  border-bottom: 2px solid #0068ff !important;
 }
 
 .Nav-after {
@@ -147,7 +147,7 @@ body {
 }
 
 .Imgborder {
-  border: 2px solid #0068FF;
+  border: 2px solid #0068ff;
 }
 
 .Nav-after::after {
@@ -157,7 +157,7 @@ body {
   left: 0%;
   height: 3px;
   width: 30% !important;
-  background-color: #0068FF !important;
+  background-color: #0068ff !important;
   transition: 200ms;
 }
 
@@ -175,37 +175,50 @@ body {
 
 /* Sidebar */
 
-.afterAuthSidebar{
+.afterAuthSidebar {
   height: 100vh !important;
 }
 
-.afterAuthMainRow{
+.afterAuthMainRow {
   overflow: hidden !important;
 }
 
-.sidebarLogout{
+.sidebarLogout {
   position: absolute !important;
   bottom: 30% !important;
   left: 40% !important;
 }
 
-@media (min-width:900px) {
-  .childrenHeight{
+.ContractImageTag {
+  width: 420px;
+  height: 250px;
+  overflow-y: scroll;
+}
+
+@media (min-width: 900px) {
+  .childrenHeight {
     height: 100% !important;
   }
 }
 
-@media (max-width:500px) {
-  .afterAuthSidebar{
+@media (max-width: 500px) {
+  .afterAuthSidebar {
     height: 50vh !important;
+    display: none;
   }
-  .afterAuthMainRow{
+  .afterAuthMainRow {
     overflow: scroll !important;
   }
-  .sidebarLogout{
+  .sidebarLogout {
     position: absolute !important;
-    bottom: 15% !important;
-    left: 40% !important;
+    bottom: 5% !important;
+    /* left: 40% !important; */
+  }
+
+  .ContractImageTag {
+    width: 100%;
+    height: 250px;
+    overflow-y: scroll;
   }
 }
 
@@ -221,17 +234,17 @@ body {
 }
 
 .side-line::after {
-  content: '';
+  content: "";
   position: absolute;
   height: 25px;
   width: 3px;
-  background-color: #0068FF;
+  background-color: #0068ff;
   top: 0;
   left: -60px;
 }
 
 .bi-calendar-fill::before {
-  color: #0068FF;
+  color: #0068ff;
 }
 
 .c-point {
@@ -249,7 +262,7 @@ body {
 }
 
 .T-active {
-  background-color: #85A6A2 !important;
+  background-color: #85a6a2 !important;
 }
 
 .toggle {
@@ -260,7 +273,7 @@ body {
 
 /* Green Color Button */
 .button-green {
-  color: #58A43D;
+  color: #58a43d;
   outline: none;
   border: none;
   background-color: #fff;
@@ -268,7 +281,7 @@ body {
 
 /* Red color Button */
 .button-red {
-  color: #A43D3D;
+  color: #a43d3d;
   outline: none;
   border: none !important;
   background-color: #fff !important;
@@ -278,41 +291,40 @@ body {
 .btnn:hover {
   font-weight: 900 !important;
   color: white !important;
-  background-color: #85A6A2 !important;
+  background-color: #85a6a2 !important;
 }
 
 .active-to {
-  background-color: #85A6A2 !important;
+  background-color: #85a6a2 !important;
 }
 
 .fs-color {
-  color: #6F767E !important;
+  color: #6f767e !important;
 }
 
 .border-class {
-  border: 2px solid #6F767E60 !important;
+  border: 2px solid #6f767e60 !important;
 }
 
 .fs-color-fill {
-  color: #1A1D1F !important;
+  color: #1a1d1f !important;
   font-size: 2.8rem;
   font-weight: 900;
 }
 
 /* tabrl text color */
 .tbl-color-text {
-  color: #272B30 !important;
+  color: #272b30 !important;
 }
 
 .tbl-head-color {
-  color:
-    #B5B6B7 !important;
+  color: #b5b6b7 !important;
   font-size: 0.8rem !important;
 }
 
 .Doc-Font-Color {
   font-size: 16px;
-  color: #B5B6B7;
+  color: #b5b6b7;
 }
 
 /* pagination */
@@ -322,8 +334,7 @@ body {
   border: none !important;
   margin: 1rem;
   --bs-pagination-font-size: 1.3rem;
-  --bs-pagination-color: #1C3D59;
-
+  --bs-pagination-color: #1c3d59;
 }
 
 .page-item:not(:first-child) .page-link {
@@ -333,35 +344,34 @@ body {
 .pagination {
   --bs-pagination-hover-color: none;
   --bs-pagination-font-size: 2rem;
-  --bs-pagination-color: #1C3D59;
-  --bs-pagination-active-bg: #1C3D59 !important;
+  --bs-pagination-color: #1c3d59;
+  --bs-pagination-active-bg: #1c3d59 !important;
 }
 
 .border-left {
-  border-left: 5px solid #0068FF;
+  border-left: 5px solid #0068ff;
 }
 
 .row-height {
   height: 200px;
 }
 
-
 .btn-outline-success {
-  --bs-btn-hover-bg: 'none' !important;
+  --bs-btn-hover-bg: "none" !important;
   --bs-btn-hover-color: Green !important;
   --bs-btn-active-color: Green !important;
   --bs-btn-active-bg: rgba(0, 128, 0, 0) !important;
 }
 
 .btn-outline-warning {
-  --bs-btn-hover-bg: 'none' !important;
+  --bs-btn-hover-bg: "none" !important;
   --bs-btn-hover-color: #ffc107 !important;
   --bs-btn-active-color: #ffc107 !important;
   --bs-btn-active-bg: rgba(0, 128, 0, 0) !important;
 }
 
 .btn-outline-secondary {
-  --bs-btn-hover-bg: 'none' !important;
+  --bs-btn-hover-bg: "none" !important;
   --bs-btn-hover-color: #6c757d !important;
   --bs-btn-active-color: #6c757d !important;
   --bs-btn-active-bg: rgba(0, 128, 0, 0) !important;
@@ -369,7 +379,7 @@ body {
 
 .pagination {
   --bs-pagination-active-bg: transparent !important;
-  --bs-pagination-active-color: #1C3D59 !important;
+  --bs-pagination-active-color: #1c3d59 !important;
 }
 
 .page-link {
@@ -404,10 +414,8 @@ body {
   box-shadow: none !important;
 }
 
-
 /* STYLE FOR IMAGE PREVIEW */
 .yourBtn {
-
   padding: 5px;
 
   cursor: pointer;
@@ -427,7 +435,6 @@ body {
   list-style-type: none;
   cursor: pointer;
   /* padding: 10px; */
-
 }
 
 .pagination-item {
@@ -435,17 +442,16 @@ body {
   list-style-type: none;
   padding: 10px;
   cursor: pointer;
-
 }
 
 .active-page {
-  color: #FC671A;
+  color: #0068ff;
   font-weight: bold;
   cursor: pointer;
 }
 
 .activeBtnTable {
-  background: #6F767E !important;
+  background: #6f767e !important;
   color: white !important;
   font-weight: bold !important;
 }
@@ -494,12 +500,11 @@ body {
 }
 
 .react-datepicker-wrapper {
-
   width: 4% !important;
 }
 
 .pagination-btn-shadow {
-  border: 1px solid #EFEFEF;
+  border: 1px solid #efefef;
   height: 30px;
   border-radius: 50%;
   display: flex;
@@ -509,21 +514,19 @@ body {
 }
 
 .border-chart-label1 {
-
-  border-top: 1px solid #85A6A2;
-  border-bottom: 1px solid #85A6A2;
-  border-left: 1px solid #85A6A2;
+  border-top: 1px solid #85a6a2;
+  border-bottom: 1px solid #85a6a2;
+  border-left: 1px solid #85a6a2;
   border-right: 0px;
   padding-left: 2rem !important;
   border-radius: 5px 0px 0px 5px;
 }
 
 .border-chart-label2 {
-
-  border-top: 1px solid #85A6A2;
-  border-bottom: 1px solid #85A6A2;
+  border-top: 1px solid #85a6a2;
+  border-bottom: 1px solid #85a6a2;
   border-left: 0px;
-  border-right: 1px solid #85A6A2;
+  border-right: 1px solid #85a6a2;
   padding-right: 1rem;
   border-radius: 0px 5px 5px 0px;
 }
@@ -532,28 +535,25 @@ body {
   z-index: 5000 !important;
 }
 
-
 /* document */
 .Cardinput {
-  background-color: #F4F6F8 !important;
+  background-color: #f4f6f8 !important;
   padding: 10px 0px !important;
   box-shadow: none !important;
   border-top-right-radius: 6px !important;
   border-bottom-right-radius: 6px !important;
-
 }
 
 .CardBtn:hover {
   background-color: transparent !important;
 }
 
-
 .right-icon::before {
-  color: green !important
+  color: green !important;
 }
 
 .pending-icon::before {
-  color: #ffc107 !important
+  color: #ffc107 !important;
 }
 
 .link-icon::before {
@@ -570,7 +570,7 @@ body {
 }
 
 .bg-f4f4f4 {
-  background-color: #F4F4F4 !important;
+  background-color: #f4f4f4 !important;
 }
 
 .badge-relative {
@@ -621,19 +621,19 @@ width: 100% !important;
 
 .progress-container,
 .progress {
-    background-color: #C7C7C7;
-    border-radius: 5px;
-    /* position: relative; */
-    height: 5px !important;
-    width: 100%;
-    margin: 0 0px;
+  background-color: #c7c7c7;
+  border-radius: 5px;
+  /* position: relative; */
+  height: 5px !important;
+  width: 100%;
+  margin: 0 0px;
 }
 
 .progress {
-    background-color: #FC671A !important;
-    width: 0;
-    transition: width 0.4s linear;
-    margin: 0;
+  background-color: #0068ff !important;
+  width: 0;
+  transition: width 0.4s linear;
+  margin: 0;
 }
 
 /* .percentage {

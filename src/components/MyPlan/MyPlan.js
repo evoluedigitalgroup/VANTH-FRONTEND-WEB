@@ -34,10 +34,10 @@ const MyPlan = () => {
             <button
               className="p-0 p-1"
               style={{
-                border: "1px solid #FC671A",
+                border: "1px solid #0068FF",
                 background: "transparent",
                 fontSize: "10px",
-                color: "#FC671A",
+                color: "#0068FF",
               }}
             >
               Ver site

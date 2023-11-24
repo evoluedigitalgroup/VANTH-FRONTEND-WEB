@@ -152,9 +152,11 @@ const SelectTemplateModal = ({ show, onHide }) => {
               style={{
                 width: "220px",
                 fontSize: "14px",
-                border: "1px solid #FC671A",
+                border: "1px solid #0068FF",
+                color: "#0068FF",
                 background: "#fff",
                 borderRadius: "6px",
+                fontWeight: 700,
               }}
             >
               Criar&nbsp;modelo
@@ -165,11 +167,11 @@ const SelectTemplateModal = ({ show, onHide }) => {
               style={{
                 width: "220px",
                 fontSize: "14px",
-                background: "#FC671A",
+                background: "#0068FF",
                 border: "0",
                 borderRadius: "6px",
                 color: "white",
-                fontWeight: 700,
+                fontWeight: 800,
               }}
             >
               Escolher&nbsp;modelo

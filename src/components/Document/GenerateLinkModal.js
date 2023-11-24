@@ -156,7 +156,7 @@ const GenerateLinkModal = ({
           </Col>
           <Col className="my-3 w-100 d-flex justify-content-center">
             <Button
-              style={{ background: "#FC671A", border: "1px solid #FC671A" }}
+              style={{ background: "#0068FF", border: "1px solid #0068FF" }}
               onClick={submitForm}
             >
               {/* Encaminhar */}

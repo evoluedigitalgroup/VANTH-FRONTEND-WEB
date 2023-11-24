@@ -116,7 +116,7 @@ const ImageUploadModal = ({
               className="border-0"
               style={{
                 position: "absolute",
-                backgroundColor: "#FC671A",
+                backgroundColor: "#0068FF",
                 right: "2%",
                 top: "12%",
                 zIndex: 10000,
@@ -253,7 +253,7 @@ const ImageUploadModal = ({
                   className="border-0"
                   style={{
                     position: "absolute",
-                    backgroundColor: "#FC671A",
+                    backgroundColor: "#0068FF",
                     right: "2%",
                     bottom: "12%",
                     zIndex: 10000,
@@ -269,7 +269,7 @@ const ImageUploadModal = ({
           <Col>
             <Button
               className="w-100 p-0 py-2 border-0"
-              style={{ background: "#FC671A" }}
+              style={{ background: "#0068FF" }}
               onClick={() => handleSubmit("reject")}
               disabled={document?.socialContract?.approved}
             >
@@ -279,7 +279,7 @@ const ImageUploadModal = ({
           <Col>
             <Button
               className="p-0 py-2 w-100 border-0"
-              style={{ backgroundColor: "#FC671A" }}
+              style={{ backgroundColor: "#0068FF" }}
               disabled={document?.socialContract?.approved}
               onClick={() => handleSubmit("approved")}
             >

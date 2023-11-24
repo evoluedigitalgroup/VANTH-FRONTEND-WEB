@@ -92,7 +92,7 @@ const ProfileCard = ({
                       onClick={showProfilePicture}
                       style={{
                         position: "absolute",
-                        backgroundColor: "#FC671A",
+                        backgroundColor: "#0068FF",
                         marginTop: "-25px",
                         marginLeft: "150px",
                         border: "0",
@@ -139,7 +139,7 @@ const ProfileCard = ({
                 size="lg"
                 onClick={showAddAdmin}
                 className="border-0 fs-6"
-                style={{ backgroundColor: "#FC671A" }}
+                style={{ backgroundColor: "#0068FF" }}
               >
                 <i className="bi bi-link-45deg mx-1"></i>
                 Gerar código pra nova conta
@@ -159,7 +159,7 @@ const ProfileCard = ({
                   style={{
                     marginLeft: "10px",
                     fontSize: "12px",
-                    color: "#FC671A",
+                    color: "#0068FF",
                   }}
                 >
                   Gerenciar plano
@@ -177,7 +177,7 @@ const ProfileCard = ({
                   style={{
                     marginLeft: "10px",
                     fontSize: "12px",
-                    color: "#FC671A",
+                    color: "#0068FF",
                   }}
                 >
                   Ver pacotes
