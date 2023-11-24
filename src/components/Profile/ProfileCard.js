@@ -148,10 +148,14 @@ const ProfileCard = ({
             <div className="text-start mt-2" style={{ width: "260px" }}>
               <div>
                 <NewProgressbar
-                  dataPercentage={50}
-                  text="Armazenamento"
-                  text1="usados"
+                  bgcolor="#0068FF"
+                  title="Armazenamento"
+                  title1="usados"
+                  progress="30"
                 />
+                <span style={{ fontSize: "12px", color: "#97A7BA" }}>
+                  10,47 GB de 25 GB usados
+                </span>
               </div>
               <div>
                 <img src="/assets/img/cloud.svg" />
@@ -167,9 +171,14 @@ const ProfileCard = ({
               </div>
               <div>
                 <NewProgressbar
-                  dataPercentage={50}
-                  text="Contratos assinados"
+                  bgcolor="#0068FF"
+                  title="Contratos assinados"
+                  progress="50"
+                  title1=""
                 />
+                <span style={{ fontSize: "12px", color: "#97A7BA" }}>
+                  10 de 20 contratos
+                </span>
               </div>
               <div>
                 <img src="/assets/img/file.svg" />

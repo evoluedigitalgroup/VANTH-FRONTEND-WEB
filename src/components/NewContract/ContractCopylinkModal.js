@@ -76,7 +76,7 @@ const ContractCopylinkModal = ({ show, onHide }) => {
             </InputGroup>
           </div>
           <div className="d-flex align-items-center mt-2">
-            <div className="d-flex" style={{ height: "39px", width: "100%" }}>
+            <div className="d-flex" style={{ width: "100%" }}>
               <div className="d-flex align-items-center">
                 <h6
                   style={{
@@ -87,18 +87,16 @@ const ContractCopylinkModal = ({ show, onHide }) => {
                 >
                   Enviar com:
                 </h6>
-              </div>
-              <div className="d-flex">
                 <img
-                  style={{ height: "39px", width: "39px" }}
+                  // style={{ height: "60px", width: "60px" }}
                   src="/assets/img/whatsApp.svg"
                 />
                 <img
-                  style={{ height: "39px", width: "39px" }}
+                  // style={{ height: "39px", width: "39px" }}
                   src="/assets/img/mail.png"
                 />
                 <img
-                  style={{ height: "39px", width: "39px" }}
+                  // style={{ height: "39px", width: "39px" }}
                   src="/assets/img/sms.png"
                 />
               </div>

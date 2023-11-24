@@ -3,6 +3,7 @@ import AfterAuth from "../../HOC/AfterAuth";
 import { Card, Col, Row } from "react-bootstrap";
 import Packages from "./Packages";
 import UpgradePlan from "./UpgradePlan";
+import NewProgressbar from "../NewProgressbar";
 
 const MyPlan = () => {
   return (
@@ -15,18 +16,66 @@ const MyPlan = () => {
         <div>Dash de uso</div>
         <Row className="mt-3">
           <Col xs={12} md={4}>
-            Hello1
+            <div style={{ width: "265px" }}>
+              <NewProgressbar
+                bgcolor="#0068FF"
+                title="Armazenamento"
+                progress="55"
+                title1="usados"
+              />
+              <span style={{ fontSize: "12px", color: "#97A7BA" }}>
+                10,47 GB de 25 GB usados
+              </span>
+            </div>
           </Col>
-          <Col xs={12} md={4}>
-            Hello2
+          <Col
+            xs={12}
+            md={4}
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <div style={{ width: "265px" }}>
+              <NewProgressbar
+                bgcolor="#0068FF"
+                title="Contratos assinados"
+                progress="50"
+                title1=""
+              />
+              <span style={{ fontSize: "12px", color: "#97A7BA" }}>
+                10 de 25 contratos
+              </span>
+            </div>
           </Col>
-          <Col xs={12} md={4}>
-            Hello3
+          <Col
+            xs={12}
+            md={4}
+            style={{ display: "flex", justifyContent: "end" }}
+          >
+            <div style={{ width: "265px" }}>
+              <NewProgressbar
+                bgcolor="#0068FF"
+                title="Usuários do sistema"
+                progress="45"
+                title1=""
+              />
+              <span style={{ fontSize: "12px", color: "#97A7BA" }}>
+                2 de 5 usuários
+              </span>
+            </div>
           </Col>
         </Row>
         <div className="mt-5">
           <h6>Pacotes adicionais</h6>
-          <Packages />
+          <Row className="justify-content-center mt-3">
+            <Col md={4} className="d-flex justify-content-center">
+              <Packages />
+            </Col>
+            <Col md={4} className="d-flex justify-content-center">
+              <Packages />
+            </Col>
+            <Col md={4} className="d-flex justify-content-center">
+              <Packages />
+            </Col>
+          </Row>
         </div>
         <div className="mt-5">
           <div className="d-flex gap-3">
