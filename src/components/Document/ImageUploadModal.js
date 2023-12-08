@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { approvedDocumentList } from "../../helper/API/document";
@@ -11,41 +11,24 @@ import Loader from "../Loader";
 const ImageUploadModal = ({
   open,
   handleClose,
-  document,
+  documents,
   refresh,
   setRefresh,
 }) => {
-  // console.log("document", document);
+  // console.log("document.type", document.type);
+
+  const [reload, setReload] = useState(false);
 
   const hiddenFileInput = useRef(null);
   const [images, setImages] = useState("");
   const [imagePreview, setImagePreview] = useState(
-    document?.socialContract?.url
+    documents.docs[documents.type]?.url
   );
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const [reload, setReload] = useState(false);
-
-  const handleImageChange = (event) => {
-    const fileUploaded = event.target.files[0];
-    if (event.target.files[0]) {
-      setImages(event.target.files[0]);
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        setImagePreview(reader.result);
-      });
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  };
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    hiddenFileInput.current.click();
-  };
 
   const handleSubmit = (action) => {
     const submitData = {
-      id: document.id,
-      type: document.type,
+      id: documents.id,
+      type: documents.type,
       action,
     };
     approvedDocumentList(submitData).then((res) => {
@@ -57,17 +40,9 @@ const ImageUploadModal = ({
         toast.error(res.message);
       }
     });
-    // console.log("submitData", submitData);
   };
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-  // const [numPages, setNumPages] = useState(null);
-  // const [pageNumber, setPageNumber] = useState(1);
-
-  // const onDocumentLoadSuccess = ({ numPages }) => {
-  // 	setNumPages(numPages);
-  // 	setPageNumber(1);
-  // };
 
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1); //setting 1 to show fisrt page
@@ -96,6 +71,19 @@ const ImageUploadModal = ({
     }, 3000);
   };
 
+  const isNotAttached =
+    documents?.docs?.[documents.type] === null &&
+    !documents?.docStatus?.[documents.type];
+  const isWaitingForApproval =
+    documents?.docs?.[documents.type] &&
+    !documents?.docs?.[documents.type]?.approved;
+  const isApproved =
+    documents?.docs?.[documents.type] &&
+    documents?.docs?.[documents.type]?.approved;
+  const isRejected =
+    documents?.docs?.[documents.type] === null &&
+    documents?.docStatus?.[documents.type];
+
   return (
     <div>
       <Modal show={open} onHide={handleClose} centered className="zindex">
@@ -116,22 +104,22 @@ const ImageUploadModal = ({
               className="border-0"
               style={{
                 position: "absolute",
-                backgroundColor: "#0068FF",
+                backgroundColor: "#1C3D59",
                 right: "2%",
                 top: "12%",
                 zIndex: 10000,
               }}
               onClick={handleReload}
             >
-              <i class="bi bi-arrow-clockwise"></i>
+              <i className="bi bi-arrow-clockwise"></i>
             </Button>
           </div>
         </Row>
         <Row>
           <Col className="mx-4">
             <div
-              className="border  position-relative rounded-2 mb-4"
-              style={{ height: "360px" }}
+              className="border d-flex align-items-center justify-content-center  position-relative rounded-2 mb-4"
+              style={{ height: "400px" }}
             >
               {reload ? (
                 <div className="d-flex align-items-center justify-content-center h-100 ">
@@ -147,41 +135,8 @@ const ImageUploadModal = ({
                   }}
                 ></embed>
               )}
-              {/* <Document
-								onLoadError={console.error}
-								file={imagePreview}
-								onLoadSuccess={({
-									numPages: numPagesInPdf,
-								}) => {
-									console.log(
-										"numPagesInPdf : ",
-										numPagesInPdf
-									);
-								}}
-								loading={"Loading"}>
-								<Page pageNumber={1} pageIndex={1} fullScreen />
-							</Document> */}
-
-              {/* <div>
+              {/* <>
 								<Document
-									file={imagePreview}
-									onLoadSuccess={onDocumentLoadSuccess}
-									// height={"20vh"}
-									className='react-pdf-doc'>
-									<Page
-										// size='A4'
-										pageNumber={pageNumber}
-										className='react-pdf-page-class'
-									/>
-								</Document>
-								<p>
-									Page {pageNumber} of {numPages}
-								</p>
-
-							</div> */}
-
-              <>
-                {/* <Document
 									file={imagePreview}
 									options={{ workerSrc: "/pdf.worker.js" }}
 									loading={"Carregando..."}
@@ -214,79 +169,90 @@ const ImageUploadModal = ({
 											);
 										}}
 									/>
-								</Document> */}
-                <div>
-                  {numPages > 1 && (
-                    <div className="d-flex justify-content-around align-items-center mt-3">
-                      <button
-                        type="button"
-                        disabled={pageNumber <= 1}
-                        onClick={previousPage}
-                        className="btn-next-prev"
-                      >
-                        <i class="bi bi-caret-left-fill"></i>
-                      </button>
-                      <p className="text-center p-0 m-0">
-                        Página {pageNumber || (numPages ? 1 : "--")} de{" "}
-                        {numPages || "--"}
-                      </p>
-                      <button
-                        type="button"
-                        disabled={pageNumber >= numPages}
-                        onClick={nextPage}
-                        className="btn-next-prev"
-                      >
-                        <i class="bi bi-caret-right-fill"></i>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </>
+								</Document>
+								<div>
+									{numPages > 1 && (
+										<div className='d-flex justify-content-around align-items-center mt-3'>
+											<button
+												type='button'
+												disabled={pageNumber <= 1}
+												onClick={previousPage}
+												className='btn-next-prev'>
+												<i class='bi bi-caret-left-fill'></i>
+											</button>
+											<p className='text-center p-0 m-0'>
+												Página{" "}
+												{pageNumber ||
+													(numPages ? 1 : "--")}{" "}
+												de {numPages || "--"}
+											</p>
+											<button
+												type='button'
+												disabled={
+													pageNumber >= numPages
+												}
+												onClick={nextPage}
+												className='btn-next-prev'>
+												<i class='bi bi-caret-right-fill'></i>
+											</button>
+										</div>
+									)}
+								</div>
+							</> */}
             </div>
             <div>
               <a
-                href={document?.socialContract?.url}
+                href={documents.docs[documents?.type]?.url}
                 target="_blank"
                 style={{ textDecoration: "none" }}
               >
                 <Button
-                  className="border-0"
                   style={{
                     position: "absolute",
-                    backgroundColor: "#0068FF",
+                    backgroundColor: "#1C3D59",
                     right: "2%",
                     bottom: "12%",
                     zIndex: 10000,
                   }}
                 >
-                  <i class="bi bi-cloud-arrow-down-fill"></i>
+                  <i className="bi bi-cloud-arrow-down-fill"></i>
                 </Button>
               </a>
             </div>
           </Col>
         </Row>
-        <Row className="px-4 gx-2 my-2">
-          <Col>
-            <Button
-              className="w-100 p-0 py-2 border-0"
-              style={{ background: "#0068FF" }}
-              onClick={() => handleSubmit("reject")}
-              disabled={document?.socialContract?.approved}
-            >
-              <i class="bi bi-x"></i>Solicitar outra foto
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              className="p-0 py-2 w-100 border-0"
-              style={{ backgroundColor: "#0068FF" }}
-              disabled={document?.socialContract?.approved}
-              onClick={() => handleSubmit("approved")}
-            >
-              <i class="bi bi-check"></i>Aprovar documento
-            </Button>
-          </Col>
-        </Row>
+        {isApproved || isRejected ? null : (
+          <Row className="px-4 gx-2 my-2">
+            <Col>
+              <Button
+                className="w-100 p-0 py-2 border-0 fw-bold "
+                style={{
+                  background: "#1C3D59",
+                  fontSize: "14px",
+                }}
+                disabled={documents.docs[documents?.type]?.approved}
+                onClick={() => handleSubmit("reject")}
+              >
+                <img src="assets/img/X.png" />
+                &nbsp;Reprovar&nbsp;documento
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                className="p-0 py-2 w-100 border-0 fw-bold"
+                disabled={documents.docs[documents?.type]?.approved}
+                style={{
+                  backgroundColor: "#1C3D59",
+                  fontSize: "14px",
+                }}
+                onClick={() => handleSubmit("approved")}
+              >
+                <img src="assets/img/Right.png" />
+                Aprovar documento
+              </Button>
+            </Col>
+          </Row>
+        )}
       </Modal>
     </div>
   );

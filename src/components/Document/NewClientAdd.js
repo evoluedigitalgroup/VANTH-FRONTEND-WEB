@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Badge,
   Button,
   Col,
   Form,
@@ -10,9 +11,114 @@ import {
   ModalBody,
   ModalHeader,
   Row,
+  Spinner,
 } from "react-bootstrap";
+import { getDocumentList } from "../../helper/API/document";
+import {
+  contactForm,
+  generateLink,
+  getAllDocumentsList,
+} from "../../helper/API/contact";
+import { LINK_URL } from "../../config";
+import Loader from "../Loader";
+import PermissionSwitchTable from "./documents/PermissionSwitchTable";
+import { toast } from "react-toastify";
 
-const NewClientAdd = ({ show, handleClose }) => {
+const NewClientAdd = ({
+  show,
+  handleClose,
+  // switchesData,
+  // editData,
+  // editSwitchesData,
+}) => {
+  const [characterLimit] = useState(25);
+  const [loading, setLoading] = useState(false);
+  const [formValues, setFormValues] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    CPF: "",
+    CNPJ: "",
+  });
+
+  const handleChange = (e) => {
+    setFormValues({
+      ...formValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // const link = `${LINK_URL}${editData.id}/${editData.documentRequest.id}`;
+
+  // const [formData, setFormData] = useState({});
+
+  // const handleCheck = (e) => {
+  //   console.log("e.target.name", e.target.name);
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.checked,
+  //   });
+  // };
+
+  // const setFormValuesData = async () => {
+  //   if (editSwitchesData) {
+  //     const editSwitchesDataCopy = {};
+  //     Object.keys(editSwitchesData).map((key) => {
+  //       if (editData.docs[key]) {
+  //         if (editData.docs[key].approved) {
+  //           editSwitchesDataCopy[key] = true;
+  //         } else {
+  //           editSwitchesDataCopy[key] = false;
+  //         }
+  //       } else {
+  //         editSwitchesDataCopy[key] = false;
+  //       }
+  //       if (editSwitchesData[key] === true) {
+  //         editSwitchesDataCopy[key] = true;
+  //       }
+  //     });
+  //     setFormData(editSwitchesDataCopy);
+  //   } else {
+  //     const formDataVal = {};
+  //     switchesData.map((obj) => {
+  //       console.log(obj.label + " : " + editData.docs[obj.label]);
+  //       if (editData.docs[obj.label]) {
+  //         if (editData.docs[obj.label].approved) {
+  //           formDataVal[obj.label] = true;
+  //         } else {
+  //           formDataVal[obj.label] = false;
+  //         }
+  //       } else {
+  //         formDataVal[obj.label] = false;
+  //       }
+  //     });
+  //     setFormData(formDataVal);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   console.log("formData", formData);
+  // }, [formData]);
+
+  // useEffect(() => {
+  //   setFormValuesData();
+  // }, []);
+
+  const handleSubmitData = () => {
+    setLoading(true);
+    contactForm(formValues).then((res) => {
+      //   console.log("first form", res);
+      if (res.success) {
+        toast.success(res.message);
+        setLoading(false);
+        handleClose();
+      } else {
+        toast.error(res.message);
+        setLoading(false);
+      }
+    });
+  };
+
   return (
     <Modal
       show={show}
@@ -30,12 +136,15 @@ const NewClientAdd = ({ show, handleClose }) => {
       <ModalBody className="p-4 pt-0">
         <h5 className="fw-bolder">Criar novo cliente</h5>
         <Row className="mt-3">
-          <Col md={4}>
+          <Col md={4} xs={12}>
             <Form>
               <Form.Label className="Doc-Font-Color">
                 Nome completo do cleinte
               </Form.Label>
-              <FormGroup>
+              <FormGroup className="" style={{ position: "relative" }}>
+                <Badge className="bg-f4f4f4 text-dark badge-absolute bg-white">
+                  {formValues.name.length}/{characterLimit}
+                </Badge>
                 <InputGroup className="mb-3 rounded">
                   <InputGroup.Text
                     id="basic-addon1"
@@ -47,52 +156,114 @@ const NewClientAdd = ({ show, handleClose }) => {
                     <i className="bi bi-person-fill link-icon"></i>
                   </InputGroup.Text>
                   <Form.Control
+                    maxLength={25}
                     placeholder="Ana Júlia Garcia"
                     type="text"
-                    className="border-0 Cardinput badge-relative"
+                    name="name"
+                    className="Cardinput border-0  badge-relative "
+                    // value={data?.name}
+                    onChange={handleChange}
                   />
                 </InputGroup>
               </FormGroup>
             </Form>
           </Col>
-          <Col md={4}>
+          <Col md={4} xs={12}>
             <Form>
-              <Form.Label className="Doc-Font-Color">CPF/CNPJ</Form.Label>
-              <FormGroup>
-                <InputGroup className="mb-3 rounded">
-                  <InputGroup.Text
-                    className="border-0"
-                    style={{ backgroundColor: "#F4F6F8" }}
-                  >
-                    <i className="bi bi-person-fill link-icon"></i>
-                  </InputGroup.Text>
-                  <Form.Control
-                    type="number"
-                    placeholder="000.000.000-00"
-                    className="border-0 Cardinput badge-relative"
-                  />
-                </InputGroup>
-              </FormGroup>
+              <Form.Label className="Doc-Font-Color">Telefone</Form.Label>
+              <InputGroup className="mb-3 rounded">
+                <InputGroup.Text
+                  id="basic-addon1"
+                  className="border-0"
+                  style={{
+                    background: "#F4F6F8",
+                  }}
+                >
+                  <i className="bi bi-telephone link-icon"></i>
+                </InputGroup.Text>
+                <Form.Control
+                  placeholder="(00)00000-0000"
+                  type="text"
+                  name="phone"
+                  className="Cardinput border-0"
+                  // value={data?.email}
+                  onChange={handleChange}
+                />
+              </InputGroup>
             </Form>
           </Col>
-          <Col md={4}>
+          <Col md={4} xs={12}>
             <Form>
-              <Form.Label className="Doc-Font-Color">Email/telefone</Form.Label>
-              <FormGroup>
-                <InputGroup className="mb-3 rounded">
-                  <InputGroup.Text
-                    className="border-0"
-                    style={{ backgroundColor: "#F4F6F8" }}
-                  >
-                    <i className="bi bi-envelope-fill link-icon"></i>
-                  </InputGroup.Text>
-                  <Form.Control
-                    placeholder="anajuliamarques@tba.com"
-                    type="emailOrPhone"
-                    className="border-0 Cardinput badge-relative"
-                  />
-                </InputGroup>
-              </FormGroup>
+              <Form.Label className="Doc-Font-Color">CPF</Form.Label>
+              <InputGroup className="mb-3 rounded">
+                <InputGroup.Text
+                  id="basic-addon1"
+                  className="border-0"
+                  style={{
+                    background: "#F4F6F8",
+                  }}
+                >
+                  <i className="bi bi-person-vcard-fill link-icon"></i>
+                </InputGroup.Text>
+                <Form.Control
+                  placeholder="000.000.000-00"
+                  type="text"
+                  name="CPF"
+                  className="Cardinput border-0"
+                  // value={data?.CpfOrCnpj}
+                  onChange={handleChange}
+                />
+              </InputGroup>
+            </Form>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={4} xs={12}>
+            <Form>
+              <Form.Label className="Doc-Font-Color">CNPJ</Form.Label>
+              <InputGroup className="mb-3 rounded">
+                <InputGroup.Text
+                  id="basic-addon1"
+                  className="border-0"
+                  style={{
+                    background: "#F4F6F8",
+                  }}
+                >
+                  <i className="bi bi-person-vcard-fill link-icon"></i>
+                </InputGroup.Text>
+                <Form.Control
+                  placeholder="000.000.000-00"
+                  type="text"
+                  name="CNPJ"
+                  className="Cardinput border-0"
+                  // value={data?.CpfOrCnpj}
+                  onChange={handleChange}
+                />
+              </InputGroup>
+            </Form>
+          </Col>
+          <Col md={8} xs={12}>
+            <Form>
+              <Form.Label className="Doc-Font-Color">Email</Form.Label>
+              <InputGroup className="mb-3 rounded">
+                <InputGroup.Text
+                  id="basic-addon1"
+                  className="border-0"
+                  style={{
+                    background: "#F4F6F8",
+                  }}
+                >
+                  <i className="bi bi-envelope-fill link-icon"></i>
+                </InputGroup.Text>
+                <Form.Control
+                  placeholder="fulano@gmail.com"
+                  type="text"
+                  name="email"
+                  className="Cardinput border-0"
+                  // value={data?.CpfOrCnpj}
+                  onChange={handleChange}
+                />
+              </InputGroup>
             </Form>
           </Col>
         </Row>
@@ -114,215 +285,36 @@ const NewClientAdd = ({ show, handleClose }) => {
             </Form>
           </Col>
         </Row>
-        <h6 className="mt-5 fw-bolder">Solicitar outros documentos</h6>
-        <Row className="px-1">
-          <Col md={6}>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <Form.Check
-                  className="chack-item input-check fs-5 border-0"
-                  type="switch"
-                  id="custom-switch"
-                  checked
-                  name="CPF"
-                />
-                <label>CNPJ</label>
-              </Form>
-            </Col>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <Form.Check
-                  className="chack-item input-check fs-5 border-0"
-                  type="switch"
-                  id="custom-switch"
-                  checked
-                  name="CNPJ"
-                />
-                <label>Contrato social</label>
-              </Form>
-            </Col>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <Form.Check
-                  className="fs-5 border-0 input-check"
-                  type="switch"
-                  id="custom-switch"
-                  name="socialContract"
-                  checked
-                  // onChange={handleCheck}
-                  // defaultChecked={formValues.socialContract}
-                />
-                <label>
-                  Balancete 2021, 2022 (assinado contador e cliente)
-                </label>
-              </Form>
-            </Col>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <Form.Check
-                  className="fs-5 border-0 input-check"
-                  type="switch"
-                  id="custom-switch"
-                  name="proofOfAddress"
-                />
-                <label>
-                  Faturamento 2020,2021 e 2022 (assinado contador e cliente)
-                </label>
-              </Form>
-            </Col>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <Form.Check
-                  className="fs-5 border-0 input-check"
-                  type="switch"
-                  checked
-                  id="custom-switch"
-                  name="proofOfAddress"
-                />
-                <label>Endividamento bancário atualizado</label>
-              </Form>
-            </Col>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <Form.Check
-                  className="fs-5 border-0 input-check"
-                  type="switch"
-                  id="custom-switch"
-                  name="proofOfAddress"
-                />
-                <label style={{ color: "#B5B6B7" }}>
-                  Digite o documento que deseja solicitar...
-                </label>
-              </Form>
-            </Col>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <Form.Check
-                  className="fs-5 border-0 input-check"
-                  type="switch"
-                  id="custom-switch"
-                  name="proofOfAddress"
-                />
-                <label style={{ color: "#B5B6B7" }}>
-                  Digite o documento que deseja solicitar...
-                </label>
-              </Form>
-            </Col>
+        {/* <Row className="px-1 pt-3">
+          <Col md={12}>
+            <h6>Solicitar outros documentos</h6>
           </Col>
-          <Col md={6}>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <Form.Check
-                  className="chack-item input-check fs-5 border-0"
-                  type="switch"
-                  id="custom-switch"
-                  checked
-                  name="CPF"
-                />
-                <label>CPF dos sócios</label>
-              </Form>
-            </Col>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <Form.Check
-                  className="chack-item input-check fs-5 border-0"
-                  type="switch"
-                  id="custom-switch"
-                  checked
-                  name="CNPJ"
-                />
-                <label>
-                  Balanço / DRE 2021, 2022( assinado contador e cliente)
-                </label>
-              </Form>
-            </Col>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <Form.Check
-                  className="fs-5 border-0 input-check"
-                  type="switch"
-                  id="custom-switch"
-                  name="socialContract"
-                  // onChange={handleCheck}
-                  // defaultChecked={formValues.socialContract}
-                />
-                <label style={{ color: "#B5B6B7" }}>
-                  Digite o documento que deseja solicitar...
-                </label>
-              </Form>
-            </Col>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <Form.Check
-                  className="fs-5 border-0 input-check"
-                  type="switch"
-                  id="custom-switch"
-                  checked
-                  name="proofOfAddress"
-                />
-                <label>Documentos sócios (CNH ou RG)</label>
-              </Form>
-            </Col>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <Form.Check
-                  className="fs-5 border-0 input-check"
-                  type="switch"
-                  id="custom-switch"
-                  name="proofOfAddress"
-                />
-                <label style={{ color: "#B5B6B7" }}>
-                  Digite o documento que deseja solicitar...
-                </label>
-              </Form>
-            </Col>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <Form.Check
-                  className="fs-5 border-0 input-check"
-                  type="switch"
-                  id="custom-switch"
-                  name="proofOfAddress"
-                />
-                <label style={{ color: "#B5B6B7" }}>
-                  Extrato dos últimos 30 dias do banco que mais movimenta
-                </label>
-              </Form>
-            </Col>
-            <Col className="mt-2 ">
-              <Form className="d-flex align-items-center">
-                <i
-                  class="bi bi-plus-circle fs-4"
-                  style={{ color: "#0068FF" }}
-                ></i>
-                <label className="ms-3" style={{ fontSize: "14px" }}>
-                  Adicionar mais
-                </label>
-              </Form>
-            </Col>
-          </Col>
-        </Row>
-        <h6 className="mt-4 px-1">Link para compartilhar com o cliente</h6>
-        <div className="d-flex justify-content-between">
-          <div style={{ width: "35%" }}>
-            <InputGroup className="border-0 rounded ">
-              <Form.Control className="border-0 p-2 fw-bold" />
-              {/* <InputGroup.Text
-                id="basic-addon2"
-                className="border-0 c-point fw-normal"
-                style={{ color: "#85A6A2" }}
-              >
-              </InputGroup.Text> */}
-            </InputGroup>
-          </div>
-          <div>
-            <Button className="border-0 me-3" style={{ background: "#0068FF" }}>
-              Copiar link
-            </Button>
-            <Button className="border-0" style={{ background: "#0068FF" }}>
-              Criar cliente
-            </Button>
-          </div>
+          {loading ? (
+            <Loader />
+          ) : (
+            <PermissionSwitchTable
+              handleCheck={handleCheck}
+              formValues={formValues}
+              editData={editData}
+              switchesData={switchesData}
+            />
+          )}
+        </Row> */}
+        <div className="d-flex justify-content-end">
+          <Button
+            onClick={handleSubmitData}
+            className="border-0"
+            style={{ background: "#0068FF" }}
+          >
+            <span>Criar cliente</span>
+            {loading && (
+              <Spinner
+                animation="grow"
+                variant="light"
+                className="ms-3 fw-bold fs-5"
+              />
+            )}
+          </Button>
         </div>
       </ModalBody>
     </Modal>

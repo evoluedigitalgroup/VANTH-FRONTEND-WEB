@@ -1,50 +1,148 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AfterAuth from "../HOC/AfterAuth";
 import { Button, Card, Table } from "react-bootstrap";
 import TableNavbar from "../components/TableNavbar";
 import NewClientAdd from "../components/Document/NewClientAdd";
+import { getDocumentList } from "../helper/API/document";
+import { getAllDocumentsList, getContactList } from "../helper/API/contact";
+import { contactTableData } from "../recoil/Atoms";
+import { useRecoilState } from "recoil";
+import Loader from "../components/Loader";
+import ContactTable from "../components/Contact/ContactTable";
 
 const Clients = () => {
+  const [tableRow, setTableRow] = useState([]);
+  const [refresh, setRefresh] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [active, setActive] = useState({
     pending: false,
-    answer: false,
+    approved: false,
     all: true,
   });
 
-  const [openWhatsAppDiv, setOPenWhatsAppDiv] = useState(false);
+  const [search, setSearch] = useState();
+  const [newTableRow, setNewtableRow] = useState([]);
+  const [table, setTable] = useRecoilState(contactTableData);
+  // console.log("search", search);
+
+  useEffect(() => {
+    setLoading(true);
+    const submitData = {
+      search,
+    };
+    getContactList(submitData).then((res) => {
+      //   console.log("res contact :: ", res);
+      if (res.success) {
+        setTable(res.data.findData);
+        setTableRow(res.data.findData);
+        setLoading(false);
+      } else {
+        setTable([]);
+        setTableRow([]);
+        setLoading(false);
+      }
+    });
+  }, [refresh]);
+  // console.log("tableRow", tableRow);
+
+  const onEnter = (e) => {
+    if (e.key === "Enter") {
+      // console.log("clicked enter");
+      setLoading(true);
+      const submitData = {
+        search,
+      };
+      getContactList(submitData).then((res) => {
+        // console.log("res contact :: enter ", res);
+        if (res.success) {
+          setTableRow(res.data.findData);
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
+      });
+    }
+  };
+
+  const handleToggle = (status) => {
+    if (status === "Pending") {
+      setActive({
+        pending: true,
+        approved: false,
+        all: false,
+      });
+
+      const newData = table.filter((obj) => {
+        if (obj.status === "pending") {
+          return obj;
+        }
+      });
+      setTableRow(newData);
+    } else if (status === "Approved") {
+      setActive({
+        pending: false,
+        approved: true,
+        all: false,
+      });
+      const newData = table.filter((obj) => {
+        if (obj.status === "approved") {
+          return obj;
+        }
+      });
+      setTableRow(newData);
+    } else {
+      setActive({
+        pending: false,
+        approved: false,
+        all: true,
+      });
+      setTableRow(table);
+    }
+  };
+
   const [showNovaClientButtonClick, setshowNovaClientButtonClick] =
     useState(false);
-
-  const handleOpenWhatAppDiv = () => {
-    setOPenWhatsAppDiv(!openWhatsAppDiv);
-  };
 
   const handleOpenNovaClientButtonClick = () => {
     setshowNovaClientButtonClick(true);
   };
 
-  const onClickActive = (status) => {
-    // console.log("status .....", status);
-    if (status == "pending") {
-      setActive({
-        pending: true,
-        answer: false,
-        all: false,
-      });
-    } else if (status == "answer") {
-      setActive({
-        pending: false,
-        answer: true,
-        all: false,
-      });
-    } else {
-      setActive({
-        pending: false,
-        answer: false,
-        all: true,
-      });
-    }
-  };
+  // const [documentTableData, setDocumentTableData] = useState([]);
+  // // console.log("documentTableData", documentTableData);
+
+  // const [editData, setEditData] = useState(null);
+  // // console.log("editData", editData);
+
+  // const [documentListData, setDocumentListData] = useState([]);
+  // // console.log("documentListData", documentListData);
+
+  // const getAllDocumentListData = async () => {
+  //   const documentList = await getAllDocumentsList();
+  //   setDocumentListData(documentList.data);
+  // };
+
+  // useEffect(() => {
+  //   getAllDocumentListData();
+  // }, []);
+
+  // useEffect(() => {
+  //   documentTableData.map((val) => {
+  //     setEditData(val);
+  //   });
+  // }, [documentTableData]);
+
+  // useEffect(() => {
+  //   const submitData = {
+  //     search,
+  //   };
+  //   getDocumentList(submitData).then((res) => {
+  //     if (res.success) {
+  //       setDocumentTableData(res.data.findContactData);
+  //     } else {
+  //       setDocumentTableData([]);
+  //     }
+  //   });
+  // }, []);
 
   return (
     <>
@@ -65,109 +163,61 @@ const Clients = () => {
             + Novo cliente
           </button>
         </div>
-        <Card className="mx-3 mx-md-5 my-3 p-3 px-4">
-          <TableNavbar title={"Clientes"}>
-            <Button
-              className={`fs-color border-0 ${
-                active.pending ? "activeBtnTable" : "inActiveBtnTable"
-              }`}
-              //   onClick={onClickActive("pending")}
-              onClick={(e) => onClickActive("pending")}
-            >
-              Pendentes
-            </Button>
-            <Button
-              className={`fs-color border-0 ${
-                active.answer ? "activeBtnTable" : "inActiveBtnTable"
-              }`}
-              onClick={(e) => onClickActive("answer")}
-            >
-              Respondidas
-            </Button>
-            <Button
-              className={`fs-color border-0 ${
-                active.all ? "activeBtnTable" : "inActiveBtnTable"
-              }`}
-              onClick={(e) => onClickActive("all")}
-            >
-              Todas
-            </Button>
+        <Card className="m-5 mx-3 mx-md-5 my-3 p-3 px-4">
+          {/* <NAVBAR /> */}
+          <TableNavbar
+            title={"Clients"}
+            setSearch={setSearch}
+            onEnter={onEnter}
+            refresh={refresh}
+            setRefresh={setRefresh}
+            search={search}
+            setActive={setActive}
+            active={active}
+          >
+            <div className="">
+              <Button
+                className={`fs-color mx-2 border-0 ${
+                  active.pending ? "activeBtnTable" : "inActiveBtnTable"
+                }`}
+                onClick={(e) => handleToggle("Pending")}
+              >
+                Pendentes
+              </Button>
+              <Button
+                className={`fs-color  mx-2 border-0 ${
+                  active.approved ? "activeBtnTable" : "inActiveBtnTable"
+                }`}
+                onClick={(e) => handleToggle("Approved")}
+              >
+                Respondidas
+              </Button>
+              <Button
+                className={`fs-color px-4 border-0 ${
+                  active.all ? "activeBtnTable" : "inActiveBtnTable"
+                }`}
+                onClick={(e) => handleToggle("All")}
+              >
+                Todos
+              </Button>
+            </div>
           </TableNavbar>
-          <Table responsive>
-            <thead>
-              <tr
-                style={{
-                  color: "#B5B6B7",
-                  fontSize: "12px",
-                }}
-              >
-                <th width={"25%"}>Nome</th>
-                <th>CPF</th>
-                <th>CNPJ</th>
-                <th>Email/Telefone</th>
-                <th>Data</th>
-                <th>Hora</th>
-                <th>Status</th>
-              </tr>
-            </thead>
 
-            <tbody>
-              <tr
-                style={{ cursor: "pointer" }}
-                onClick={() => handleOpenWhatAppDiv()}
-              >
-                <td className="fw-bold">Ana Júlia Garcia</td>
-                <td>000.000.000-00</td>
-                <td>000.000.000-00</td>
-                <td>(00)0000-0000</td>
-                <td>13 dez 2022</td>
-                <td>13:04</td>
-                <td>
-                  <Button
-                    className="text-white fw-bold p-0 border-0"
-                    style={{
-                      width: "100px",
-                      fontSize: "12px",
-                      backgroundColor: "green",
-                    }}
-                  >
-                    Aprovado
-                  </Button>
-                </td>
-              </tr>
-            </tbody>
-
-            {openWhatsAppDiv && (
-              <div className="d-flex mt-2">
-                <h6
-                  style={{
-                    fontSize: "12px",
-                    color: "#b5b6b7",
-                    fontWeight: 600,
-                  }}
-                >
-                  Entrar em contato por:
-                </h6>
-                <div
-                  className="d-flex align-items-center justify-content-center ms-2"
-                  style={{
-                    width: "39px",
-                    height: "39px",
-                    backgroundColor: "#58A43D",
-                    borderRadius: "6px",
-                  }}
-                >
-                  <img src="/assets/img/whatsAppClient.svg"></img>
-                </div>
-              </div>
-            )}
-          </Table>
+          {loading ? (
+            <Loader />
+          ) : (
+            <ContactTable
+              tableRow={tableRow}
+              refresh={refresh}
+              setRefresh={setRefresh}
+            />
+          )}
         </Card>
         {showNovaClientButtonClick && (
           <NewClientAdd
             show={setshowNovaClientButtonClick}
             handleClose={() => setshowNovaClientButtonClick(false)}
-          ></NewClientAdd>
+          />
         )}
       </AfterAuth>
     </>

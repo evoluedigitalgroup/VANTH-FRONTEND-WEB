@@ -16,8 +16,8 @@ import "./helper/prototype";
 import { useRecoilValue } from "recoil";
 import { loginAtom } from "./recoil/Atoms";
 import ErrorPage from "./pages/ErrorPage";
-import MyPlan from "./components/MyPlan/MyPlan";
-import "react-multi-carousel/lib/styles.css";
+import { Suspense } from "react";
+import DocumentCrad from "./pages/DocumentCard";
 import Clients from "./pages/Clients";
 
 function App() {
@@ -28,6 +28,7 @@ function App() {
     <>
       <ToastContainer position="top-center" />
 
+      {/* <Suspense fallback={<div>Loading...</div>}> */}
       <Routes>
         <Route path="/" element={<Show />} />
         <Route path="/error" element={<ErrorPage />} />
@@ -58,12 +59,13 @@ function App() {
           <Route path="error" element={<ErrorPage />} />
         )}
         <Route path="/perfil" element={<Protected Component={Perfil} />} />
-        <Route
-          path="/perfil/my-plan"
-          element={<Protected Component={MyPlan} />}
-        />
         <Route path="/logout" element={<Protected Component={Logout} />} />
+        <Route
+          path="/document-verification/:contactId/:requestId"
+          element={<DocumentCrad />}
+        />
       </Routes>
+      {/* </Suspense> */}
     </>
   );
 }

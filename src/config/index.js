@@ -18,7 +18,7 @@ export const ENV_TYPE = "local"; // local // test // production
 
 export const BASE_URL = envData(
   ENV_TYPE,
-  "http://192.168.1.104:3007/api/v1/",
+  "http://192.168.1.102:3017/api/v1/",
   "http://34.198.94.219:3000/api/v1/",
   "http://34.198.94.219:3000/api/v1/"
 );
@@ -28,6 +28,7 @@ export const LINK_URL = envData(
   "https://www.tbaconsulting.com.br/document-verification/",
   "https://www.tbaconsulting.com.br/document-verification/"
 );
+export const PAGE_LIMIT = 10;
 
 // export const LINK_URL = "localhost:3003/document-verification/";
 

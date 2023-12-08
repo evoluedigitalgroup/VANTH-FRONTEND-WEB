@@ -56,9 +56,9 @@ const Documents = () => {
         search,
       };
       getDocumentList(submitData).then((res) => {
-        // console.log("res contact :: ", res);
+        console.log("res contact :: ", res);
         if (res.success) {
-          setTableRow(res.data);
+          setTableRow(res.data.findContactData);
           setLoading(false);
         } else {
           setTableRow([]);
@@ -159,7 +159,7 @@ const Documents = () => {
               >
                 Todas
               </Button>
-              <Button
+              {/* <Button
                 onClick={() => {
                   setShow(true);
                 }}
@@ -170,7 +170,7 @@ const Documents = () => {
                 className="fw-bold align-items-center border-0"
               >
                 + Novo cliente
-              </Button>
+              </Button> */}
             </TableNavbar>
           </div>
           {loading ? (
