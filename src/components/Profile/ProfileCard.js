@@ -138,7 +138,7 @@ const ProfileCard = ({
               <Button
                 size="lg"
                 onClick={showAddAdmin}
-                className="border-0 fs-6"
+                className="border-0 fs-6 mt-2 mt-md-0"
                 style={{ backgroundColor: "#0068FF" }}
               >
                 <i className="bi bi-link-45deg mx-1"></i>

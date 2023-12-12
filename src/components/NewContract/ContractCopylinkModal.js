@@ -11,10 +11,7 @@ const ContractCopylinkModal = ({ show, onHide }) => {
   return (
     <>
       <Modal size="lg" show={show} onHide={onHide} centered className="zindex">
-        <div
-          className=""
-          style={{ height: "580px", position: "relative", padding: "30px" }}
-        >
+        <div className="" style={{ position: "relative", padding: "30px" }}>
           <div className="d-flex justify-content-between">
             <h5 className="fw-bold mt-1">
               Link para solicitar assinatura de contrato
@@ -31,12 +28,16 @@ const ContractCopylinkModal = ({ show, onHide }) => {
               dfgjj
             </div>
           </div>
-          <div className="mt-3 px-3 ContractImageTag">
+          <div
+            style={{ height: "280px", overflowY: "scroll" }}
+            className="mt-3 px-3"
+          >
             <Row>
               <Col
+                lg={4}
                 md={6}
                 style={{ position: "relative" }}
-                className="d-flex justify-content-center p-0 mb-2"
+                className="d-flex justify-content-center justify-content-md-start p-0 mb-2"
               >
                 <img
                   style={{ height: "250px" }}
@@ -44,9 +45,10 @@ const ContractCopylinkModal = ({ show, onHide }) => {
                 />
               </Col>
               <Col
+                lg={4}
                 md={6}
                 style={{ position: "relative" }}
-                className="d-flex justify-content-center p-0 mb-2"
+                className="d-flex justify-content-center justify-content-md-start p-0 mb-2"
               >
                 <img
                   style={{ height: "250px" }}
@@ -75,49 +77,53 @@ const ContractCopylinkModal = ({ show, onHide }) => {
               />
             </InputGroup>
           </div>
-          <div className="d-flex align-items-center mt-2">
-            <div className="d-flex" style={{ width: "100%" }}>
-              <div className="d-flex align-items-center">
-                <h6
+          <Row>
+            <Col md={6}>
+              <div className="d-flex">
+                <div className="d-flex align-items-center">
+                  <h6
+                    style={{
+                      fontWeight: "600",
+                      fontSize: "12px",
+                      color: "#85A6A2",
+                    }}
+                  >
+                    Enviar com:
+                  </h6>
+                  <img
+                    // style={{ height: "60px", width: "60px" }}
+                    src="/assets/img/whatsApp.svg"
+                  />
+                  <img
+                    // style={{ height: "39px", width: "39px" }}
+                    src="/assets/img/mail.png"
+                  />
+                  <img
+                    // style={{ height: "39px", width: "39px" }}
+                    src="/assets/img/sms.png"
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col md={6}>
+              <div className="d-flex justify-content-md-end justify-content-center mt-md-4">
+                <button
+                  className="px-4 py-2"
                   style={{
-                    fontWeight: "600",
                     fontSize: "12px",
-                    color: "#85A6A2",
+                    fontWeight: 400,
+                    background: "#0068FF",
+                    border: "0",
+                    borderRadius: "6px",
+                    color: "white",
+                    fontWeight: 800,
                   }}
                 >
-                  Enviar com:
-                </h6>
-                <img
-                  // style={{ height: "60px", width: "60px" }}
-                  src="/assets/img/whatsApp.svg"
-                />
-                <img
-                  // style={{ height: "39px", width: "39px" }}
-                  src="/assets/img/mail.png"
-                />
-                <img
-                  // style={{ height: "39px", width: "39px" }}
-                  src="/assets/img/sms.png"
-                />
+                  Copiar&nbsp;link
+                </button>
               </div>
-            </div>
-
-            <button
-              className="px-4"
-              style={{
-                width: "180px",
-                height: "40px",
-                fontSize: "14px",
-                background: "#0068FF",
-                border: "0",
-                borderRadius: "6px",
-                color: "white",
-                fontWeight: 800,
-              }}
-            >
-              Copiar&nbsp;link
-            </button>
-          </div>
+            </Col>
+          </Row>
         </div>
       </Modal>
     </>

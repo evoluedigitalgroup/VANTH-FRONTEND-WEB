@@ -589,9 +589,9 @@ const Insights = () => {
           ) : (
             ""
           )}
-          <div className="text-end mx-2">
+          <div className="text-md-end text-center mx-2">
             <Button
-              className="px-5 py-2"
+              className="px-5 shadow  py-2"
               style={{
                 backgroundColor: "#C4CCD2",
                 border: "none",

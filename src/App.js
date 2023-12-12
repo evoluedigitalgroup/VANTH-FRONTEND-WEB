@@ -19,6 +19,7 @@ import ErrorPage from "./pages/ErrorPage";
 import { Suspense } from "react";
 import DocumentCrad from "./pages/DocumentCard";
 import Clients from "./pages/Clients";
+import MyPlan from "./components/MyPlan/MyPlan";
 
 function App() {
   const login = useRecoilValue(loginAtom);
@@ -59,6 +60,10 @@ function App() {
           <Route path="error" element={<ErrorPage />} />
         )}
         <Route path="/perfil" element={<Protected Component={Perfil} />} />
+        <Route
+          path="/perfil/my-plan"
+          element={<Protected Component={MyPlan} />}
+        />
         <Route path="/logout" element={<Protected Component={Logout} />} />
         <Route
           path="/document-verification/:contactId/:requestId"

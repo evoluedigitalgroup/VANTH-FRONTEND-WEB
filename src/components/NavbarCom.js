@@ -26,30 +26,45 @@ const NavbarCom = () => {
     <>
       <Navbar className="nav p-0">
         <Row className="w-100 p-0 m-0">
-          <Col md={2} lg={2} sm={2} xs={5} className="bg-light">
+          <Col md={2} lg={2} sm={1} xs={3} className="bg-white">
             <Navbar.Brand
               href="#home"
-              className="ps-0 d-flex align-items-center h-100 w-100 justify-content-center"
+              className="ps-0 d-md-flex align-items-center h-100 w-100 justify-content-center d-none"
             >
               <img
                 // style={{ width: "300px" }}
                 src="/assets/img/vancehDigital1.svg"
               ></img>
             </Navbar.Brand>
+            <div className="ps-0 d-flex align-items-center h-100 justify-content-center d-md-none">
+              <img
+                src="/assets/img/menuList.svg"
+                style={{ width: "32px" }}
+              ></img>
+            </div>
           </Col>
-          <Col md={10} lg={10} sm={10} xs={7} className="py-1">
+          <Col md={10} lg={10} sm={10} xs={9} className="py-1">
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
+              <Navbar.Brand className="ps-0 d-md-none align-items-center justify-content-center">
+                <img src="/assets/img/vancehDigital1.svg"></img>
+              </Navbar.Brand>
               <Nav className="me-auto"></Nav>
-              <Nav className="mx-1 mx-md-5 px-3">
+              <Nav className="mx-md-1 mx-md-5 px-md-3">
                 <NavLink style={{ textDecoration: "none" }} to={"/perfil"}>
                   <div
                     className={`${
                       pathName == "/perfil" && "Nav-after"
                     } text-white d-flex align-items-center`}
                   >
-                    {profileItem?.name}
-                    <Nav.Link>
+                    <span className="d-none d-md-flex me-2">
+                      {profileItem?.name}
+                    </span>
+                    <i
+                      class="bi bi-bell-fill d-flex d-md-none me-2"
+                      style={{ color: "#6F767E", fontSize: 16 }}
+                    ></i>
+                    <NavLink to={"/perfil"}>
                       <img
                         className={`${pathName == "/perfil" && "Imgborder"}`}
                         src={
@@ -65,10 +80,10 @@ const NavbarCom = () => {
                           objectFit: "contain",
                         }}
                       />
-                    </Nav.Link>
+                    </NavLink>
                   </div>
                 </NavLink>
-                <div
+                {/* <div
                   style={{
                     border: "1px solid gray",
                     marginBlock: "20px",
@@ -77,19 +92,7 @@ const NavbarCom = () => {
                 ></div>
                 <div style={{ marginTop: 20 }}>
                   <i class="bi bi-bell-fill text-white"></i>
-                </div>
-                <div
-                  className="d-flex align-items-center d-md-none"
-                  style={{ marginLeft: 10 }}
-                >
-                  <i
-                    class="bi bi-list"
-                    style={{
-                      color: "white",
-                      fontSize: "22px",
-                    }}
-                  ></i>
-                </div>
+                </div> */}
               </Nav>
             </Navbar.Collapse>
           </Col>

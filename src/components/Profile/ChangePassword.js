@@ -61,7 +61,16 @@ const ChangePassword = ({ open, handleClose }) => {
       >
         <ModalTitle></ModalTitle>
         <Modal.Body>
-          <Row>
+          <div className="d-flex justify-content-between mx-2">
+            <h6 className="fw-bolder fs-5 px-md-2 pt-3">Alterar senha</h6>
+            <Button
+              onClick={handleClose}
+              className="border-0 text-dark p-0 fs-4 bg-white"
+            >
+              <img src="assets/img/close.png"></img>
+            </Button>
+          </div>
+          {/* <Row>
             <Col md={9} className="fw-bolder fs-5 m-3 ">
               Alterar senha
             </Col>
@@ -73,9 +82,9 @@ const ChangePassword = ({ open, handleClose }) => {
                 <img src="assets/img/close.png"></img>
               </Button>
             </Col>
-          </Row>
+          </Row> */}
           <Row className="">
-            <Col md={10} className="mx-auto px-0 my-2">
+            <Col md={10} className="mx-auto px-md-0 my-2">
               <p className="fw-bold my-1 small">Senha atual</p>
               <InputGroup className="mb-3 border-0 rounded">
                 <InputGroup.Text
@@ -93,7 +102,7 @@ const ChangePassword = ({ open, handleClose }) => {
                 />
               </InputGroup>
             </Col>
-            <Col md={10} className="mx-auto px-0  my-2">
+            <Col md={10} className="mx-auto px-md-0  my-2">
               <Form.Label className="small fw-bold">Nova senha</Form.Label>
               <InputGroup className="mb-3 rounded">
                 <InputGroup.Text
@@ -130,7 +139,7 @@ const ChangePassword = ({ open, handleClose }) => {
                 </InputGroup.Text>
               </InputGroup>
             </Col>
-            <Col md={10} className="mx-auto px-0  my-2">
+            <Col md={10} className="mx-auto px-md-0  my-2">
               <Form.Label className="small fw-bold">
                 Repetir nova senha
               </Form.Label>

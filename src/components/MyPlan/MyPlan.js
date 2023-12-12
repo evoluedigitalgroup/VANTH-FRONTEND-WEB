@@ -1,11 +1,61 @@
 import React from "react";
 import AfterAuth from "../../HOC/AfterAuth";
 import { Card, Col, Row } from "react-bootstrap";
+import Carousel from "react-multi-carousel";
 import Packages from "./Packages";
 import UpgradePlan from "./UpgradePlan";
 import NewProgressbar from "../NewProgressbar";
 
 const MyPlan = () => {
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 1,
+      slidesToSlide: 1,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 1,
+      slidesToSlide: 1,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 1,
+      slidesToSlide: 1,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1,
+    },
+  };
+
+  const CustomLeftArrow = () => {
+    return (
+      <div
+        style={{
+          position: "absolute",
+        }}
+      >
+        <i class="bi bi-chevron-left"></i>
+      </div>
+    );
+  };
+
+  const CustomRightArrow = () => {
+    return (
+      <div
+        className="d-flex justify-content-end me-5"
+        style={{
+          position: "absolute",
+          right: 0,
+        }}
+      >
+        <i class="bi bi-chevron-right"></i>
+      </div>
+    );
+  };
+
   return (
     <AfterAuth>
       <div className="mx-3 mx-md-5 mt-3 d-flex align-items-center gap-4">
@@ -65,16 +115,30 @@ const MyPlan = () => {
         </Row>
         <div className="mt-5">
           <h6>Pacotes adicionais</h6>
-          <Row className="justify-content-center mt-3">
-            <Col md={4} className="d-flex justify-content-center">
+          <Row className="d-flex justify-content-center mt-3">
+            <div className="d-flex justify-content-center gap-5">
               <Packages />
-            </Col>
-            <Col md={4} className="d-flex justify-content-center">
               <Packages />
-            </Col>
-            <Col md={4} className="d-flex justify-content-center">
               <Packages />
-            </Col>
+            </div>
+            {/* <Carousel
+              responsive={responsive}
+              swipeable={false}
+              ssr={true} // means to render carousel on server-side.
+              keyBoardControl={true}
+              customTransition="all .5"
+              transitionDuration={500}
+              containerClass="carousel-container"
+              removeArrowOnDeviceType={["tablet", "mobile"]}
+              customLeftArrow={<CustomLeftArrow />}
+              customRightArrow={<CustomRightArrow />}
+            >
+              <div className="d-flex justify-content-center gap-5">
+                <Packages />
+                <Packages />
+                <Packages />
+              </div>
+            </Carousel> */}
           </Row>
         </div>
         <div className="mt-5">

@@ -300,7 +300,7 @@ const NewClientAdd = ({
             />
           )}
         </Row> */}
-        <div className="d-flex justify-content-end">
+        <div className="d-flex mt-4 mt-md-0 justify-content-md-end justify-content-center">
           <Button
             onClick={handleSubmitData}
             className="border-0"

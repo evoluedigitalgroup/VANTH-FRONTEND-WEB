@@ -71,7 +71,16 @@ const AddAdmin = ({ open, handleClose }) => {
         centered
       >
         <Modal.Body className="">
-          <Row>
+          <div className="d-flex justify-content-between">
+            <h6 className="fw-bolder fs-5 my-3">Código para nova conta</h6>
+            <Button
+              onClick={handleClose}
+              className="border-0 text-dark p-0 mx-4 fs-5 bg-white "
+            >
+              <img src="assets/img/close.png"></img>
+            </Button>
+          </div>
+          {/* <Row>
             <Col md={10} className="fw-bolder fs-5 my-3 ">
               Código para nova conta
             </Col>
@@ -83,7 +92,7 @@ const AddAdmin = ({ open, handleClose }) => {
                 <img src="assets/img/close.png"></img>
               </Button>
             </Col>
-          </Row>
+          </Row> */}
           <Row className="px-1 py-0">
             <Col md={12} className="">
               <p className="fs-6 fw-bold">Qual o cargo da pessoa?</p>

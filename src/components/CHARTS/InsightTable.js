@@ -10,8 +10,10 @@ const InsightTable = ({ tableRow }) => {
           <tr className="12px">
             <th className="tbl-head-color ">Nome </th>
             <th className="tbl-head-color ">CPF</th>
-            <th className="tbl-head-color ">CNPJ</th>
-            <th className="tbl-head-color ">Email/Telefone </th>
+            <th className="tbl-head-color d-none d-md-table-cell">CNPJ</th>
+            <th className="tbl-head-color d-none d-md-table-cell">
+              Email/Telefone{" "}
+            </th>
             {/* <th className='tbl-head-color '>Data</th> */}
             <th className="tbl-head-color text-center ">Hora </th>
             <th className="tbl-head-color text-center">Status </th>
@@ -20,10 +22,12 @@ const InsightTable = ({ tableRow }) => {
         <tbody>
           {tableRow.slice(0, 4).map((obj, i) => (
             <tr className="14px">
-              <td className="fw-bold  ">{obj?.name}</td>
+              <td className="fw-bold">{obj?.name}</td>
               <td>{obj?.CPF}</td>
-              <td>{obj?.CNPJ}</td>
-              <td>{obj?.email ? obj?.email : obj?.phone} </td>
+              <td className="d-none d-md-table-cell">{obj?.CNPJ}</td>
+              <td className="d-none d-md-table-cell">
+                {obj?.email ? obj?.email : obj?.phone}{" "}
+              </td>
               {/* <td>{obj?.date}</td> */}
               <td className="text-center">{obj?.time} </td>
               <td className="text-end position-relative">

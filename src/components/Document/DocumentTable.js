@@ -113,10 +113,10 @@ const DocumentTable = ({
             <tr style={{ color: "#B5B6B7", fontSize: "12px" }}>
               <th width={"25%"}>Nome</th>
               <th>CPF</th>
-              <th>CNPJ</th>
-              <th>Telefone</th>
+              <th className="d-none d-md-table-cell">CNPJ</th>
+              <th className="d-none d-md-table-cell">Telefone</th>
               <th>Data</th>
-              <th>Hora</th>
+              <th className="d-none d-md-table-cell">Hora</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -138,12 +138,27 @@ const DocumentTable = ({
                   {obj.name}
                 </td>
                 <td onClick={() => handleShowRow(obj.id)}>{obj.CPF}</td>
-                <td onClick={() => handleShowRow(obj.id)}>{obj.CNPJ}</td>
-                <td onClick={() => handleShowRow(obj.id)}>{obj.phone}</td>
-                <td onClick={() => handleShowRow(obj.id)}>{obj.date}</td>
-                <td onClick={() => handleShowRow(obj.id)}>{obj.time}</td>
                 <td
-                  className="position-relative text-end"
+                  className="d-none d-md-table-cell"
+                  onClick={() => handleShowRow(obj.id)}
+                >
+                  {obj.CNPJ}
+                </td>
+                <td
+                  className="d-none d-md-table-cell"
+                  onClick={() => handleShowRow(obj.id)}
+                >
+                  {obj.phone}
+                </td>
+                <td onClick={() => handleShowRow(obj.id)}>{obj.date}</td>
+                <td
+                  className="d-none d-md-table-cell"
+                  onClick={() => handleShowRow(obj.id)}
+                >
+                  {obj.time}
+                </td>
+                <td
+                  className="position-relative text-start"
                   style={{ zIndex: 1000 }}
                 >
                   <Button
@@ -176,11 +191,12 @@ const DocumentTable = ({
                   <div>
                     {idArray.includes(obj.id) ? (
                       <Row
-                        className="position-absolute"
+                        className="position-absolute mt-5 my-2"
                         style={{
                           left: "0",
                           bottom: "0",
                           width: "100%",
+                          top: "0",
                         }}
                       >
                         <>

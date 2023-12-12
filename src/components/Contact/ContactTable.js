@@ -92,10 +92,10 @@ const ContactTable = ({
             <tr style={{ color: "#B5B6B7", fontSize: "12px" }}>
               <th width={"25%"}>Nome</th>
               <th>CPF</th>
-              <th>CNPJ</th>
-              <th>Telefone</th>
+              <th className="d-none d-md-table-cell">CNPJ</th>
+              <th className="d-none d-md-table-cell">Telefone</th>
               <th>Data</th>
-              <th>Hora</th>
+              <th className="d-none d-md-table-cell">Hora</th>
               <th width={"10%"}>Status</th>
             </tr>
           </thead>
@@ -132,6 +132,7 @@ const ContactTable = ({
                   {obj.CPF}
                 </td>
                 <td
+                  className="d-none d-md-table-cell"
                   onClick={
                     obj.contactApprove === "pending"
                       ? () => handleShowRow(obj.id)
@@ -141,6 +142,7 @@ const ContactTable = ({
                   {obj.CNPJ}
                 </td>
                 <td
+                  className="d-none d-md-table-cell"
                   onClick={
                     obj.contactApprove === "pending"
                       ? () => handleShowRow(obj.id)
@@ -159,6 +161,7 @@ const ContactTable = ({
                   {obj.date}
                 </td>
                 <td
+                  className="d-none d-md-table-cell"
                   onClick={
                     obj.contactApprove === "pending"
                       ? () => handleShowRow(obj.id)

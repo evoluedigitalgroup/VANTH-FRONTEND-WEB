@@ -164,11 +164,11 @@ const GenerateLinkNew = ({
               <Form.Control className="border-0 p-3 fw-bold" value={link} />
             </InputGroup>
           </Col>
-          <Col md={6} className="my-3 text-end">
+          <Col md={6} className="my-3 text-md-end text-center">
             <Button
               disabled={loading}
               className="px-5"
-              style={{ background: "#1C3D59" }}
+              style={{ background: "#1C3D59", border: "none" }}
               onClick={submitForm}
             >
               {/* Encaminhar */}
