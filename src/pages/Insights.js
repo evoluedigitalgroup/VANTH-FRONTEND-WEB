@@ -206,11 +206,8 @@ const Insights = () => {
   return (
     <>
       <AfterAuth>
-        <h2 className="mt-3 mx-md-5 mx-3">Insigths</h2>
-        <Card
-          className="p-4 mx-md-5 mx-3 my-3"
-          style={{ backgroundColor: "#FBFBFB" }}
-        >
+        <h2 className="mt-3 mx-md-5 mx-4 fw-bold">Insigths</h2>
+        <Card className="p-4 pt-0 pt-md-4 mx-md-5 my-3 cardComponent">
           <Row>
             <Navbar expand="lg">
               <Container fluid>
@@ -310,18 +307,27 @@ const Insights = () => {
                     <Row className="p-3">
                       <Col xs={12} sm={12} md={6} className="text-center">
                         <Row className="pt-3">
-                          <Col md={5} className="">
+                          <Col
+                            xs={5}
+                            md={5}
+                            className="d-flex justify-content-md-center justify-content-end"
+                          >
                             <img
+                              className="graphFirstImg"
                               src="/assets/img/newEye.svg"
-                              style={{
-                                height: "5rem",
-                                width: "5rem",
-                              }}
+                              // style={{
+                              //   height: "5rem",
+                              //   width: "5rem",
+                              // }}
                             />
                           </Col>
-                          <Col md={7} className="d-flex justify-content-center">
+                          <Col
+                            xs={7}
+                            md={7}
+                            className="d-flex justify-content-md-center"
+                          >
                             <h6
-                              className="fs-color  mb-0"
+                              className="fs-color mb-0"
                               style={{
                                 fontSize: "12px",
                               }}
@@ -339,7 +345,7 @@ const Insights = () => {
                         xs={12}
                         sm={12}
                         md={6}
-                        className=" justify-content-center align-items-center "
+                        className=" justify-content-center align-items-center"
                       >
                         <Linechart />
                         {recoilChartData?.growth?.visitor && (
@@ -401,16 +407,25 @@ const Insights = () => {
                     <Row className="p-3">
                       <Col xs={12} sm={12} md={6} className="text-center">
                         <Row className="pt-3">
-                          <Col md={5} className="">
+                          <Col
+                            xs={5}
+                            md={5}
+                            className="d-flex justify-content-md-center justify-content-end"
+                          >
                             <img
+                              className="graphFirstImg"
                               src="/assets/img/newFile.svg"
-                              style={{
-                                height: "5rem",
-                                width: "5rem",
-                              }}
+                              // style={{
+                              //   height: "5rem",
+                              //   width: "5rem",
+                              // }}
                             />
                           </Col>
-                          <Col md={7} className="d-flex justify-content-center">
+                          <Col
+                            xs={7}
+                            md={7}
+                            className="d-flex justify-content-md-center"
+                          >
                             <h6
                               className="fs-color  mb-0"
                               style={{
@@ -430,7 +445,7 @@ const Insights = () => {
                         xs={12}
                         sm={12}
                         md={6}
-                        className="justify-content-center align-items-center   "
+                        className="justify-content-center align-items-center"
                       >
                         <NewLinechart />
 
@@ -492,16 +507,25 @@ const Insights = () => {
                     <Row className="p-3">
                       <Col xs={12} sm={12} md={6} className="text-center">
                         <Row className="pt-3">
-                          <Col md={5} className="">
+                          <Col
+                            xs={5}
+                            md={5}
+                            className="d-flex justify-content-md-center justify-content-end"
+                          >
                             <img
+                              className="graphFirstImg"
                               src="/assets/img/newFile.svg"
-                              style={{
-                                height: "5rem",
-                                width: "5rem",
-                              }}
+                              // style={{
+                              //   height: "5rem",
+                              //   width: "5rem",
+                              // }}
                             />
                           </Col>
-                          <Col md={7} className="d-flex justify-content-center">
+                          <Col
+                            xs={7}
+                            md={7}
+                            className="d-flex justify-content-md-center"
+                          >
                             <h6
                               className="fs-color  mb-0"
                               style={{

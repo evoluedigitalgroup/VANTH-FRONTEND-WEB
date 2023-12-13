@@ -20,7 +20,7 @@ const ContractCopylinkModal = ({ show, onHide }) => {
               <img src="assets/img/close.png"></img>
             </Button>
           </div>
-          <div className="mt-4" style={{ width: "60%" }}>
+          <div className="mt-2" style={{ width: "60%" }}>
             <div
               className="p-2"
               style={{ border: "1px solid #C7C7C7", borderRadius: "8px" }}
@@ -69,16 +69,18 @@ const ContractCopylinkModal = ({ show, onHide }) => {
               Link para compartilhar com o cliente
             </h6>
           </div>
-          <div style={{ width: "50%" }}>
-            <InputGroup className="mb-3" style={{ borderRadius: "6px" }}>
-              <Form.Control
-                className="p-2 border-0 fw-bold shadow-none"
-                style={{ backgroundColor: "#F4F6F8" }}
-              />
-            </InputGroup>
-          </div>
           <Row>
             <Col md={6}>
+              <InputGroup className="mb-3" style={{ borderRadius: "6px" }}>
+                <Form.Control
+                  className="p-2 border-0 fw-bold shadow-none"
+                  style={{ backgroundColor: "#F4F6F8" }}
+                />
+              </InputGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={8}>
               <div className="d-flex">
                 <div className="d-flex align-items-center">
                   <h6
@@ -105,11 +107,12 @@ const ContractCopylinkModal = ({ show, onHide }) => {
                 </div>
               </div>
             </Col>
-            <Col md={6}>
+            <Col xs={12} md={4}>
               <div className="d-flex justify-content-md-end justify-content-center mt-md-4">
                 <button
-                  className="px-4 py-2"
+                  className="py-2"
                   style={{
+                    width: "100%",
                     fontSize: "12px",
                     fontWeight: 400,
                     background: "#0068FF",

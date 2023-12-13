@@ -4,7 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { loginAtom } from "../recoil/Atoms";
 
-const Sidebar = () => {
+const Sidebar = ({ setShowSide, showSide }) => {
   const login = useRecoilValue(loginAtom);
   const permissions = login?.permissions;
   const [link, setLink] = useState([
@@ -64,6 +64,7 @@ const Sidebar = () => {
   return (
     <>
       <Row
+        className={showSide == true ? "d-block" : "d-none d-md-block"}
         style={{ overflowY: "hidden", position: "relative", height: "100%" }}
       >
         <Col md={12} style={{ height: "100%" }}>

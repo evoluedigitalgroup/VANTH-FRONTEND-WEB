@@ -121,7 +121,7 @@ const Contact = () => {
             Novo contrato
           </button>
         </div>
-        <Card className="m-5 mx-3 mx-md-5 my-3 p-3 px-4">
+        <Card className="m-md-5 mx-md-5 my-md-3 p-3 px-md-4 cardComponent">
           {/* <NAVBAR /> */}
           <TableNavbar
             title={"Contatos"}

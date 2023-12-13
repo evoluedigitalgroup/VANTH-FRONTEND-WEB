@@ -65,12 +65,12 @@ const ProfileCard = ({
 
   return (
     <div>
-      <Card className="my-3 mx-3 mx-md-5 p-3 px-4">
+      <Card className="my-md-3 mx-md-5 p-3 px-4 cardComponent">
         <Row>
           <Col md={6}>
             <Row>
               {/* image */}
-              <Col xs={12} sm={12} md={12} lg={5} className="">
+              <Col xs={12} sm={12} md={12} lg={5} className="mt-md-3">
                 <div>
                   <img
                     src={
@@ -112,7 +112,7 @@ const ProfileCard = ({
                 className="d-flex align-items-center"
               >
                 <div className="mt-3 mt-md-0">
-                  <div className="border-left px-2 mx-2">
+                  <div className="border-left px-2 mx-md-2">
                     <span>
                       <p className="fs-6 fw-bolder mb-0">{profile?.name}</p>
                       <p className="small  mb-0">CEO</p>
@@ -133,12 +133,15 @@ const ProfileCard = ({
               </Col>
             </Row>
           </Col>
-          <Col md={6} className="text-end d-flex align-items-end flex-column">
+          <Col
+            md={6}
+            className="text-md-end d-flex align-items-start align-items-md-end flex-column mt-md-3 mt-2"
+          >
             {permissions.newAdmin && (
               <Button
                 size="lg"
                 onClick={showAddAdmin}
-                className="border-0 fs-6 mt-2 mt-md-0"
+                className="border-0 shadow fs-6"
                 style={{ backgroundColor: "#0068FF" }}
               >
                 <i className="bi bi-link-45deg mx-1"></i>
@@ -157,7 +160,7 @@ const ProfileCard = ({
                   10,47 GB de 25 GB usados
                 </span>
               </div>
-              <div>
+              <div className="mt-2">
                 <img src="/assets/img/cloud.svg" />
                 <span
                   style={{
@@ -169,7 +172,7 @@ const ProfileCard = ({
                   Gerenciar plano
                 </span>
               </div>
-              <div>
+              <div className="mt-2">
                 <NewProgressbar
                   bgcolor="#0068FF"
                   title="Contratos assinados"

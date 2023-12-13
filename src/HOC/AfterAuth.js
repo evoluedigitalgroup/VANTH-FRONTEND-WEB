@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import NavbarCom from "../components/NavbarCom";
 import Sidebar from "../components/Sidebar";
 
 const AfterAuth = ({ children }) => {
+  const [showSide, setShowSide] = useState(false);
+
   return (
     <div>
       <div
@@ -14,7 +16,7 @@ const AfterAuth = ({ children }) => {
           zIndex: "5000",
         }}
       >
-        <NavbarCom />
+        <NavbarCom showSide={showSide} setShowSide={setShowSide} />
       </div>
       <Row className="afterAuthMainRow p-0 m-0" style={{ height: "93vh" }}>
         <Col
@@ -25,14 +27,14 @@ const AfterAuth = ({ children }) => {
             overflow: "hidden !important",
           }}
         >
-          <Sidebar />
+          <Sidebar showSide={showSide} setShowSide={setShowSide} />
         </Col>
         <Col
           md={10}
           id="page-content-wrapper"
-          className="pt-4 childrenHeight"
+          className="pt-md-4 px-0 px-md-3 childrenHeight bgColor"
           style={{
-            backgroundColor: "#DCDFE5",
+            // backgroundColor: "#DCDFE5",
             overflowY: "scroll",
             overflowX: "hidden",
             height: "100%",

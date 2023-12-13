@@ -69,9 +69,9 @@ const Permissões = () => {
     <>
       <AfterAuth>
         <h2 className="mt-3 ms-md-5 ms-3">Permissões</h2>
-        <Card className="p-3 mx-3 mx-md-5 my-3">
+        <Card className="p-md-3 mx-md-5 mx-3 my-3 cardComponent">
           <Row>
-            <Col className="m-2">
+            <Col className="m-md-2">
               {/* <NAVBAR /> */}
               <TableNavbar
                 title={"Permissões"}

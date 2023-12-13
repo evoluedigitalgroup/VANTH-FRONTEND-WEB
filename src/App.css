@@ -7,11 +7,24 @@ body {
 }
 
 @media (max-width: 550px) {
-  body {
+  /* body {
     padding-top: 25px;
-  }
+  } */
   .nav {
     background: #ffffff !important;
+  }
+
+  .Dashboard {
+    height: 100vh !important;
+    width: 100% !important;
+    background-image: none !important;
+    background-color: #272b30 !important;
+    background-position: center center;
+    background-size: 100% 100%;
+  }
+
+  .bgColor {
+    background-color: white !important;
   }
 
   .Nav-after::after {
@@ -24,6 +37,59 @@ body {
     background-color: transparent !important;
     transition: 200ms !important;
   }
+  .cardComponent {
+    border: 0 !important;
+  }
+
+  .graphFirstImg {
+    height: 57px !important;
+    width: 57px !important;
+  }
+
+  .TBA-Logo {
+    width: 16rem !important;
+    height: 16rem !important;
+    background-color: rgba(39, 43, 48, 1) !important;
+    border: 2px solid #0068ff;
+    border-radius: 100%;
+  }
+
+  .shoppingImage {
+    height: 18px !important;
+    width: 22px !important;
+  }
+
+  .confirmYourPurchaseFrom {
+    margin-left: 0px !important;
+  }
+
+  .debitCardSymbolImage {
+    height: 30px !important;
+    width: 30px !important;
+  }
+
+  .confirmYourPurchaseRound1And2 {
+    background-color: #0068ff;
+    height: 30px !important;
+    width: 30px !important;
+    font-size: 15px !important;
+    color: #ffffff;
+  }
+
+  .debitCardImage {
+    height: 79px !important;
+    width: 161px !important;
+  }
+
+  .rec-arrow {
+    background-color: transparent !important;
+    font-size: 16 !important;
+    color: #bac4c866 !important;
+    width: 0px !important;
+    height: 0 !important;
+    min-width: 10px !important;
+    line-height: 1px !important;
+  }
 }
 
 .Dashboard {
@@ -35,10 +101,55 @@ body {
   background-size: 100% 100%;
 }
 
+.bgColor {
+  background-color: #dcdfe5;
+}
+
+.graphFirstImg {
+  height: 75px;
+  width: 75px;
+}
+
 .mainPage {
   /* animation: show 1s 1s linear; */
 }
 
+.shoppingImage {
+  width: 32px;
+  height: 28px;
+}
+
+.confirmYourPurchaseFrom {
+  margin-left: 60px;
+}
+
+.debitCardSymbolImage {
+  height: 30px;
+  width: 46px;
+}
+
+.confirmYourPurchaseRound1And2 {
+  background-color: #0068ff;
+  height: 50px;
+  width: 50px;
+  font-size: 22px;
+  color: #ffffff;
+}
+
+.debitCardImage {
+  height: 135px;
+  width: 275px;
+}
+
+.rec-arrow {
+  background-color: transparent !important;
+  font-size: 16 !important;
+  color: #bac4c866 !important;
+  width: 0px !important;
+  height: 0px !important;
+  min-width: 25px !important;
+  line-height: 1px !important;
+}
 /* @keyframes show {
   from {
     scale: 1;
@@ -153,6 +264,10 @@ body {
   border-bottom: 2px solid #0068ff;
   background: linear-gradient(136.92deg, #151515 21.87%, #000000 82.73%);
   z-index: 5000 !important;
+}
+
+.cardComponent {
+  background-color: #fbfbfb;
 }
 
 .Nav-after {

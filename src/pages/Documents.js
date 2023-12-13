@@ -122,7 +122,7 @@ const Documents = () => {
     <>
       <AfterAuth>
         <h2 className="mt-3 ms-md-5 ms-3">Documentos</h2>
-        <Card className="mx-3 mx-md-5 my-3 p-3 px-4">
+        <Card className="mx-0 mx-md-5 my-3 p-3 px-4 cardComponent">
           <div style={{ paddingRight: "2%" }}>
             <TableNavbar
               title={"Documentos"}

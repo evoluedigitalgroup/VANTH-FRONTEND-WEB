@@ -147,7 +147,7 @@ const Clients = () => {
   return (
     <>
       <AfterAuth>
-        <div className="d-flex align-items-center justify-content-between mt-3 mx-md-5 ms-3">
+        <div className="d-flex align-items-center justify-content-between mt-3 mx-md-5 mx-3">
           <h2 className="">Clientes</h2>
           <button
             onClick={() => handleOpenNovaClientButtonClick()}
@@ -163,7 +163,7 @@ const Clients = () => {
             + Novo cliente
           </button>
         </div>
-        <Card className="m-5 mx-3 mx-md-5 my-3 p-3 px-4">
+        <Card className="mx-0 mx-md-5 my-md-3 p-3 px-md-4 cardComponent">
           {/* <NAVBAR /> */}
           <TableNavbar
             title={"Clients"}

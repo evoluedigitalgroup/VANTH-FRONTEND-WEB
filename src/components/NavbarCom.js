@@ -8,7 +8,7 @@ import { useRecoilState } from "recoil";
 import { profileData } from "../helper/API/Profile";
 import { profileAtom } from "../recoil/Atoms";
 
-const NavbarCom = () => {
+const NavbarCom = ({ setShowSide, showSide }) => {
   const [profileItem, setProfileItem] = useRecoilState(profileAtom);
 
   useEffect(() => {
@@ -36,7 +36,10 @@ const NavbarCom = () => {
                 src="/assets/img/vancehDigital1.svg"
               ></img>
             </Navbar.Brand>
-            <div className="ps-0 d-flex align-items-center h-100 justify-content-center d-md-none">
+            <div
+              onClick={() => setShowSide(!showSide)}
+              className="ps-0 d-flex align-items-center h-100 justify-content-center d-md-none"
+            >
               <img
                 src="/assets/img/menuList.svg"
                 style={{ width: "32px" }}

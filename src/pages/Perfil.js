@@ -46,7 +46,9 @@ const Perfil = () => {
   return (
     <>
       <AfterAuth>
-        <h3 className="mx-3 mx-md-5 mt-3">Meu perfil</h3>
+        <h3 className="mx-4 mx-md-5 mt-3" style={{ fontWeight: 900 }}>
+          Meu perfil
+        </h3>
         <ProfileCard
           showProfilePicture={showProfilePicture}
           showChangePassword={showChangePassword}
