@@ -18,7 +18,6 @@ const NavbarCom = ({ setShowSide, showSide }) => {
       }
     });
   }, []);
-  // console.log(profileItem);
 
   let pathName = window.location.pathname;
 
@@ -56,9 +55,8 @@ const NavbarCom = ({ setShowSide, showSide }) => {
               <Nav className="mx-md-1 mx-md-5 px-md-3">
                 <NavLink style={{ textDecoration: "none" }} to={"/perfil"}>
                   <div
-                    className={`${
-                      pathName == "/perfil" && "Nav-after"
-                    } text-white d-flex align-items-center`}
+                    className={`${pathName == "/perfil" && "Nav-after"
+                      } text-white d-flex align-items-center`}
                   >
                     <span className="d-none d-md-flex me-2">
                       {profileItem?.name}

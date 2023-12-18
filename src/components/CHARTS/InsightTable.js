@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Table } from "react-bootstrap";
 
 const InsightTable = ({ tableRow }) => {
-  //   console.log("tableRow insight table", tableRow.slice(0, 4));
+
   return (
     <div>
       <Table className="p-3 table-fit text-wrap tbl-color-text" responsive>

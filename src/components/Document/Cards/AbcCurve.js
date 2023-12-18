@@ -2,8 +2,6 @@ import React from "react";
 import { Button, Col } from "react-bootstrap";
 
 const AbcCurve = ({ obj, handleShowImageModal }) => {
-	// console.log("obj", obj.documentRequest.requiredPermission);
-
 	return (
 		<>
 			<Col

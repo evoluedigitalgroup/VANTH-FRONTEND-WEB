@@ -55,9 +55,7 @@ const NewMemberAdd = ({ show, handleClose, refresh, setRefresh }) => {
 
   const submitDocumentForm = () => {
     setLoading(true);
-    // console.log("formValues", formValues);
     contactForm(formValues).then((res) => {
-      //   console.log("first form", res);
       if (res.success) {
         toast.success(res.message);
         setLoading(false);

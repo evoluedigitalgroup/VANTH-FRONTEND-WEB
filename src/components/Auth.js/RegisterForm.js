@@ -27,9 +27,16 @@ const RegisterForm = ({
     setCompany(false);
   };
 
+  const onRegister = (e) => {
+    e.preventDefault();
+    const userType = company ? 'company' : 'member'
+    registerUser(e, userType);
+  }
+
+
   return (
     <div>
-      <form onSubmit={registerUser}>
+      <form onSubmit={onRegister}>
         <div className="mt-3 d-flex gap-5">
           <div>
             {company && (
@@ -164,7 +171,7 @@ const RegisterForm = ({
             <Col className="d-flex mt-1 justify-content-center">
               <Button
                 className="login-btn px-5 py-2 fw-bold fs-4"
-                onClick={registerUser}
+                onClick={onRegister}
                 disabled={loading}
                 type="submit"
               >
@@ -314,7 +321,7 @@ const RegisterForm = ({
             <Col className="d-flex mt-1 justify-content-center">
               <Button
                 className="login-btn px-5 py-2 fw-bold fs-4"
-                onClick={registerUser}
+                onClick={onRegister}
                 disabled={loading}
                 type="submit"
               >

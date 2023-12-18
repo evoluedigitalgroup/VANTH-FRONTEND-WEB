@@ -22,7 +22,7 @@ const GenerateLinkNew = ({
   switchesData,
   editSwitchesData = null,
 }) => {
-  // console.log("editData", editData);
+
   const [permission, setPermission] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -31,14 +31,11 @@ const GenerateLinkNew = ({
     generateNewLink().then((res) => {
       if (res.success) {
         setLoading(false);
-        // console.log("res", res);
         setPermission(res.data);
       } else {
         setLoading(false);
       }
     });
-
-    console.log("switchesData : ", switchesData);
   }, []);
 
   const [copyText, setCopyText] = useState(false);
@@ -67,7 +64,6 @@ const GenerateLinkNew = ({
     } else {
       const formDataVal = {};
       switchesData.map((obj) => {
-        console.log(obj.label + " : " + editData.docs[obj.label]);
         if (editData.docs[obj.label]) {
           if (editData.docs[obj.label].approved) {
             formDataVal[obj.label] = true;
@@ -83,19 +79,12 @@ const GenerateLinkNew = ({
   };
 
   useEffect(() => {
-    console.log("formValues : ", formValues);
-  }, [formValues]);
-
-  useEffect(() => {
     setFormValuesData();
-
-    console.log("editData : ", editData);
   }, []);
 
   const link = `${LINK_URL}${editData.id}/${editData.documentRequest.id}`;
 
   const handleCheck = (e) => {
-    console.log("e.target.name", e.target.name);
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.checked,
@@ -123,7 +112,7 @@ const GenerateLinkNew = ({
       }
     });
   };
-  // console.log("formValues", formValues);
+
   return (
     <div>
       <Modal

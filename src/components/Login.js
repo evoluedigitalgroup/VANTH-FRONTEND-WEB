@@ -26,13 +26,14 @@ const Login = () => {
     password: "",
   });
   const [registerFormValues, setRegisterFormValues] = useState({
+    companyName: "",
     code: "",
     designation: "",
     name: "",
     email: "",
     password: "",
   });
-  // console.log('registerFormValues', registerFormValues)
+
   const Login = () => {
     setLogin(true);
     setAccount(false);
@@ -57,14 +58,12 @@ const Login = () => {
   };
 
   const handleForm = (e) => {
-    // console.log("handleForm", e.target.value);
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.value,
     });
   };
   const handleRegisterForm = (e) => {
-    // console.log("handleForm", e.target.value);
     setRegisterFormValues({
       ...registerFormValues,
       [e.target.name]: e.target.value,
@@ -75,7 +74,6 @@ const Login = () => {
     event.preventDefault();
     setLoading(true);
     loginAdmin(formValues).then((res) => {
-      // console.log("res", res);
       if (res.success) {
         setLoading(false);
         localStorage.setItem("login", true);
@@ -93,14 +91,19 @@ const Login = () => {
       }
     });
   };
-  const registerUser = (event) => {
+  const registerUser = (event, userType) => {
+
     setLoading(true);
     event.preventDefault();
-    if (!registerFormValues.code) {
+
+    if (!registerFormValues.code && userType === 'member') {
       toast.error("Por favor insira o código");
       setLoading(false);
-    } else if (!registerFormValues.designation) {
+    } else if (!registerFormValues.designation && userType === 'member') {
       toast.error("Insira a designação");
+      setLoading(false);
+    } else if (!registerFormValues.companyName && userType === 'company') {
+      toast.error("Insira o nome da empresa");
       setLoading(false);
     } else if (!registerFormValues.name) {
       toast.error("Por favor, insira o nome");
@@ -119,7 +122,6 @@ const Login = () => {
       setLoading(false);
     } else {
       registerAdmin(registerFormValues).then((res) => {
-        // console.log("res", res);
         if (res.success) {
           setLoading(false);
           Login();
@@ -141,7 +143,6 @@ const Login = () => {
     const submitData = { code: registerFormValues.code };
 
     getDesignation(submitData).then((res) => {
-      // console.log("res", res);
       if (res.success) {
         setRegisterFormValues({
           ...registerFormValues,

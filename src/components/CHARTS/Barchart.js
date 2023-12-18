@@ -15,7 +15,6 @@ function BarChartVisitor() {
   const [focusBar, setFocusBar] = useState(null);
 
   const contactData = useRecoilValue(getAllChartData);
-  // console.log("contactData", contactData);
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -23,7 +22,6 @@ function BarChartVisitor() {
   const getData = () => {
     if (contactData?.chartDataStatus === "yearly") {
       data = contactData?.contactData?.map((obj) => {
-        // console.log("obj", obj);
         return {
           month: obj?.month,
           Contatos: obj?.count,
@@ -43,7 +41,6 @@ function BarChartVisitor() {
       });
     } else if (contactData?.chartDataStatus === "week") {
       data = contactData?.contactData?.map((obj) => {
-        // console.log("obj", obj);
         return {
           month: obj?.month,
           Contatos: obj?.count,
@@ -53,15 +50,6 @@ function BarChartVisitor() {
       });
     } else {
       if (contactData?.contactData?.length <= 30) {
-        // data = contactData?.contactData?.map((obj) => {
-        // 	return {
-        // 		month: obj?.month,
-        // 		Contatos: obj?.count,
-        // 		week: capitalizeFirstLetter(obj?.sortWeek?.charAt(0)),
-        // 		tooltipWeek: capitalizeFirstLetter(obj?.sortWeek),
-        // 		date: moment(obj?._id).format("DD-MM-YYYY"),
-        // 	};
-        // });
         function getWeekStart(date) {
           var offset = new Date(date).getDay();
           return new Date(new Date(date) - offset * 24 * 60 * 60 * 1000)
@@ -98,7 +86,6 @@ function BarChartVisitor() {
         data = groupWeeks(contactData?.contactData).filter(function (el) {
           return el != null;
         });
-        // console.log("30");
       } else if (
         contactData?.contactData?.length >= 30 &&
         contactData?.contactData?.length <= 60
@@ -138,7 +125,6 @@ function BarChartVisitor() {
         data = groupWeeks(contactData?.contactData).filter(function (el) {
           return el != null;
         });
-        // console.log("60");
       } else {
         function getMonthStart(date) {
           var offset = new Date(date).getMonth();
@@ -179,7 +165,6 @@ function BarChartVisitor() {
   getData();
 
   const CustomTooltip = ({ active, payload, label }) => {
-    // console.log("payload", payload);
     if (active && payload && payload.length) {
       return (
         <div className="custom-tooltip">
@@ -219,7 +204,6 @@ function BarChartVisitor() {
 
     return null;
   };
-  // console.log("data contact", data);
   return (
     <ResponsiveContainer width="100%" height={220}>
       <BarChart

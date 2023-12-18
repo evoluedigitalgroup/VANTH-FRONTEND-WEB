@@ -23,7 +23,6 @@ const Clients = () => {
   const [search, setSearch] = useState();
   const [newTableRow, setNewtableRow] = useState([]);
   const [table, setTable] = useRecoilState(contactTableData);
-  // console.log("search", search);
 
   useEffect(() => {
     setLoading(true);
@@ -31,7 +30,6 @@ const Clients = () => {
       search,
     };
     getContactList(submitData).then((res) => {
-      //   console.log("res contact :: ", res);
       if (res.success) {
         setTable(res.data.findData);
         setTableRow(res.data.findData);
@@ -43,17 +41,14 @@ const Clients = () => {
       }
     });
   }, [refresh]);
-  // console.log("tableRow", tableRow);
 
   const onEnter = (e) => {
     if (e.key === "Enter") {
-      // console.log("clicked enter");
       setLoading(true);
       const submitData = {
         search,
       };
       getContactList(submitData).then((res) => {
-        // console.log("res contact :: enter ", res);
         if (res.success) {
           setTableRow(res.data.findData);
           setLoading(false);
@@ -107,43 +102,6 @@ const Clients = () => {
     setshowNovaClientButtonClick(true);
   };
 
-  // const [documentTableData, setDocumentTableData] = useState([]);
-  // // console.log("documentTableData", documentTableData);
-
-  // const [editData, setEditData] = useState(null);
-  // // console.log("editData", editData);
-
-  // const [documentListData, setDocumentListData] = useState([]);
-  // // console.log("documentListData", documentListData);
-
-  // const getAllDocumentListData = async () => {
-  //   const documentList = await getAllDocumentsList();
-  //   setDocumentListData(documentList.data);
-  // };
-
-  // useEffect(() => {
-  //   getAllDocumentListData();
-  // }, []);
-
-  // useEffect(() => {
-  //   documentTableData.map((val) => {
-  //     setEditData(val);
-  //   });
-  // }, [documentTableData]);
-
-  // useEffect(() => {
-  //   const submitData = {
-  //     search,
-  //   };
-  //   getDocumentList(submitData).then((res) => {
-  //     if (res.success) {
-  //       setDocumentTableData(res.data.findContactData);
-  //     } else {
-  //       setDocumentTableData([]);
-  //     }
-  //   });
-  // }, []);
-
   return (
     <>
       <AfterAuth>
@@ -177,25 +135,22 @@ const Clients = () => {
           >
             <div className="">
               <Button
-                className={`fs-color mx-2 border-0 ${
-                  active.pending ? "activeBtnTable" : "inActiveBtnTable"
-                }`}
+                className={`fs-color mx-2 border-0 ${active.pending ? "activeBtnTable" : "inActiveBtnTable"
+                  }`}
                 onClick={(e) => handleToggle("Pending")}
               >
                 Pendentes
               </Button>
               <Button
-                className={`fs-color  mx-2 border-0 ${
-                  active.approved ? "activeBtnTable" : "inActiveBtnTable"
-                }`}
+                className={`fs-color  mx-2 border-0 ${active.approved ? "activeBtnTable" : "inActiveBtnTable"
+                  }`}
                 onClick={(e) => handleToggle("Approved")}
               >
                 Respondidas
               </Button>
               <Button
-                className={`fs-color px-4 border-0 ${
-                  active.all ? "activeBtnTable" : "inActiveBtnTable"
-                }`}
+                className={`fs-color px-4 border-0 ${active.all ? "activeBtnTable" : "inActiveBtnTable"
+                  }`}
                 onClick={(e) => handleToggle("All")}
               >
                 Todos

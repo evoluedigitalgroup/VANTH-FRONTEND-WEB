@@ -25,7 +25,6 @@ import PurchasePlan from "./components/PurchasePlan";
 function App() {
   const login = useRecoilValue(loginAtom);
   const permissions = login?.permissions;
-  // console.log("permissions", permissions);
   return (
     <>
       <ToastContainer position="top-center" />

@@ -25,7 +25,7 @@ const ContactTable = ({
   totalPage,
 }) => {
   const [openLinkModal, setOpenLinkModal] = useState(false);
-  // console.log("tableRow", tableRow);
+
   const [open, setOpen] = useState(false);
   const [id, setId] = useState(null);
   const [editData, setEditData] = useState(null);
@@ -37,27 +37,14 @@ const ContactTable = ({
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
   const [visitorId, setVisitorId] = useState(null);
-  // console.log('show', show)
 
-  // let ab = [];
-
-  // console.log("idArray", idArray);
   useEffect(() => {
     setTableData(tableRow);
-
-    // tableDataArray?.filter((obj, index) => {
-    // 	// console.log("obj", obj.contactApprove === "pending");
-    // 	if (obj.contactApprove === "pending") {
-    // 		setIdArray((old) => [...old, obj.id]);
-    // 	}
-    // });
   }, [tableRow]);
 
   const handleShowRow = (id) => {
     setId(id);
-    // console.log("id", id);
     setOpen(!open);
-    // const index = idArray.findIndex((i) => i === id);
     if (idArray.includes(id)) {
       var index = idArray.indexOf(id);
       if (index !== -1) {
@@ -66,8 +53,6 @@ const ContactTable = ({
     } else {
       setIdArray((old) => [...old, id]);
     }
-
-    // console.log("index ::", index);
   };
 
   const handleShowLinkModal = (val) => {
@@ -76,13 +61,11 @@ const ContactTable = ({
   };
 
   const handalShowTooltip = (event, id) => {
-    // console.log("id", id);
     setVisitorId(id);
     setShow(true);
     setTarget(event.target);
   };
 
-  // console.log("idArray", idArray);
   return (
     <div>
       {/* <Suspense fallback={<Loader />}> */}
@@ -184,12 +167,12 @@ const ContactTable = ({
                       obj.contactApprove === "pending"
                         ? "document-pending"
                         : obj.contactApprove === "rejected"
-                        ? "contact-wait"
-                        : "document-success"
+                          ? "contact-wait"
+                          : "document-success"
                     }
                     onClick={
                       obj.contactApprove !== "rejected" &&
-                      obj.contactApprove !== "approved"
+                        obj.contactApprove !== "approved"
                         ? (e) => handalShowTooltip(e, obj.id)
                         : null
                     }
@@ -197,8 +180,8 @@ const ContactTable = ({
                     {obj.contactApprove === "pending"
                       ? "Aguardando"
                       : obj.contactApprove === "rejected"
-                      ? "Reprovado"
-                      : "Aprovado"}
+                        ? "Reprovado"
+                        : "Aprovado"}
                   </Button>
                   {show && (
                     <ContactTooltip
@@ -214,48 +197,48 @@ const ContactTable = ({
                 </td>
                 {
                   obj.contactApprove === "pending" &&
-                    (idArray.includes(obj.id) ? (
-                      <div
-                        className="d-flex justify-content-end"
-                        style={{
-                          position: "absolute",
-                          top: "45%",
-                          right: "0%",
-                          paddingRight: "1%",
-                          marginRight: "2px",
-                        }}
+                  (idArray.includes(obj.id) ? (
+                    <div
+                      className="d-flex justify-content-end"
+                      style={{
+                        position: "absolute",
+                        top: "45%",
+                        right: "0%",
+                        paddingRight: "1%",
+                        marginRight: "2px",
+                      }}
+                    >
+                      <h6
+                        style={{ color: "#B5B6B7" }}
+                        className="d-flex mt-1 align-items-center"
                       >
-                        <h6
-                          style={{ color: "#B5B6B7" }}
-                          className="d-flex mt-1 align-items-center"
-                        >
-                          Entrar em contato por:
-                        </h6>
-                        <div className="ps-3">
-                          {obj?.phone && (
-                            <Button
+                        Entrar em contato por:
+                      </h6>
+                      <div className="ps-3">
+                        {obj?.phone && (
+                          <Button
+                            style={{
+                              background: "#1C3D59",
+                            }}
+                            className="border-0"
+                          >
+                            <a
+                              href={`https://wa.me/${obj.phone}`}
+                              target="_blank"
                               style={{
-                                background: "#1C3D59",
+                                textDecoration: "none",
+                                color: "#fff",
                               }}
-                              className="border-0"
                             >
-                              <a
-                                href={`https://wa.me/${obj.phone}`}
-                                target="_blank"
-                                style={{
-                                  textDecoration: "none",
-                                  color: "#fff",
-                                }}
-                              >
-                                <i className="bi bi-whatsapp"></i>
-                              </a>
-                            </Button>
-                          )}
-                        </div>
+                              <i className="bi bi-whatsapp"></i>
+                            </a>
+                          </Button>
+                        )}
                       </div>
-                    ) : (
-                      ""
-                    ))
+                    </div>
+                  ) : (
+                    ""
+                  ))
                   // </div>
                 }
               </tr>

@@ -25,15 +25,12 @@ const Documents = () => {
   const [idArray, setIdArray] = useState([]);
   const [show, setShow] = useState(false);
 
-  // console.log('search', search)
-
   useEffect(() => {
     setLoading(true);
     const submitData = {
       search,
     };
     getDocumentList(submitData).then((res) => {
-      //   console.log("res contact :: ", res);
       if (res.success) {
         setTable(res.data.findContactData);
         setTableRow(res.data.findContactData);
@@ -50,13 +47,11 @@ const Documents = () => {
 
   const onEnter = (e) => {
     if (e.key === "Enter") {
-      // console.log("clicked enter");
       setLoading(true);
       const submitData = {
         search,
       };
       getDocumentList(submitData).then((res) => {
-        console.log("res contact :: ", res);
         if (res.success) {
           setTableRow(res.data.findContactData);
           setLoading(false);
@@ -136,25 +131,22 @@ const Documents = () => {
               search={search}
             >
               <Button
-                className={`fs-color  mx-1 border-0 ${
-                  active.approved ? "activeBtnTable" : "inActiveBtnTable"
-                }`}
+                className={`fs-color  mx-1 border-0 ${active.approved ? "activeBtnTable" : "inActiveBtnTable"
+                  }`}
                 onClick={(e) => handleToggle("Approved")}
               >
                 Concluídos
               </Button>
               <Button
-                className={`fs-color  mx-1 border-0 ${
-                  active.pending ? "activeBtnTable" : "inActiveBtnTable"
-                }`}
+                className={`fs-color  mx-1 border-0 ${active.pending ? "activeBtnTable" : "inActiveBtnTable"
+                  }`}
                 onClick={(e) => handleToggle("Pending")}
               >
                 Pendentes
               </Button>
               <Button
-                className={`fs-color px-4 mx-1 border-0 ${
-                  active.all ? "activeBtnTable" : "inActiveBtnTable"
-                }`}
+                className={`fs-color px-4 mx-1 border-0 ${active.all ? "activeBtnTable" : "inActiveBtnTable"
+                  }`}
                 onClick={(e) => handleToggle("All")}
               >
                 Todas

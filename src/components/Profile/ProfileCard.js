@@ -32,7 +32,6 @@ const ProfileCard = ({
       search,
     };
     profileHistory(submitData).then((res) => {
-      // console.log("res hello", res);
       if (res.success) {
         setLoading(false);
         setTableRow(res.data);
@@ -50,7 +49,6 @@ const ProfileCard = ({
         search,
       };
       profileHistory(submitData).then((res) => {
-        // console.log("res hello", res);
         if (res.success) {
           setLoading(false);
           setTableRow(res.data);
@@ -61,7 +59,6 @@ const ProfileCard = ({
       });
     }
   };
-  // console.log("tableRow", tableRow);
 
   return (
     <div>

@@ -43,7 +43,6 @@ const DocumentCrad = () => {
   const [pageNumber, setPageNumber] = useState(1);
 
   function onDocumentLoadSuccess({ numPages }) {
-    // console.log("numPages", numPages);
     setNumPages(numPages);
   }
   // *******************NEW PDF PREVIEW ************ //
@@ -54,10 +53,6 @@ const DocumentCrad = () => {
     const documentList = await getAllDocumentsList();
     setDocumentListData(documentList.data);
   };
-
-  useEffect(() => {
-    console.log("data", data);
-  }, [data]);
 
   useEffect(() => {
     getAllDocumentsListData();
@@ -88,8 +83,6 @@ const DocumentCrad = () => {
       }
     }
   };
-
-  // console.log("images", images);
 
   const handleSubmit = () => {
     setLoading(true);

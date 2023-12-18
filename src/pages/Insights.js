@@ -51,7 +51,6 @@ const Insights = () => {
     setCardLoading(true);
     const submitData = { filter: status };
     getChartData(submitData).then((res) => {
-      // console.log("res chartData", res);
       if (res.success) {
         setCardLoading(false);
         setRecoilChartData({
@@ -69,7 +68,6 @@ const Insights = () => {
       search: "",
     };
     getContactList(submitData).then((res) => {
-      //   console.log("res contact :: ", res);
       if (res.success) {
         setTableRow(res.data.findData);
         setLoading(false);
@@ -127,19 +125,13 @@ const Insights = () => {
       return setCardLoading(false);
     }
   };
-  // console.log("status", status);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
   const onChange = (dates) => {
-    // const [start, end] = dates;
-    // console.log("dates", dates);
     setStartDate(dates[0]);
     setEndDate(dates[1]);
   };
   const handleCalendarClose = () => {
-    // setCardLoading(true);
-    // setStartDate(moment(startDate).format("YYYY-MM-DD"));
-    // setEndDate(moment(endDate).format("YYYY-MM-DD"));
     const submitData = {
       filter: {
         startDate: moment(startDate).format("YYYY-MM-DD"),
@@ -150,13 +142,6 @@ const Insights = () => {
     const diffTime = Math.abs(new Date(startDate) - new Date(endDate));
 
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    // console.log("recoilChartData ::::", recoilChartData);
-    // console.log("diffDays+ ::::", diffDays);
-    // console.log("endDate+ ::::", endDate);
-    // console.log("startDate+ ::::", startDate);
-
-    // console.log("called endDate", endDate);
     if (
       !submitData?.filter?.startDate ||
       submitData?.filter?.startDate === "Invalid date" ||
@@ -168,9 +153,7 @@ const Insights = () => {
     } else if (diffDays >= 30) {
       toast.error("Please  select only 30 days");
     } else {
-      // console.log("called 1");
       getChartData(submitData).then((res) => {
-        // console.log("res chartData", res);
         if (res.success) {
           setCardLoading(false);
           setStartDate(new Date());
@@ -189,9 +172,8 @@ const Insights = () => {
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <div onClick={(e) => handleToggle("date")}>
       <Button
-        className={`fs-color  mx-1 example-custom-input border-class ${
-          active.date ? "activeBtnTable" : "inActiveBtnTable"
-        }`}
+        className={`fs-color  mx-1 example-custom-input border-class ${active.date ? "activeBtnTable" : "inActiveBtnTable"
+          }`}
         style={{ border: "5px solid #000 !important" }}
         onClick={onClick}
         ref={ref}
@@ -229,25 +211,22 @@ const Insights = () => {
                     <InputGroup></InputGroup>
                   </Nav>
                   <Button
-                    className={`fs-color  mx-1 border-0 ${
-                      active.year ? "activeBtnTable" : "inActiveBtnTable"
-                    }`}
+                    className={`fs-color  mx-1 border-0 ${active.year ? "activeBtnTable" : "inActiveBtnTable"
+                      }`}
                     onClick={(e) => handleToggle("yearly")}
                   >
                     Ano
                   </Button>
                   <Button
-                    className={`fs-color  mx-1 border-0 ${
-                      active.month ? "activeBtnTable" : "inActiveBtnTable"
-                    }`}
+                    className={`fs-color  mx-1 border-0 ${active.month ? "activeBtnTable" : "inActiveBtnTable"
+                      }`}
                     onClick={(e) => handleToggle("monthly")}
                   >
                     Mês
                   </Button>
                   <Button
-                    className={`fs-color  mx-1 border-0 ${
-                      active.week ? "activeBtnTable" : "inActiveBtnTable"
-                    }`}
+                    className={`fs-color  mx-1 border-0 ${active.week ? "activeBtnTable" : "inActiveBtnTable"
+                      }`}
                     onClick={(e) => handleToggle("week")}
                   >
                     Semana
@@ -315,10 +294,10 @@ const Insights = () => {
                             <img
                               className="graphFirstImg"
                               src="/assets/img/newEye.svg"
-                              // style={{
-                              //   height: "5rem",
-                              //   width: "5rem",
-                              // }}
+                            // style={{
+                            //   height: "5rem",
+                            //   width: "5rem",
+                            // }}
                             />
                           </Col>
                           <Col
@@ -355,13 +334,13 @@ const Insights = () => {
                               style={{
                                 color:
                                   recoilChartData?.growth?.visitorIndication ===
-                                  "increment"
+                                    "increment"
                                     ? "#58A43D"
                                     : "#A43D3D",
                               }}
                             >
                               {recoilChartData?.growth?.visitorIndication ===
-                              "increment" ? (
+                                "increment" ? (
                                 <img src="assets/img/up.png" className="px-1" />
                               ) : (
                                 <img
@@ -379,7 +358,7 @@ const Insights = () => {
                             >
                               {recoilChartData?.growth?.visitor.slice(
                                 recoilChartData?.growth?.visitor.indexOf(" ") +
-                                  1
+                                1
                               )}
                             </div>
                           </div>
@@ -415,10 +394,10 @@ const Insights = () => {
                             <img
                               className="graphFirstImg"
                               src="/assets/img/newFile.svg"
-                              // style={{
-                              //   height: "5rem",
-                              //   width: "5rem",
-                              // }}
+                            // style={{
+                            //   height: "5rem",
+                            //   width: "5rem",
+                            // }}
                             />
                           </Col>
                           <Col
@@ -456,13 +435,13 @@ const Insights = () => {
                               style={{
                                 color:
                                   recoilChartData?.growth?.contactIndication ===
-                                  "increment"
+                                    "increment"
                                     ? "#58A43D"
                                     : "#A43D3D",
                               }}
                             >
                               {recoilChartData?.growth?.contactIndication ===
-                              "increment" ? (
+                                "increment" ? (
                                 <img src="assets/img/up.png" className="px-1" />
                               ) : (
                                 <img
@@ -480,7 +459,7 @@ const Insights = () => {
                             >
                               {recoilChartData?.growth?.contact.slice(
                                 recoilChartData?.growth?.contact.indexOf(" ") +
-                                  1
+                                1
                               )}
                             </div>
                           </div>
@@ -515,10 +494,10 @@ const Insights = () => {
                             <img
                               className="graphFirstImg"
                               src="/assets/img/newFile.svg"
-                              // style={{
-                              //   height: "5rem",
-                              //   width: "5rem",
-                              // }}
+                            // style={{
+                            //   height: "5rem",
+                            //   width: "5rem",
+                            // }}
                             />
                           </Col>
                           <Col
@@ -556,13 +535,13 @@ const Insights = () => {
                               style={{
                                 color:
                                   recoilChartData?.growth?.contactIndication ===
-                                  "increment"
+                                    "increment"
                                     ? "#58A43D"
                                     : "#A43D3D",
                               }}
                             >
                               {recoilChartData?.growth?.contactIndication ===
-                              "increment" ? (
+                                "increment" ? (
                                 <img src="assets/img/up.png" className="px-1" />
                               ) : (
                                 <img
@@ -580,7 +559,7 @@ const Insights = () => {
                             >
                               {recoilChartData?.growth?.contact.slice(
                                 recoilChartData?.growth?.contact.indexOf(" ") +
-                                  1
+                                1
                               )}
                             </div>
                           </div>

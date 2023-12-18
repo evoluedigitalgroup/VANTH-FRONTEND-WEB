@@ -37,7 +37,6 @@ export const approvedDocumentList = (submitData) => {
 };
 
 export const getDocument = (submitData) => {
-  // console.log("submitData", submitData);
   return new Promise((resolve, reject) => {
     ApiCall(GET_DOCUMENT_DETAIL, "post", submitData)
       .then((res) => {
@@ -50,7 +49,6 @@ export const getDocument = (submitData) => {
 };
 
 export const submitDocument = (submitData) => {
-  // console.log("submitData", submitData);
   return new Promise((resolve, reject) => {
     ApiCall(SUBMIT_DOCUMENT, "post", submitData)
       .then((res) => {
@@ -63,7 +61,6 @@ export const submitDocument = (submitData) => {
 };
 
 export const submitAddressDocument = (submitData) => {
-  // console.log("submitData", submitData);
   return new Promise((resolve, reject) => {
     ApiCall(APPROVE_ADDRESS_PROOF, "post", submitData)
       .then((res) => {

@@ -12,7 +12,7 @@ const GenerateLinkModal = ({
   refresh,
   setRefresh,
 }) => {
-  // console.log("editData", editData);
+
   const [copyText, setCopyText] = useState(false);
   const [formValues, setFormValues] = useState({
     CNPJ: true,
@@ -31,7 +31,6 @@ const GenerateLinkModal = ({
   };
 
   const submitForm = (e) => {
-    // console.log("editData", editData);
     const submitData = {
       permission: {
         ...formValues,
@@ -40,7 +39,6 @@ const GenerateLinkModal = ({
       requestId: editData.documentRequest.id,
       generateLink: link,
     };
-    // console.log("submitData", submitData);
     generateLink(submitData).then((res) => {
       if (res.success) {
         setRefresh(refresh + 1);
@@ -52,17 +50,6 @@ const GenerateLinkModal = ({
       }
     });
   };
-
-  // const handleCopy = (code) => {
-  // 	if (code) {
-  // 		copy(code);
-  // 		setCopyText(true);
-  // 		setTimeout(() => {
-  // 			setCopyText(false);
-  // 			console.log("called time out");
-  // 		}, 1000);
-  // 	}
-  // };
 
   return (
     <div>

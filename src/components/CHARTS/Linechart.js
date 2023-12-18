@@ -81,12 +81,11 @@ const Linechart = () => {
           });
         }
 
-        // console.log("fdsf", groupWeeks(visitorData?.visitorData));
+
         data = groupWeeks(visitorData?.visitorData).filter(function (el) {
           return el != null;
         });
-        // console.log("30");
-        // console.log("data ::;: 30 ", data);
+
       } else if (
         visitorData?.visitorData?.length >= 30 &&
         visitorData?.visitorData?.length <= 60
@@ -123,13 +122,12 @@ const Linechart = () => {
           });
         }
 
-        // console.log("fdsf", groupWeeks(visitorData?.visitorData));
         data = groupWeeks(visitorData?.visitorData).filter(function (el) {
           return el != null;
         });
-        // console.log("60");
+
       } else {
-        // console.log("60+");
+
         function getMonthStart(date) {
           var offset = new Date(date).getMonth();
           return new Date(new Date(date) - offset);
@@ -166,9 +164,6 @@ const Linechart = () => {
     }
   };
   getData();
-
-  // console.log("organizedTransactions", organizedTransactions);
-  // console.log("visitorLineChart", data);
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {

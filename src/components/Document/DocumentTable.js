@@ -49,7 +49,6 @@ const DocumentTable = ({
   };
 
   useEffect(() => {
-    console.log("tableData : ", tableData);
     setTableData(tableRow);
     getAllDocumentListData();
   }, [tableRow]);
@@ -63,11 +62,10 @@ const DocumentTable = ({
   };
 
   const handleShowLinkModal = (val) => {
-    console.log("clicked");
     setOpenLinkModal(true);
     setEditData(val);
   };
-  // console.log("idArray.includes(id)", idArray);
+
   const getRequiredLength = (obj) => {
     return Object.values(obj?.documentRequest?.requiredPermission).filter(
       (val) => val
@@ -83,26 +81,26 @@ const DocumentTable = ({
         getRequiredLength(obj) >= 4 &&
         getRequiredLength(obj) <= 6 &&
         getRequiredLength(obj) !== 0
-      ? "row-height2"
-      : idArray.includes(obj.id) &&
-        getRequiredLength(obj) >= 14 &&
-        getRequiredLength(obj) !== 0
-      ? "row-height"
-      : idArray.includes(obj.id) &&
-        getRequiredLength(obj) >= 6 &&
-        getRequiredLength(obj) <= 9
-      ? "row-height3"
-      : idArray.includes(obj.id) &&
-        getRequiredLength(obj) >= 9 &&
-        getRequiredLength(obj) <= 12
-      ? "row-height4"
-      : idArray.includes(obj.id) &&
-        getRequiredLength(obj) >= 12 &&
-        getRequiredLength(obj) <= 14
-      ? "row-height6"
-      : idArray.includes(obj.id) && getRequiredLength(obj) === 0
-      ? "row-height5"
-      : "";
+        ? "row-height2"
+        : idArray.includes(obj.id) &&
+          getRequiredLength(obj) >= 14 &&
+          getRequiredLength(obj) !== 0
+          ? "row-height"
+          : idArray.includes(obj.id) &&
+            getRequiredLength(obj) >= 6 &&
+            getRequiredLength(obj) <= 9
+            ? "row-height3"
+            : idArray.includes(obj.id) &&
+              getRequiredLength(obj) >= 9 &&
+              getRequiredLength(obj) <= 12
+              ? "row-height4"
+              : idArray.includes(obj.id) &&
+                getRequiredLength(obj) >= 12 &&
+                getRequiredLength(obj) <= 14
+                ? "row-height6"
+                : idArray.includes(obj.id) && getRequiredLength(obj) === 0
+                  ? "row-height5"
+                  : "";
   };
 
   return (
@@ -174,66 +172,66 @@ const DocumentTable = ({
                       obj.allStatus === "pending"
                         ? "document-pending"
                         : obj.allStatus === "wait"
-                        ? "document-wait"
-                        : "document-success"
+                          ? "document-wait"
+                          : "document-success"
                     }
                   >
                     {obj.allStatus === "pending"
                       ? "Aguard. doc."
                       : obj.allStatus === "wait"
-                      ? "Aguard. rev."
-                      : "Concluído"}
+                        ? "Aguard. rev."
+                        : "Concluído"}
                   </Button>
                 </td>
                 {(obj.allStatus === "pending" ||
                   obj.allStatus === "wait" ||
                   obj.allStatus === "approved") && (
-                  <div>
-                    {idArray.includes(obj.id) ? (
-                      <Row
-                        className="position-absolute mt-5 my-2"
-                        style={{
-                          left: "0",
-                          bottom: "0",
-                          width: "100%",
-                          top: "0",
-                        }}
-                      >
-                        <>
-                          <TableRowDocument
-                            obj={obj}
-                            permission={
-                              obj?.documentRequest?.requiredPermission
-                            }
-                            documentListData={documentListData}
-                            handleShowImageModal={handleShowImageModal}
-                          />
-                          <GenerateLinkBtn
-                            onClick={() => handleShowLinkModal(obj)}
-                            obj={obj}
-                            md={12}
-                          />
-                        </>
-                        {obj.allStatus === "approved" && (
-                          <Row>
-                            <Col
-                              className="d-flex justify-content-center mt-2 ms-4"
-                              style={{
-                                color: "#C4CCD2",
-                                fontSize: "12px",
-                              }}
-                            >
-                              Responsável por esse cliente:
-                              {adminName.name}
-                            </Col>
-                          </Row>
-                        )}
-                      </Row>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                )}
+                    <div>
+                      {idArray.includes(obj.id) ? (
+                        <Row
+                          className="position-absolute mt-5 my-2"
+                          style={{
+                            left: "0",
+                            bottom: "0",
+                            width: "100%",
+                            top: "0",
+                          }}
+                        >
+                          <>
+                            <TableRowDocument
+                              obj={obj}
+                              permission={
+                                obj?.documentRequest?.requiredPermission
+                              }
+                              documentListData={documentListData}
+                              handleShowImageModal={handleShowImageModal}
+                            />
+                            <GenerateLinkBtn
+                              onClick={() => handleShowLinkModal(obj)}
+                              obj={obj}
+                              md={12}
+                            />
+                          </>
+                          {obj.allStatus === "approved" && (
+                            <Row>
+                              <Col
+                                className="d-flex justify-content-center mt-2 ms-4"
+                                style={{
+                                  color: "#C4CCD2",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                Responsável por esse cliente:
+                                {adminName.name}
+                              </Col>
+                            </Row>
+                          )}
+                        </Row>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  )}
               </tr>
             ))}
           </tbody>

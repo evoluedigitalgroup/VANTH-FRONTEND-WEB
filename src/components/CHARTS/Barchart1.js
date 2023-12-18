@@ -82,7 +82,6 @@ function BarChartCounter() {
           }, []);
 
           return groupsByWeekNumber.map(function (group) {
-            // console.log("group", group);
             return {
               weekStart: getWeekStart(group[0]._id),
               week: capitalizeFirstLetter(group[0]?.sortWeek),
@@ -137,7 +136,6 @@ function BarChartCounter() {
           return el != null;
         });
       } else {
-        // console.log("60+");
         function getMonthStart(date) {
           var offset = new Date(date).getMonth();
           return new Date(new Date(date) - offset);
@@ -159,7 +157,6 @@ function BarChartCounter() {
           }, []);
 
           return groupsByMonthNumber?.map(function (group) {
-            // console.log("group", group);
             return {
               week: moment(getMonthStart(group[0]._id)).format("DD-MM-YYYY"),
               month: group?.month,
@@ -179,7 +176,6 @@ function BarChartCounter() {
   getData();
 
   const CustomTooltip = ({ active, payload, label }) => {
-    // console.log("payload", payload);
     if (active && payload && payload.length) {
       return (
         <div className="custom-tooltip">
@@ -221,7 +217,7 @@ function BarChartCounter() {
 
     return null;
   };
-  // console.log("data", data);
+
   return (
     <ResponsiveContainer width="100%" height={220}>
       <BarChart

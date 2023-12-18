@@ -15,13 +15,12 @@ export const adminPaginationData = selectorFamily({
 	key: "adminPaginationData",
 	get:
 		(search = null) =>
-		async ({ get, set }) => {
-			get(toReloadAdminData);
-			const currentPage = get(adminActivePageAtom);
-			const apiData = await permissonTable(currentPage, search);
-			console.log("apiData", apiData);
-			return apiData.data;
-		},
+			async ({ get, set }) => {
+				get(toReloadAdminData);
+				const currentPage = get(adminActivePageAtom);
+				const apiData = await permissonTable(currentPage, search);
+				return apiData.data;
+			},
 });
 
 export const adminPrevPageSelector = selector({
@@ -37,11 +36,11 @@ export const adminNextPageSelector = selectorFamily({
 	key: "adminNextPage",
 	get:
 		(totalPages) =>
-		({ get }) => {
-			return get(adminActivePageAtom) == totalPages && totalPages
-				? null
-				: get(adminActivePageAtom) + 1;
-		},
+			({ get }) => {
+				return get(adminActivePageAtom) == totalPages && totalPages
+					? null
+					: get(adminActivePageAtom) + 1;
+			},
 });
 
 export const adminShowFirstPageSelector = selector({
@@ -55,9 +54,9 @@ export const adminShowLastPageSelector = selectorFamily({
 	key: "adminShowLastPage",
 	get:
 		(totalPages) =>
-		({ get }) => {
-			return get(adminActivePageAtom) == totalPages && totalPages
-				? false
-				: true;
-		},
+			({ get }) => {
+				return get(adminActivePageAtom) == totalPages && totalPages
+					? false
+					: true;
+			},
 });

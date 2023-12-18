@@ -170,7 +170,6 @@ const PermissonTable = ({ tableRow, refresh, setRefresh }) => {
 	}, [currentPage]);
 
 	const handleClick = (event, val, type, prmsn) => {
-		// console.log("id", type);
 		setShow(!show);
 		setTarget(event.target);
 		setEditData({
@@ -184,7 +183,6 @@ const PermissonTable = ({ tableRow, refresh, setRefresh }) => {
 		setShow(false);
 	};
 
-	// console.log(tableRow);
 	return (
 		<div>
 			<Table

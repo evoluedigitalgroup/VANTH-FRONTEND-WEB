@@ -14,7 +14,7 @@ import { getAllChartData } from "../../recoil/Atoms";
 
 const Linechart = () => {
   const contactData = useRecoilValue(getAllChartData);
-  // console.log("contactData", contactData);
+
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -51,7 +51,6 @@ const Linechart = () => {
       });
     } else {
       if (contactData?.contactData?.length <= 30) {
-        // console.log("30");
 
         // data = contactData?.contactData?.map((obj) => {
         // 	return {
@@ -94,7 +93,6 @@ const Linechart = () => {
           });
         }
 
-        // console.log("fdsf", groupWeeks(contactData?.contactData));
         data = groupWeeks(contactData?.contactData).filter(function (el) {
           return el != null;
         });
@@ -134,7 +132,6 @@ const Linechart = () => {
           });
         }
 
-        // console.log("fdsf", groupWeeks(contactData?.contactData));
         data = groupWeeks(contactData?.contactData).filter(function (el) {
           return el != null;
         });
@@ -176,7 +173,7 @@ const Linechart = () => {
   };
   getData();
   const CustomTooltip = ({ active, payload, label }) => {
-    // console.log("payload", payload);
+
     if (active && payload && payload.length) {
       return (
         <div className="custom-tooltip">

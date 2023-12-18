@@ -39,7 +39,6 @@ export const generateLink = (submitData) => {
 };
 
 export const contactForm = (submitData) => {
-  // console.log("submitData", submitData);
   return new Promise((resolve, reject) => {
     ApiCall(CONTACT_FORM, "post", submitData)
       .then((res) => {
@@ -76,7 +75,6 @@ export const getAllDocumentsList = () => {
 };
 
 export const attachDocument = (submitData) => {
-  // console.log("submitData", submitData);
   return new Promise((resolve, reject) => {
     ApiCall(ATTACH_DOCUMENT, "post", submitData)
       .then((res) => {
@@ -89,7 +87,6 @@ export const attachDocument = (submitData) => {
 };
 
 export const approveVisitor = (submitData) => {
-  // console.log("submitData", submitData);
   return new Promise((resolve, reject) => {
     ApiCall(APPROVE_VISITOR, "post", submitData)
       .then((res) => {

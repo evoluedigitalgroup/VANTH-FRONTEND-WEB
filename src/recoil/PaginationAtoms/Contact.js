@@ -15,13 +15,12 @@ export const contactPaginationData = selectorFamily({
 	key: "contactPaginationData",
 	get:
 		(search = null) =>
-		async ({ get, set }) => {
-			get(toReloadContactData);
-			const currentPage = get(contactActivePageAtom);
-			const apiData = await getContactList(currentPage, search);
-			console.log("apiData", apiData);
-			return apiData.data;
-		},
+			async ({ get, set }) => {
+				get(toReloadContactData);
+				const currentPage = get(contactActivePageAtom);
+				const apiData = await getContactList(currentPage, search);
+				return apiData.data;
+			},
 });
 
 export const contactPrevPageSelector = selector({
@@ -37,11 +36,11 @@ export const contactNextPageSelector = selectorFamily({
 	key: "contactNextPage",
 	get:
 		(totalPages) =>
-		({ get }) => {
-			return get(contactActivePageAtom) == totalPages && totalPages
-				? null
-				: get(contactActivePageAtom) + 1;
-		},
+			({ get }) => {
+				return get(contactActivePageAtom) == totalPages && totalPages
+					? null
+					: get(contactActivePageAtom) + 1;
+			},
 });
 
 export const contactShowFirstPageSelector = selector({
@@ -55,9 +54,9 @@ export const contactShowLastPageSelector = selectorFamily({
 	key: "contactShowLastPage",
 	get:
 		(totalPages) =>
-		({ get }) => {
-			return get(contactActivePageAtom) == totalPages && totalPages
-				? false
-				: true;
-		},
+			({ get }) => {
+				return get(contactActivePageAtom) == totalPages && totalPages
+					? false
+					: true;
+			},
 });

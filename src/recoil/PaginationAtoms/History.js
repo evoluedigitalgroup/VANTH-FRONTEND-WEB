@@ -15,13 +15,12 @@ export const historyPaginationData = selectorFamily({
 	key: "historyPaginationData",
 	get:
 		(search = null) =>
-		async ({ get, set }) => {
-			get(toReloadHistoryData);
-			const currentPage = get(historyActivePageAtom);
-			const apiData = await profileHistory(currentPage, search);
-			console.log("apiData", apiData);
-			return apiData.data;
-		},
+			async ({ get, set }) => {
+				get(toReloadHistoryData);
+				const currentPage = get(historyActivePageAtom);
+				const apiData = await profileHistory(currentPage, search);
+				return apiData.data;
+			},
 });
 
 export const historyPrevPageSelector = selector({
@@ -37,11 +36,11 @@ export const historyNextPageSelector = selectorFamily({
 	key: "historyNextPage",
 	get:
 		(totalPages) =>
-		({ get }) => {
-			return get(historyActivePageAtom) == totalPages && totalPages
-				? null
-				: get(historyActivePageAtom) + 1;
-		},
+			({ get }) => {
+				return get(historyActivePageAtom) == totalPages && totalPages
+					? null
+					: get(historyActivePageAtom) + 1;
+			},
 });
 
 export const historyShowFirstPageSelector = selector({
@@ -55,9 +54,9 @@ export const historyShowLastPageSelector = selectorFamily({
 	key: "historyShowLastPage",
 	get:
 		(totalPages) =>
-		({ get }) => {
-			return get(historyActivePageAtom) == totalPages && totalPages
-				? false
-				: true;
-		},
+			({ get }) => {
+				return get(historyActivePageAtom) == totalPages && totalPages
+					? false
+					: true;
+			},
 });

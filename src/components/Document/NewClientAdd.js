@@ -48,66 +48,9 @@ const NewClientAdd = ({
     });
   };
 
-  // const link = `${LINK_URL}${editData.id}/${editData.documentRequest.id}`;
-
-  // const [formData, setFormData] = useState({});
-
-  // const handleCheck = (e) => {
-  //   console.log("e.target.name", e.target.name);
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.checked,
-  //   });
-  // };
-
-  // const setFormValuesData = async () => {
-  //   if (editSwitchesData) {
-  //     const editSwitchesDataCopy = {};
-  //     Object.keys(editSwitchesData).map((key) => {
-  //       if (editData.docs[key]) {
-  //         if (editData.docs[key].approved) {
-  //           editSwitchesDataCopy[key] = true;
-  //         } else {
-  //           editSwitchesDataCopy[key] = false;
-  //         }
-  //       } else {
-  //         editSwitchesDataCopy[key] = false;
-  //       }
-  //       if (editSwitchesData[key] === true) {
-  //         editSwitchesDataCopy[key] = true;
-  //       }
-  //     });
-  //     setFormData(editSwitchesDataCopy);
-  //   } else {
-  //     const formDataVal = {};
-  //     switchesData.map((obj) => {
-  //       console.log(obj.label + " : " + editData.docs[obj.label]);
-  //       if (editData.docs[obj.label]) {
-  //         if (editData.docs[obj.label].approved) {
-  //           formDataVal[obj.label] = true;
-  //         } else {
-  //           formDataVal[obj.label] = false;
-  //         }
-  //       } else {
-  //         formDataVal[obj.label] = false;
-  //       }
-  //     });
-  //     setFormData(formDataVal);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   console.log("formData", formData);
-  // }, [formData]);
-
-  // useEffect(() => {
-  //   setFormValuesData();
-  // }, []);
-
   const handleSubmitData = () => {
     setLoading(true);
     contactForm(formValues).then((res) => {
-      //   console.log("first form", res);
       if (res.success) {
         toast.success(res.message);
         setLoading(false);

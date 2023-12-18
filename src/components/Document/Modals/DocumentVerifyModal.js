@@ -31,7 +31,6 @@ const DocumentVerifyModal = ({
 				toast.error(res.message);
 			}
 		});
-		// console.log("submitData", submitData);
 	};
 	pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 

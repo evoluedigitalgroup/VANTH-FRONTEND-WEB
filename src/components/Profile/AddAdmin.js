@@ -19,7 +19,6 @@ const AddAdmin = ({ open, handleClose }) => {
 
   useEffect(() => {
     generateCode().then((res) => {
-      // console.log("res code", res);
       if (res.success) {
         setCode(res.data);
       }
@@ -37,7 +36,6 @@ const AddAdmin = ({ open, handleClose }) => {
       code,
     };
     inviteAdmin(submitData).then((res) => {
-      // console.log("res invite admin", res);
       if (res.success) {
         toast.success(res.message);
         copy(code);
@@ -46,19 +44,7 @@ const AddAdmin = ({ open, handleClose }) => {
         toast.error(res.message);
       }
     });
-    // console.log("submitData", submitData);
   };
-
-  // const handleCopy = (code) => {
-  // 	if (code) {
-  // 		copy(code);
-  // 		setCopyText(true);
-  // 		setTimeout(() => {
-  // 			setCopyText(false);
-  // 			console.log("called time out");
-  // 		}, 1000);
-  // 	}
-  // };
 
   return (
     <>

@@ -15,7 +15,6 @@ const ImageUploadModal = ({
   refresh,
   setRefresh,
 }) => {
-  // console.log("document.type", document.type);
 
   const [reload, setReload] = useState(false);
 

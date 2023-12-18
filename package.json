@@ -26,6 +26,7 @@
     "recharts": "^2.2.0",
     "recoil": "^0.7.6",
     "recoil-persist": "^4.2.0",
+    "styled-components": "^6.1.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -21,7 +21,6 @@ const GenerateLinkModal = ({
 	});
 
 	const link = `${LINK_URL}${editData.id}/${editData.documentRequest.id}`;
-	// console.log("link", link);
 
 	const handleCheck = (e) => {
 		setFormValues({
@@ -50,17 +49,6 @@ const GenerateLinkModal = ({
 			}
 		});
 	};
-
-	// const handleCopy = (code) => {
-	// 	if (code) {
-	// 		copy(code);
-	// 		setCopyText(true);
-	// 		setTimeout(() => {
-	// 			setCopyText(false);
-	// 			console.log("called time out");
-	// 		}, 1000);
-	// 	}
-	// };
 
 	return (
 		<div>

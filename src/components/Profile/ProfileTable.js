@@ -9,7 +9,6 @@ const ProfileTable = ({ tableRow }) => {
 	useEffect(() => {
 		setTableData(tableRow);
 	}, [tableRow]);
-	// console.log("tableRow", tableRow);
 
 	let PageSize = 10;
 	const [currentPage, setCurrentPage] = useState(1);
@@ -19,8 +18,6 @@ const ProfileTable = ({ tableRow }) => {
 		const lastPageIndex = firstPageIndex + PageSize;
 		return tableData.slice(firstPageIndex, lastPageIndex);
 	}, [currentPage]);
-
-	// console.log("currentTableData", currentTableData);
 
 	return (
 		<>

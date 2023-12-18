@@ -2,7 +2,6 @@ import React from "react";
 import { Button, Col } from "react-bootstrap";
 
 const GenerateLinkBtn = ({ onClick, obj, md }) => {
-	// console.log("obj", obj);
 	return (
 		<>
 			<Col

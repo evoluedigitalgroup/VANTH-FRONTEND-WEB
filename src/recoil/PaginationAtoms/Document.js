@@ -15,13 +15,12 @@ export const documentPaginationData = selectorFamily({
 	key: "documentPaginationData",
 	get:
 		(search = null) =>
-		async ({ get, set }) => {
-			get(toReloadDocumentData);
-			const currentPage = get(documentActivePageAtom);
-			const apiData = await getDocumentList(currentPage, search);
-			console.log("apiData", apiData);
-			return apiData.data;
-		},
+			async ({ get, set }) => {
+				get(toReloadDocumentData);
+				const currentPage = get(documentActivePageAtom);
+				const apiData = await getDocumentList(currentPage, search);
+				return apiData.data;
+			},
 });
 
 export const documentPrevPageSelector = selector({
@@ -37,11 +36,11 @@ export const documentNextPageSelector = selectorFamily({
 	key: "documentNextPage",
 	get:
 		(totalPages) =>
-		({ get }) => {
-			return get(documentActivePageAtom) == totalPages && totalPages
-				? null
-				: get(documentActivePageAtom) + 1;
-		},
+			({ get }) => {
+				return get(documentActivePageAtom) == totalPages && totalPages
+					? null
+					: get(documentActivePageAtom) + 1;
+			},
 });
 
 export const documentShowFirstPageSelector = selector({
@@ -55,9 +54,9 @@ export const documentShowLastPageSelector = selectorFamily({
 	key: "documentShowLastPage",
 	get:
 		(totalPages) =>
-		({ get }) => {
-			return get(documentActivePageAtom) == totalPages && totalPages
-				? false
-				: true;
-		},
+			({ get }) => {
+				return get(documentActivePageAtom) == totalPages && totalPages
+					? false
+					: true;
+			},
 });
