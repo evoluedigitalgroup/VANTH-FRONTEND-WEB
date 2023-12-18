@@ -73,7 +73,7 @@ const ProfileCard = ({
                     src={
                       profile?.profileImage
                         ? profile?.profileImage
-                        : "assets/img/noUser.png"
+                        : "/assets/img/noUser.png"
                     }
                     style={{
                       height: "180px",

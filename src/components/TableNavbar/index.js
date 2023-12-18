@@ -37,7 +37,7 @@ const TableNavbar = ({
               </InputGroup.Text>
 
               <Form.Control
-                type="text"
+                type="search"
                 placeholder="Procurar...."
                 aria-label="Search"
                 aria-describedby="basic-addon1"

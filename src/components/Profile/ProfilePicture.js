@@ -104,7 +104,7 @@ const ProfilePicture = ({ open, handleClose }) => {
                     src={
                       changeImg.profileImage
                         ? changeImg.profileImage
-                        : "assets/img/noUser.png"
+                        : "/assets/img/noUser.png"
                     }
                     style={{
                       height: "257px",

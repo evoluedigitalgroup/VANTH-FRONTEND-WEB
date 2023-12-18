@@ -71,7 +71,7 @@ const NavbarCom = ({ setShowSide, showSide }) => {
                         src={
                           profileItem.profileImage
                             ? profileItem.profileImage
-                            : "assets/img/noUser.png"
+                            : "/assets/img/noUser.png"
                         }
                         alt=""
                         style={{
