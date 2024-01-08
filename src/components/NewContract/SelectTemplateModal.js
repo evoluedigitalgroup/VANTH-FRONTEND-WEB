@@ -4,10 +4,34 @@ import ContractCopylinkModal from "./ContractCopylinkModal";
 
 const SelectTemplateModal = ({ show, onHide }) => {
   const [showCopyLink, setShowCopyLink] = useState(false);
+  // const [options, setOptions] = useState([1, 1, 1, 1, 1, 1, 1, 1]);
+  const [options, setOptions] = useState([]);
   const handleClick = () => {
     setShowCopyLink(true);
     onHide();
   };
+
+
+  const DocumentBlock = () => {
+    return (
+      <Col
+        md={6}
+        xs={6}
+        style={{ position: "relative" }}
+        className="d-flex justify-content-center p-0 mb-2"
+      >
+        <img
+          style={{ height: "200px" }}
+          src="/assets/img/Document.svg"
+        />
+        <input
+          type="checkbox"
+          style={{ position: "absolute", top: "3px", right: "12px" }}
+        />
+      </Col>
+    )
+  }
+
   return (
     <>
       <Modal size="md" show={show} onHide={onHide} centered className="zindex">
@@ -29,126 +53,20 @@ const SelectTemplateModal = ({ show, onHide }) => {
             style={{ height: "380px", width: "100%", overflowY: "scroll" }}
           >
             <Row>
-              <Col
-                md={6}
-                xs={6}
-                style={{ position: "relative" }}
-                className="d-flex justify-content-center p-0 mb-2"
-              >
-                <img
-                  style={{ height: "200px" }}
-                  src="/assets/img/Document.svg"
-                />
-                <input
-                  type="checkbox"
-                  style={{ position: "absolute", top: "3px", right: "12px" }}
-                />
-              </Col>
-              <Col
-                md={6}
-                xs={6}
-                style={{ position: "relative" }}
-                className="d-flex justify-content-center p-0 mb-2"
-              >
-                <img
-                  style={{ height: "200px" }}
-                  src="/assets/img/Document.svg"
-                />
-                <input
-                  type="checkbox"
-                  style={{ position: "absolute", top: "3px", right: "12px" }}
-                />
-              </Col>
-              <Col
-                xs={6}
-                md={6}
-                style={{ position: "relative" }}
-                className="d-flex justify-content-center p-0 mb-2"
-              >
-                <img
-                  style={{ height: "200px" }}
-                  src="/assets/img/Document.svg"
-                />
-                <input
-                  type="checkbox"
-                  style={{ position: "absolute", top: "3px", right: "12px" }}
-                />
-              </Col>
-              <Col
-                md={6}
-                xs={6}
-                style={{ position: "relative" }}
-                className="d-flex justify-content-center p-0 mb-2"
-              >
-                <img
-                  style={{ height: "200px" }}
-                  src="/assets/img/Document.svg"
-                />
-                <input
-                  type="checkbox"
-                  style={{ position: "absolute", top: "3px", right: "12px" }}
-                />
-              </Col>
-              <Col
-                md={6}
-                xs={6}
-                style={{ position: "relative" }}
-                className="d-flex justify-content-center p-0 mb-2"
-              >
-                <img
-                  style={{ height: "200px" }}
-                  src="/assets/img/Document.svg"
-                />
-                <input
-                  type="checkbox"
-                  style={{ position: "absolute", top: "3px", right: "12px" }}
-                />
-              </Col>
-              <Col
-                md={6}
-                xs={6}
-                style={{ position: "relative" }}
-                className="d-flex justify-content-center p-0 mb-2"
-              >
-                <img
-                  style={{ height: "200px" }}
-                  src="/assets/img/Document.svg"
-                />
-                <input
-                  type="checkbox"
-                  style={{ position: "absolute", top: "3px", right: "12px" }}
-                />
-              </Col>
-              <Col
-                md={6}
-                xs={6}
-                style={{ position: "relative" }}
-                className="d-flex justify-content-center p-0 mb-2"
-              >
-                <img
-                  style={{ height: "200px" }}
-                  src="/assets/img/Document.svg"
-                />
-                <input
-                  type="checkbox"
-                  style={{ position: "absolute", top: "3px", right: "12px" }}
-                />
-              </Col>
-              <Col
-                md={6}
-                xs={6}
-                style={{ position: "relative" }}
-                className="d-flex justify-content-center p-0 mb-2"
-              >
-                <img
-                  style={{ height: "200px" }}
-                  src="/assets/img/Document.svg"
-                />
-                <input
-                  type="checkbox"
-                  style={{ position: "absolute", top: "3px", right: "12px" }}
-                />
-              </Col>
+              {options.map((item, index) => (
+                <DocumentBlock key={index} />
+              ))}
+              {
+                options.length === 0 && (
+                  <div className="text-center w-100">
+                    <img
+                      src="/assets/img/empty.png"
+                      style={{ height: "50px" }}
+                    />
+                    <h6 className="mt-3">Nenhum modelo encontrado</h6>
+                  </div>
+                )
+              }
             </Row>
           </div>
           <div className="mt-4">
@@ -156,6 +74,7 @@ const SelectTemplateModal = ({ show, onHide }) => {
               <Col md={6}>
                 <button
                   className="px-4 py-2 w-100"
+                  onClick={handleClick}
                   style={{
                     fontSize: "14px",
                     border: "1px solid #0068FF",
@@ -170,6 +89,7 @@ const SelectTemplateModal = ({ show, onHide }) => {
               </Col>
               <Col md={6} className="mt-2 mt-md-0">
                 <button
+                  disabled={options.length === 0}
                   onClick={handleClick}
                   className="text-center py-2 w-100"
                   style={{
@@ -179,6 +99,7 @@ const SelectTemplateModal = ({ show, onHide }) => {
                     borderRadius: "6px",
                     color: "white",
                     fontWeight: 800,
+                    opacity: options.length === 0 ? 0.5 : 1,
                   }}
                 >
                   Escolher&nbsp;modelo

@@ -2,11 +2,59 @@ import React, { useState } from "react";
 import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
 
 const ContractCopylinkModal = ({ show, onHide }) => {
-  const [showImageModel, setshowImageModel] = useState(false);
+  const [documents, setDocuments] = useState([]);
+  // const [documents, setDocuments] = useState([]);
+  const [showPdfEditor, setShowPdfEditor] = useState(null);
 
-  const handleImageModel = () => {
-    setshowImageModel(true);
+  const handlePdfSelect = (file) => {
+    setShowPdfEditor(file);
   };
+
+  const DocumentBlock = () => {
+    return (
+      <Col
+        lg={4}
+        md={6}
+        style={{ position: "relative" }}
+        className="d-flex justify-content-center justify-content-md-start p-0 mb-2"
+      >
+        <img
+          style={{ height: "250px" }}
+          src="/assets/img/Document.svg"
+        />
+      </Col>
+    )
+  }
+
+  const AddNewDocument = () => {
+    return (
+      <Col
+        lg={4}
+        md={6}
+        style={{ position: "relative" }}
+        className="d-flex justify-content-center justify-content-md-start p-0 mb-2"
+      >
+        <input
+          type="file"
+          style={{
+            background: 'red',
+            position: 'absolute',
+            height: 250,
+            width: 200,
+            opacity: 0,
+          }}
+          accept=".pdf"
+          onChange={(e) => {
+            handlePdfSelect(e.target.files[0]);
+          }}
+        />
+        <img
+          style={{ height: 250, width: 200 }}
+          src="/assets/img/DocumentAdd.svg"
+        />
+      </Col>
+    )
+  }
 
   return (
     <>
@@ -33,29 +81,10 @@ const ContractCopylinkModal = ({ show, onHide }) => {
             className="mt-3 px-3"
           >
             <Row>
-              <Col
-                lg={4}
-                md={6}
-                style={{ position: "relative" }}
-                className="d-flex justify-content-center justify-content-md-start p-0 mb-2"
-              >
-                <img
-                  style={{ height: "250px" }}
-                  src="/assets/img/Document.svg"
-                />
-              </Col>
-              <Col
-                lg={4}
-                md={6}
-                style={{ position: "relative" }}
-                className="d-flex justify-content-center justify-content-md-start p-0 mb-2"
-              >
-                <img
-                  style={{ height: "250px" }}
-                  onClick={() => handleImageModel()}
-                  src="/assets/img/DocumentAdd.svg"
-                />
-              </Col>
+              {documents.map((item, index) => (
+                <DocumentBlock key={index} />
+              ))}
+              <AddNewDocument />
             </Row>
           </div>
 

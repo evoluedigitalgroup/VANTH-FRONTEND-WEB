@@ -24,21 +24,21 @@ const Contact = () => {
   const [table, setTable] = useRecoilState(contactTableData);
 
   useEffect(() => {
-    setLoading(true);
-    const submitData = {
-      search,
-    };
-    getContactList(submitData).then((res) => {
-      if (res.success) {
-        setTable(res.data.findData);
-        setTableRow(res.data.findData);
-        setLoading(false);
-      } else {
-        setTable([]);
-        setTableRow([]);
-        setLoading(false);
-      }
-    });
+    // setLoading(true);
+    // const submitData = {
+    //   search,
+    // };
+    // getContactList(submitData).then((res) => {
+    //   if (res.success) {
+    //     setTable(res.data.findData);
+    //     setTableRow(res.data.findData);
+    //     setLoading(false);
+    //   } else {
+    //     setTable([]);
+    //     setTableRow([]);
+    //     setLoading(false);
+    //   }
+    // });
   }, [refresh]);
 
   const onEnter = (e) => {
