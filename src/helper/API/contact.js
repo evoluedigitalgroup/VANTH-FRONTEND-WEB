@@ -41,7 +41,7 @@ export const generateLink = (submitData) => {
 
 export const contactForm = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(CONTACT_FORM, "post", submitData)
+    AfterAuthApi(CONTACT_FORM, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })

@@ -27,6 +27,8 @@ import { toast } from "react-toastify";
 const NewClientAdd = ({
   show,
   handleClose,
+  refresh,
+  setRefresh
 }) => {
   const [characterLimit] = useState(25);
   const [loading, setLoading] = useState(false);
@@ -60,6 +62,7 @@ const NewClientAdd = ({
     setLoading(true);
     contactForm(submitData).then((res) => {
       if (res.success) {
+        setRefresh(refresh + 1);
         toast.success(res.message);
         setLoading(false);
         handleClose();

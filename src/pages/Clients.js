@@ -171,6 +171,8 @@ const Clients = () => {
         {showNovaClientButtonClick && (
           <NewClientAdd
             show={setshowNovaClientButtonClick}
+            refresh={refresh}
+            setRefresh={setRefresh}
             handleClose={() => setshowNovaClientButtonClick(false)}
           />
         )}
