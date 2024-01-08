@@ -27,9 +27,6 @@ import { toast } from "react-toastify";
 const NewClientAdd = ({
   show,
   handleClose,
-  // switchesData,
-  // editData,
-  // editSwitchesData,
 }) => {
   const [characterLimit] = useState(25);
   const [loading, setLoading] = useState(false);
@@ -41,6 +38,10 @@ const NewClientAdd = ({
     CNPJ: "",
   });
 
+  const [otherInformation, setOtherInformation] = useState([]);
+  const [otherInfo, setOtherInfo] = useState(undefined);
+
+
   const handleChange = (e) => {
     setFormValues({
       ...formValues,
@@ -49,8 +50,15 @@ const NewClientAdd = ({
   };
 
   const handleSubmitData = () => {
+    console.log('formValues : ', formValues);
+    console.log('otherInformation : ', otherInformation);
+    const submitData = {
+      ...formValues,
+      otherInformation
+    }
+    console.log('submitData : ', submitData);
     setLoading(true);
-    contactForm(formValues).then((res) => {
+    contactForm(submitData).then((res) => {
       if (res.success) {
         toast.success(res.message);
         setLoading(false);
@@ -61,6 +69,29 @@ const NewClientAdd = ({
       }
     });
   };
+
+  const onClickOtherInfo = (e) => {
+    setOtherInfo(null);
+  }
+
+  const onSubmitOtherInfo = (e) => {
+    if (otherInfo) {
+      if (otherInfo.key) {
+        setOtherInformation([
+          ...otherInformation, otherInfo
+        ]);
+        setOtherInfo(undefined);
+      } else {
+        toast.error("Por favor insira o tipo de informação")
+      }
+    } else {
+      toast.error("Por favor insira o tipo de informação")
+    }
+  }
+
+  const onClickRemove = (index) => {
+    setOtherInformation(otherInformation.filter((obj, i) => i !== index));
+  }
 
   return (
     <Modal
@@ -212,37 +243,170 @@ const NewClientAdd = ({
         </Row>
         <h5 className="mt-4">Solicitar outras informações do cliente</h5>
         <Row>
-          <Col md={4}>
-            <Form>
-              <InputGroup className="rounded">
-                <InputGroup.Text className="border-0">
-                  <i
-                    class="bi bi-plus-circle fs-4"
-                    style={{ color: "#0068FF" }}
-                  ></i>
-                  <h6 className="ms-4 mt-2" style={{ fontSize: "14px" }}>
-                    Solicitar mais informações
-                  </h6>
-                </InputGroup.Text>
-              </InputGroup>
-            </Form>
+          {otherInformation.map((obj, index) => (
+            <Col key={`${index}`} md={4} xs={12}>
+              <Form>
+                <Form.Label className="Doc-Font-Color">
+                  {obj.key}
+                </Form.Label>
+                <FormGroup className="" style={{ position: "relative" }}>
+                  <InputGroup className="mb-3 rounded">
+                    <InputGroup.Text
+                      id="basic-addon1"
+                      className="border-0"
+                      style={{
+                        background: "#F4F6F8",
+                      }}
+                    >
+                      <i className="bi bi-info-circle-fill link-icon"></i>
+                    </InputGroup.Text>
+                    <Form.Control
+                      placeholder="Sua informação"
+                      type="text"
+                      value={obj.value}
+                      name="name"
+                      className="Cardinput border-0"
+                      // value={data?.name}
+                      onChange={handleChange}
+                    />
+                    <InputGroup.Text
+                      id="basic-addon1"
+                      className="border-0"
+                      style={{
+                        background: "#F4F6F8",
+                      }}
+                      onClick={() => {
+                        onClickRemove(index)
+                      }}
+                    >
+                      <i style={{ color: "#0068FF" }} className="bi bi-x-lg link-icon"></i>
+                    </InputGroup.Text>
+                  </InputGroup>
+                </FormGroup>
+              </Form>
+            </Col>
+          ))}
+          <Col md={4} xs={12}>
+            {
+              otherInfo === undefined ? (
+                <>
+                  <Form.Label className="Doc-Font-Color">
+                    &nbsp;&nbsp;
+                  </Form.Label>
+                  <button type="button" style={{ width: '100%', border: 0, background: '#F4F6F8' }} onClick={onClickOtherInfo}>
+                    <InputGroup.Text className="border-0">
+                      <i
+                        class="bi bi-plus-circle fs-4"
+                        style={{ color: "#0068FF" }}
+                      ></i>
+                      <h6 className="ms-4 mt-2" style={{ fontSize: "14px" }}>
+                        Solicitar mais informações
+                      </h6>
+                    </InputGroup.Text>
+                  </button>
+                </>
+              ) : null
+            }
+            {
+              otherInfo === null || (otherInfo && !otherInfo.saved) ? (
+                <>
+                  <Form.Label className="Doc-Font-Color">
+                    &nbsp;&nbsp;
+                  </Form.Label>
+                  <div
+                    style={{
+                      width: '100%',
+                      border: 0,
+                      background: '#F4F6F8'
+                    }}
+                  >
+                    <InputGroup.Text className="border-0">
+                      <i
+                        class="bi bi-dash-circle fs-4"
+                        style={{ color: "#0068FF" }}
+                        onClick={() => setOtherInfo(undefined)}
+                      ></i>
+                      <input
+                        className="ms-2"
+                        style={{
+                          fontSize: "14px",
+                          width: '100%',
+                          background: 'transparent',
+                          border: 0
+                        }}
+                        onChange={(e) => {
+                          setOtherInfo({
+                            key: e.target.value,
+                            value: otherInfo?.value,
+                            saved: false
+                          })
+                        }}
+                        placeholder="Digite o tipo de informação..."
+                      />
+                      <i
+                        class="bi bi-check-lg fs-4"
+                        style={{ color: "#0068FF" }}
+                        onClick={() => {
+                          setOtherInfo({
+                            key: otherInfo?.key,
+                            value: otherInfo?.value,
+                            saved: true
+                          })
+                        }}
+                      ></i>
+                    </InputGroup.Text>
+                  </div>
+                </>
+              ) : null
+            }
+            {
+              otherInfo != null && (otherInfo && otherInfo.saved) ? (
+                <Form>
+                  <Form.Label className="Doc-Font-Color">
+                    {otherInfo?.key}
+                  </Form.Label>
+                  <FormGroup className="" style={{ position: "relative" }}>
+                    <InputGroup className="mb-3 rounded">
+                      <InputGroup.Text
+                        id="basic-addon1"
+                        className="border-0"
+                        style={{
+                          background: "#F4F6F8",
+                        }}
+                      >
+                        <i className="bi bi-info-circle-fill link-icon"></i>
+                      </InputGroup.Text>
+                      <Form.Control
+                        maxLength={25}
+                        placeholder="Sua informação"
+                        type="text"
+                        name="name"
+                        className="Cardinput border-0"
+                        // value={data?.name}
+                        onChange={(e) => {
+                          setOtherInfo({
+                            ...otherInfo,
+                            key: otherInfo.key,
+                            value: e.target.value,
+                          })
+                        }}
+                      />
+                      <InputGroup.Text
+                        id="basic-addon1"
+                        className="border-0"
+                        style={{
+                          background: "#F4F6F8",
+                        }}
+                      >
+                        <i onClick={onSubmitOtherInfo} style={{ color: "#0068FF" }} className="bi bi-check-lg link-icon"></i>
+                      </InputGroup.Text>
+                    </InputGroup>
+                  </FormGroup>
+                </Form>
+              ) : null
+            }
           </Col>
         </Row>
-        {/* <Row className="px-1 pt-3">
-          <Col md={12}>
-            <h6>Solicitar outros documentos</h6>
-          </Col>
-          {loading ? (
-            <Loader />
-          ) : (
-            <PermissionSwitchTable
-              handleCheck={handleCheck}
-              formValues={formValues}
-              editData={editData}
-              switchesData={switchesData}
-            />
-          )}
-        </Row> */}
         <div className="d-flex mt-4 mt-md-0 justify-content-md-end justify-content-center">
           <Button
             onClick={handleSubmitData}
