@@ -7,6 +7,7 @@ import {
   ATTACH_DOCUMENT,
   APPROVE_VISITOR,
   GET_ALL_DOCUMENTS_LIST,
+  ADD_NEW_DOCUMENT_TYPE,
 } from "../url";
 
 export const getContactList = (page, search, limit = 10) => {
@@ -48,6 +49,18 @@ export const contactForm = (submitData) => {
         reject();
       });
   });
+};
+
+export const addNewDocumentType = (submitData) => {
+  return new Promise((resolve, reject) => {
+    AfterAuthApi(ADD_NEW_DOCUMENT_TYPE, "post", submitData)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject();
+      });
+  })
 };
 
 export const generateNewLink = (submitData) => {

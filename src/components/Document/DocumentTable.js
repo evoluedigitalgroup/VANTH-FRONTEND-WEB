@@ -45,6 +45,7 @@ const DocumentTable = ({
 
   const getAllDocumentListData = async () => {
     const documentList = await getAllDocumentsList();
+    console.log('documentList', documentList);
     setDocumentListData(documentList.data);
   };
 
@@ -102,6 +103,10 @@ const DocumentTable = ({
                   ? "row-height5"
                   : "";
   };
+
+  const refreshDocumentTypes = () => {
+    getAllDocumentListData();
+  }
 
   return (
     <div>
@@ -255,6 +260,7 @@ const DocumentTable = ({
             refresh={refresh}
             setRefresh={setRefresh}
             switchesData={documentListData}
+            refreshDocumentTypes={refreshDocumentTypes}
             editSwitchesData={editData?.documentRequest?.requiredPermission}
           />
         )}

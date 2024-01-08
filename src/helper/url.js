@@ -12,6 +12,9 @@ export const GET_DOCUMENT_DETAIL = "get-document-details";
 export const GENERATE_NEW_CODE = "invite/generate-random-code";
 export const GENERATE_DESIGNATION = "invite/get-code";
 export const INVITE_NEW_ADMIN = "invite/invite-new-admin";
+
+export const ADD_NEW_DOCUMENT_TYPE = "document/add-new-document-type";
+
 export const PERMISSION_TABLE = "permissions/filter-admins-list";
 export const CHANGE_PERMISSION = "permissions/change-permission";
 

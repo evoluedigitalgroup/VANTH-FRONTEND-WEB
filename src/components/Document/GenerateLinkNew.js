@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
+import { Button, Col, Form, FormGroup, InputGroup, Modal, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { LINK_URL } from "../../config";
 import {
+  addNewDocumentType,
   generateLink,
   generateNewLink,
   getAllDocumentsList,
@@ -20,11 +21,14 @@ const GenerateLinkNew = ({
   refresh,
   setRefresh,
   switchesData,
+  refreshDocumentTypes,
   editSwitchesData = null,
 }) => {
 
   const [permission, setPermission] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [otherPermissions, setOtherPermissions] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -113,6 +117,106 @@ const GenerateLinkNew = ({
     });
   };
 
+
+  const onSubmitOtherInfo = async (newPermission) => {
+    const permissionName = newPermission.key;
+    const permissionValue = false;
+
+    const keyname = permissionName.split(' ').join('_').toLowerCase();
+
+    const newPermissionObj = {
+      key: keyname,
+      title: permissionName,
+    }
+
+    const newDocumentResult = await addNewDocumentType(newPermissionObj);
+
+    if (newDocumentResult.success) {
+      refreshDocumentTypes();
+    }
+
+  }
+
+  const AddNewPermission = () => {
+
+    const [otherInfo, setOtherInfo] = useState(undefined);
+
+
+    const onClickOtherInfo = () => {
+      setOtherInfo(null);
+    }
+
+    return (
+      <Col md={6}>
+        {
+          otherInfo === undefined ? (
+            <>
+              <button type="button" style={{ width: '100%', border: 0, background: 'transparent' }} onClick={onClickOtherInfo}>
+                <InputGroup.Text className="border-0 p-0">
+                  <i
+                    class="bi bi-plus-circle fs-4"
+                    style={{ color: "#0068FF" }}
+                  ></i>
+                  <h6 className="ms-4" style={{ fontSize: "14px", fontWeight: 600 }}>
+                    Adicionar mais
+                  </h6>
+                </InputGroup.Text>
+              </button>
+            </>
+          ) : null
+        }
+        {
+          otherInfo === null || (otherInfo && !otherInfo.saved) ? (
+            <>
+              <div
+                style={{
+                  width: '100%',
+                  border: 0,
+                  background: '#F4F6F8'
+                }}
+              >
+                <InputGroup.Text className="border-0">
+                  <i
+                    class="bi bi-dash-circle fs-4"
+                    style={{ color: "#0068FF" }}
+                    onClick={() => setOtherInfo(undefined)}
+                  ></i>
+                  <input
+                    className="ms-2"
+                    style={{
+                      fontSize: "14px",
+                      width: '100%',
+                      background: 'transparent',
+                      border: 0
+                    }}
+                    onChange={(e) => {
+                      console.log('e.target.value', e.target.value);
+                      setOtherInfo({
+                        key: e.target.value,
+                        value: "",
+                        saved: false
+                      })
+                    }}
+                    value={otherInfo?.key}
+                    placeholder="Nome do Documento..."
+                  />
+                  <i
+                    class="bi bi-check-lg fs-4"
+                    style={{ color: "#0068FF" }}
+                    onClick={() => {
+                      onSubmitOtherInfo(otherInfo)
+                    }}
+                  ></i>
+                </InputGroup.Text>
+              </div>
+            </>
+          ) : null
+        }
+      </Col>
+    )
+  }
+
+
   return (
     <div>
       <Modal
@@ -136,12 +240,15 @@ const GenerateLinkNew = ({
           {loading ? (
             <Loader />
           ) : (
-            <PermissionSwitchTable
-              handleCheck={handleCheck}
-              formValues={formValues}
-              editData={editData}
-              switchesData={switchesData}
-            />
+            <>
+              <PermissionSwitchTable
+                handleCheck={handleCheck}
+                formValues={formValues}
+                editData={editData}
+                switchesData={switchesData}
+              />
+              <AddNewPermission />
+            </>
           )}
         </Row>
         <Row className="px-4">
