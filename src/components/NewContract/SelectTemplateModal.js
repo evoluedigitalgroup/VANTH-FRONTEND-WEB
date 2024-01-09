@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
 import ContractCopylinkModal from "./ContractCopylinkModal";
+import ReviewAndInformationModal from "./ReviewAndInformationModal";
 
-const SelectTemplateModal = ({ show, onHide }) => {
-  const [showCopyLink, setShowCopyLink] = useState(false);
+const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
   // const [options, setOptions] = useState([1, 1, 1, 1, 1, 1, 1, 1]);
   const [options, setOptions] = useState([]);
-  const handleClick = () => {
-    setShowCopyLink(true);
+  const [showReviewAndInformationModal, setShowReviewaAndInformationModal] =
+    useState(false);
+
+  const handleClickReview = () => {
+    setShowReviewaAndInformationModal(true);
     onHide();
   };
-
 
   const DocumentBlock = () => {
     return (
@@ -20,17 +22,14 @@ const SelectTemplateModal = ({ show, onHide }) => {
         style={{ position: "relative" }}
         className="d-flex justify-content-center p-0 mb-2"
       >
-        <img
-          style={{ height: "200px" }}
-          src="/assets/img/Document.svg"
-        />
+        <img style={{ height: "200px" }} src="/assets/img/Document.svg" />
         <input
           type="checkbox"
           style={{ position: "absolute", top: "3px", right: "12px" }}
         />
       </Col>
-    )
-  }
+    );
+  };
 
   return (
     <>
@@ -56,17 +55,12 @@ const SelectTemplateModal = ({ show, onHide }) => {
               {options.map((item, index) => (
                 <DocumentBlock key={index} />
               ))}
-              {
-                options.length === 0 && (
-                  <div className="text-center w-100">
-                    <img
-                      src="/assets/img/empty.png"
-                      style={{ height: "50px" }}
-                    />
-                    <h6 className="mt-3">Nenhum modelo encontrado</h6>
-                  </div>
-                )
-              }
+              {options.length === 0 && (
+                <div className="text-center w-100">
+                  <img src="/assets/img/empty.png" style={{ height: "50px" }} />
+                  <h6 className="mt-3">Nenhum modelo encontrado</h6>
+                </div>
+              )}
             </Row>
           </div>
           <div className="mt-4">
@@ -74,7 +68,7 @@ const SelectTemplateModal = ({ show, onHide }) => {
               <Col md={6}>
                 <button
                   className="px-4 py-2 w-100"
-                  onClick={handleClick}
+                  onClick={handleClickReview}
                   style={{
                     fontSize: "14px",
                     border: "1px solid #0068FF",
@@ -89,8 +83,8 @@ const SelectTemplateModal = ({ show, onHide }) => {
               </Col>
               <Col md={6} className="mt-2 mt-md-0">
                 <button
-                  disabled={options.length === 0}
-                  onClick={handleClick}
+                  // disabled={options.length === 0}
+                  onClick={handleClickReview}
                   className="text-center py-2 w-100"
                   style={{
                     fontSize: "14px",
@@ -109,10 +103,11 @@ const SelectTemplateModal = ({ show, onHide }) => {
           </div>
         </div>
       </Modal>
-      <div>
-        <ContractCopylinkModal
-          show={showCopyLink}
-          onHide={() => setShowCopyLink(false)}
+      <div className="bg-info" style={{ width: "100vw" }}>
+        <ReviewAndInformationModal
+          selectedOption={selectedOption}
+          show={showReviewAndInformationModal}
+          onHide={() => setShowReviewaAndInformationModal(false)}
         />
       </div>
     </>

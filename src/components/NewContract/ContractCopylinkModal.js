@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
+import Select from "react-select";
+import { getContactList } from "../../helper/API/contact";
 
-const ContractCopylinkModal = ({ show, onHide }) => {
+const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
   const [documents, setDocuments] = useState([]);
   // const [documents, setDocuments] = useState([]);
   const [showPdfEditor, setShowPdfEditor] = useState(null);
@@ -18,13 +20,10 @@ const ContractCopylinkModal = ({ show, onHide }) => {
         style={{ position: "relative" }}
         className="d-flex justify-content-center justify-content-md-start p-0 mb-2"
       >
-        <img
-          style={{ height: "250px" }}
-          src="/assets/img/Document.svg"
-        />
+        <img style={{ height: "250px" }} src="/assets/img/Document.svg" />
       </Col>
-    )
-  }
+    );
+  };
 
   const AddNewDocument = () => {
     return (
@@ -37,8 +36,8 @@ const ContractCopylinkModal = ({ show, onHide }) => {
         <input
           type="file"
           style={{
-            background: 'red',
-            position: 'absolute',
+            background: "red",
+            position: "absolute",
             height: 250,
             width: 200,
             opacity: 0,
@@ -53,8 +52,8 @@ const ContractCopylinkModal = ({ show, onHide }) => {
           src="/assets/img/DocumentAdd.svg"
         />
       </Col>
-    )
-  }
+    );
+  };
 
   return (
     <>
@@ -73,7 +72,22 @@ const ContractCopylinkModal = ({ show, onHide }) => {
               className="p-2"
               style={{ border: "1px solid #C7C7C7", borderRadius: "8px" }}
             >
-              dfgjj
+              <div className="d-flex justify-content-between mx-4">
+                <div>
+                  <i
+                    className="bi bi-person-fill px-1"
+                    style={{ color: "#0068FF" }}
+                  ></i>
+                  {selectedOption?.label}
+                </div>
+                <div>
+                  <i
+                    className="bi bi-telephone-fill px-1"
+                    style={{ color: "#0068FF" }}
+                  ></i>
+                  {selectedOption?.phoneNumber}
+                </div>
+              </div>
             </div>
           </div>
           <div
