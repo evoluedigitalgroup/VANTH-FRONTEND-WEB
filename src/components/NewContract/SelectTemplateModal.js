@@ -6,13 +6,6 @@ import ReviewAndInformationModal from "./ReviewAndInformationModal";
 const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
   // const [options, setOptions] = useState([1, 1, 1, 1, 1, 1, 1, 1]);
   const [options, setOptions] = useState([]);
-  const [showReviewAndInformationModal, setShowReviewaAndInformationModal] =
-    useState(false);
-
-  const handleClickReview = () => {
-    setShowReviewaAndInformationModal(true);
-    onHide();
-  };
 
   const [showCopyLink, setShowCopyLink] = useState(false);
   const handleClick = () => {
@@ -114,12 +107,6 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
           selectedOption={selectedOption}
           show={showCopyLink}
           onHide={() => setShowCopyLink(false)}
-        />
-      </div>
-      <div className="bg-info" style={{ width: "100vw" }}>
-        <ReviewAndInformationModal
-          show={showReviewAndInformationModal}
-          onHide={() => setShowReviewaAndInformationModal(false)}
         />
       </div>
     </>
