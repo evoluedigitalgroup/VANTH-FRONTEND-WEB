@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import ContractCopylinkModal from "./ContractCopylinkModal";
 
-const ReviewAndInformationModal = ({ show, onHide, selectedOption }) => {
-  const [showCopyLink, setShowCopyLink] = useState(false);
-  const handleClick = () => {
-    setShowCopyLink(true);
-    onHide();
-  };
-
+const ReviewAndInformationModal = ({ show, onHide, showPdfEditor }) => {
   return (
     <>
       <Modal size="xl" show={show} onHide={onHide} centered className="zindex">
@@ -31,7 +25,6 @@ const ReviewAndInformationModal = ({ show, onHide, selectedOption }) => {
           <div className="d-flex align-items-center justify-content-end mt-4">
             <button
               className=" px-4 py-2"
-              onClick={handleClick}
               style={{
                 fontSize: "14px",
                 border: "1px solid #0068FF",
@@ -46,13 +39,6 @@ const ReviewAndInformationModal = ({ show, onHide, selectedOption }) => {
           </div>
         </div>
       </Modal>
-      <div>
-        <ContractCopylinkModal
-          selectedOption={selectedOption}
-          show={showCopyLink}
-          onHide={() => setShowCopyLink(false)}
-        />
-      </div>
     </>
   );
 };

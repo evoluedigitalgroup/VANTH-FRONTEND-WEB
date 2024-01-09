@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
-import Select from "react-select";
-import { getContactList } from "../../helper/API/contact";
+import ReviewAndInformationModal from "./ReviewAndInformationModal";
 
 const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
   const [documents, setDocuments] = useState([]);
@@ -10,6 +9,14 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
 
   const handlePdfSelect = (file) => {
     setShowPdfEditor(file);
+  };
+
+  const [showReviewAndInformationModal, setShowReviewaAndInformationModal] =
+    useState(false);
+
+  const handleClickReview = () => {
+    setShowReviewaAndInformationModal(true);
+    onHide();
   };
 
   const DocumentBlock = () => {
@@ -172,6 +179,13 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
           </Row>
         </div>
       </Modal>
+      <div className="bg-info" style={{ width: "100vw" }}>
+        <ReviewAndInformationModal
+          show={showPdfEditor != null}
+          showPdfEditor={showPdfEditor}
+          onHide={() => setShowPdfEditor(null)}
+        />
+      </div>
     </>
   );
 };

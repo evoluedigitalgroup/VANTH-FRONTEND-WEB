@@ -14,6 +14,12 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
     onHide();
   };
 
+  const [showCopyLink, setShowCopyLink] = useState(false);
+  const handleClick = () => {
+    setShowCopyLink(true);
+    onHide();
+  };
+
   const DocumentBlock = () => {
     return (
       <Col
@@ -68,7 +74,7 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
               <Col md={6}>
                 <button
                   className="px-4 py-2 w-100"
-                  onClick={handleClickReview}
+                  onClick={handleClick}
                   style={{
                     fontSize: "14px",
                     border: "1px solid #0068FF",
@@ -83,8 +89,8 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
               </Col>
               <Col md={6} className="mt-2 mt-md-0">
                 <button
-                  // disabled={options.length === 0}
-                  onClick={handleClickReview}
+                  disabled={options.length === 0}
+                  // onClick={handleClick}
                   className="text-center py-2 w-100"
                   style={{
                     fontSize: "14px",
@@ -103,9 +109,15 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
           </div>
         </div>
       </Modal>
+      <div>
+        <ContractCopylinkModal
+          selectedOption={selectedOption}
+          show={showCopyLink}
+          onHide={() => setShowCopyLink(false)}
+        />
+      </div>
       <div className="bg-info" style={{ width: "100vw" }}>
         <ReviewAndInformationModal
-          selectedOption={selectedOption}
           show={showReviewAndInformationModal}
           onHide={() => setShowReviewaAndInformationModal(false)}
         />
