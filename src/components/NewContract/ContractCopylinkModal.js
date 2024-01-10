@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import ReviewAndInformationModal from "./ReviewAndInformationModal";
+import { contractModels } from "../../recoil/Atoms";
+import { useRecoilState } from "recoil";
+import {
+  openSelectTemplate,
+  resetModels,
+} from "../../recoil/helpers/contractModels";
 
 const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
   const [documents, setDocuments] = useState([]);
   // const [documents, setDocuments] = useState([]);
   const [selectedPdf, setSelectedPdf] = useState(null);
+  const [models, setModals] = useRecoilState(contractModels);
 
   const handlePdfSelect = (file) => {
     setSelectedPdf(file);
@@ -40,7 +47,7 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
         style={{ position: "relative" }}
         className="d-flex justify-content-center justify-content-md-start p-0 mb-2"
       >
-        <input
+        {/* <input
           type="file"
           style={{
             background: "red",
@@ -53,9 +60,13 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
           onChange={(e) => {
             handlePdfSelect(e.target.files[0]);
           }}
-        />
+        /> */}
         <img
           style={{ height: 250, width: 200 }}
+          onClick={() => {
+            setModals(resetModels());
+            setModals(openSelectTemplate());
+          }}
           src="/assets/img/DocumentAdd.svg"
         />
       </Col>
@@ -179,15 +190,6 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
           </Row>
         </div>
       </Modal>
-      <div className="bg-info" style={{ width: "100vw" }}>
-        <ReviewAndInformationModal
-          show={selectedPdf != null}
-          title={'Revisar modelo e informações'}
-          selectedPdf={selectedPdf}
-          onHide={() => setSelectedPdf(null)}
-          selectedOption={selectedOption}
-        />
-      </div>
     </>
   );
 };

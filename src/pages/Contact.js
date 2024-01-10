@@ -5,9 +5,21 @@ import TableNavbar from "../components/TableNavbar";
 import ContactTable from "../components/Contact/ContactTable";
 import { getContactList } from "../helper/API/contact";
 import Loader from "../components/Loader";
-import { useRecoilState } from "recoil";
-import { contactTableData } from "../recoil/Atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  contactTableData,
+  contractModels,
+  contractNewFileSelected,
+  contractSelectedUser,
+} from "../recoil/Atoms";
 import SelectClientModal from "../components/NewContract/SelectClientModal";
+import SelectTemplateModal from "../components/NewContract/SelectTemplateModal";
+import {
+  openSelectClient,
+  resetModels,
+} from "../recoil/helpers/contractModels";
+import ContractCopylinkModal from "../components/NewContract/ContractCopylinkModal";
+import ReviewAndInformationModal from "../components/NewContract/ReviewAndInformationModal";
 
 const Contact = () => {
   const [tableRow, setTableRow] = useState([]);
@@ -22,6 +34,9 @@ const Contact = () => {
   const [search, setSearch] = useState();
   const [newTableRow, setNewtableRow] = useState([]);
   const [table, setTable] = useRecoilState(contactTableData);
+  const [models, setModels] = useRecoilState(contractModels);
+  const selectedOption = useRecoilValue(contractSelectedUser);
+  const selectedPdf = useRecoilValue(contractNewFileSelected);
 
   useEffect(() => {
     // setLoading(true);
@@ -39,7 +54,9 @@ const Contact = () => {
     //     setLoading(false);
     //   }
     // });
-  }, [refresh]);
+
+    console.log("selectedPdf : ", selectedPdf);
+  }, [refresh, selectedPdf]);
 
   const onEnter = (e) => {
     if (e.key === "Enter") {
@@ -94,15 +111,13 @@ const Contact = () => {
     }
   };
 
-  const [showSelectModal, setShowSelectModal] = useState(false);
-
   return (
     <>
       <AfterAuth>
         <div className="d-flex align-items-center justify-content-between mt-3 mx-md-5 ms-3">
           <h2 className="">Contatos</h2>
           <button
-            onClick={() => setShowSelectModal(true)}
+            onClick={() => setModels(openSelectClient())}
             className="py-2 px-3"
             style={{
               background: "#0068FF",
@@ -129,22 +144,25 @@ const Contact = () => {
           >
             <div className="">
               <Button
-                className={`fs-color mx-2 border-0 ${active.pending ? "activeBtnTable" : "inActiveBtnTable"
-                  }`}
+                className={`fs-color mx-2 border-0 ${
+                  active.pending ? "activeBtnTable" : "inActiveBtnTable"
+                }`}
                 onClick={(e) => handleToggle("Pending")}
               >
                 Pendentes
               </Button>
               <Button
-                className={`fs-color  mx-2 border-0 ${active.approved ? "activeBtnTable" : "inActiveBtnTable"
-                  }`}
+                className={`fs-color  mx-2 border-0 ${
+                  active.approved ? "activeBtnTable" : "inActiveBtnTable"
+                }`}
                 onClick={(e) => handleToggle("Approved")}
               >
                 Respondidas
               </Button>
               <Button
-                className={`fs-color px-4 border-0 ${active.all ? "activeBtnTable" : "inActiveBtnTable"
-                  }`}
+                className={`fs-color px-4 border-0 ${
+                  active.all ? "activeBtnTable" : "inActiveBtnTable"
+                }`}
                 onClick={(e) => handleToggle("All")}
               >
                 Todos
@@ -163,9 +181,32 @@ const Contact = () => {
           )}
         </Card>
         <SelectClientModal
-          show={showSelectModal}
-          onHide={() => setShowSelectModal(false)}
+          show={models.selectClient}
+          onHide={() => setModels(resetModels())}
         />
+        <div>
+          <SelectTemplateModal
+            selectedOption={selectedOption}
+            show={models.selectTemplate}
+            onHide={() => setModels(resetModels())}
+          />
+        </div>
+        <div>
+          <ContractCopylinkModal
+            selectedOption={selectedOption}
+            show={models.previewContract}
+            onHide={() => setModels(resetModels())}
+          />
+        </div>
+        <div>
+          <ReviewAndInformationModal
+            show={models.pdfEditor}
+            title={"Revisar modelo e informações"}
+            selectedPdf={selectedPdf}
+            onHide={() => setModels(resetModels())}
+            selectedOption={selectedOption}
+          />
+        </div>
       </AfterAuth>
     </>
   );

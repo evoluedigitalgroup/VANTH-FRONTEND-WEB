@@ -4,6 +4,12 @@ import Select from "react-select";
 import SelectTemplateModal from "./SelectTemplateModal";
 import Loader from "../Loader";
 import { getContactList } from "../../helper/API/contact";
+import { contractSelectedUser, contractModels } from "../../recoil/Atoms";
+import { useRecoilState } from "recoil";
+import {
+  openSelectTemplate,
+  resetModels,
+} from "../../recoil/helpers/contractModels";
 
 const SelectClientModal = ({ show, onHide }) => {
   const options = [
@@ -11,14 +17,16 @@ const SelectClientModal = ({ show, onHide }) => {
     { value: "strawberry", label: "Strawberry" },
   ];
 
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [selectedOption, setSelectedOption] =
+    useRecoilState(contractSelectedUser);
+  const [models, setModals] = useRecoilState(contractModels);
   const [contactsData, setContactsData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleShowTamplateModal = () => {
-    setShowModal(true);
-    onHide();
+    // setShowModal(true);
+    setModals(resetModels());
+    setModals(openSelectTemplate());
   };
 
   useEffect(() => {
@@ -116,13 +124,6 @@ const SelectClientModal = ({ show, onHide }) => {
           )}
         </div>
       </Modal>
-      <div>
-        <SelectTemplateModal
-          selectedOption={selectedOption}
-          show={showModal}
-          onHide={() => setShowModal(false)}
-        />
-      </div>
     </>
   );
 };

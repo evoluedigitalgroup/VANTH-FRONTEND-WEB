@@ -2,15 +2,27 @@ import React, { useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
 import ContractCopylinkModal from "./ContractCopylinkModal";
 import ReviewAndInformationModal from "./ReviewAndInformationModal";
+import { contractModels, contractNewFileSelected } from "../../recoil/Atoms";
+import { useRecoilState } from "recoil";
+import {
+  openPDFEditor,
+  resetModels,
+} from "../../recoil/helpers/contractModels";
 
 const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
   // const [options, setOptions] = useState([1, 1, 1, 1, 1, 1, 1, 1]);
   const [options, setOptions] = useState([]);
+  const [models, setModels] = useRecoilState(contractModels);
+  const [selectedFile, setSelectedFile] = useRecoilState(
+    contractNewFileSelected
+  );
 
   const [showCopyLink, setShowCopyLink] = useState(false);
-  const handleClick = () => {
-    setShowCopyLink(true);
-    onHide();
+
+  const handlePdfSelect = (file) => {
+    setSelectedFile(file);
+    setModels(resetModels());
+    setModels(openPDFEditor());
   };
 
   const DocumentBlock = () => {
@@ -64,10 +76,25 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
           </div>
           <div className="mt-4">
             <Row>
-              <Col md={6}>
+              <Col md={6} style={{ position: "relative", overflow: "clip" }}>
+                <input
+                  type="file"
+                  style={{
+                    overflow: "clip",
+                    position: "absolute",
+                    background: "red",
+                    width: "100%",
+                    height: "100%",
+                    opacity: 0,
+                  }}
+                  accept=".pdf"
+                  onChange={(e) => {
+                    handlePdfSelect(e.target.files[0]);
+                  }}
+                />
                 <button
                   className="px-4 py-2 w-100"
-                  onClick={handleClick}
+                  disabled
                   style={{
                     fontSize: "14px",
                     border: "1px solid #0068FF",
@@ -102,13 +129,6 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
           </div>
         </div>
       </Modal>
-      <div>
-        <ContractCopylinkModal
-          selectedOption={selectedOption}
-          show={showCopyLink}
-          onHide={() => setShowCopyLink(false)}
-        />
-      </div>
     </>
   );
 };
