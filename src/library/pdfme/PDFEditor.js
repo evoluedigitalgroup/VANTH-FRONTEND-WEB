@@ -57,11 +57,11 @@ const PDFEditor = ({ basePdf, onReadyForSignature }) => {
 
         const newTemplate = { ...latestTemplate };
 
-        const inputs = newTemplate?.sampledata ?? [];
+        const previewInputs = latestTemplate?.sampledata ?? [];
 
         const previewFile = await generate({
             template: latestTemplate,
-            inputs,
+            inputs: previewInputs,
             plugins: {
                 signature
             }
@@ -90,9 +90,11 @@ const PDFEditor = ({ basePdf, onReadyForSignature }) => {
             return newField;
         });
 
+        const usableInputs = newTemplate?.sampledata ?? [];
+
         const usableFile = await generate({
             template: newTemplate,
-            inputs: inputs,
+            inputs: usableInputs,
             plugins: {
                 text
             }
@@ -106,7 +108,7 @@ const PDFEditor = ({ basePdf, onReadyForSignature }) => {
         templates.previewFile = previewFileBlob;
 
         console.log(usableFile);
-        const usableFileBlob = new Blob([previewFile.buffer], { type: "application/pdf" });
+        const usableFileBlob = new Blob([usableFile.buffer], { type: "application/pdf" });
         usableFileBlob.lastModifiedDate = new Date();
         usableFileBlob.name = "contract.pdf";
         templates.usableFile = usableFileBlob;
