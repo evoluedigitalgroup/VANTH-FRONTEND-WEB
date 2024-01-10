@@ -1,14 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import ContractCopylinkModal from "./ContractCopylinkModal";
+import PDFEditor from "../../library/pdfme/PDFEditor";
+import Loader from "../Loader";
+import { createContract } from "../../helper/API/contract";
 
-const ReviewAndInformationModal = ({ show, onHide, showPdfEditor }) => {
+const ReviewAndInformationModal = ({ title, show, onHide, selectedPdf, selectedOption }) => {
+  const [base64, setBase64] = useState(null);
+
+  useEffect(() => {
+    if (show) {
+      const data = window.URL.createObjectURL(selectedPdf);
+      setBase64(data);
+    }
+  }, [selectedPdf, show]);
+
+
+  const onReadyForSignature = async (templates) => {
+    const previewFile = new File([templates.previewFile], templates.previewFile.name, { type: "application/pdf" });
+    const usableFile = new File([templates.usableFile], templates.usableFile.name, { type: "application/pdf" });
+    const formData = new FormData();
+    formData.append("user", selectedOption.value);
+    formData.append("originalFileName", selectedPdf.name);
+    formData.append("previewFile", previewFile);
+    formData.append("usableFile", usableFile);
+    formData.append("schema", JSON.stringify(templates.schema));
+    await createContract(formData);
+  }
+
   return (
     <>
       <Modal size="xl" show={show} onHide={onHide} centered className="zindex">
         <div className="" style={{ position: "relative", padding: "20px" }}>
           <div className="d-flex justify-content-between">
-            <h6 className="fw-bold mt-1">Revisar modelo e informações</h6>
+            <h6 className="fw-bold mt-1">{title}</h6>
             <img
               onClick={onHide}
               src="assets/img/close.png"
@@ -16,26 +41,12 @@ const ReviewAndInformationModal = ({ show, onHide, showPdfEditor }) => {
             ></img>
           </div>
           <div
-            className="d-flex align-items-center justify-content-center"
-            style={{ height: "70vh" }}
+            className="d-flex"
+            style={{ height: "80vh" }}
           >
-            {/* <iframe src=""></iframe> */}
-            <h6 className="fw-bold">&lt; iframe docusign &gt;</h6>
-          </div>
-          <div className="d-flex align-items-center justify-content-end mt-4">
-            <button
-              className=" px-4 py-2"
-              style={{
-                fontSize: "14px",
-                border: "1px solid #0068FF",
-                color: "#FFFFFF",
-                background: "#0068FF",
-                borderRadius: "6px",
-                fontWeight: 700,
-              }}
-            >
-              Prosseguir para assinatura
-            </button>
+            {base64 ? (
+              <PDFEditor basePdf={base64} onReadyForSignature={onReadyForSignature} />
+            ) : <Loader />}
           </div>
         </div>
       </Modal>

@@ -5,10 +5,10 @@ import ReviewAndInformationModal from "./ReviewAndInformationModal";
 const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
   const [documents, setDocuments] = useState([]);
   // const [documents, setDocuments] = useState([]);
-  const [showPdfEditor, setShowPdfEditor] = useState(null);
+  const [selectedPdf, setSelectedPdf] = useState(null);
 
   const handlePdfSelect = (file) => {
-    setShowPdfEditor(file);
+    setSelectedPdf(file);
   };
 
   const [showReviewAndInformationModal, setShowReviewaAndInformationModal] =
@@ -181,9 +181,11 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
       </Modal>
       <div className="bg-info" style={{ width: "100vw" }}>
         <ReviewAndInformationModal
-          show={showPdfEditor != null}
-          showPdfEditor={showPdfEditor}
-          onHide={() => setShowPdfEditor(null)}
+          show={selectedPdf != null}
+          title={'Revisar modelo e informações'}
+          selectedPdf={selectedPdf}
+          onHide={() => setSelectedPdf(null)}
+          selectedOption={selectedOption}
         />
       </div>
     </>
