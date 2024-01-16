@@ -19,8 +19,8 @@ export const ENV_TYPE = "production"; // local // test // production
 export const BASE_URL = envData(
   ENV_TYPE,
   "http://localhost:3017/api/v1/",
-  "http://api.vanthdocs.com.br/api/v1/",
-  "http://api.vanthdocs.com.br/api/v1/"
+  "https://api.vanthdocs.com.br/api/v1/",
+  "https://api.vanthdocs.com.br/api/v1/"
 );
 export const LINK_URL = envData(
   ENV_TYPE,
