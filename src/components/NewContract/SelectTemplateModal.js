@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
 import ContractCopylinkModal from "./ContractCopylinkModal";
 import ReviewAndInformationModal from "./ReviewAndInformationModal";
@@ -8,10 +8,12 @@ import {
   openPDFEditor,
   resetModels,
 } from "../../recoil/helpers/contractModels";
+import { getTemplates } from "../../helper/API/contract";
 
 const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
   // const [options, setOptions] = useState([1, 1, 1, 1, 1, 1, 1, 1]);
   const [options, setOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [models, setModels] = useRecoilState(contractModels);
   const [selectedFile, setSelectedFile] = useRecoilState(
     contractNewFileSelected
@@ -25,7 +27,15 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
     setModels(openPDFEditor());
   };
 
-  const DocumentBlock = () => {
+  useEffect(() => {
+    getTemplates().then((res) => {
+      console.log('data ::: ', res?.data);
+      setOptions(res?.data);
+      setLoading(false);
+    });
+  }, []);
+
+  const DocumentBlock = ({ item }) => {
     return (
       <Col
         md={6}
@@ -63,10 +73,10 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
             style={{ height: "380px", width: "100%", overflowY: "scroll" }}
           >
             <Row>
-              {options.map((item, index) => (
-                <DocumentBlock key={index} />
+              {options?.map((item, index) => (
+                <DocumentBlock key={index} data={item} />
               ))}
-              {options.length === 0 && (
+              {options?.length === 0 && (
                 <div className="text-center w-100">
                   <img src="/assets/img/empty.png" style={{ height: "50px" }} />
                   <h6 className="mt-3">Nenhum modelo encontrado</h6>

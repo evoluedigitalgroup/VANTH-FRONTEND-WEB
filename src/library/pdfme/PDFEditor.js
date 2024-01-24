@@ -3,6 +3,7 @@ import { text, image, barcodes } from '@pdfme/schemas';
 import { Designer, Form, Viewer } from '@pdfme/ui';
 import { generate } from '@pdfme/generator';
 import { signature } from './signaturePlugin';
+import { Spinner } from "react-bootstrap";
 
 
 const PDFEditor = ({ basePdf, onReadyForSignature }) => {
@@ -135,7 +136,7 @@ const PDFEditor = ({ basePdf, onReadyForSignature }) => {
                     <div style={{ display: 'flex', flex: 1 }} ref={editorRef}>
                         {
                             template.basePdf && !updatedPdf ? (
-                                <div>Editor is loading...</div>
+                                <div>O editor está carregando...</div>
                             ) : null
                         }
                     </div>
