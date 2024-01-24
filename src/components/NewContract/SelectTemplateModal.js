@@ -29,25 +29,52 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
 
   useEffect(() => {
     getTemplates().then((res) => {
-      console.log('data ::: ', res?.data);
+      console.log("data ::: ", res?.data);
       setOptions(res?.data);
       setLoading(false);
     });
   }, []);
 
-  const DocumentBlock = ({ item }) => {
+  const DocumentBlock = ({ data }) => {
     return (
-      <Col
-        md={6}
-        xs={6}
-        style={{ position: "relative" }}
-        className="d-flex justify-content-center p-0 mb-2"
-      >
-        <img style={{ height: "200px" }} src="/assets/img/Document.svg" />
-        <input
-          type="checkbox"
-          style={{ position: "absolute", top: "3px", right: "12px" }}
-        />
+      <Col md={6} xs={6} className="p-0 mb-2">
+        <div
+          className="d-flex align-items-start justify-content-between px-2 py-1 me-3"
+          style={{
+            backgroundColor: "white",
+            borderRadius: "5px 5px 0 0",
+            border: "1px solid #00000040",
+          }}
+        >
+          <h6
+            className="mb-0"
+            style={{
+              fontSize: "12px",
+              // overflow-wrap: break-word;
+              overflowWrap: "anywhere",
+            }}
+          >
+            {data?.originalFileName}
+          </h6>
+          <input
+            type="checkbox"
+            style={{ height: "10px", width: "10px", marginTop: "2px" }}
+          />
+        </div>
+        <div
+          className="p-2 me-3"
+          style={{
+            height: "174px",
+            backgroundColor: "#0000001A",
+            borderRadius: "0px 0px 5px 5px",
+            border: "1px solid #00000040",
+          }}
+        >
+          <img
+            style={{ height: "100%", width: "100%" }}
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQ44ag4leeBZ0yztHUoIH2BWM4kRbncizZeg&usqp=CAU"
+          />
+        </div>
       </Col>
     );
   };
