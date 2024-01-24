@@ -73,6 +73,7 @@ const PDFEditor = ({ basePdf, onReadyForSignature }) => {
             let returnSchema = {};
             Object.entries(schema).forEach(([fieldName, value], index) => {
                 value.type = 'text'
+                value.fontColor = '#FFFFFF'
                 returnSchema = {
                     ...returnSchema,
                     [fieldName]: value
