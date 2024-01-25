@@ -8,7 +8,7 @@ const DocsBlock = ({
   permission,
   handleShowImageModal,
   withInput = false,
-  handleFileChange = () => {},
+  handleFileChange = () => { },
 }) => {
   const isNotAttached =
     obj?.docs?.[item.label] === null && !obj?.docStatus?.[item.label];
@@ -32,7 +32,7 @@ const DocsBlock = ({
           style={{
             width: "100%",
             height: "100%",
-            position: "absolute",
+            position: "absolute"
           }}
         >
           <input
@@ -42,6 +42,7 @@ const DocsBlock = ({
             name="abcCurve"
             onChange={(e) => handleFileChange(e, item.label)}
             style={{
+              zIndex: 1000,
               opacity: "0",
               width: "100%",
               height: "100%",
@@ -70,6 +71,7 @@ const DocsBlock = ({
             <label
               style={{
                 rotate: "45deg",
+                zIndex: 1,
               }}
             >
               <i className="bi bi-paperclip fs-2"></i>

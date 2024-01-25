@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Card, Row, Col } from "react-bootstrap";
+import { isMobile } from 'react-device-detect';
 import Button from "react-bootstrap/Button";
 
 import Table from "react-bootstrap/Table";
@@ -68,12 +69,14 @@ const DocumentTable = ({
   };
 
   const getRequiredLength = (obj) => {
+    console.log('obj', obj)
     return Object.values(obj?.documentRequest?.requiredPermission).filter(
       (val) => val
     ).length;
   };
 
   const getTrClass = (obj) => {
+    console.log('length : ', getRequiredLength(obj))
     return idArray.includes(obj.id) &&
       getRequiredLength(obj) <= 3 &&
       getRequiredLength(obj) !== 0
@@ -108,6 +111,10 @@ const DocumentTable = ({
     getAllDocumentListData();
   }
 
+  const getHeightValue = (obj) => {
+    return idArray.includes(obj.id) ? ((Math.ceil(getRequiredLength(obj) / (isMobile ? 1 : 3)) * 150) + 100) + 'px' : 'unset';
+  }
+
   return (
     <div>
       <Table responsive>
@@ -134,8 +141,9 @@ const DocumentTable = ({
                   position: "relative",
                   cursor: "pointer",
                   fontSize: "14px",
+                  height: `${(getHeightValue(obj))}`
                 }}
-                className={getTrClass(obj)}
+              // className={getTrClass(obj)}
               >
                 <td onClick={() => handleShowRow(obj.id)} className="fw-bold">
                   {obj.name}
@@ -199,7 +207,7 @@ const DocumentTable = ({
                             left: "0",
                             bottom: "0",
                             width: "100%",
-                            top: "0",
+                            top: "0"
                           }}
                         >
                           <>

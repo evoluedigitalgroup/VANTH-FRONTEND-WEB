@@ -16,14 +16,16 @@ const TableRowDocument = ({
 			{
 				documentListData.map((item, index) => {
 					return permission?.[item.label] ? (
-						<DocsBlock
-							obj={obj}
-							permission={permission}
-							item={item}
-							handleShowImageModal={handleShowImageModal}
-							withInput={withInput}
-							handleFileChange={handleFileChange}
-						/>
+						<>
+							<DocsBlock
+								obj={obj}
+								permission={permission}
+								item={item}
+								handleShowImageModal={handleShowImageModal}
+								withInput={withInput}
+								handleFileChange={handleFileChange}
+							/>
+						</>
 					) : null
 				})
 			}
