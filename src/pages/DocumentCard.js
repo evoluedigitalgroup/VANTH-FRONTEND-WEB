@@ -114,7 +114,7 @@ const DocumentCrad = () => {
           className="d-flex flex-column align-items-center justify-content-center"
         >
           <div className="TBA-Logo d-flex align-items-center justify-content-center">
-            <img src="/assets/img/MAIN_LOGO.png" style={{ height: 200 }} />
+            <img src="/assets/img/vancehDigital.svg" style={{ height: 200 }} />
           </div>
           <Card className="m-2 p-4" style={{ width: "80%" }}>
             {/* {data?.socialContract?.approved &&

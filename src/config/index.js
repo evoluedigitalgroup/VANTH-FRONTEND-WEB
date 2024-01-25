@@ -24,7 +24,7 @@ export const BASE_URL = envData(
 );
 export const LINK_URL = envData(
   ENV_TYPE,
-  "http://localhost:3001/document-verification/",
+  "http://localhost:3000/document-verification/",
   "https://system.vanthdocs.com.br/document-verification/",
   "https://system.vanthdocs.com.br/document-verification/"
 );

@@ -119,7 +119,7 @@ const GenerateLinkNew = ({
 
 
   const onSubmitOtherInfo = async (newPermission) => {
-    const permissionName = newPermission.key;
+    const permissionName = newPermission.key.trim();
     const permissionValue = false;
 
     const keyname = permissionName.split(' ').join('_').toLowerCase();
@@ -133,6 +133,9 @@ const GenerateLinkNew = ({
 
     if (newDocumentResult.success) {
       refreshDocumentTypes();
+      toast.success(newDocumentResult.message);
+    } else {
+      toast.error(newDocumentResult.message);
     }
 
   }
