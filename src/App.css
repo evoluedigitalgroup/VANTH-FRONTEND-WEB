@@ -6,6 +6,10 @@ body {
   overflow-x: hidden !important;
 }
 
+.selctedUserNameAndTelephoneLabel {
+  width: 60%;
+}
+
 @media (max-width: 550px) {
   /* body {
     padding-top: 25px;
@@ -89,6 +93,10 @@ body {
     height: 0 !important;
     min-width: 10px !important;
     line-height: 1px !important;
+  }
+
+  .selctedUserNameAndTelephoneLabel {
+    width: 100% !important;
   }
 }
 
