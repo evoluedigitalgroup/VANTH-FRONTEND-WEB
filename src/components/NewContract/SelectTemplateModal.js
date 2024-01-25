@@ -3,21 +3,23 @@ import { Button, Col, Modal, Row } from "react-bootstrap";
 import ContractCopylinkModal from "./ContractCopylinkModal";
 import ReviewAndInformationModal from "./ReviewAndInformationModal";
 import { contractModels, contractNewFileSelected } from "../../recoil/Atoms";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   openPDFEditor,
+  openPreviewContract,
   resetModels,
 } from "../../recoil/helpers/contractModels";
+import { templatesListAtom, selectedTemplatesAtom } from '../../recoil/ContractAtoms/Templates';
 import { getTemplates } from "../../helper/API/contract";
 
 const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
-  // const [options, setOptions] = useState([1, 1, 1, 1, 1, 1, 1, 1]);
-  const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [models, setModels] = useRecoilState(contractModels);
   const [selectedFile, setSelectedFile] = useRecoilState(
     contractNewFileSelected
   );
+  const [selectedTemplates, setSelectedTemplates] = useRecoilState(selectedTemplatesAtom);
+  const [templatesList, setTemplatesList] = useRecoilState(templatesListAtom);
 
   const [showCopyLink, setShowCopyLink] = useState(false);
 
@@ -30,10 +32,24 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
   useEffect(() => {
     getTemplates().then((res) => {
       console.log("data ::: ", res?.data);
-      setOptions(res?.data);
+      setTemplatesList(res?.data);
       setLoading(false);
     });
   }, []);
+
+  const handleCheckbox = (data) => {
+    if (selectedTemplates.indexOf(data.id) !== -1) {
+      setSelectedTemplates(selectedTemplates.filter((item) => item !== data.id));
+    } else {
+      setSelectedTemplates([...selectedTemplates, data.id]);
+    }
+  };
+
+  const handleClickChooseModel = () => {
+    if (selectedTemplates.length === 0) return;
+    setModels(resetModels());
+    setModels(openPreviewContract());
+  }
 
   const DocumentBlock = ({ data }) => {
     return (
@@ -58,6 +74,8 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
           </h6>
           <input
             type="checkbox"
+            checked={selectedTemplates.indexOf(data.id) !== -1}
+            onClick={() => handleCheckbox(data)}
             style={{ height: "10px", width: "10px", marginTop: "2px" }}
           />
         </div>
@@ -72,7 +90,7 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
         >
           <img
             style={{ height: "100%", width: "100%" }}
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQ44ag4leeBZ0yztHUoIH2BWM4kRbncizZeg&usqp=CAU"
+            src={data?.templatePreviewImageFile}
           />
         </div>
       </Col>
@@ -100,10 +118,10 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
             style={{ height: "380px", width: "100%", overflowY: "scroll" }}
           >
             <Row>
-              {options?.map((item, index) => (
+              {templatesList?.map((item, index) => (
                 <DocumentBlock key={index} data={item} />
               ))}
-              {options?.length === 0 && (
+              {templatesList?.length === 0 && (
                 <div className="text-center w-100">
                   <img src="/assets/img/empty.png" style={{ height: "50px" }} />
                   <h6 className="mt-3">Nenhum modelo encontrado</h6>
@@ -146,8 +164,8 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
               </Col>
               <Col md={6} className="mt-2 mt-md-0">
                 <button
-                  disabled={options.length === 0}
-                  // onClick={handleClick}
+                  disabled={templatesList.length === 0}
+                  onClick={handleClickChooseModel}
                   className="text-center py-2 w-100"
                   style={{
                     fontSize: "14px",
@@ -156,7 +174,7 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
                     borderRadius: "6px",
                     color: "white",
                     fontWeight: 800,
-                    opacity: options.length === 0 ? 0.5 : 1,
+                    opacity: templatesList.length === 0 ? 0.5 : 1,
                   }}
                 >
                   Escolher&nbsp;modelo

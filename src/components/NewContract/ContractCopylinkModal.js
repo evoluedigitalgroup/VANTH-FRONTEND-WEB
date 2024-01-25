@@ -9,7 +9,7 @@ import {
 } from "../../recoil/helpers/contractModels";
 
 const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
-  const [documents, setDocuments] = useState([]);
+  const [documents, setDocuments] = useState([1, 2, 3]);
   // const [documents, setDocuments] = useState([]);
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [models, setModals] = useRecoilState(contractModels);
