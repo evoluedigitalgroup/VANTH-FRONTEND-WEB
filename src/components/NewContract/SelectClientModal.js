@@ -49,7 +49,7 @@ const SelectClientModal = ({ show, onHide }) => {
   }, []);
 
   const formatOptionLabel = ({ label, phoneNumber }) => (
-    <div className="d-flex justify-content-between mx-4">
+    <div className="d-flex justify-content-between mx-md-4">
       <div>
         <i className="bi bi-person-fill px-1" style={{ color: "#BAC4C8" }}></i>
         {label}
@@ -86,7 +86,10 @@ const SelectClientModal = ({ show, onHide }) => {
                   <img src="assets/img/close.png"></img>
                 </Button>
               </div>
-              <div className="mt-3" style={{ width: "60%" }}>
+              <div
+                className="mt-3 selctedUserNameAndTelephoneLabel"
+                // style={{ width: "60%" }}
+              >
                 <Select
                   defaultValue={selectedOption}
                   formatOptionLabel={formatOptionLabel}

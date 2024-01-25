@@ -1,15 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import ReviewAndInformationModal from "./ReviewAndInformationModal";
 import { contractModels } from "../../recoil/Atoms";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   openSelectTemplate,
   resetModels,
 } from "../../recoil/helpers/contractModels";
+import {
+  selectedTemplatesAtom,
+  templatesListAtom,
+} from "../../recoil/ContractAtoms/Templates";
+import { click } from "@testing-library/user-event/dist/click";
 
 const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
-  const [documents, setDocuments] = useState([1, 2, 3]);
+  const [documents, setDocuments] = useState([]);
+
+  const allTemplatesList = useRecoilValue(templatesListAtom);
+  const [selectedTemplates, setSelectedTemplates] = useRecoilState(
+    selectedTemplatesAtom
+  );
+
   // const [documents, setDocuments] = useState([]);
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [models, setModals] = useRecoilState(contractModels);
@@ -26,15 +37,60 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
     onHide();
   };
 
-  const DocumentBlock = () => {
+  const removeSelectedTemplates = (clickId) => {
+    setSelectedTemplates(
+      selectedTemplates.filter((value) => {
+        return value !== clickId;
+      })
+    );
+  };
+
+  const DocumentBlock = ({ data }) => {
     return (
-      <Col
-        lg={4}
-        md={6}
-        style={{ position: "relative" }}
-        className="d-flex justify-content-center justify-content-md-start p-0 mb-2"
-      >
-        <img style={{ height: "250px" }} src="/assets/img/Document.svg" />
+      <Col md={3} xs={6} className="p-0 mb-2">
+        <div
+          className="d-flex align-items-start justify-content-between px-2 py-1 me-3"
+          style={{
+            backgroundColor: "white",
+            borderRadius: "5px 5px 0 0",
+            border: "1px solid #00000040",
+          }}
+        >
+          <h6
+            className="mb-0"
+            style={{
+              fontSize: "12px",
+              // overflow-wrap: break-word;
+              overflowWrap: "anywhere",
+            }}
+          >
+            {data?.originalFileName}
+          </h6>
+          <i
+            class="bi bi-x p-0 m-0"
+            style={{
+              color: "red",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              removeSelectedTemplates(data.id);
+            }}
+          ></i>
+        </div>
+        <div
+          className="p-2 me-3"
+          style={{
+            height: "174px",
+            backgroundColor: "#0000001A",
+            borderRadius: "0px 0px 5px 5px",
+            border: "1px solid #00000040",
+          }}
+        >
+          <img
+            style={{ height: "100%", width: "100%" }}
+            src={data?.templatePreviewImageFile}
+          />
+        </div>
       </Col>
     );
   };
@@ -42,10 +98,11 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
   const AddNewDocument = () => {
     return (
       <Col
-        lg={4}
-        md={6}
-        style={{ position: "relative" }}
-        className="d-flex justify-content-center justify-content-md-start p-0 mb-2"
+        lg={3}
+        md={3}
+        xs={6}
+        // style={{ position: "relative" }}
+        // className="d-flex justify-content-center justify-content-md-start p-0 mb-2"
       >
         {/* <input
           type="file"
@@ -62,7 +119,7 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
           }}
         /> */}
         <img
-          style={{ height: 250, width: 200 }}
+          style={{ height: "200px", width: "100%", objectFit: "contain" }}
           onClick={() => {
             setModals(resetModels());
             setModals(openSelectTemplate());
@@ -72,6 +129,11 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
       </Col>
     );
   };
+
+  // let filterDoc = allTemplatesList.filter((value) => {
+  //   return selectedTemplates.includes(value?.templatePreviewImageFile);
+  // });
+  // console.log("filterDoc ...  ", filterDoc);
 
   return (
     <>
@@ -85,7 +147,10 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
               <img src="assets/img/close.png"></img>
             </Button>
           </div>
-          <div className="mt-2" style={{ width: "60%" }}>
+          <div
+            className="mt-2 selctedUserNameAndTelephoneLabel"
+            //  style={{ width: "60%" }}
+          >
             <div
               className="p-2"
               style={{ border: "1px solid #C7C7C7", borderRadius: "8px" }}
@@ -113,9 +178,11 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
             className="mt-3 px-3"
           >
             <Row>
-              {documents.map((item, index) => (
-                <DocumentBlock key={index} />
-              ))}
+              {allTemplatesList
+                .filter((obj) => selectedTemplates.indexOf(obj.id) > -1)
+                .map((item, index) => (
+                  <DocumentBlock data={item} />
+                ))}
               <AddNewDocument />
             </Row>
           </div>
