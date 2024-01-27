@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
+import { Button, Col, Form, InputGroup, Modal, Row, Spinner } from "react-bootstrap";
 import ReviewAndInformationModal from "./ReviewAndInformationModal";
 import { contractModels } from "../../recoil/Atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -13,8 +13,10 @@ import {
 } from "../../recoil/ContractAtoms/Templates";
 import { click } from "@testing-library/user-event/dist/click";
 import { generateContractLink } from "../../helper/API/contract";
+import Loader from "../Loader";
 
 const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
+  const [loading, setLoading] = useState(false);
   const [documents, setDocuments] = useState([]);
 
   const allTemplatesList = useRecoilValue(templatesListAtom);
@@ -137,9 +139,10 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
       selectedContact: selectedOption.value,
     };
     console.log(submitData);
-
+    setLoading(true)
     generateContractLink(submitData).then((res) => {
       console.log('res : ', res);
+      setLoading(false)
     });
   }
 
@@ -238,9 +241,19 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
                 color: "white",
                 fontWeight: 800,
               }}
+              disabled={loading}
               onClick={onGenerateLink}
             >
               Gerar&nbsp;link
+
+              {loading
+                ? <Spinner
+                  animation="grow"
+                  variant="light"
+                  className="ms-3 fw-bold fs-5"
+                />
+                : null
+              }
             </button>
           </div>
         </Col>
