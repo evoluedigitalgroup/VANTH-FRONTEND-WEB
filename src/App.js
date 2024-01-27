@@ -21,6 +21,7 @@ import DocumentCrad from "./pages/DocumentCard";
 import Clients from "./pages/Clients";
 import MyPlan from "./components/MyPlan/MyPlan";
 import PurchasePlan from "./components/PurchasePlan";
+import RequestedSignature from "./pages/RequestedSignature";
 
 function App() {
   const login = useRecoilValue(loginAtom);
@@ -72,6 +73,10 @@ function App() {
         <Route
           path="/document-verification/:contactId/:requestId"
           element={<DocumentCrad />}
+        />
+        <Route
+          path="/requested-signature/:contactId/:requestId"
+          element={<RequestedSignature />}
         />
       </Routes>
       {/* </Suspense> */}
