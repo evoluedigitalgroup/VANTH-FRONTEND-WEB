@@ -12,6 +12,7 @@ import {
   templatesListAtom,
 } from "../../recoil/ContractAtoms/Templates";
 import { click } from "@testing-library/user-event/dist/click";
+import { generateContractLink } from "../../helper/API/contract";
 
 const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
   const [documents, setDocuments] = useState([]);
@@ -101,8 +102,8 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
         lg={3}
         md={3}
         xs={6}
-        // style={{ position: "relative" }}
-        // className="d-flex justify-content-center justify-content-md-start p-0 mb-2"
+      // style={{ position: "relative" }}
+      // className="d-flex justify-content-center justify-content-md-start p-0 mb-2"
       >
         {/* <input
           type="file"
@@ -130,10 +131,123 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
     );
   };
 
-  // let filterDoc = allTemplatesList.filter((value) => {
-  //   return selectedTemplates.includes(value?.templatePreviewImageFile);
-  // });
-  // console.log("filterDoc ...  ", filterDoc);
+  const onGenerateLink = () => {
+    const submitData = {
+      selectedTemplates: selectedTemplates,
+      selectedContact: selectedOption.value,
+    };
+    console.log(submitData);
+
+    generateContractLink(submitData).then((res) => {
+      console.log('res : ', res);
+    });
+  }
+
+  const LinkBlocks = ({ showLinks }) => {
+    return showLinks ? (
+      <>
+        <>
+          <div className="mt-4">
+            <h6
+              style={{
+                fontWeight: 700,
+                fontSize: "14px",
+              }}
+            >
+              Link para compartilhar com o cliente
+            </h6>
+          </div>
+          <Row>
+            <Col md={6}>
+              <InputGroup className="mb-3" style={{ borderRadius: "6px" }}>
+                <Form.Control
+                  className="p-2 border-0 fw-bold shadow-none"
+                  style={{ backgroundColor: "#F4F6F8" }}
+                />
+              </InputGroup>
+            </Col>
+          </Row>
+        </>
+        <Row>
+          <Col md={8}>
+            <div className="d-flex">
+              <div className="d-flex align-items-center">
+                <h6
+                  style={{
+                    fontWeight: "600",
+                    fontSize: "12px",
+                    color: "#85A6A2",
+                  }}
+                >
+                  Enviar com:
+                </h6>
+                <img
+                  // style={{ height: "60px", width: "60px" }}
+                  src="/assets/img/whatsApp.svg"
+                />
+                <img
+                  // style={{ height: "39px", width: "39px" }}
+                  src="/assets/img/mail.png"
+                />
+                <img
+                  // style={{ height: "39px", width: "39px" }}
+                  src="/assets/img/sms.png"
+                />
+              </div>
+            </div>
+          </Col>
+          <Col xs={12} md={4}>
+            <div className="d-flex justify-content-md-end justify-content-center mt-md-4">
+              <button
+                className="py-2"
+                style={{
+                  width: "100%",
+                  fontSize: "12px",
+                  fontWeight: 400,
+                  background: "#0068FF",
+                  border: "0",
+                  borderRadius: "6px",
+                  color: "white",
+                  fontWeight: 800,
+                }}
+              >
+                Copiar&nbsp;link
+              </button>
+            </div>
+          </Col>
+        </Row>
+      </>
+    ) : null
+  }
+
+  const GenerateLinkBlock = ({ showBlock }) => {
+    return showBlock ? (
+      <Row>
+        <Col md={8}></Col>
+        <Col xs={12} md={4}>
+          <div className="d-flex justify-content-md-end justify-content-center mt-md-4">
+            <button
+              className="py-2"
+              style={{
+                width: "100%",
+                fontSize: "12px",
+                fontWeight: 400,
+                background: "#0068FF",
+                border: "0",
+                borderRadius: "6px",
+                color: "white",
+                fontWeight: 800,
+              }}
+              onClick={onGenerateLink}
+            >
+              Gerar&nbsp;link
+            </button>
+          </div>
+        </Col>
+      </Row>
+    ) : null;
+  }
+
 
   return (
     <>
@@ -149,7 +263,6 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
           </div>
           <div
             className="mt-2 selctedUserNameAndTelephoneLabel"
-            //  style={{ width: "60%" }}
           >
             <div
               className="p-2"
@@ -187,74 +300,8 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
             </Row>
           </div>
 
-          <div className="mt-4">
-            <h6
-              style={{
-                fontWeight: 700,
-                fontSize: "14px",
-              }}
-            >
-              Link para compartilhar com o cliente
-            </h6>
-          </div>
-          <Row>
-            <Col md={6}>
-              <InputGroup className="mb-3" style={{ borderRadius: "6px" }}>
-                <Form.Control
-                  className="p-2 border-0 fw-bold shadow-none"
-                  style={{ backgroundColor: "#F4F6F8" }}
-                />
-              </InputGroup>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={8}>
-              <div className="d-flex">
-                <div className="d-flex align-items-center">
-                  <h6
-                    style={{
-                      fontWeight: "600",
-                      fontSize: "12px",
-                      color: "#85A6A2",
-                    }}
-                  >
-                    Enviar com:
-                  </h6>
-                  <img
-                    // style={{ height: "60px", width: "60px" }}
-                    src="/assets/img/whatsApp.svg"
-                  />
-                  <img
-                    // style={{ height: "39px", width: "39px" }}
-                    src="/assets/img/mail.png"
-                  />
-                  <img
-                    // style={{ height: "39px", width: "39px" }}
-                    src="/assets/img/sms.png"
-                  />
-                </div>
-              </div>
-            </Col>
-            <Col xs={12} md={4}>
-              <div className="d-flex justify-content-md-end justify-content-center mt-md-4">
-                <button
-                  className="py-2"
-                  style={{
-                    width: "100%",
-                    fontSize: "12px",
-                    fontWeight: 400,
-                    background: "#0068FF",
-                    border: "0",
-                    borderRadius: "6px",
-                    color: "white",
-                    fontWeight: 800,
-                  }}
-                >
-                  Copiar&nbsp;link
-                </button>
-              </div>
-            </Col>
-          </Row>
+          <LinkBlocks showLinks={false} link={''} />
+          <GenerateLinkBlock showBlock={true} />
         </div>
       </Modal>
     </>

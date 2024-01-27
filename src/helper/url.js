@@ -36,3 +36,4 @@ export const CHART_DATA = "home/insights-with-filter";
 
 export const CREATE_TEMPLATE = 'contract/create-template';
 export const GET_TEMPLATES = 'contract/get-templates';
+export const GENERATE_CONTRACT_LINK = 'contract/create-contract';
