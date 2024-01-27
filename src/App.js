@@ -17,7 +17,7 @@ import { useRecoilValue } from "recoil";
 import { loginAtom } from "./recoil/Atoms";
 import ErrorPage from "./pages/ErrorPage";
 import { Suspense } from "react";
-import DocumentCrad from "./pages/DocumentCard";
+import DocumentCard from "./pages/DocumentCard";
 import Clients from "./pages/Clients";
 import MyPlan from "./components/MyPlan/MyPlan";
 import PurchasePlan from "./components/PurchasePlan";
@@ -72,7 +72,7 @@ function App() {
         <Route path="/logout" element={<Protected Component={Logout} />} />
         <Route
           path="/document-verification/:contactId/:requestId"
-          element={<DocumentCrad />}
+          element={<DocumentCard />}
         />
         <Route
           path="/requested-signature/:contactId/:requestId"
