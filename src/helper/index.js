@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 import { BASE_URL } from "../config/index";
 
 export const ApiCall = (url, method, data = null, headers = {}) => {
@@ -34,3 +36,10 @@ export const AfterAuthApi = (url, method, data = null, headers = {}) => {
 			.catch(reject);
 	});
 };
+
+
+export const useQuery = () => {
+	const { search } = useLocation();
+
+	return useMemo(() => new URLSearchParams(search), [search]);
+}

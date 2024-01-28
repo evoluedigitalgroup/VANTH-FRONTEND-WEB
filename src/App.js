@@ -22,6 +22,7 @@ import Clients from "./pages/Clients";
 import MyPlan from "./components/MyPlan/MyPlan";
 import PurchasePlan from "./components/PurchasePlan";
 import RequestedSignature from "./pages/RequestedSignature";
+import DocuSignReturn from "./pages/DocuSignReturn";
 
 function App() {
   const login = useRecoilValue(loginAtom);
@@ -75,8 +76,12 @@ function App() {
           element={<DocumentCard />}
         />
         <Route
-          path="/requested-signature/:companyId/:contactId/:docusignEnvelopeId"
+          path="/requested-signature/:companyId/:contractId/:docusignEnvelopeId"
           element={<RequestedSignature />}
+        />
+        <Route
+          path="/contract/docusign/return-url"
+          element={<DocuSignReturn />}
         />
       </Routes>
       {/* </Suspense> */}
