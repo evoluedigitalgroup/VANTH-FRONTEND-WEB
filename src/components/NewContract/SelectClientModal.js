@@ -83,12 +83,12 @@ const SelectClientModal = ({ show, onHide }) => {
                   onClick={onHide}
                   className="bg-white border-0 text-dark"
                 >
-                  <img src="assets/img/close.png"></img>
+                  <img src="/assets/img/close.png"></img>
                 </Button>
               </div>
               <div
                 className="mt-3 selctedUserNameAndTelephoneLabel"
-                // style={{ width: "60%" }}
+              // style={{ width: "60%" }}
               >
                 <Select
                   defaultValue={selectedOption}

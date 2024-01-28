@@ -80,7 +80,7 @@ const NewMemberAdd = ({ show, handleClose, refresh, setRefresh }) => {
           style={{ cursor: "pointer" }}
           onClick={handleClose}
         >
-          <img src="assets/img/close.png"></img>
+          <img src="/assets/img/close.png"></img>
         </Modal.Title>
       </ModalHeader>
       <ModalBody className="p-4 pt-0">

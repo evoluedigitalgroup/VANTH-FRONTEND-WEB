@@ -73,7 +73,7 @@ const ProfilePicture = ({ open, handleClose }) => {
                 className="border-0 text-dark p-0 mx-2 fs-4 bg-white"
               >
                 <img
-                  src="assets/img/close.png"
+                  src="/assets/img/close.png"
                   style={{ objectFit: "cover" }}
                 ></img>
               </Button>
@@ -122,7 +122,7 @@ const ProfilePicture = ({ open, handleClose }) => {
                   >
                     {!imagePreview && (
                       <span>
-                        <img src="assets/img/proImg.png"></img>
+                        <img src="/assets/img/proImg.png"></img>
                       </span>
                     )}
                     {imagePreview && (

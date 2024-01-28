@@ -95,7 +95,7 @@ const ImageUploadModal = ({
               onClick={handleClose}
               className="bg-white border-0 text-dark"
             >
-              <img src="assets/img/close.png"></img>
+              <img src="/assets/img/close.png"></img>
             </Button>
           </Col>
           <div>
@@ -232,7 +232,7 @@ const ImageUploadModal = ({
                 disabled={documents.docs[documents?.type]?.approved}
                 onClick={() => handleSubmit("reject")}
               >
-                <img src="assets/img/X.png" />
+                <img src="/assets/img/X.png" />
                 &nbsp;Reprovar&nbsp;documento
               </Button>
             </Col>
@@ -246,7 +246,7 @@ const ImageUploadModal = ({
                 }}
                 onClick={() => handleSubmit("approved")}
               >
-                <img src="assets/img/Right.png" />
+                <img src="/assets/img/Right.png" />
                 Aprovar documento
               </Button>
             </Col>

@@ -24,10 +24,10 @@ const BalanceIncome = ({ obj, handleShowImageModal }) => {
 								obj?.balanceIncome === null
 									? null
 									: () =>
-											handleShowImageModal(
-												obj,
-												"balanceIncome"
-											)
+										handleShowImageModal(
+											obj,
+											"balanceIncome"
+										)
 							}
 							variant='outline-secondary'>
 							<label
@@ -53,10 +53,10 @@ const BalanceIncome = ({ obj, handleShowImageModal }) => {
 							obj?.balanceIncome === null
 								? null
 								: () =>
-										handleShowImageModal(
-											obj,
-											"balanceIncome"
-										)
+									handleShowImageModal(
+										obj,
+										"balanceIncome"
+									)
 						}
 						variant='outline-warning'>
 						<i className='bi bi-clock-fill fs-2'></i>
@@ -78,10 +78,10 @@ const BalanceIncome = ({ obj, handleShowImageModal }) => {
 							obj?.balanceIncome === null
 								? null
 								: () =>
-										handleShowImageModal(
-											obj,
-											"balanceIncome"
-										)
+									handleShowImageModal(
+										obj,
+										"balanceIncome"
+									)
 						}
 						variant='outline-success'>
 						<i className='bi bi-check-lg fs-2'></i>
@@ -103,15 +103,14 @@ const BalanceIncome = ({ obj, handleShowImageModal }) => {
 								obj?.balanceIncome === null
 									? null
 									: () =>
-											handleShowImageModal(
-												obj,
-												"balanceIncome"
-											)
+										handleShowImageModal(
+											obj,
+											"balanceIncome"
+										)
 							}
 							// variant='outline-danger'
 							style={{ border: "1px solid #E97F1E" }}>
 							<i className='bi bi-x-lg fs-2 fw-bold rejected-cross'></i>
-							{/* <img style={{ height: '50px' }} src="assets/img/raject.org.png" /> */}
 							<h6
 								style={{
 									color: "#C4CCD2",

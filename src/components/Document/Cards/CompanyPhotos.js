@@ -101,10 +101,8 @@ const CompanyPhotos = ({ obj, handleShowImageModal }) => {
 								? null
 								: () => handleShowImageModal(obj, "companyPhotos")
 						}
-						// variant='outline-danger'
 						style={{ border: "1px solid #E97F1E" }}>
 						<i class='bi bi-x-lg fs-2 fw-bold rejected-cross'></i>
-						{/* <img style={{ height: '50px' }} src="assets/img/raject.org.png" /> */}
 						<h6
 							style={{
 								color: "#C4CCD2",

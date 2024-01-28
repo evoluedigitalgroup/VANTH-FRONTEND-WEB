@@ -66,7 +66,7 @@ const ChangePassword = ({ open, handleClose }) => {
               onClick={handleClose}
               className="border-0 text-dark p-0 fs-4 bg-white"
             >
-              <img src="assets/img/close.png"></img>
+              <img src="/assets/img/close.png"></img>
             </Button>
           </div>
           {/* <Row>

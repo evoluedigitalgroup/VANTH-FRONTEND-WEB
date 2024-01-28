@@ -341,10 +341,10 @@ const Insights = () => {
                             >
                               {recoilChartData?.growth?.visitorIndication ===
                                 "increment" ? (
-                                <img src="assets/img/up.png" className="px-1" />
+                                <img src="/assets/img/up.png" className="px-1" />
                               ) : (
                                 <img
-                                  src="assets/img/down.png"
+                                  src="/assets/img/down.png"
                                   className="px-1"
                                 />
                               )}
@@ -442,10 +442,10 @@ const Insights = () => {
                             >
                               {recoilChartData?.growth?.contactIndication ===
                                 "increment" ? (
-                                <img src="assets/img/up.png" className="px-1" />
+                                <img src="/assets/img/up.png" className="px-1" />
                               ) : (
                                 <img
-                                  src="assets/img/down.png"
+                                  src="/assets/img/down.png"
                                   className="px-1"
                                 />
                               )}
@@ -542,10 +542,10 @@ const Insights = () => {
                             >
                               {recoilChartData?.growth?.contactIndication ===
                                 "increment" ? (
-                                <img src="assets/img/up.png" className="px-1" />
+                                <img src="/assets/img/up.png" className="px-1" />
                               ) : (
                                 <img
-                                  src="assets/img/down.png"
+                                  src="/assets/img/down.png"
                                   className="px-1"
                                 />
                               )}

@@ -63,7 +63,7 @@ const AddAdmin = ({ open, handleClose }) => {
               onClick={handleClose}
               className="border-0 text-dark p-0 mx-4 fs-5 bg-white "
             >
-              <img src="assets/img/close.png"></img>
+              <img src="/assets/img/close.png"></img>
             </Button>
           </div>
           {/* <Row>
@@ -87,7 +87,7 @@ const AddAdmin = ({ open, handleClose }) => {
                 style={{ backgroundColor: "#F4F6F8" }}
               >
                 <InputGroup.Text className=" border-0 ">
-                  <img src="assets/img/briefcase.png " />
+                  <img src="/assets/img/briefcase.png " />
                 </InputGroup.Text>
                 <Form.Control
                   style={{ backgroundColor: "#F4F6F8" }}

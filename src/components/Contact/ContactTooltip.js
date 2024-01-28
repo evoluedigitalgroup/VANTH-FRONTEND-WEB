@@ -53,7 +53,7 @@ const ContactTooltip = ({
                   <img
                     onClick={close}
                     style={{ cursor: "pointer" }}
-                    src="assets/img/close1.png"
+                    src="/assets/img/close1.png"
                   ></img>
                 </Col>
                 <Col md={6}>

@@ -93,7 +93,7 @@ const AddressProofModal = ({
               onClick={handleClose}
               className="bg-white border-0 text-dark"
             >
-              <img src="assets/img/close.png"></img>
+              <img src="/assets/img/close.png"></img>
             </Button>
           </Col>
           <div>

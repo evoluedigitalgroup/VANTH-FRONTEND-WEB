@@ -50,7 +50,7 @@ const ReviewAndInformationModal = ({ title, show, onHide, selectedPdf, selectedO
             <h6 className="fw-bold mt-1">{title}</h6>
             <img
               onClick={onHide}
-              src="assets/img/close.png"
+              src="/assets/img/close.png"
               style={{ height: "15px", width: "15px", cursor: "pointer" }}
             ></img>
           </div>

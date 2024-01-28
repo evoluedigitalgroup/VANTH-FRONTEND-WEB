@@ -294,7 +294,7 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
               Link para solicitar assinatura de contrato
             </h5>
             <Button onClick={onHide} className="bg-white border-0 text-dark">
-              <img src="assets/img/close.png"></img>
+              <img src="/assets/img/close.png"></img>
             </Button>
           </div>
           <div

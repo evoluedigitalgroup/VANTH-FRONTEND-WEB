@@ -47,7 +47,7 @@ const DocumentCrad = () => {
   }
   // *******************NEW PDF PREVIEW ************ //
 
-  const { contactId, requestId } = useParams();
+  const { companyId, contactId, requestId } = useParams();
 
   const getAllDocumentsListData = async () => {
     const documentList = await getAllDocumentsList();

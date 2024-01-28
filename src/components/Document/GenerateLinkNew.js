@@ -13,6 +13,8 @@ import ModalCardRow from "./documents/ModalCardRow";
 import PermissionSwith from "./documents/PermissionSwitch";
 import Loader from "../Loader";
 import PermissionSwitchTable from "./documents/PermissionSwitchTable";
+import { useRecoilValue } from "recoil";
+import { profileAtom } from '../../recoil/Atoms';
 
 const GenerateLinkNew = ({
   open,
@@ -24,6 +26,8 @@ const GenerateLinkNew = ({
   refreshDocumentTypes,
   editSwitchesData = null,
 }) => {
+  const [link, setLink] = useState(null);
+  const profile = useRecoilValue(profileAtom)
 
   const [permission, setPermission] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -83,10 +87,11 @@ const GenerateLinkNew = ({
   };
 
   useEffect(() => {
+    const linkValue = `${LINK_URL}${profile.company}/${editData.id}/${editData.documentRequest.id}`;
+    setLink(linkValue);
     setFormValuesData();
   }, []);
 
-  const link = `${LINK_URL}${editData.id}/${editData.documentRequest.id}`;
 
   const handleCheck = (e) => {
     setFormValues({

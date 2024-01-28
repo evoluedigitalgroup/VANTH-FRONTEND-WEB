@@ -101,10 +101,8 @@ const BalanceSheet = ({ obj, handleShowImageModal }) => {
 								? null
 								: () => handleShowImageModal(obj, "balanceSheet")
 						}
-						// variant='outline-danger'
 						style={{ border: "1px solid #E97F1E" }}>
 						<i className='bi bi-x-lg fs-2 fw-bold rejected-cross'></i>
-						{/* <img style={{ height: '50px' }} src="assets/img/raject.org.png" /> */}
 						<h6
 							style={{
 								color: "#C4CCD2",

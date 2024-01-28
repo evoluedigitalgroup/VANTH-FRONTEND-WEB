@@ -66,7 +66,7 @@ const GenerateLinkModal = ({
             <img
               style={{ cursor: "pointer" }}
               onClick={handleClose}
-              src="assets/img/close.png"
+              src="/assets/img/close.png"
             ></img>
           </Col>
         </Row>

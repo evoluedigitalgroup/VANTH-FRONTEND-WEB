@@ -110,7 +110,7 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
             {/* <Button onClick={onHide} className="bg-white border-0 text-dark"> */}
             <img
               onClick={onHide}
-              src="assets/img/close.png"
+              src="/assets/img/close.png"
               style={{ height: "15px", width: "15px", cursor: "pointer" }}
             ></img>
             {/* </Button> */}
