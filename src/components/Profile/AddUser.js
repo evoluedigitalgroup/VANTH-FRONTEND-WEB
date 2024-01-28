@@ -10,11 +10,50 @@ import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
 
 const AddUser = ({ open, handleClose }) => {
-  const [copyText, setCopyText] = useState(false);
-  const [contact, setContact] = useState(false);
-  const [document, setDocument] = useState(false);
-  const [newUser, setNewUser] = useState(false);
+
+
+  const permissionList1 = [
+    {
+      text: 'Insights',
+      label: 'insights',
+      value: false
+    },
+    {
+      text: 'Clientes',
+      label: 'clients',
+      value: false
+    },
+    {
+      text: 'Nova conta',
+      label: 'newUser',
+      value: false
+    }
+  ]
+
+
+  const permissionList2 = [
+    {
+      text: 'Documentos',
+      label: 'document',
+      value: false
+    },
+    {
+      text: 'Permissões',
+      label: 'permissions',
+      value: false
+    },
+    {
+      text: 'Contratos',
+      label: 'contract',
+      value: false
+    },
+  ]
+
+
+
+
   const [designation, setDesignation] = useState("");
+  const [permissions, setPermissions] = useState([permissionList1, permissionList2]);
   const [code, setCode] = useState(null);
 
   useEffect(() => {
@@ -26,13 +65,16 @@ const AddUser = ({ open, handleClose }) => {
   }, []);
 
   const submitAdmin = () => {
+
+    const permissionsData = {};
+
+    permissions.flat().map((item) => {
+      permissionsData[item.label] = item.value;
+    });
+
     const submitData = {
       designation: designation,
-      permissions: {
-        contact,
-        document,
-        newUser,
-      },
+      permissions: permissionsData,
       code,
     };
     inviteAdmin(submitData).then((res) => {
@@ -44,6 +86,64 @@ const AddUser = ({ open, handleClose }) => {
         toast.error(res.message);
       }
     });
+  };
+
+
+
+  const PermissionRow = ({ permissionList, index }) => {
+
+    const onChangeValue = (i) => {
+      const newPermissions = [...permissions];
+      newPermissions[index][i].value = !newPermissions[index][i].value;
+      setPermissions(newPermissions);
+    }
+
+    return (
+      <Table className="border-white table-fit text-wrap tbl-color-text text-center mb-0">
+        <thead className="border-white small fw-normal">
+          <tr className="text-start">
+            {permissionList.map((item, i) => (
+              <th key={i} style={{ color: "#B5B6B7" }}>{item.text}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="text-start">
+            {
+              permissionList.map((item, i) => (
+                <td className="fw-bold small p-0">
+                  {item.value ? (
+                    <Button
+                      onClick={() => onChangeValue(i)}
+                      variant=" success"
+                      className=" button-green  fw-bold text-success p-0  border-0 "
+                    >
+                      <small className="d-flex align-items-center">
+                        <i className="bi bi-check fw-bold fs-5"></i>
+                        Autorizar
+                      </small>
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => onChangeValue(i)}
+                      variant="danger"
+                      className=" fw-bold small text-danger button-red p-0"
+                    >
+                      <small className="d-flex align-items-center">
+                        <i className="bi bi-x fw-bold fs-5"></i>
+                        Remover
+                      </small>
+                    </Button>
+                  )}
+                </td>
+              ))
+            }
+
+          </tr>
+        </tbody>
+      </Table>
+    )
+
   };
 
   return (
@@ -97,96 +197,11 @@ const AddUser = ({ open, handleClose }) => {
                 />
               </InputGroup>
             </Col>
-            <Col md={12}>
+            <Col md={12} className="mb-3">
               <p className="fw-bold fs-6 mt-3 mb-0">Autorizações</p>
-              <Table className="border-white p-3 table-fit text-wrap tbl-color-text text-center mb-4 ">
-                <thead className="border-white small fw-normal">
-                  <tr className="text-start">
-                    <th style={{ color: "#B5B6B7" }}>Contatos </th>
-                    <th style={{ color: "#B5B6B7" }}>Documentos </th>
-                    <th style={{ color: "#B5B6B7" }}>Nova conta</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="text-start">
-                    <td className="fw-bold small p-0">
-                      {contact ? (
-                        <Button
-                          onClick={() => setContact(!contact)}
-                          variant=" success"
-                          className=" button-green  fw-bold text-success p-0  border-0 "
-                        >
-                          <small className="d-flex align-items-center">
-                            <i className="bi bi-check fw-bold fs-5"></i>
-                            Autorizar
-                          </small>
-                        </Button>
-                      ) : (
-                        <Button
-                          onClick={() => setContact(!contact)}
-                          variant="danger"
-                          className=" fw-bold small text-danger button-red p-0"
-                        >
-                          <small className="d-flex align-items-center">
-                            <i className="bi bi-x fw-bold fs-5"></i>
-                            Remover
-                          </small>
-                        </Button>
-                      )}
-                    </td>
-                    <td className="p-0">
-                      {document ? (
-                        <Button
-                          onClick={() => setDocument(!document)}
-                          variant=" success"
-                          className="small button-green  fw-bold text-success p-0 border-0 "
-                        >
-                          <small className="d-flex align-items-center">
-                            <i className="bi bi-check fs-5 fw-bold"></i>
-                            Autorizar
-                          </small>
-                        </Button>
-                      ) : (
-                        <Button
-                          onClick={() => setDocument(!document)}
-                          variant="danger"
-                          className="small fw-bold text-danger button-red p-0"
-                        >
-                          <small className="d-flex align-items-center">
-                            <i className="bi bi-x fs-5 fw-bold"></i>
-                            Remover
-                          </small>
-                        </Button>
-                      )}
-                    </td>
-                    <td className="p-0">
-                      {newUser ? (
-                        <Button
-                          onClick={() => setNewUser(!newUser)}
-                          variant=" success"
-                          className="small button-green  fw-bold text-success p-0 border-0 "
-                        >
-                          <small className="d-flex align-items-center">
-                            <i className="bi bi-check fs-5 fw-bold"></i>
-                            Autorizar
-                          </small>
-                        </Button>
-                      ) : (
-                        <Button
-                          onClick={() => setNewUser(!newUser)}
-                          variant="danger"
-                          className="small fw-bold text-danger button-red p-0"
-                        >
-                          <small className="d-flex align-items-center">
-                            <i className="bi bi-x fs-5 fw-bold"></i>
-                            Remover
-                          </small>
-                        </Button>
-                      )}
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
+              {permissions.map((permissionList, index) => (
+                <PermissionRow key={index} index={index} permissionList={permissionList} />
+              ))}
             </Col>
             <Col md={12}>
               <p className="fw-bold fs-6">Código para criação de conta</p>

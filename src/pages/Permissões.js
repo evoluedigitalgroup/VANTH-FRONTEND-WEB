@@ -36,7 +36,7 @@ const Permissões = () => {
     };
     permissonTable(submitData).then((res) => {
       if (res.success) {
-        setTableRow(res.data.adminList);
+        setTableRow(res.data.userList);
         setLoading(false);
       } else {
         setTableRow([]);

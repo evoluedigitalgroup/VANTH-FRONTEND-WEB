@@ -15,7 +15,7 @@ export const INVITE_NEW_ADMIN = "invite/invite-new-admin";
 
 export const ADD_NEW_DOCUMENT_TYPE = "document/add-new-document-type";
 
-export const PERMISSION_TABLE = "permissions/filter-admins-list";
+export const PERMISSION_TABLE = "permissions/filter-users-list";
 export const CHANGE_PERMISSION = "permissions/change-permission";
 
 export const GET_CONTACT = "contacts/filter-contacts";
