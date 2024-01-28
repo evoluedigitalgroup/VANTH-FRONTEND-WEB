@@ -18,7 +18,13 @@ import { CONTRACT_LINK_URL } from "../../config";
 import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
 
-const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
+const ContractCopylinkModal = ({
+  show,
+  onHide,
+  selectedOption,
+  refresh,
+  setRefresh
+}) => {
   const [loading, setLoading] = useState(false);
   const [generatedLink, setGeneratedLink] = useState(false);
   const [documents, setDocuments] = useState([]);
@@ -154,6 +160,7 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
         toast.error(res.message)
       }
       setLoading(false)
+      setRefresh(refresh + 1);
     });
   }
 

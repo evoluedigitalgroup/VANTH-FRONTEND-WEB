@@ -11,6 +11,8 @@ import {
   contractModels,
   contractNewFileSelected,
   contractSelectedUser,
+  contractTableData,
+  profileAtom,
 } from "../recoil/Atoms";
 import SelectClientModal from "../components/NewContract/SelectClientModal";
 import SelectTemplateModal from "../components/NewContract/SelectTemplateModal";
@@ -24,6 +26,7 @@ import { getContractList } from "../helper/API/contract";
 import ContractTable from "../components/Contract/ContractTable";
 
 const Contact = () => {
+  const profile = useRecoilValue(profileAtom);
   const [tableRow, setTableRow] = useState([]);
   const [refresh, setRefresh] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -35,7 +38,7 @@ const Contact = () => {
 
   const [search, setSearch] = useState();
   const [newTableRow, setNewtableRow] = useState([]);
-  const [table, setTable] = useRecoilState(contactTableData);
+  const [table, setTable] = useRecoilState(contractTableData);
   const [models, setModels] = useRecoilState(contractModels);
   const selectedOption = useRecoilValue(contractSelectedUser);
   const selectedPdf = useRecoilValue(contractNewFileSelected);
@@ -98,7 +101,7 @@ const Contact = () => {
         all: false,
       });
       const newData = table.filter((obj) => {
-        if (obj.status === "approved") {
+        if (obj.status === "signed" || obj.status === "rejected") {
           return obj;
         }
       });
@@ -197,6 +200,8 @@ const Contact = () => {
             selectedOption={selectedOption}
             show={models.previewContract}
             onHide={() => setModels(resetModels())}
+            refresh={refresh}
+            setRefresh={setRefresh}
           />
         </div>
         <div>

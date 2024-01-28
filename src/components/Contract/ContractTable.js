@@ -1,6 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo, Suspense } from "react";
-import { Card, Row, Col } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+import React, { useState, useRef, useEffect } from "react";
 
 import Table from "react-bootstrap/Table";
 import {
@@ -13,6 +11,7 @@ import {
 import GenerateLinkNew from "../Document/GenerateLinkNew";
 import NewPagination from "../Pagination/NewPagination";
 import RecordFound from "../RecordFound";
+import { Button } from "react-bootstrap";
 
 const ContractTable = ({
   tableRow,
@@ -71,12 +70,57 @@ const ContractTable = ({
                 <td
                   className="fw-bold"
                 >
-                  {obj?.recipient?.name}
+                  <Button
+                    style={{
+                      width: "100px",
+                      fontSize: "12px",
+                      borderRadius: "3px",
+                      border: "0px",
+                      fontWeight: "normal",
+                      padding: "0",
+                    }}
+                    className={
+                      obj?.recipient?.contactApprove === "pending"
+                        ? "document-pending"
+                        : obj?.recipient?.contactApprove === "rejected"
+                          ? "contact-wait"
+                          : "document-success"
+                    }
+                  >
+                    {obj?.recipient?.contactApprove === "pending"
+                      ? "Aguardando"
+                      : obj?.recipient?.contactApprove === "rejected"
+                        ? "Reprovado"
+                        : "Aprovado"}
+                  </Button>
                 </td>
                 <td
                   className="fw-bold"
                 >
-                  {obj?.recipient?.name}
+                  <Button
+                    style={{
+                      width: "100px",
+                      fontSize: "12px",
+                      borderRadius: "3px",
+                      border: "0px",
+                      fontWeight: "normal",
+                      padding: "0",
+                    }}
+                    className={
+                      obj?.status === "pending"
+                        ? "document-pending"
+                        : obj?.status === "rejected"
+                          ? "contact-wait"
+                          : "document-success"
+                    }
+                  >
+                    {obj?.status === "pending"
+                      ? "Aguardando"
+                      : obj?.status === "rejected"
+                        ? "Recusado"
+                        : "Assinada"}
+                  </Button>
+
                 </td>
               </tr>
             ))}

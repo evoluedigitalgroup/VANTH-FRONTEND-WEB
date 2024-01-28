@@ -27,6 +27,12 @@ export const contactTableData = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const contractTableData = atom({
+  key: "contractTableData",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
 export const documentTableData = atom({
   key: "documentTableData",
   default: "",

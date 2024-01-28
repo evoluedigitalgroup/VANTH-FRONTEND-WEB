@@ -8,7 +8,13 @@ import { templatesListAtom } from "../../recoil/ContractAtoms/Templates";
 import { openSelectTemplate, resetModels } from "../../recoil/helpers/contractModels";
 import { contractModels } from "../../recoil/Atoms";
 
-const ReviewAndInformationModal = ({ title, show, onHide, selectedPdf, selectedOption }) => {
+const ReviewAndInformationModal = ({
+  title,
+  show,
+  onHide,
+  selectedPdf,
+  selectedOption
+}) => {
   const [base64, setBase64] = useState(null);
   const [loading, setLoading] = useState(false);
   const setContractTemplates = useSetRecoilState(templatesListAtom);
