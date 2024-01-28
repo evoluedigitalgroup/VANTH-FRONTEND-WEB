@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import AfterAuth from "../HOC/AfterAuth";
 import TableNavbar from "../components/TableNavbar";
-import ContactTable from "../components/Contact/ContactTable";
-import { getContactList } from "../helper/API/contact";
 import Loader from "../components/Loader";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
-  contactTableData,
   contractModels,
   contractNewFileSelected,
   contractSelectedUser,
@@ -24,6 +21,98 @@ import ContractCopylinkModal from "../components/NewContract/ContractCopylinkMod
 import ReviewAndInformationModal from "../components/NewContract/ReviewAndInformationModal";
 import { getContractList } from "../helper/API/contract";
 import ContractTable from "../components/Contract/ContractTable";
+import { contractPaginationData, toReloadContractData } from "../recoil/PaginationAtoms/Contract";
+import { PAGE_LIMIT } from "../config";
+
+
+const ContractData = ({
+  search,
+  tableRow,
+  refresh,
+  setRefresh,
+  setTableRow,
+  searchResult,
+  setSearchResult,
+  filterVal,
+  active,
+  setActive,
+
+}) => {
+
+  const tableData = useRecoilValue(
+    contractPaginationData(searchResult ? search : (search = ""))
+  );
+  const [reloadVal, reloadData] = useRecoilState(toReloadContractData);
+  const totalPage = Math.ceil((tableData?.totalFindData || 1) / PAGE_LIMIT);
+  const [table, setTable] = useRecoilState(contractTableData);
+
+  console.log("tableData", tableData);
+
+  useEffect(() => {
+    reloadData(reloadVal + 1);
+    setSearchResult(false);
+  }, [refresh]);
+  useEffect(() => {
+    // setTable(tableData?.findData);
+    setTableRow(tableData?.findData);
+  }, [tableData]);
+
+  useEffect(() => {
+    handleToggle();
+  }, [filterVal])
+
+  const handleToggle = () => {
+    if (filterVal === "Pending") {
+      setActive({
+        pending: true,
+        approved: false,
+        all: false,
+      });
+
+      const newData = tableData?.findData.filter((obj) => {
+        if (obj.status === "pending") {
+          return obj;
+        }
+      });
+      setTableRow(newData);
+    } else if (filterVal === "Responded") {
+      setActive({
+        pending: false,
+        approved: true,
+        all: false,
+      });
+      const newData = tableData?.findData.filter((obj) => {
+        if (obj.status === "signed" || obj.status === "declined") {
+          return obj;
+        }
+      });
+      setTableRow(newData);
+    } else {
+      setActive({
+        pending: false,
+        approved: false,
+        all: true,
+      });
+      setTableRow(tableData?.findData);
+    }
+  };
+
+
+  return (
+    <Suspense fallback={<Loader />}>
+      <ContractTable
+        tableRow={tableRow}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        tableDataArray={tableData}
+        totalPage={totalPage}
+      />
+    </Suspense>
+  );
+};
+
+
+
 
 const Contact = () => {
   const profile = useRecoilValue(profileAtom);
@@ -35,9 +124,19 @@ const Contact = () => {
     approved: false,
     all: true,
   });
+  const [filterVal, setFilterVal] = useState("All");
 
   const [search, setSearch] = useState();
+
+  const [searchResult, setSearchResult] = useState(false);
+
+  const [show, setShow] = useState(false);
+
   const [newTableRow, setNewtableRow] = useState([]);
+
+
+
+
   const [table, setTable] = useRecoilState(contractTableData);
   const [models, setModels] = useRecoilState(contractModels);
   const selectedOption = useRecoilValue(contractSelectedUser);
@@ -65,54 +164,11 @@ const Contact = () => {
 
   const onEnter = (e) => {
     if (e.key === "Enter") {
-      setLoading(true);
-      const submitData = {
-        search,
-      };
-      getContractList(submitData).then((res) => {
-        if (res.success) {
-          setTableRow(res.data);
-          setLoading(false);
-        } else {
-          setLoading(false);
-        }
-      });
-    }
-  };
-
-  const handleToggle = (status) => {
-    if (status === "Pending") {
-      setActive({
-        pending: true,
-        approved: false,
-        all: false,
-      });
-
-      const newData = table.filter((obj) => {
-        if (obj.status === "pending") {
-          return obj;
-        }
-      });
-      setTableRow(newData);
-    } else if (status === "Approved") {
-      setActive({
-        pending: false,
-        approved: true,
-        all: false,
-      });
-      const newData = table.filter((obj) => {
-        if (obj.status === "signed" || obj.status === "rejected") {
-          return obj;
-        }
-      });
-      setTableRow(newData);
+      // reloadData(reloadVal + 1);
+      setSearchResult(true);
     } else {
-      setActive({
-        pending: false,
-        approved: false,
-        all: true,
-      });
-      setTableRow(table);
+      // setSearch("");
+      setSearchResult(false);
     }
   };
 
@@ -120,7 +176,7 @@ const Contact = () => {
     <>
       <AfterAuth>
         <div className="d-flex align-items-center justify-content-between mt-3 mx-md-5 ms-3">
-          <h2 className="">Contatos</h2>
+          <h2 className="">Contratos</h2>
           <button
             onClick={() => setModels(openSelectClient())}
             className="py-2 px-3"
@@ -138,7 +194,7 @@ const Contact = () => {
         <Card className="m-md-5 mx-md-5 my-md-3 p-3 px-md-4 cardComponent">
           {/* <NAVBAR /> */}
           <TableNavbar
-            title={"Contatos"}
+            title={"Contratos"}
             setSearch={setSearch}
             onEnter={onEnter}
             refresh={refresh}
@@ -151,38 +207,41 @@ const Contact = () => {
               <Button
                 className={`fs-color mx-2 border-0 ${active.pending ? "activeBtnTable" : "inActiveBtnTable"
                   }`}
-                onClick={(e) => handleToggle("Pending")}
+                onClick={(e) => setFilterVal("Pending")}
               >
                 Pendentes
               </Button>
               <Button
                 className={`fs-color  mx-2 border-0 ${active.approved ? "activeBtnTable" : "inActiveBtnTable"
                   }`}
-                onClick={(e) => handleToggle("Approved")}
+                onClick={(e) => setFilterVal("Responded")}
               >
                 Respondidas
               </Button>
               <Button
                 className={`fs-color px-4 border-0 ${active.all ? "activeBtnTable" : "inActiveBtnTable"
                   }`}
-                onClick={(e) => handleToggle("All")}
+                onClick={(e) => setFilterVal("All")}
               >
                 Todos
               </Button>
             </div>
           </TableNavbar>
 
-          {loading ? (
-            <Loader />
-          ) : (
-            <>
-              <ContractTable
-                tableRow={tableRow}
-                refresh={refresh}
-                setRefresh={setRefresh}
-              />
-            </>
-          )}
+          <Suspense fallback={<Loader />}>
+            <ContractData
+              tableRow={tableRow}
+              refresh={refresh}
+              setRefresh={setRefresh}
+              search={search}
+              setTableRow={setTableRow}
+              searchResult={searchResult}
+              setSearchResult={setSearchResult}
+              filterVal={filterVal}
+              active={active}
+              setActive={setActive}
+            />
+          </Suspense>
         </Card>
         <SelectClientModal
           show={models.selectClient}

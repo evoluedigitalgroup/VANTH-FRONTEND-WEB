@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 
 import Table from "react-bootstrap/Table";
 import {
-  contactActivePageAtom,
-  contactNextPageSelector,
-  contactPrevPageSelector,
-  contactShowFirstPageSelector,
-  contactShowLastPageSelector,
-} from "../../recoil/PaginationAtoms/Contact";
+  contractActivePageAtom,
+  contractNextPageSelector,
+  contractPrevPageSelector,
+  contractShowFirstPageSelector,
+  contractShowLastPageSelector,
+} from "../../recoil/PaginationAtoms/Contract";
 import GenerateLinkNew from "../Document/GenerateLinkNew";
 import NewPagination from "../Pagination/NewPagination";
 import RecordFound from "../RecordFound";
@@ -29,10 +29,7 @@ const ContractTable = ({
   const [idArray, setIdArray] = useState([]);
   let PageSize = 10;
 
-  const ref = useRef(null);
-  const [show, setShow] = useState(false);
-  const [target, setTarget] = useState(null);
-  const [visitorId, setVisitorId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setTableData(tableRow);
@@ -126,16 +123,25 @@ const ContractTable = ({
             ))}
           </tbody>
         ) : (
-          <RecordFound label="Nenhum Registro Encontrado" />
+          <tbody>
+            <tr>
+              <td colspan={3}>
+                <RecordFound label="Nenhum Registro Encontrado" />
+              </td>
+            </tr>
+          </tbody>
         )}
       </Table>
       <NewPagination
-        show={tableDataArray?.findData?.length && tableDataArray?.totalFindData}
-        atom={contactActivePageAtom}
-        prevSelector={contactPrevPageSelector}
-        nextSelector={contactNextPageSelector}
-        showFirstSelector={contactShowFirstPageSelector}
-        showLastSelector={contactShowLastPageSelector}
+        show={
+          tableDataArray?.findData?.length &&
+          tableDataArray?.totalFindData
+        }
+        atom={contractActivePageAtom}
+        prevSelector={contractPrevPageSelector}
+        nextSelector={contractNextPageSelector}
+        showFirstSelector={contractShowFirstPageSelector}
+        showLastSelector={contractShowLastPageSelector}
         totalPage={totalPage}
       />
 
