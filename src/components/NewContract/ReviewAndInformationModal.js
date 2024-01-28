@@ -6,7 +6,7 @@ import { createContract, getTemplates } from "../../helper/API/contract";
 import { useSetRecoilState } from "recoil";
 import { templatesListAtom } from "../../recoil/ContractAtoms/Templates";
 import { openSelectTemplate, resetModels } from "../../recoil/helpers/contractModels";
-import { contractModels } from "../../recoil/Atoms";
+import { contractModels, contractNewFileSelected } from "../../recoil/Atoms";
 
 const ReviewAndInformationModal = ({
   title,
@@ -19,6 +19,7 @@ const ReviewAndInformationModal = ({
   const [loading, setLoading] = useState(false);
   const setContractTemplates = useSetRecoilState(templatesListAtom);
   const setModals = useSetRecoilState(contractModels);
+  const setSelectedPdf = useSetRecoilState(contractNewFileSelected);;
 
   useEffect(() => {
     if (show) {
@@ -55,7 +56,11 @@ const ReviewAndInformationModal = ({
           <div className="d-flex justify-content-between">
             <h6 className="fw-bold mt-1">{title}</h6>
             <img
-              onClick={onHide}
+              onClick={() => {
+                onHide();
+                setBase64(null);
+                setSelectedPdf(null);
+              }}
               src="/assets/img/close.png"
               style={{ height: "15px", width: "15px", cursor: "pointer" }}
             ></img>
