@@ -70,7 +70,9 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
               overflowWrap: "anywhere",
             }}
           >
-            {data?.originalFileName}
+            <a href={data.originalFile} target="__blank" style={{ color: '#000000' }}>
+              {data?.originalFileName}
+            </a>
           </h6>
           <input
             type="checkbox"
