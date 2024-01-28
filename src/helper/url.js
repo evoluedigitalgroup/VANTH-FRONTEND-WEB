@@ -34,6 +34,7 @@ export const PROFILE_HISTORY = "profile/filter-history";
 export const APPROVED_DOCUMENT = "document/approved-document";
 export const CHART_DATA = "home/insights-with-filter";
 
+export const GET_CONTRACTS = "contract/filter-contracts";
 export const CREATE_TEMPLATE = 'contract/create-template';
 export const GET_TEMPLATES = 'contract/get-templates';
 export const GENERATE_CONTRACT_LINK = 'contract/create-contract';

@@ -2,10 +2,29 @@ import { AfterAuthApi, ApiCall } from "../index";
 import {
   CREATE_TEMPLATE,
   GENERATE_CONTRACT_LINK,
+  GET_CONTRACTS,
   GET_CONTRACT_DETAILS_LINK,
   GET_TEMPLATES,
   UPDATE_CONTRACT_STATUS_LINK
 } from "../url";
+
+
+export const getContractList = (page, search, limit = 10) => {
+  return new Promise((resolve, reject) => {
+    const submitData = {
+      startFrom: (page - 1) * limit,
+      totalFetchRecords: limit,
+      search,
+    };
+    AfterAuthApi(GET_CONTRACTS, "post", submitData)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject();
+      });
+  });
+};
 
 export const createContract = (submitData) => {
   return new Promise((resolve, reject) => {

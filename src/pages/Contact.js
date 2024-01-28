@@ -20,6 +20,8 @@ import {
 } from "../recoil/helpers/contractModels";
 import ContractCopylinkModal from "../components/NewContract/ContractCopylinkModal";
 import ReviewAndInformationModal from "../components/NewContract/ReviewAndInformationModal";
+import { getContractList } from "../helper/API/contract";
+import ContractTable from "../components/Contract/ContractTable";
 
 const Contact = () => {
   const [tableRow, setTableRow] = useState([]);
@@ -39,21 +41,21 @@ const Contact = () => {
   const selectedPdf = useRecoilValue(contractNewFileSelected);
 
   useEffect(() => {
-    // setLoading(true);
-    // const submitData = {
-    //   search,
-    // };
-    // getContactList(submitData).then((res) => {
-    //   if (res.success) {
-    //     setTable(res.data.findData);
-    //     setTableRow(res.data.findData);
-    //     setLoading(false);
-    //   } else {
-    //     setTable([]);
-    //     setTableRow([]);
-    //     setLoading(false);
-    //   }
-    // });
+    setLoading(true);
+    const submitData = {
+      search,
+    };
+    getContractList(submitData).then((res) => {
+      if (res.success) {
+        setTable(res.data.findData);
+        setTableRow(res.data.findData);
+        setLoading(false);
+      } else {
+        setTable([]);
+        setTableRow([]);
+        setLoading(false);
+      }
+    });
 
     console.log("selectedPdf : ", selectedPdf);
   }, [refresh, selectedPdf]);
@@ -64,7 +66,7 @@ const Contact = () => {
       const submitData = {
         search,
       };
-      getContactList(submitData).then((res) => {
+      getContractList(submitData).then((res) => {
         if (res.success) {
           setTableRow(res.data);
           setLoading(false);
@@ -144,25 +146,22 @@ const Contact = () => {
           >
             <div className="">
               <Button
-                className={`fs-color mx-2 border-0 ${
-                  active.pending ? "activeBtnTable" : "inActiveBtnTable"
-                }`}
+                className={`fs-color mx-2 border-0 ${active.pending ? "activeBtnTable" : "inActiveBtnTable"
+                  }`}
                 onClick={(e) => handleToggle("Pending")}
               >
                 Pendentes
               </Button>
               <Button
-                className={`fs-color  mx-2 border-0 ${
-                  active.approved ? "activeBtnTable" : "inActiveBtnTable"
-                }`}
+                className={`fs-color  mx-2 border-0 ${active.approved ? "activeBtnTable" : "inActiveBtnTable"
+                  }`}
                 onClick={(e) => handleToggle("Approved")}
               >
                 Respondidas
               </Button>
               <Button
-                className={`fs-color px-4 border-0 ${
-                  active.all ? "activeBtnTable" : "inActiveBtnTable"
-                }`}
+                className={`fs-color px-4 border-0 ${active.all ? "activeBtnTable" : "inActiveBtnTable"
+                  }`}
                 onClick={(e) => handleToggle("All")}
               >
                 Todos
@@ -173,11 +172,13 @@ const Contact = () => {
           {loading ? (
             <Loader />
           ) : (
-            <ContactTable
-              tableRow={tableRow}
-              refresh={refresh}
-              setRefresh={setRefresh}
-            />
+            <>
+              <ContractTable
+                tableRow={tableRow}
+                refresh={refresh}
+                setRefresh={setRefresh}
+              />
+            </>
           )}
         </Card>
         <SelectClientModal
