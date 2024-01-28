@@ -311,7 +311,7 @@ const PermissonTable = ({ tableRow, refresh, setRefresh }) => {
 										)}
 									</td>
 									<td>
-										{val.permissions.newAdmin ? (
+										{val.permissions.newUser ? (
 											<Button
 												onClick={(e) =>
 													handleClick(

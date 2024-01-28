@@ -9,11 +9,11 @@ import { generateCode, inviteAdmin } from "../../helper/API/auth";
 import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
 
-const AddAdmin = ({ open, handleClose }) => {
+const AddUser = ({ open, handleClose }) => {
   const [copyText, setCopyText] = useState(false);
   const [contact, setContact] = useState(false);
   const [document, setDocument] = useState(false);
-  const [newAdmin, setNewAdmin] = useState(false);
+  const [newUser, setNewUser] = useState(false);
   const [designation, setDesignation] = useState("");
   const [code, setCode] = useState(null);
 
@@ -31,7 +31,7 @@ const AddAdmin = ({ open, handleClose }) => {
       permissions: {
         contact,
         document,
-        newAdmin,
+        newUser,
       },
       code,
     };
@@ -160,9 +160,9 @@ const AddAdmin = ({ open, handleClose }) => {
                       )}
                     </td>
                     <td className="p-0">
-                      {newAdmin ? (
+                      {newUser ? (
                         <Button
-                          onClick={() => setNewAdmin(!newAdmin)}
+                          onClick={() => setNewUser(!newUser)}
                           variant=" success"
                           className="small button-green  fw-bold text-success p-0 border-0 "
                         >
@@ -173,7 +173,7 @@ const AddAdmin = ({ open, handleClose }) => {
                         </Button>
                       ) : (
                         <Button
-                          onClick={() => setNewAdmin(!newAdmin)}
+                          onClick={() => setNewUser(!newUser)}
                           variant="danger"
                           className="small fw-bold text-danger button-red p-0"
                         >
@@ -226,4 +226,4 @@ const AddAdmin = ({ open, handleClose }) => {
   );
 };
 
-export default AddAdmin;
+export default AddUser;

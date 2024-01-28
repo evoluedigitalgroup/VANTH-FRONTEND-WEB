@@ -17,7 +17,7 @@ import NewProgressbar from "../NewProgressbar";
 const ProfileCard = ({
   showProfilePicture,
   showChangePassword,
-  showAddAdmin,
+  showAddUser,
   permissions,
 }) => {
   const profile = useRecoilValue(profileAtom);
@@ -134,10 +134,10 @@ const ProfileCard = ({
             md={6}
             className="text-md-end d-flex align-items-start align-items-md-end flex-column mt-md-3 mt-2"
           >
-            {permissions.newAdmin && (
+            {permissions.newUser && (
               <Button
                 size="lg"
-                onClick={showAddAdmin}
+                onClick={showAddUser}
                 className="border-0 shadow fs-6"
                 style={{ backgroundColor: "#0068FF" }}
               >

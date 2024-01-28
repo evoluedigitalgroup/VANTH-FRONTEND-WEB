@@ -9,7 +9,7 @@ import Card from "react-bootstrap/Card";
 import AfterAuth from "../HOC/AfterAuth";
 import ProfilePicture from "../components/Profile/ProfilePicture";
 import ChangePassword from "../components/Profile/ChangePassword";
-import AddAdmin from "../components/Profile/AddAdmin";
+import AddUser from "../components/Profile/AddUser";
 import ProfileCard from "../components/Profile/ProfileCard";
 import { useRecoilValue } from "recoil";
 import { loginAtom } from "../recoil/Atoms";
@@ -27,7 +27,7 @@ const Perfil = () => {
 
   const [profilePicture, setProfilePicture] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
-  const [addAdmin, setAddAdmin] = useState(false);
+  const [addUser, setAddUser] = useState(false);
   const login = useRecoilValue(loginAtom);
   const permissions = login?.permissions;
 
@@ -37,9 +37,9 @@ const Perfil = () => {
   const showChangePassword = () => {
     setChangePassword(true);
   };
-  const showAddAdmin = () => {
-    if (permissions.newAdmin) {
-      setAddAdmin(true);
+  const showAddUser = () => {
+    if (permissions.newUser) {
+      setAddUser(true);
     }
   };
 
@@ -52,7 +52,7 @@ const Perfil = () => {
         <ProfileCard
           showProfilePicture={showProfilePicture}
           showChangePassword={showChangePassword}
-          showAddAdmin={showAddAdmin}
+          showAddUser={showAddUser}
           permissions={permissions}
         />
         {profilePicture && (
@@ -67,8 +67,8 @@ const Perfil = () => {
             handleClose={() => setChangePassword(false)}
           />
         )}
-        {addAdmin && (
-          <AddAdmin open={addAdmin} handleClose={() => setAddAdmin(false)} />
+        {addUser && (
+          <AddUser open={addUser} handleClose={() => setAddUser(false)} />
         )}
       </AfterAuth>
     </>

@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Show from "./components/Show";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
-import Contact from "./pages/Contact";
+import Contract from "./pages/Contract";
 import Insights from "./pages/Insights";
 import Permissões from "./pages/Permissões";
 import Documents from "./pages/Documents";
@@ -40,8 +40,8 @@ function App() {
 
         <Route path="/Insights" element={<Protected Component={Insights} />} />
         <Route path="/clientes" element={<Protected Component={Clients} />} />
-        {permissions?.contact ? (
-          <Route path="/contratos" element={<Protected Component={Contact} />} />
+        {permissions?.contract ? (
+          <Route path="/contratos" element={<Protected Component={Contract} />} />
         ) : (
           <Route path="error" element={<ErrorPage />} />
         )}
@@ -53,7 +53,7 @@ function App() {
         ) : (
           <Route path="error" element={<ErrorPage />} />
         )}
-        {permissions?.newAdmin ? (
+        {permissions?.newUser ? (
           <Route
             path="/Permissoes"
             element={<Protected Component={Permissões} />}

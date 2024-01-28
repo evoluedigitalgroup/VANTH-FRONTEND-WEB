@@ -24,7 +24,7 @@ const PermissonTooltip = ({
         permissions: {
           contact: true,
           document: editData.permissions.document,
-          newAdmin: editData.permissions.newAdmin,
+          newUser: editData.permissions.newUser,
         },
       };
     } else if (editData.type === "document") {
@@ -33,7 +33,7 @@ const PermissonTooltip = ({
         permissions: {
           contact: editData.permissions.contact,
           document: true,
-          newAdmin: editData.permissions.newAdmin,
+          newUser: editData.permissions.newUser,
         },
       };
     } else {
@@ -42,7 +42,7 @@ const PermissonTooltip = ({
         permissions: {
           contact: editData.permissions.contact,
           document: editData.permissions.document,
-          newAdmin: true,
+          newUser: true,
         },
       };
     }
@@ -66,7 +66,7 @@ const PermissonTooltip = ({
         permissions: {
           contact: false,
           document: editData.permissions.document,
-          newAdmin: editData.permissions.newAdmin,
+          newUser: editData.permissions.newUser,
         },
       };
     } else if (editData.type === "document") {
@@ -75,7 +75,7 @@ const PermissonTooltip = ({
         permissions: {
           contact: editData.permissions.contact,
           document: false,
-          newAdmin: editData.permissions.newAdmin,
+          newUser: editData.permissions.newUser,
         },
       };
     } else {
@@ -84,7 +84,7 @@ const PermissonTooltip = ({
         permissions: {
           contact: editData.permissions.contact,
           document: editData.permissions.document,
-          newAdmin: false,
+          newUser: false,
         },
       };
     }
