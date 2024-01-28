@@ -39,15 +39,15 @@ function App() {
         <Route path="/login" element={<Protected Component={Login} />} />
 
         <Route path="/Insights" element={<Protected Component={Insights} />} />
-        <Route path="/Clientes" element={<Protected Component={Clients} />} />
+        <Route path="/clientes" element={<Protected Component={Clients} />} />
         {permissions?.contact ? (
-          <Route path="/Contatos" element={<Protected Component={Contact} />} />
+          <Route path="/contratos" element={<Protected Component={Contact} />} />
         ) : (
           <Route path="error" element={<ErrorPage />} />
         )}
         {permissions?.document ? (
           <Route
-            path="/Documentos"
+            path="/documentos"
             element={<Protected Component={Documents} />}
           />
         ) : (

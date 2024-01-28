@@ -601,7 +601,7 @@ const Insights = () => {
               }}
             >
               <Link
-                to="/Contatos"
+                to="/contratos"
                 style={{
                   textDecoration: "none",
                   color: "#fff",
