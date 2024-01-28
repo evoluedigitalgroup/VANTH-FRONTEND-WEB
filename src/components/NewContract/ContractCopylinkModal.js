@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, InputGroup, Modal, Row, Spinner } from "react-bootstrap";
 import ReviewAndInformationModal from "./ReviewAndInformationModal";
-import { contractModels } from "../../recoil/Atoms";
+import { contractModels, profileAtom } from "../../recoil/Atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   openSelectTemplate,
@@ -14,10 +14,15 @@ import {
 import { click } from "@testing-library/user-event/dist/click";
 import { generateContractLink } from "../../helper/API/contract";
 import Loader from "../Loader";
+import { CONTRACT_LINK_URL } from "../../config";
+import { toast } from "react-toastify";
+import copy from "copy-to-clipboard";
 
 const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
   const [loading, setLoading] = useState(false);
+  const [generatedLink, setGeneratedLink] = useState(false);
   const [documents, setDocuments] = useState([]);
+  const profile = useRecoilValue(profileAtom);
 
   const allTemplatesList = useRecoilValue(templatesListAtom);
   const [selectedTemplates, setSelectedTemplates] = useRecoilState(
@@ -142,12 +147,23 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
     setLoading(true)
     generateContractLink(submitData).then((res) => {
       console.log('res : ', res);
+      if (res.success) {
+        const generatedLinkValue = `${CONTRACT_LINK_URL}${profile.company}/${res.data.uuid}/${res.data.docusignEnvelopeId}`;
+        setGeneratedLink(generatedLinkValue);
+      } else {
+        toast.error(res.message)
+      }
       setLoading(false)
     });
   }
 
-  const LinkBlocks = ({ showLinks }) => {
-    return showLinks ? (
+  const submitForm = () => {
+    copy(generatedLink);
+    toast.success("Link copiado com sucesso");
+  }
+
+  const LinkBlocks = () => {
+    return !!generatedLink ? (
       <>
         <>
           <div className="mt-4">
@@ -166,6 +182,7 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
                 <Form.Control
                   className="p-2 border-0 fw-bold shadow-none"
                   style={{ backgroundColor: "#F4F6F8" }}
+                  value={generatedLink}
                 />
               </InputGroup>
             </Col>
@@ -184,18 +201,24 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
                 >
                   Enviar com:
                 </h6>
-                <img
-                  // style={{ height: "60px", width: "60px" }}
-                  src="/assets/img/whatsApp.svg"
-                />
-                <img
-                  // style={{ height: "39px", width: "39px" }}
-                  src="/assets/img/mail.png"
-                />
-                <img
-                  // style={{ height: "39px", width: "39px" }}
-                  src="/assets/img/sms.png"
-                />
+                <a href={`https://wa.me/?text=${encodeURI(generatedLink)}`}>
+                  <img
+                    // style={{ height: "60px", width: "60px" }}
+                    src="/assets/img/whatsApp.svg"
+                  />
+                </a>
+                <a href={`mailto:?body=${generatedLink}`}>
+                  <img
+                    // style={{ height: "39px", width: "39px" }}
+                    src="/assets/img/mail.png"
+                  />
+                </a>
+                <a href={`sms:?body=${generatedLink}`}>
+                  <img
+                    // style={{ height: "39px", width: "39px" }}
+                    src="/assets/img/sms.png"
+                  />
+                </a>
               </div>
             </div>
           </Col>
@@ -213,6 +236,7 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
                   color: "white",
                   fontWeight: 800,
                 }}
+                onClick={submitForm}
               >
                 Copiar&nbsp;link
               </button>
@@ -223,8 +247,8 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
     ) : null
   }
 
-  const GenerateLinkBlock = ({ showBlock }) => {
-    return showBlock ? (
+  const GenerateLinkBlock = () => {
+    return !generatedLink ? (
       <Row>
         <Col md={8}></Col>
         <Col xs={12} md={4}>
@@ -260,7 +284,6 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
       </Row>
     ) : null;
   }
-
 
   return (
     <>
@@ -313,8 +336,8 @@ const ContractCopylinkModal = ({ show, onHide, selectedOption }) => {
             </Row>
           </div>
 
-          <LinkBlocks showLinks={false} link={''} />
-          <GenerateLinkBlock showBlock={true} />
+          <LinkBlocks />
+          <GenerateLinkBlock />
         </div>
       </Modal>
     </>

@@ -22,12 +22,22 @@ export const BASE_URL = envData(
   "https://api.vanthdocs.com.br/api/v1/",
   "https://api.vanthdocs.com.br/api/v1/"
 );
+
 export const LINK_URL = envData(
   ENV_TYPE,
   "http://localhost:3000/document-verification/",
   "https://system.vanthdocs.com.br/document-verification/",
   "https://system.vanthdocs.com.br/document-verification/"
 );
+
+export const CONTRACT_LINK_URL = envData(
+  ENV_TYPE,
+  "http://localhost:3000/requested-signature/",
+  "https://system.vanthdocs.com.br/requested-signature/",
+  "https://system.vanthdocs.com.br/requested-signature/"
+);
+
+
 export const PAGE_LIMIT = 10;
 
 // export const LINK_URL = "localhost:3003/document-verification/";

@@ -71,11 +71,11 @@ function App() {
         />
         <Route path="/logout" element={<Protected Component={Logout} />} />
         <Route
-          path="/document-verification/:contactId/:requestId"
+          path="/document-verification/:companyId/:contactId/:requestId"
           element={<DocumentCard />}
         />
         <Route
-          path="/requested-signature/:contactId/:requestId"
+          path="/requested-signature/:companyId/:contactId/:requestId"
           element={<RequestedSignature />}
         />
       </Routes>
