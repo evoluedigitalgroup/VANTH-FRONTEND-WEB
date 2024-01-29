@@ -3,8 +3,8 @@ import {
 	LOGIN_ADMIN,
 	REGISTER_ADMIN,
 	GENERATE_NEW_CODE,
-	INVITE_NEW_ADMIN,
 	GENERATE_DESIGNATION,
+	INVITE_NEW_USER,
 } from "../url";
 
 export const loginAdmin = (submitData) => {
@@ -55,9 +55,9 @@ export const generateCode = () => {
 	});
 };
 
-export const inviteAdmin = (submitData) => {
+export const inviteUser = (submitData) => {
 	return new Promise((resolve, reject) => {
-		AfterAuthApi(INVITE_NEW_ADMIN, "post", submitData)
+		AfterAuthApi(INVITE_NEW_USER, "post", submitData)
 			.then((res) => {
 				resolve(res.data);
 			})

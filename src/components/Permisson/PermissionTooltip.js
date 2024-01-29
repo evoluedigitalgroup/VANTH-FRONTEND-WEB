@@ -6,7 +6,7 @@ import Popover from "react-bootstrap/Popover";
 import { toast } from "react-toastify";
 import { changePermission } from "../../helper/API/Permisson";
 
-const PermissonTooltip = ({
+const PermissionTooltip = ({
   show,
   target,
   ref,
@@ -17,35 +17,15 @@ const PermissonTooltip = ({
 }) => {
 
   const handleAuth = () => {
-    var submitData;
-    if (editData.type === "contact") {
-      submitData = {
-        id: editData.id,
-        permissions: {
-          contact: true,
-          document: editData.permissions.document,
-          newUser: editData.permissions.newUser,
-        },
-      };
-    } else if (editData.type === "document") {
-      submitData = {
-        id: editData.id,
-        permissions: {
-          contact: editData.permissions.contact,
-          document: true,
-          newUser: editData.permissions.newUser,
-        },
-      };
-    } else {
-      submitData = {
-        id: editData.id,
-        permissions: {
-          contact: editData.permissions.contact,
-          document: editData.permissions.document,
-          newUser: true,
-        },
-      };
-    }
+
+    var submitData = {
+      id: editData.id,
+      permissions: {
+        ...editData.permissions,
+        [editData.type]: true
+      },
+    };
+
     changePermission(submitData).then((res) => {
       if (res.success) {
         toast.success(res.message);
@@ -59,35 +39,17 @@ const PermissonTooltip = ({
   };
 
   const handleRemove = () => {
-    var submitData;
-    if (editData.type === "contact") {
-      submitData = {
-        id: editData.id,
-        permissions: {
-          contact: false,
-          document: editData.permissions.document,
-          newUser: editData.permissions.newUser,
-        },
-      };
-    } else if (editData.type === "document") {
-      submitData = {
-        id: editData.id,
-        permissions: {
-          contact: editData.permissions.contact,
-          document: false,
-          newUser: editData.permissions.newUser,
-        },
-      };
-    } else {
-      submitData = {
-        id: editData.id,
-        permissions: {
-          contact: editData.permissions.contact,
-          document: editData.permissions.document,
-          newUser: false,
-        },
-      };
-    }
+
+    console.log('editData : remove : ', editData);
+
+    var submitData = {
+      id: editData.id,
+      permissions: {
+        ...editData.permissions,
+        [editData.type]: false
+      },
+    };
+
 
     changePermission(submitData).then((res) => {
       if (res.success) {
@@ -102,12 +64,18 @@ const PermissonTooltip = ({
   };
 
   const translator = (data) => {
-    if (data === "document") {
-      return "Documentos";
-    } else if (data === "contact") {
-      return "Contatos";
-    } else {
+    if (data === "insights") {
+      return "Insights";
+    } else if (data === "clients") {
+      return "Clientes";
+    } else if (data === "newUser") {
       return "Nova conta";
+    } else if (data === "document") {
+      return "Documentos";
+    } else if (data === "permissions") {
+      return "Permissões";
+    } else if (data === "contract") {
+      return "Contratos";
     }
   };
 
@@ -198,4 +166,4 @@ const PermissonTooltip = ({
   );
 };
 
-export default PermissonTooltip;
+export default PermissionTooltip;

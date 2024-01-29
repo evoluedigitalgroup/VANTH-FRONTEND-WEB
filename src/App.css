@@ -11,6 +11,7 @@ body {
 }
 
 @media (max-width: 550px) {
+
   /* body {
     padding-top: 25px;
   } */
@@ -41,6 +42,7 @@ body {
     background-color: transparent !important;
     transition: 200ms !important;
   }
+
   .cardComponent {
     border: 0 !important;
   }
@@ -158,6 +160,7 @@ body {
   min-width: 25px !important;
   line-height: 1px !important;
 }
+
 /* @keyframes show {
   from {
     scale: 1;
@@ -546,7 +549,7 @@ body {
 .pagination-item {
   display: inline-block;
   list-style-type: none;
-  /* padding: 10px; */
+  padding: 10px !important;
   cursor: pointer;
 }
 

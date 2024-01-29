@@ -11,7 +11,7 @@ export const GET_DOCUMENT_DETAIL = "get-document-details";
 // AFTER AUTH URL
 export const GENERATE_NEW_CODE = "invite/generate-random-code";
 export const GENERATE_DESIGNATION = "invite/get-code";
-export const INVITE_NEW_ADMIN = "invite/invite-new-admin";
+export const INVITE_NEW_USER = "invite/invite-new-user";
 
 export const ADD_NEW_DOCUMENT_TYPE = "document/add-new-document-type";
 

@@ -5,7 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
-import { generateCode, inviteAdmin } from "../../helper/API/auth";
+import { generateCode, inviteUser } from "../../helper/API/auth";
 import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
 
@@ -77,7 +77,7 @@ const AddUser = ({ open, handleClose }) => {
       permissions: permissionsData,
       code,
     };
-    inviteAdmin(submitData).then((res) => {
+    inviteUser(submitData).then((res) => {
       if (res.success) {
         toast.success(res.message);
         copy(code);
