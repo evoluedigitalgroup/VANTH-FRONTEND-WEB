@@ -33,7 +33,7 @@ const MyPlan = () => {
   return (
     <AfterAuth>
       <div className="mx-3 mx-md-5 mt-3 d-flex align-items-center gap-4">
-        <img src="/assets/img/leftArrow.svg" />
+        {/* <img src="/assets/img/leftArrow.svg" /> */}
         <h3 className="pt-2">Meu plano</h3>
       </div>
       <Card className="my-3 mx-md-5 p-3 px-md-4 cardComponent">

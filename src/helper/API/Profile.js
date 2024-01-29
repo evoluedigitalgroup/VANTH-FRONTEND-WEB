@@ -18,7 +18,7 @@ export const passwordChange = (submitData) => {
 	});
 };
 
-export const profileData = (submitData) => {
+export const profileData = (submitData = {}) => {
 	return new Promise((resolve, reject) => {
 		AfterAuthApi(GET_PROFILE, "post", submitData)
 			.then((res) => {

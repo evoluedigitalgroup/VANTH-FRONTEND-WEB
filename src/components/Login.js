@@ -8,12 +8,14 @@ import { toast } from "react-toastify";
 import { getDesignation, loginAdmin, registerAdmin } from "../helper/API/auth";
 import LoginForm from "./Auth.js/LoginForm";
 import RegisterForm from "./Auth.js/RegisterForm";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { jwtAtom, loginAtom } from "../recoil/Atoms";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { jwtAtom, loginAtom, profileAtom } from "../recoil/Atoms";
+import { profileData } from "../helper/API/Profile";
 
 const Login = () => {
   const [loginData, setLoginData] = useRecoilState(loginAtom);
   const [JWT, setJwt] = useRecoilState(jwtAtom);
+  const [profileItem, setProfileItem] = useRecoilState(profileAtom);
 
   const [login, setLogin] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -73,7 +75,7 @@ const Login = () => {
   const ProLogin = (event) => {
     event.preventDefault();
     setLoading(true);
-    loginAdmin(formValues).then((res) => {
+    loginAdmin(formValues).then(async (res) => {
       if (res.success) {
         setLoading(false);
         localStorage.setItem("login", true);
@@ -83,14 +85,21 @@ const Login = () => {
           JSON.stringify(res.data.jwtTokens.accessToken)
         );
         setJwt(res.data.jwtTokens.accessToken);
-        navigate("/Insights");
-        toast.success(res.message);
+
+        profileData().then((response) => {
+          setProfileItem(response.data);
+          toast.success(res.message);
+        });
+
       } else {
         setLoading(false);
         toast.error(res.message);
       }
     });
   };
+
+
+
   const registerUser = (event, userType) => {
 
     setLoading(true);
@@ -166,6 +175,12 @@ const Login = () => {
     setMember(true);
     setCompany(false);
   };
+
+  useEffect(() => {
+    if (profileItem?.name) {
+      navigate("/Insights");
+    }
+  }, [profileItem]);
 
   return (
     <>

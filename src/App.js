@@ -38,17 +38,17 @@ function App() {
         <Route path="*" element={<Navigate to="error" replace />} />
         <Route path="/login" element={<Protected Component={Login} />} />
 
-        <Route path="/Insights" element={<Protected Component={Insights} />} />
-        <Route path="/clientes" element={<Protected Component={Clients} />} />
+        <Route path="/Insights" element={<Protected requiredPlan Component={Insights} />} />
+        <Route path="/clientes" element={<Protected requiredPlan Component={Clients} />} />
         {permissions?.contract ? (
-          <Route path="/contratos" element={<Protected Component={Contract} />} />
+          <Route path="/contratos" element={<Protected requiredPlan Component={Contract} />} />
         ) : (
           <Route path="error" element={<ErrorPage />} />
         )}
         {permissions?.document ? (
           <Route
             path="/documentos"
-            element={<Protected Component={Documents} />}
+            element={<Protected requiredPlan Component={Documents} />}
           />
         ) : (
           <Route path="error" element={<ErrorPage />} />
@@ -56,14 +56,18 @@ function App() {
         {permissions?.newUser ? (
           <Route
             path="/Permissoes"
-            element={<Protected Component={Permissões} />}
+            element={<Protected requiredPlan Component={Permissões} />}
           />
         ) : (
           <Route path="error" element={<ErrorPage />} />
         )}
         <Route path="/perfil" element={<Protected Component={Perfil} />} />
+        {
+          //  purchaseType = "plan" or "package"
+          //  planId = "plan id" or "package id"
+        }
         <Route
-          path="/perfil/my-plan/purchase"
+          path="/perfil/my-plan/purchase/:purchaseType/:purchaseId"
           element={<Protected Component={PurchasePlan} />}
         />
         <Route
