@@ -4,6 +4,8 @@ import Button from "react-bootstrap/Button";
 import Overlay from "react-bootstrap/Overlay";
 import { toast } from "react-toastify";
 import { approveVisitor } from "../../helper/API/contact";
+import { contactActivePageAtom } from '../../recoil/PaginationAtoms/Contact';
+import { useSetRecoilState } from "recoil";
 
 const ContactTooltip = ({
   show,
@@ -16,6 +18,8 @@ const ContactTooltip = ({
 }) => {
   const [loading, setLoading] = useState(false);
 
+  const setActivePage = useSetRecoilState(contactActivePageAtom);
+
   const handleSubmit = (action) => {
     setLoading(true);
     const submitData = {
@@ -27,6 +31,7 @@ const ContactTooltip = ({
       if (res.success) {
         setLoading(false);
         toast.success(res.message);
+        setActivePage(1);
         setRefresh(refresh + 1);
         close();
       } else {
