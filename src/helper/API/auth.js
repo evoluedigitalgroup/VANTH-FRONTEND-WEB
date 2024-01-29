@@ -5,6 +5,7 @@ import {
 	GENERATE_NEW_CODE,
 	GENERATE_DESIGNATION,
 	INVITE_NEW_USER,
+	INCREMENT_COUNTER,
 } from "../url";
 
 export const loginAdmin = (submitData) => {
@@ -38,6 +39,17 @@ export const getDesignation = (submitData) => {
 				resolve(res.data);
 			})
 			.catch((err) => {
+				reject();
+			});
+	});
+};
+
+export const incrementCounter = (submitData) => {
+	return new Promise((resolve, reject) => {
+		ApiCall(INCREMENT_COUNTER, "post", submitData)
+			.then((res) => {
+				resolve(res.data);
+			}).catch((err) => {
 				reject();
 			});
 	});

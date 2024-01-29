@@ -24,6 +24,7 @@ import { toast } from "react-toastify";
 import TableRowDocument from "../components/Document/documents/TableRowDocument";
 import { attachDocument, getAllDocumentsList } from "../helper/API/contact";
 import { getDocument } from "../helper/API/document";
+import { incrementCounter } from "../helper/API/auth";
 // import { Document, Page } from "react-pdf";
 
 const DocumentCrad = () => {
@@ -53,6 +54,18 @@ const DocumentCrad = () => {
     const documentList = await getAllDocumentsList();
     setDocumentListData(documentList.data);
   };
+
+  const incrementVisiterCounter = () => {
+    const submitData = {
+      company: companyId
+    }
+
+    incrementCounter(submitData);
+  }
+
+  useEffect(() => {
+    incrementVisiterCounter();
+  }, []);
 
   useEffect(() => {
     getAllDocumentsListData();

@@ -8,6 +8,8 @@ export const ATTACH_DOCUMENT = "doc/attachment-document";
 
 export const GET_DOCUMENT_DETAIL = "get-document-details";
 
+export const INCREMENT_COUNTER = "visitor-increment";
+
 // AFTER AUTH URL
 export const GENERATE_NEW_CODE = "invite/generate-random-code";
 export const GENERATE_DESIGNATION = "invite/get-code";

@@ -3,6 +3,7 @@ import { Card } from "react-bootstrap";
 import Loader from "../components/Loader";
 import { useParams } from "react-router-dom";
 import { getPublicContractDetails } from "../helper/API/contract";
+import { incrementCounter } from "../helper/API/auth";
 
 const RequestedSignature = () => {
   const params = useParams();
@@ -27,8 +28,18 @@ const RequestedSignature = () => {
     setLoading(false);
   };
 
+  const incrementVisiterCounter = () => {
+    const { companyId } = params;
+    const submitData = {
+      company: companyId
+    }
+
+    incrementCounter(submitData);
+  }
+
   useEffect(() => {
     getDetails();
+    incrementVisiterCounter();
   }, []);
 
 
