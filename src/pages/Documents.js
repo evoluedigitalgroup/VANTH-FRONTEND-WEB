@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Card, Row, Col, Button } from "react-bootstrap";
 import AfterAuth from "../HOC/AfterAuth";
 import TableNavbar from "../components/TableNavbar";
@@ -6,62 +6,53 @@ import DocumentTable from "../components/Document/DocumentTable";
 import { getDocumentList } from "../helper/API/document";
 import Loader from "../components/Loader";
 import { documentTableData } from "../recoil/Atoms";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import NewMemberAdd from "../components/Document/NewMemberAdd";
+import { documentPaginationData, toReloadDocumentData } from "../recoil/PaginationAtoms/Document";
+import { PAGE_LIMIT } from "../config";
 
-const Documents = () => {
-  const [tableRow, setTableRow] = useState([]);
-  const [refresh, setRefresh] = useState(0);
-  const [loading, setLoading] = useState(false);
+const DocumentData = ({
+  search,
+  tableRow,
+  refresh,
+  setRefresh,
+  setTableRow,
+  searchResult,
+  setSearchResult,
+  filterVal,
+  active,
+  setActive,
+  id,
+  setId,
+  idArray,
+  open,
+  setOpen,
+  handleShowRow
+}) => {
+
+
+
+  const tableData = useRecoilValue(
+    documentPaginationData(searchResult ? search : (search = ""))
+  );
+
+  const [reloadVal, reloadData] = useRecoilState(toReloadDocumentData);
+  const totalPage = Math.ceil((tableData?.totalContactDetails || 1) / PAGE_LIMIT);
   const [table, setTable] = useRecoilState(documentTableData);
-  const [active, setActive] = useState({
-    pending: false,
-    approved: false,
-    all: true,
-  });
-  const [search, setSearch] = useState();
-  const [id, setId] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [idArray, setIdArray] = useState([]);
-  const [show, setShow] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    const submitData = {
-      search,
-    };
-    getDocumentList(submitData).then((res) => {
-      if (res.success) {
-        setTable(res.data.findContactData);
-        setTableRow(res.data.findContactData);
-        setLoading(false);
-        // res.data?.filter((obj, index) => {
-        // 	setIdArray((old) => [...old, obj.id]);
-        // });
-      } else {
-        setTableRow([]);
-        setLoading(false);
-      }
-    });
+    reloadData(reloadVal + 1);
+    setSearchResult(false);
   }, [refresh]);
 
-  const onEnter = (e) => {
-    if (e.key === "Enter") {
-      setLoading(true);
-      const submitData = {
-        search,
-      };
-      getDocumentList(submitData).then((res) => {
-        if (res.success) {
-          setTableRow(res.data.findContactData);
-          setLoading(false);
-        } else {
-          setTableRow([]);
-          setLoading(false);
-        }
-      });
-    }
-  };
+
+  useEffect(() => {
+    setTableRow(tableData?.findContactData);
+  }, [tableData]);
+
+  useEffect(() => {
+    handleToggle();
+  }, [filterVal])
 
   const handleToggle = (status) => {
     if (status === "Pending") {
@@ -99,6 +90,56 @@ const Documents = () => {
     }
   };
 
+
+  return (
+    <Suspense fallback={<Loader />}>
+      <DocumentTable
+        tableRow={tableRow}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        id={id}
+        setId={setId}
+        open={open}
+        tableDataArray={tableData}
+        totalPage={totalPage}
+        setOpen={setOpen}
+        handleShowRow={handleShowRow}
+        idArray={idArray}
+      />
+    </Suspense>
+  );
+
+};
+
+const Documents = () => {
+  const [tableRow, setTableRow] = useState([]);
+  const [refresh, setRefresh] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [active, setActive] = useState({
+    pending: false,
+    approved: false,
+    all: true,
+  });
+
+  const [filterVal, setFilterVal] = useState("All");
+
+  const [search, setSearch] = useState();
+
+  const [searchResult, setSearchResult] = useState(false);
+
+  const [id, setId] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [idArray, setIdArray] = useState([]);
+  const [show, setShow] = useState(false);
+
+  const onEnter = (e) => {
+    if (e.key === "Enter") {
+      setSearchResult(true);
+    } else {
+      setSearchResult(false);
+    }
+  };
+
   const handleShowRow = (id) => {
     setOpen(!open);
     setId(id);
@@ -133,53 +174,46 @@ const Documents = () => {
               <Button
                 className={`fs-color  mx-1 border-0 ${active.approved ? "activeBtnTable" : "inActiveBtnTable"
                   }`}
-                onClick={(e) => handleToggle("Approved")}
+                onClick={(e) => setFilterVal("Approved")}
               >
                 Concluídos
               </Button>
               <Button
                 className={`fs-color  mx-1 border-0 ${active.pending ? "activeBtnTable" : "inActiveBtnTable"
                   }`}
-                onClick={(e) => handleToggle("Pending")}
+                onClick={(e) => setFilterVal("Pending")}
               >
                 Pendentes
               </Button>
               <Button
                 className={`fs-color px-4 mx-1 border-0 ${active.all ? "activeBtnTable" : "inActiveBtnTable"
                   }`}
-                onClick={(e) => handleToggle("All")}
+                onClick={(e) => setFilterVal("All")}
               >
                 Todas
               </Button>
-              {/* <Button
-                onClick={() => {
-                  setShow(true);
-                }}
-                style={{
-                  backgroundColor: "#0068FF",
-                  marginLeft: "2.5rem",
-                }}
-                className="fw-bold align-items-center border-0"
-              >
-                + Novo cliente
-              </Button> */}
             </TableNavbar>
           </div>
-          {loading ? (
-            <Loader />
-          ) : (
-            <DocumentTable
+          <Suspense fallback={<Loader />}>
+            <DocumentData
               tableRow={tableRow}
               refresh={refresh}
               setRefresh={setRefresh}
+              search={search}
+              setTableRow={setTableRow}
+              searchResult={searchResult}
+              setSearchResult={setSearchResult}
+              filterVal={filterVal}
+              active={active}
               id={id}
               setId={setId}
+              idArray={idArray}
               open={open}
               setOpen={setOpen}
               handleShowRow={handleShowRow}
-              idArray={idArray}
+              setActive={setActive}
             />
-          )}
+          </Suspense>
         </Card>
         {show && (
           <NewMemberAdd
