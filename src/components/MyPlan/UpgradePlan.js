@@ -1,7 +1,22 @@
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
 
-const UpgradePlan = () => {
+const plansImages = [
+  {
+    image: "/assets/img/basicPlanBlue.svg",
+    imageSelected: "/assets/img/basicPlanBlack.svg",
+  },
+  {
+    image: "/assets/img/standardPlanBlue.svg",
+    imageSelected: "/assets/img/standardPlanBlack.svg",
+  },
+  {
+    image: "/assets/img/premiumPlanBlue.svg",
+    imageSelected: "/assets/img/premiumPlanBlack.svg",
+  },
+];
+
+const UpgradePlan = ({ data, isUpdate, index }) => {
   return (
     <div>
       <div
@@ -18,15 +33,20 @@ const UpgradePlan = () => {
             className="m-0"
             style={{ fontSize: "14px", color: "#0068FF", fontWeight: 800 }}
           >
-            STANDARD
+            {data.planName.toUpperCase()}
           </h6>
           <Row className="mt-3">
             <Col xs={9} md={9}>
               <h6
                 className="m-0"
-                style={{ fontSize: "32px", color: "#0068FF", fontWeight: 700 }}
+                style={{ fontSize: 28, color: "#0068FF", fontWeight: 700 }}
               >
-                R$ 759,00
+                {
+                  new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                  }).format(data.monthlyPlanPrice)
+                }
               </h6>
               <h6
                 className="ms-1"
@@ -42,12 +62,12 @@ const UpgradePlan = () => {
                   fontWeight: 600,
                 }}
               >
-                Upgrade
+                {isUpdate ? "Upgrade" : 'Comprar'}
               </Button>
             </Col>
             <Col xs={3} md={3}>
               <div>
-                <img src="/assets/img/standardPlan.svg" />
+                <img src={data.selected ? `${plansImages[index].imageSelected}` : `${plansImages[index].image}`} />
               </div>
             </Col>
           </Row>
