@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
+import { useNavigate, useRoutes } from "react-router-dom";
 
 const plansImages = [
   {
@@ -17,6 +18,13 @@ const plansImages = [
 ];
 
 const UpgradePlan = ({ data, isUpdate, index }) => {
+
+  const navigate = useNavigate()
+
+  const onClickPurchase = () => {
+    navigate(`/perfil/my-plan/purchase/plan/${data.id}`)
+  };
+
   return (
     <div>
       <div
@@ -61,6 +69,7 @@ const UpgradePlan = ({ data, isUpdate, index }) => {
                   fontSize: 10,
                   fontWeight: 600,
                 }}
+                onClick={onClickPurchase}
               >
                 {isUpdate ? "Upgrade" : 'Comprar'}
               </Button>

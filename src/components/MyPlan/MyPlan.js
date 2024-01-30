@@ -128,17 +128,21 @@ const MyPlan = () => {
       <div className="mt-2 mb-3">
         <div className="d-flex gap-3">
           <h6>{profile?.companyData?.selectedPlan ? "Upgrade de plano" : "Plano de compra"}</h6>
-          <button
+          <a
+            href="https://vanthdocs.com.br/planos"
             className="p-0 p-1"
+            target="_blank"
+            rel="noreferrer"
             style={{
               border: "1px solid #0068FF",
               background: "transparent",
               fontSize: "10px",
               color: "#0068FF",
+              textDecoration: "none",
             }}
           >
             Ver site
-          </button>
+          </a>
         </div>
         <Row className="justify-content-center mt-3">
           <Carousel
@@ -155,7 +159,6 @@ const MyPlan = () => {
               })
             }
           </Carousel>
-
           {
             plansList?.map((obj, index) => {
               return (
