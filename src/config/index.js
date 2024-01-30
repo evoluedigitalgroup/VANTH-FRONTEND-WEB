@@ -18,7 +18,7 @@ export const ENV_TYPE = "local"; // local // test // production
 
 export const BASE_URL = envData(
   ENV_TYPE,
-  "http://localhost:3017/api/v1/",
+  "http://localhost:3006/api/v1/",
   "https://api.vanthdocs.com.br/api/v1/",
   "https://api.vanthdocs.com.br/api/v1/"
 );
@@ -39,7 +39,5 @@ export const CONTRACT_LINK_URL = envData(
 
 
 export const PAGE_LIMIT = 10;
-
-// export const LINK_URL = "localhost:3003/document-verification/";
 
 export default config;
