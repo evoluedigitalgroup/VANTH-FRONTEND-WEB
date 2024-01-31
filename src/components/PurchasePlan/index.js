@@ -13,13 +13,14 @@ import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import { useForm } from "react-hook-form";
 import { plansListData } from "../../helper/API/Plan";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { createPlanSubscription } from "../../helper/API/purchase";
 import { toast } from "react-toastify";
 
 const PurchasePlan = () => {
   const [planData, setPlanData] = useState(null);
   const params = useParams();
+  const navigate = useNavigate();
   const [focusedField, setFocusField] = useState(null);
 
 
@@ -71,11 +72,10 @@ const PurchasePlan = () => {
 
     if (paymentRecord.success) {
       toast.success('Plano comprado com sucesso');
+      navigate('/perfil/my-plan');
     } else {
-      toast.error('Algo deu errado');
+      toast.error(paymentRecord.message);
     }
-
-    console.log('data : ', data);
   };
 
   return (

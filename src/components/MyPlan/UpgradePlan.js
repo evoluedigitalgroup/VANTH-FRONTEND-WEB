@@ -30,7 +30,7 @@ const UpgradePlan = ({ data, isUpdate, index }) => {
       <div
         className="p-3"
         style={{
-          border: "1px solid #0068FF",
+          border: `1px solid ${data.selected ? "#97A7BA" : "#0068FF"}`,
           height: "160px",
           width: "260px",
           borderRadius: "12px",
@@ -39,7 +39,7 @@ const UpgradePlan = ({ data, isUpdate, index }) => {
         <div>
           <h6
             className="m-0"
-            style={{ fontSize: "14px", color: "#0068FF", fontWeight: 800 }}
+            style={{ fontSize: "14px", color: data.selected ? "#97A7BA" : "#0068FF", fontWeight: 800 }}
           >
             {data.planName.toUpperCase()}
           </h6>
@@ -47,7 +47,9 @@ const UpgradePlan = ({ data, isUpdate, index }) => {
             <Col xs={9} md={9}>
               <h6
                 className="m-0"
-                style={{ fontSize: 28, color: "#0068FF", fontWeight: 700 }}
+                style={{
+                  fontSize: 28, color: data.selected ? "#97A7BA" : "#0068FF", fontWeight: 700
+                }}
               >
                 {
                   new Intl.NumberFormat('pt-BR', {
@@ -58,14 +60,15 @@ const UpgradePlan = ({ data, isUpdate, index }) => {
               </h6>
               <h6
                 className="ms-1"
-                style={{ fontSize: "12px", color: "#0068FF", fontWeight: 600 }}
+                style={{ fontSize: "12px", color: data.selected ? "#97A7BA" : "#0068FF", fontWeight: 600 }}
               >
                 (Mensal)
               </h6>
               <Button
+                disabled={data.selected}
                 className="px-3 py-1 mt-2"
                 style={{
-                  backgroundColor: "#0068FF",
+                  backgroundColor: data.selected ? "#97A7BA" : "#0068FF",
                   fontSize: 10,
                   fontWeight: 600,
                 }}
