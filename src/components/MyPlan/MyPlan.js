@@ -5,12 +5,14 @@ import Packages from "./Packages";
 import UpgradePlan from "./UpgradePlan";
 import NewProgressbar from "../NewProgressbar";
 import Carousel from "react-elastic-carousel";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { profileAtom } from "../../recoil/Atoms";
-import { plansListData } from "../../helper/API/Plan";
+import { getPlanUsageData, plansListData } from "../../helper/API/Plan";
+import { usageAtom } from "../../recoil/UsageAtoms/Usage";
 
 const MyPlan = () => {
   const [plansList, setPlansList] = useState(null);
+  const [usage, setUsage] = useRecoilState(usageAtom);
   const profile = useRecoilValue(profileAtom);
 
   const getPlansData = () => {
@@ -20,8 +22,19 @@ const MyPlan = () => {
     })
   }
 
+  const getPlanUsage = () => {
+    getPlanUsageData().then((res) => {
+      if (res.success) {
+        setUsage(res.data)
+      }
+    }).catch((err) => {
+      console.log('err : ', err);
+    });
+  }
+
   useEffect(() => {
     getPlansData();
+    getPlanUsage();
   }, []);
 
   const breakPoints = [
@@ -54,11 +67,11 @@ const MyPlan = () => {
           <NewProgressbar
             bgcolor="#0068FF"
             title="Armazenamento"
-            progress="55"
+            progress={usage?.storage?.percent}
             title1="usados"
           />
           <span style={{ fontSize: "12px", color: "#97A7BA" }}>
-            10,47 GB de 25 GB usados
+            {new Intl.NumberFormat('pt-BR').format((usage?.storage?.existing / 1000))} {usage?.storage?.storageUnit} de {usage?.storage?.totalStorageAllowed} {usage?.storage?.storageUnit} usados
           </span>
         </div>
       </Col>
@@ -72,11 +85,11 @@ const MyPlan = () => {
           <NewProgressbar
             bgcolor="#0068FF"
             title="Contratos assinados"
-            progress="50"
+            progress={usage?.digitalSignatures?.percent}
             title1=""
           />
           <span style={{ fontSize: "12px", color: "#97A7BA" }}>
-            10 de 25 contratos
+            {usage?.digitalSignatures?.existing} de {usage?.digitalSignatures?.allowed} contratos
           </span>
         </div>
       </Col>
@@ -90,11 +103,11 @@ const MyPlan = () => {
           <NewProgressbar
             bgcolor="#0068FF"
             title="Usuários do sistema"
-            progress="45"
+            progress={usage?.totalUsers?.percent}
             title1=""
           />
           <span style={{ fontSize: "12px", color: "#97A7BA" }}>
-            2 de 5 usuários
+            {usage?.totalUsers?.existing} de {usage?.totalUsers?.allowed} usuários
           </span>
         </div>
       </Col>
@@ -192,11 +205,11 @@ const MyPlan = () => {
             </>
           ) : null
         }
-        {
+        {/* {
           profile?.companyData?.selectedPlan ? (
             <PackagesBox />
           ) : null
-        }
+        } */}
         <PlansBox />
       </Card>
     </AfterAuth>

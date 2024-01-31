@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
@@ -13,6 +14,7 @@ import { profileHistory } from "../../helper/API/Profile";
 import Loader from "../Loader";
 import TableNavbar from "../TableNavbar";
 import NewProgressbar from "../NewProgressbar";
+import { usageAtom } from "../../recoil/UsageAtoms/Usage";
 
 const ProfileCard = ({
   showProfilePicture,
@@ -20,6 +22,7 @@ const ProfileCard = ({
   showAddUser,
   permissions,
 }) => {
+  const usage = useRecoilValue(usageAtom);
   const profile = useRecoilValue(profileAtom);
   const [search, setSearch] = useState();
   const [refresh, setRefresh] = useState(0);
@@ -151,13 +154,13 @@ const ProfileCard = ({
                   bgcolor="#0068FF"
                   title="Armazenamento"
                   title1="usados"
-                  progress="30"
+                  progress={usage?.storage?.percent}
                 />
                 <span style={{ fontSize: "12px", color: "#97A7BA" }}>
-                  10,47 GB de 25 GB usados
+                  {new Intl.NumberFormat('pt-BR').format((usage?.storage?.existing / 1000))} {usage?.storage?.storageUnit} de {usage?.storage?.totalStorageAllowed} {usage?.storage?.storageUnit} usados
                 </span>
               </div>
-              <div className="mt-2">
+              <Link to="/perfil/my-plan" className="mt-2 text-decoration-none">
                 <img src="/assets/img/cloud.svg" />
                 <span
                   style={{
@@ -168,19 +171,19 @@ const ProfileCard = ({
                 >
                   Gerenciar plano
                 </span>
-              </div>
+              </Link>
               <div className="mt-2">
                 <NewProgressbar
                   bgcolor="#0068FF"
                   title="Contratos assinados"
-                  progress="50"
+                  progress={usage?.digitalSignatures?.percent}
                   title1=""
                 />
                 <span style={{ fontSize: "12px", color: "#97A7BA" }}>
-                  10 de 20 contratos
+                  {usage?.digitalSignatures?.existing} de {usage?.digitalSignatures?.allowed} contratos
                 </span>
               </div>
-              <div>
+              <Link to="/perfil/my-plan" className="mt-2 text-decoration-none">
                 <img src="/assets/img/file.svg" />
                 <span
                   style={{
@@ -191,7 +194,7 @@ const ProfileCard = ({
                 >
                   Ver pacotes
                 </span>
-              </div>
+              </Link>
             </div>
           </Col>
         </Row>

@@ -45,3 +45,4 @@ export const UPDATE_CONTRACT_STATUS_LINK = 'contract/update-contract-status';
 
 export const PLANS_LIST = 'plans/get-plans-list';
 export const PLAN_SUBSCRIBE = 'payment/subscribe-plan';
+export const PLAN_USAGE = 'plans/usage';

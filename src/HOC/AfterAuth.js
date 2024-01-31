@@ -1,10 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import NavbarCom from "../components/NavbarCom";
 import Sidebar from "../components/Sidebar";
+import { getPlanUsageData } from "../helper/API/Plan";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { usageAtom } from "../recoil/UsageAtoms/Usage";
+import { profileAtom } from '../recoil/Atoms';
 
 const AfterAuth = ({ children }) => {
+  const intervalRef = React.useRef();
   const [showSide, setShowSide] = useState(false);
+  const [usage, setUsage] = useRecoilState(usageAtom);
+  const profile = useRecoilValue(profileAtom);
+
+
+  const getPlanUsage = () => {
+    getPlanUsageData().then((res) => {
+      if (res.success) {
+        setUsage(res.data)
+      }
+    }).catch((err) => {
+      console.log('err : ', err);
+    });
+  }
+
+  const fiveMinutes = 300000;
+
+  const updatePlanUsage = () => {
+    getPlanUsage();
+    intervalRef.current = setInterval(() => {
+      getPlanUsage();
+    }, fiveMinutes);
+  }
+
+  useEffect(() => {
+    if (profile?.companyData?.selectedPlan) {
+      console.log('profile : ', profile);
+      updatePlanUsage();
+    }
+  }, [profile?.companyData?.selectedPlan]);
 
   return (
     <div>

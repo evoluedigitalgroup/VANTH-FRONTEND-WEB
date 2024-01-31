@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Card, Row, Col } from "react-bootstrap";
 import { isMobile } from 'react-device-detect';
+import { useNavigate } from 'react-router-dom';
 import Button from "react-bootstrap/Button";
 
 import Table from "react-bootstrap/Table";
@@ -22,6 +23,7 @@ import ImageUploadModal from "./ImageUploadModal";
 import GenerateLinkBtn from "./NewClientCards/GenerateLinkBtn";
 import NewMemberAdd from "./NewMemberAdd";
 import { getAllDocumentsList } from "../../helper/API/contact";
+import { usageAtom } from "../../recoil/UsageAtoms/Usage";
 
 const DocumentTable = ({
   tableRow,
@@ -36,6 +38,10 @@ const DocumentTable = ({
   tableDataArray,
   totalPage,
 }) => {
+
+  const navigate = useNavigate();
+
+  const usage = useRecoilValue(usageAtom);
   const adminName = useRecoilValue(loginAtom);
   const [openImageModal, setOpenImageModal] = useState(false);
   const [openLinkModal, setOpenLinkModal] = useState(false);
@@ -64,8 +70,12 @@ const DocumentTable = ({
   };
 
   const handleShowLinkModal = (val) => {
-    setOpenLinkModal(true);
-    setEditData(val);
+    if (usage?.storage?.percent === 100) {
+      navigate('/perfil/my-plan');
+    } else {
+      setOpenLinkModal(true);
+      setEditData(val);
+    }
   };
 
   const getRequiredLength = (obj) => {

@@ -7,14 +7,19 @@ import Form from "react-bootstrap/Form";
 import Pagination from "react-bootstrap/Pagination";
 import Card from "react-bootstrap/Card";
 import AfterAuth from "../HOC/AfterAuth";
+import { useNavigate } from 'react-router-dom'
 import ProfilePicture from "../components/Profile/ProfilePicture";
 import ChangePassword from "../components/Profile/ChangePassword";
 import AddUser from "../components/Profile/AddUser";
 import ProfileCard from "../components/Profile/ProfileCard";
 import { useRecoilValue } from "recoil";
 import { loginAtom } from "../recoil/Atoms";
+import { usageAtom } from "../recoil/UsageAtoms/Usage";
 
 const Perfil = () => {
+
+  const navigate = useNavigate();
+
   let active = 2;
   let items = [];
   for (let number = 1; number <= 5; number++) {
@@ -24,6 +29,8 @@ const Perfil = () => {
       </Pagination.Item>
     );
   }
+
+  const usage = useRecoilValue(usageAtom);
 
   const [profilePicture, setProfilePicture] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
@@ -39,7 +46,11 @@ const Perfil = () => {
   };
   const showAddUser = () => {
     if (permissions.newUser) {
-      setAddUser(true);
+      if (usage?.totalUsers?.percent === 100) {
+        navigate('/perfil/my-plan');
+      } else {
+        setAddUser(true);
+      }
     }
   };
 

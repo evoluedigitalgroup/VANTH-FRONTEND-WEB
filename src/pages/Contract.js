@@ -3,6 +3,7 @@ import { Button, Card } from "react-bootstrap";
 import AfterAuth from "../HOC/AfterAuth";
 import TableNavbar from "../components/TableNavbar";
 import Loader from "../components/Loader";
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   contractModels,
@@ -23,6 +24,7 @@ import { getContractList } from "../helper/API/contract";
 import ContractTable from "../components/Contract/ContractTable";
 import { contractPaginationData, toReloadContractData } from "../recoil/PaginationAtoms/Contract";
 import { PAGE_LIMIT } from "../config";
+import { usageAtom } from "../recoil/UsageAtoms/Usage";
 
 
 const ContractData = ({
@@ -115,6 +117,10 @@ const ContractData = ({
 
 
 const Contact = () => {
+
+  const navigate = useNavigate();
+
+  const usage = useRecoilValue(usageAtom);
   const profile = useRecoilValue(profileAtom);
   const [tableRow, setTableRow] = useState([]);
   const [refresh, setRefresh] = useState(0);
@@ -178,7 +184,13 @@ const Contact = () => {
         <div className="d-flex align-items-center justify-content-between mt-3 mx-md-5 ms-3">
           <h2 className="">Contratos</h2>
           <button
-            onClick={() => setModels(openSelectClient())}
+            onClick={() => {
+              if (usage?.digitalSignatures?.percent === 100) {
+                navigate('/perfil/my-plan');
+              } else {
+                setModels(openSelectClient())
+              }
+            }}
             className="py-2 px-3"
             style={{
               background: "#0068FF",
