@@ -9,13 +9,14 @@ import {
   InputGroup,
   Row,
 } from "react-bootstrap";
-import Cards from 'react-credit-cards';
-import 'react-credit-cards/es/styles-compiled.css';
+import Cards from "react-credit-cards";
+import "react-credit-cards/es/styles-compiled.css";
 import { useForm } from "react-hook-form";
 import { plansListData } from "../../helper/API/Plan";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { createPlanSubscription } from "../../helper/API/purchase";
 import { toast } from "react-toastify";
+import Select from "react-select";
 
 const PurchasePlan = () => {
   const [planData, setPlanData] = useState(null);
@@ -23,24 +24,25 @@ const PurchasePlan = () => {
   const navigate = useNavigate();
   const [focusedField, setFocusField] = useState(null);
 
-
   useEffect(() => {
-
-    if (params.purchaseType === 'plan') {
-
+    if (params.purchaseType === "plan") {
       plansListData().then((res) => {
         const planValue = res.data.find((obj) => {
-          return obj.id === params.purchaseId
-        })
+          return obj.id === params.purchaseId;
+        });
         setPlanData(planValue);
-      })
+      });
     }
   }, []);
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = async (data) => {
-
     const customerData = {
       fullName: data.fullName,
       email: data.email,
@@ -50,33 +52,63 @@ const PurchasePlan = () => {
       addressLine2: data.addressLine2,
       zipCode: data.zipCode,
       city: data.city,
-      state: data.state
-    }
+      state: data.state,
+    };
 
     const cardData = {
       cardNumber: data.cardNumber,
       nameOnCard: data.nameOnCard,
       cardMonth: data.cardMonth,
       cardYear: data.cardYear,
-      cvc: data.cvc
-    }
+      cvc: data.cvc,
+    };
 
     const submitData = {
       customerData,
       cardData,
       purchaseType: params.purchaseType,
-      purchaseId: params.purchaseId
+      purchaseId: params.purchaseId,
     };
 
     const paymentRecord = await createPlanSubscription(submitData);
 
     if (paymentRecord.success) {
-      toast.success('Plano comprado com sucesso');
-      navigate('/perfil/my-plan');
+      toast.success("Plano comprado com sucesso");
+      navigate("/perfil/my-plan");
     } else {
       toast.error(paymentRecord.message);
     }
   };
+
+  const stateOptions = [
+    { label: "Acre", value: "AC" },
+    { label: "Alagoas", value: "AL" },
+    { label: "Amapá", value: "Ap" },
+    { label: "Amazonas", value: "AM" },
+    { label: "Bahia", value: "BA" },
+    { label: "Ceará", value: "CE" },
+    { label: "Distrito Federal", value: "DF" },
+    { label: "Espírito Santo", value: "ES" },
+    { label: "Goiás", value: "GO" },
+    { label: "Maranhão", value: "Maranhão" },
+    { label: "Mato Grosso", value: "MT" },
+    { label: "Mato Grosso do Sul", value: "MS" },
+    { label: "Minas Gerais", value: "MG" },
+    { label: "Pará", value: "PA" },
+    { label: "Paraíba", value: "PB" },
+    { label: "Paraná", value: "PR" },
+    { label: "Pernambuco", value: "PE" },
+    { label: "Piauí", value: "PI" },
+    { label: "Rio de Janeiro", value: "RJ" },
+    { label: "Rio Grande do Norte", value: "RN" },
+    { label: "Rio Grande do Sul", value: "RS" },
+    { label: "Rondônia", value: "RO" },
+    { label: "Roraima", value: "RR" },
+    { label: "Santa Catarina", value: "SC" },
+    { label: "São Paulo", value: "SP" },
+    { label: "Sergipe", value: "SE" },
+    { label: "Tocantins", value: "TO" },
+  ];
 
   return (
     <AfterAuth>
@@ -90,7 +122,10 @@ const PurchasePlan = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="my-md-5 mx-md-5">
             <div className="d-flex align-items-center">
-              <img className="shoppingImage" src="/assets/img/shopping.svg"></img>
+              <img
+                className="shoppingImage"
+                src="/assets/img/shopping.svg"
+              ></img>
               <div className="fw-bold fs-5 mx-1 ">Confirme sua compra:</div>
             </div>
 
@@ -113,7 +148,6 @@ const PurchasePlan = () => {
                   </div>
                 </div>
                 <div className="mt-3 confirmYourPurchaseFrom">
-
                   <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
                     NOME
                   </Form.Label>
@@ -127,8 +161,8 @@ const PurchasePlan = () => {
                         }}
                       ></InputGroup.Text>
                       <Form.Control
-                        {...register('fullName', {
-                          required: "porfavor digite seu nome completo"
+                        {...register("fullName", {
+                          required: "porfavor digite seu nome completo",
                         })}
                         placeholder="digite seu nome completo"
                         type="text"
@@ -139,12 +173,10 @@ const PurchasePlan = () => {
                         on
                       />
                     </InputGroup>
-                    <span style={{ color: '#FF0000' }} className="mb-3">
-                      {
-                        errors?.fullName?.message
-                          ? errors?.fullName?.message
-                          : ''
-                      }
+                    <span style={{ color: "#FF0000" }} className="mb-3">
+                      {errors?.fullName?.message
+                        ? errors?.fullName?.message
+                        : ""}
                     </span>
                   </FormGroup>
                   <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
@@ -160,8 +192,8 @@ const PurchasePlan = () => {
                         }}
                       ></InputGroup.Text>
                       <Form.Control
-                        {...register('email', {
-                          required: "Por favor introduza o seu e-mail"
+                        {...register("email", {
+                          required: "Por favor introduza o seu e-mail",
                         })}
                         placeholder="digite seu e-mail"
                         type="text"
@@ -171,12 +203,8 @@ const PurchasePlan = () => {
                         }}
                       />
                     </InputGroup>
-                    <span style={{ color: '#FF0000' }} className="mb-3">
-                      {
-                        errors?.email?.message
-                          ? errors?.email?.message
-                          : ''
-                      }
+                    <span style={{ color: "#FF0000" }} className="mb-3">
+                      {errors?.email?.message ? errors?.email?.message : ""}
                     </span>
                   </FormGroup>
                   <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
@@ -192,8 +220,8 @@ const PurchasePlan = () => {
                         }}
                       ></InputGroup.Text>
                       <Form.Control
-                        {...register('cpf', {
-                          required: "Por favor insira seu cpf/cnpj"
+                        {...register("cpf", {
+                          required: "Por favor insira seu cpf/cnpj",
                         })}
                         placeholder="CPF/CNPJ"
                         type="text"
@@ -203,12 +231,8 @@ const PurchasePlan = () => {
                         }}
                       />
                     </InputGroup>
-                    <span style={{ color: '#FF0000' }} className="mb-3">
-                      {
-                        errors?.cpf?.message
-                          ? errors?.cpf?.message
-                          : ''
-                      }
+                    <span style={{ color: "#FF0000" }} className="mb-3">
+                      {errors?.cpf?.message ? errors?.cpf?.message : ""}
                     </span>
                   </FormGroup>
                   <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
@@ -234,8 +258,8 @@ const PurchasePlan = () => {
                         </div>
                       </InputGroup.Text>
                       <Form.Control
-                        {...register('phoneNumber', {
-                          required: "Por favor insira seu celular"
+                        {...register("phoneNumber", {
+                          required: "Por favor insira seu celular",
                         })}
                         placeholder="00 00000-0000"
                         type="text"
@@ -245,12 +269,10 @@ const PurchasePlan = () => {
                         }}
                       />
                     </InputGroup>
-                    <span style={{ color: '#FF0000' }} className="mb-3">
-                      {
-                        errors?.phoneNumber?.message
-                          ? errors?.phoneNumber?.message
-                          : ''
-                      }
+                    <span style={{ color: "#FF0000" }} className="mb-3">
+                      {errors?.phoneNumber?.message
+                        ? errors?.phoneNumber?.message
+                        : ""}
                     </span>
                   </FormGroup>
                 </div>
@@ -274,8 +296,6 @@ const PurchasePlan = () => {
                     </div>
                   </div>
                   <div className="mt-3 confirmYourPurchaseFrom">
-
-
                     <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
                       Endereço Linha 1
                     </Form.Label>
@@ -289,8 +309,8 @@ const PurchasePlan = () => {
                           }}
                         ></InputGroup.Text>
                         <Form.Control
-                          {...register('addressLine1', {
-                            required: "Por favor insira a linha de endereço 1"
+                          {...register("addressLine1", {
+                            required: "Por favor insira a linha de endereço 1",
                           })}
                           placeholder="Insira a linha de endereço 1"
                           type="text"
@@ -300,15 +320,12 @@ const PurchasePlan = () => {
                           }}
                         />
                       </InputGroup>
-                      <span style={{ color: '#FF0000' }} className="mb-3">
-                        {
-                          errors?.addressLine1?.message
-                            ? errors?.addressLine1?.message
-                            : ''
-                        }
+                      <span style={{ color: "#FF0000" }} className="mb-3">
+                        {errors?.addressLine1?.message
+                          ? errors?.addressLine1?.message
+                          : ""}
                       </span>
                     </FormGroup>
-
 
                     <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
                       Endereço Linha 2
@@ -323,8 +340,8 @@ const PurchasePlan = () => {
                           }}
                         ></InputGroup.Text>
                         <Form.Control
-                          {...register('addressLine2', {
-                            required: "Por favor insira a linha de endereço 2"
+                          {...register("addressLine2", {
+                            required: "Por favor insira a linha de endereço 2",
                           })}
                           placeholder="Insira a linha de endereço 2"
                           type="text"
@@ -334,16 +351,12 @@ const PurchasePlan = () => {
                           }}
                         />
                       </InputGroup>
-                      <span style={{ color: '#FF0000' }} className="mb-3">
-                        {
-                          errors?.addressLine2?.message
-                            ? errors?.addressLine2?.message
-                            : ''
-                        }
+                      <span style={{ color: "#FF0000" }} className="mb-3">
+                        {errors?.addressLine2?.message
+                          ? errors?.addressLine2?.message
+                          : ""}
                       </span>
                     </FormGroup>
-
-
 
                     <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
                       CEP
@@ -358,8 +371,8 @@ const PurchasePlan = () => {
                           }}
                         ></InputGroup.Text>
                         <Form.Control
-                          {...register('zipCode', {
-                            required: "Por favor insira a linha de endereço 1"
+                          {...register("zipCode", {
+                            required: "Por favor insira a linha de endereço 1",
                           })}
                           placeholder="Por favor insira o CEP"
                           type="text"
@@ -369,12 +382,10 @@ const PurchasePlan = () => {
                           }}
                         />
                       </InputGroup>
-                      <span style={{ color: '#FF0000' }} className="mb-3">
-                        {
-                          errors?.zipCode?.message
-                            ? errors?.zipCode?.message
-                            : ''
-                        }
+                      <span style={{ color: "#FF0000" }} className="mb-3">
+                        {errors?.zipCode?.message
+                          ? errors?.zipCode?.message
+                          : ""}
                       </span>
                     </FormGroup>
 
@@ -391,8 +402,8 @@ const PurchasePlan = () => {
                           }}
                         ></InputGroup.Text>
                         <Form.Control
-                          {...register('city', {
-                            required: "Por favor insira o nome da cidade"
+                          {...register("city", {
+                            required: "Por favor insira o nome da cidade",
                           })}
                           placeholder="Digite o nome da cidade"
                           type="text"
@@ -402,19 +413,17 @@ const PurchasePlan = () => {
                           }}
                         />
                       </InputGroup>
-                      <span style={{ color: '#FF0000' }} className="mb-3">
-                        {
-                          errors?.city?.message
-                            ? errors?.city?.message
-                            : ''
-                        }
+                      <span style={{ color: "#FF0000" }} className="mb-3">
+                        {errors?.city?.message ? errors?.city?.message : ""}
                       </span>
                     </FormGroup>
 
                     <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
                       Estado
                     </Form.Label>
-                    <FormGroup>
+                    <Select options={stateOptions} />
+
+                    {/*  <FormGroup>
                       <InputGroup className="mb-3 rounded">
                         <InputGroup.Text
                           id="basic-addon1"
@@ -424,8 +433,8 @@ const PurchasePlan = () => {
                           }}
                         ></InputGroup.Text>
                         <Form.Control
-                          {...register('state', {
-                            required: "Por favor insira o nome do estado"
+                          {...register("state", {
+                            required: "Por favor insira o nome do estado",
                           })}
                           placeholder="Insira o nome do estado"
                           type="text"
@@ -435,17 +444,12 @@ const PurchasePlan = () => {
                           }}
                         />
                       </InputGroup>
-                    </FormGroup>
-                    <span style={{ color: '#FF0000' }} className="mb-3">
-                      {
-                        errors?.state?.message
-                          ? errors?.state?.message
-                          : ''
-                      }
+                    </FormGroup> */}
+                    <span style={{ color: "#FF0000" }} className="mb-3">
+                      {errors?.state?.message ? errors?.state?.message : ""}
                     </span>
                   </div>
                 </>
-
               </Col>
               <Col sm={12} md={6}>
                 <div className="mt-md-5 mt-4 confirmYourPurchaseFrom">
@@ -510,20 +514,21 @@ const PurchasePlan = () => {
                       fontSize: "14px",
                       fontWeight: 700,
                       marginTop: 30,
-                      marginBottom: 20
+                      marginBottom: 20,
                     }}
                   >
                     DADOS DO CARTÃO
                   </h6>
                   <Cards
-                    number={watch('cardNumber') ? `${watch('cardNumber')}` : ''}
+                    number={watch("cardNumber") ? `${watch("cardNumber")}` : ""}
                     expiry={
-                      watch('cardMonth')?.length || watch('cardYear')?.length
-                        ? `${watch('cardMonth')}/${watch('cardYear')}`
-                        : ''}
-                    cvc={watch('cvc') ? `${watch('cvc')}` : ''}
-                    name={watch('nameOnCard') ? `${watch('nameOnCard')}` : ''}
-                    focused={focusedField ? focusedField : ''}
+                      watch("cardMonth")?.length || watch("cardYear")?.length
+                        ? `${watch("cardMonth")}/${watch("cardYear")}`
+                        : ""
+                    }
+                    cvc={watch("cvc") ? `${watch("cvc")}` : ""}
+                    name={watch("nameOnCard") ? `${watch("nameOnCard")}` : ""}
+                    focused={focusedField ? focusedField : ""}
                   />
 
                   <div className="ms-md-2 mt-3">
@@ -588,10 +593,10 @@ const PurchasePlan = () => {
                             }}
                           ></InputGroup.Text>
                           <Form.Control
-                            {...register('cardNumber', {
-                              required: "Por favor insira o número do cartão"
+                            {...register("cardNumber", {
+                              required: "Por favor insira o número do cartão",
                             })}
-                            onFocus={(e) => setFocusField('number')}
+                            onFocus={(e) => setFocusField("number")}
                             onBlur={() => setFocusField(null)}
                             placeholder="digite o somente números do cartão"
                             type="text"
@@ -602,12 +607,10 @@ const PurchasePlan = () => {
                           />
                         </InputGroup>
                       </FormGroup>
-                      <span style={{ color: '#FF0000' }} className="mb-3">
-                        {
-                          errors?.cardNumber?.message
-                            ? errors?.cardNumber?.message
-                            : ''
-                        }
+                      <span style={{ color: "#FF0000" }} className="mb-3">
+                        {errors?.cardNumber?.message
+                          ? errors?.cardNumber?.message
+                          : ""}
                       </span>
                     </div>
                     <div className="mt-2">
@@ -630,10 +633,10 @@ const PurchasePlan = () => {
                             }}
                           ></InputGroup.Text>
                           <Form.Control
-                            {...register('nameOnCard', {
-                              required: "Por favor insira o nome no cartão"
+                            {...register("nameOnCard", {
+                              required: "Por favor insira o nome no cartão",
                             })}
-                            onFocus={(e) => setFocusField('name')}
+                            onFocus={(e) => setFocusField("name")}
                             onBlur={() => setFocusField(null)}
                             placeholder="digite o nome completo impresso no cartão"
                             type="text"
@@ -644,12 +647,10 @@ const PurchasePlan = () => {
                           />
                         </InputGroup>
                       </FormGroup>
-                      <span style={{ color: '#FF0000' }} className="mb-3">
-                        {
-                          errors?.nameOnCard?.message
-                            ? errors?.nameOnCard?.message
-                            : ''
-                        }
+                      <span style={{ color: "#FF0000" }} className="mb-3">
+                        {errors?.nameOnCard?.message
+                          ? errors?.nameOnCard?.message
+                          : ""}
                       </span>
                     </div>
                     <Row>
@@ -669,10 +670,11 @@ const PurchasePlan = () => {
                               <FormGroup>
                                 <InputGroup className="mb-3 rounded">
                                   <Form.Control
-                                    {...register('cardMonth', {
-                                      required: "Por favor insira o mês de validade"
+                                    {...register("cardMonth", {
+                                      required:
+                                        "Por favor insira o mês de validade",
                                     })}
-                                    onFocus={(e) => setFocusField('expiry')}
+                                    onFocus={(e) => setFocusField("expiry")}
                                     onBlur={() => setFocusField(null)}
                                     placeholder="mês"
                                     type="text"
@@ -690,10 +692,11 @@ const PurchasePlan = () => {
                               <FormGroup>
                                 <InputGroup className="mb-3 rounded">
                                   <Form.Control
-                                    {...register('cardYear', {
-                                      required: "Por favor insira o ano de validade"
+                                    {...register("cardYear", {
+                                      required:
+                                        "Por favor insira o ano de validade",
                                     })}
-                                    onFocus={(e) => setFocusField('expiry')}
+                                    onFocus={(e) => setFocusField("expiry")}
                                     onBlur={() => setFocusField(null)}
                                     placeholder="ano"
                                     type="text"
@@ -738,10 +741,10 @@ const PurchasePlan = () => {
                                 ></i>
                               </InputGroup.Text>
                               <Form.Control
-                                {...register('cvc', {
-                                  required: "Por favor insira o cvc"
+                                {...register("cvc", {
+                                  required: "Por favor insira o cvc",
                                 })}
-                                onFocus={(e) => setFocusField('cvc')}
+                                onFocus={(e) => setFocusField("cvc")}
                                 onBlur={() => setFocusField(null)}
                                 placeholder="digite o CVC do cartão"
                                 type="password"
@@ -754,16 +757,14 @@ const PurchasePlan = () => {
                           </FormGroup>
                         </div>
                       </Col>
-                      <span style={{ color: '#FF0000' }} className="mb-3">
-                        {
-                          errors?.cardMonth?.message
-                            ? errors?.cardMonth?.message
-                            : errors?.cardYear?.message
-                              ? errors?.cardYear?.message
-                              : errors?.cvc?.message
-                                ? errors?.cvc?.message
-                                : ''
-                        }
+                      <span style={{ color: "#FF0000" }} className="mb-3">
+                        {errors?.cardMonth?.message
+                          ? errors?.cardMonth?.message
+                          : errors?.cardYear?.message
+                          ? errors?.cardYear?.message
+                          : errors?.cvc?.message
+                          ? errors?.cvc?.message
+                          : ""}
                       </span>
                     </Row>
                     <div className="mt-2">
@@ -776,40 +777,40 @@ const PurchasePlan = () => {
                       >
                         parcelamento do cartão
                       </Form.Label>
-                      {
-                        planData ? (
-                          <FormGroup>
-                            <InputGroup className="mb-3 rounded">
-                              <Form.Control
-                                readOnly
-                                placeholder={`${params.purchaseType === 'plan' ? '1' : '1'} x de ${new Intl.NumberFormat('pt-BR', {
-                                  style: 'currency',
-                                  currency: 'BRL',
-                                }).format(planData.monthlyPlanPrice)}`}
-                                type="text"
-                                className="border-0 Cardinput badge-relative ps-3"
-                                style={{
-                                  fontSize: "14px",
-                                }}
-                              />
-                              <InputGroup.Text
-                                id="basic-addon1"
-                                className="border-0"
-                                style={{
-                                  background: "#ECEFF3",
-                                }}
-                              >
-                                {/* <i
+                      {planData ? (
+                        <FormGroup>
+                          <InputGroup className="mb-3 rounded">
+                            <Form.Control
+                              readOnly
+                              placeholder={`${
+                                params.purchaseType === "plan" ? "1" : "1"
+                              } x de ${new Intl.NumberFormat("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                              }).format(planData.monthlyPlanPrice)}`}
+                              type="text"
+                              className="border-0 Cardinput badge-relative ps-3"
+                              style={{
+                                fontSize: "14px",
+                              }}
+                            />
+                            <InputGroup.Text
+                              id="basic-addon1"
+                              className="border-0"
+                              style={{
+                                background: "#ECEFF3",
+                              }}
+                            >
+                              {/* <i
                               className="bi bi-caret-down-fill ms-1 mt-1"
                               style={{
                                 color: "#00000080",
                               }}
                             ></i> */}
-                              </InputGroup.Text>
-                            </InputGroup>
-                          </FormGroup>
-                        ) : null
-                      }
+                            </InputGroup.Text>
+                          </InputGroup>
+                        </FormGroup>
+                      ) : null}
                     </div>
                   </div>
                   <hr style={{ marginTop: "30px" }} />
