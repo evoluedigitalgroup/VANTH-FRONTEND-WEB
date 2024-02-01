@@ -148,11 +148,28 @@ const PurchasePlan = () => {
                   </div>
                 </div>
                 <div className="mt-3 confirmYourPurchaseFrom">
-                  <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
+                  <Form.Label
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: 700,
+                      color: `${
+                        errors?.fullName?.message ? "#FF0000" : "black"
+                      }`,
+                    }}
+                  >
                     NOME
                   </Form.Label>
                   <FormGroup>
-                    <InputGroup className="mb-3 rounded">
+                    <InputGroup
+                      className={
+                        errors?.fullName?.message ? "rounded" : "rounded mb-3"
+                      }
+                      style={{
+                        border: `${
+                          errors?.fullName?.message ? "1px solid red" : ""
+                        }`,
+                      }}
+                    >
                       <InputGroup.Text
                         id="basic-addon1"
                         className="border-0"
@@ -173,17 +190,32 @@ const PurchasePlan = () => {
                         on
                       />
                     </InputGroup>
-                    <span style={{ color: "#FF0000" }} className="mb-3">
+                    <div style={{ color: "#FF0000" }} className="mb-2">
                       {errors?.fullName?.message
                         ? errors?.fullName?.message
                         : ""}
-                    </span>
+                    </div>
                   </FormGroup>
-                  <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
+                  <Form.Label
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: 700,
+                      color: `${errors?.email?.message ? "#FF0000" : "black"}`,
+                    }}
+                  >
                     E-MAIL
                   </Form.Label>
                   <FormGroup>
-                    <InputGroup className="mb-3 rounded">
+                    <InputGroup
+                      className={
+                        errors?.email?.message ? "rounded" : "rounded mb-3"
+                      }
+                      style={{
+                        border: `${
+                          errors?.email?.message ? "1px solid red" : ""
+                        }`,
+                      }}
+                    >
                       <InputGroup.Text
                         id="basic-addon1"
                         className="border-0"
@@ -203,15 +235,31 @@ const PurchasePlan = () => {
                         }}
                       />
                     </InputGroup>
-                    <span style={{ color: "#FF0000" }} className="mb-3">
+                    <div style={{ color: "#FF0000" }} className="mb-2">
                       {errors?.email?.message ? errors?.email?.message : ""}
-                    </span>
+                    </div>
                   </FormGroup>
-                  <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
+
+                  <Form.Label
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: 700,
+                      color: `${errors?.cpf?.message ? "#FF0000" : "black"}`,
+                    }}
+                  >
                     CPF/CNPJ
                   </Form.Label>
                   <FormGroup>
-                    <InputGroup className="mb-3 rounded">
+                    <InputGroup
+                      className={
+                        errors?.cpf?.message ? "rounded" : "rounded mb-3"
+                      }
+                      style={{
+                        border: `${
+                          errors?.cpf?.message ? "1px solid red" : ""
+                        }`,
+                      }}
+                    >
                       <InputGroup.Text
                         id="basic-addon1"
                         className="border-0"
@@ -231,15 +279,34 @@ const PurchasePlan = () => {
                         }}
                       />
                     </InputGroup>
-                    <span style={{ color: "#FF0000" }} className="mb-3">
+                    <div style={{ color: "#FF0000" }} className="mb-2">
                       {errors?.cpf?.message ? errors?.cpf?.message : ""}
-                    </span>
+                    </div>
                   </FormGroup>
-                  <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
+                  <Form.Label
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: 700,
+                      color: `${
+                        errors?.phoneNumber?.message ? "#FF0000" : "black"
+                      }`,
+                    }}
+                  >
                     CELULAR
                   </Form.Label>
                   <FormGroup>
-                    <InputGroup className="mb-3 rounded">
+                    <InputGroup
+                      className={
+                        errors?.phoneNumber?.message
+                          ? "rounded"
+                          : "rounded mb-3"
+                      }
+                      style={{
+                        border: `${
+                          errors?.phoneNumber?.message ? "1px solid red" : ""
+                        }`,
+                      }}
+                    >
                       <InputGroup.Text
                         id="basic-addon1"
                         className="border-0"
@@ -269,11 +336,11 @@ const PurchasePlan = () => {
                         }}
                       />
                     </InputGroup>
-                    <span style={{ color: "#FF0000" }} className="mb-3">
+                    <div style={{ color: "#FF0000" }} className="mb-2">
                       {errors?.phoneNumber?.message
                         ? errors?.phoneNumber?.message
                         : ""}
-                    </span>
+                    </div>
                   </FormGroup>
                 </div>
                 <hr className="mt-md-5 mt-4" style={{ marginLeft: "30px" }} />
@@ -296,11 +363,30 @@ const PurchasePlan = () => {
                     </div>
                   </div>
                   <div className="mt-3 confirmYourPurchaseFrom">
-                    <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
+                    <Form.Label
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 700,
+                        color: `${
+                          errors?.addressLine1?.message ? "#FF0000" : "black"
+                        }`,
+                      }}
+                    >
                       Endereço Linha 1
                     </Form.Label>
                     <FormGroup>
-                      <InputGroup className="mb-3 rounded">
+                      <InputGroup
+                        className={
+                          errors?.addressLine1?.message
+                            ? "rounded"
+                            : "rounded mb-3"
+                        }
+                        style={{
+                          border: `${
+                            errors?.addressLine1?.message ? "1px solid red" : ""
+                          }`,
+                        }}
+                      >
                         <InputGroup.Text
                           id="basic-addon1"
                           className="border-0"
@@ -320,18 +406,37 @@ const PurchasePlan = () => {
                           }}
                         />
                       </InputGroup>
-                      <span style={{ color: "#FF0000" }} className="mb-3">
+                      <div style={{ color: "#FF0000" }} className="mb-2">
                         {errors?.addressLine1?.message
                           ? errors?.addressLine1?.message
                           : ""}
-                      </span>
+                      </div>
                     </FormGroup>
 
-                    <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
+                    <Form.Label
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 700,
+                        color: `${
+                          errors?.addressLine2?.message ? "#FF0000" : "black"
+                        }`,
+                      }}
+                    >
                       Endereço Linha 2
                     </Form.Label>
                     <FormGroup>
-                      <InputGroup className="mb-3 rounded">
+                      <InputGroup
+                        className={
+                          errors?.addressLine2?.message
+                            ? "rounded"
+                            : "rounded mb-3"
+                        }
+                        style={{
+                          border: `${
+                            errors?.addressLine2?.message ? "1px solid red" : ""
+                          }`,
+                        }}
+                      >
                         <InputGroup.Text
                           id="basic-addon1"
                           className="border-0"
@@ -351,18 +456,35 @@ const PurchasePlan = () => {
                           }}
                         />
                       </InputGroup>
-                      <span style={{ color: "#FF0000" }} className="mb-3">
+                      <div style={{ color: "#FF0000" }} className="mb-2">
                         {errors?.addressLine2?.message
                           ? errors?.addressLine2?.message
                           : ""}
-                      </span>
+                      </div>
                     </FormGroup>
 
-                    <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
+                    <Form.Label
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 700,
+                        color: `${
+                          errors?.zipCode?.message ? "#FF0000" : "black"
+                        }`,
+                      }}
+                    >
                       CEP
                     </Form.Label>
                     <FormGroup>
-                      <InputGroup className="mb-3 rounded">
+                      <InputGroup
+                        className={
+                          errors?.zipCode?.message ? "rounded" : "rounded mb-3"
+                        }
+                        style={{
+                          border: `${
+                            errors?.zipCode?.message ? "1px solid red" : ""
+                          }`,
+                        }}
+                      >
                         <InputGroup.Text
                           id="basic-addon1"
                           className="border-0"
@@ -382,18 +504,33 @@ const PurchasePlan = () => {
                           }}
                         />
                       </InputGroup>
-                      <span style={{ color: "#FF0000" }} className="mb-3">
+                      <div style={{ color: "#FF0000" }} className="mb-2">
                         {errors?.zipCode?.message
                           ? errors?.zipCode?.message
                           : ""}
-                      </span>
+                      </div>
                     </FormGroup>
 
-                    <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
+                    <Form.Label
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 700,
+                        color: `${errors?.city?.message ? "#FF0000" : "black"}`,
+                      }}
+                    >
                       Cidade
                     </Form.Label>
                     <FormGroup>
-                      <InputGroup className="mb-3 rounded">
+                      <InputGroup
+                        className={
+                          errors?.city?.message ? "rounded" : "rounded mb-3"
+                        }
+                        style={{
+                          border: `${
+                            errors?.city?.message ? "1px solid red" : ""
+                          }`,
+                        }}
+                      >
                         <InputGroup.Text
                           id="basic-addon1"
                           className="border-0"
@@ -413,12 +550,20 @@ const PurchasePlan = () => {
                           }}
                         />
                       </InputGroup>
-                      <span style={{ color: "#FF0000" }} className="mb-3">
+                      <div style={{ color: "#FF0000" }} className="mb-2">
                         {errors?.city?.message ? errors?.city?.message : ""}
-                      </span>
+                      </div>
                     </FormGroup>
 
-                    <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
+                    <Form.Label
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 700,
+                        color: `${
+                          errors?.state?.message ? "#FF0000" : "black"
+                        }`,
+                      }}
+                    >
                       Estado
                     </Form.Label>
                     <Select
@@ -427,7 +572,6 @@ const PurchasePlan = () => {
                       })}
                       options={stateOptions}
                       menuPlacement="auto"
-
                     />
 
                     {/*  <FormGroup>
@@ -586,12 +730,26 @@ const PurchasePlan = () => {
                         style={{
                           fontSize: "14px",
                           fontWeight: 700,
+                          color: `${
+                            errors?.cardNumber?.message ? "#FF0000" : ""
+                          }`,
                         }}
                       >
                         NÚMERO DO CARTÃO
                       </Form.Label>
                       <FormGroup>
-                        <InputGroup className="mb-3 rounded">
+                        <InputGroup
+                          className={
+                            errors?.cardNumber?.message
+                              ? "rounded"
+                              : "rounded mb-3"
+                          }
+                          style={{
+                            border: `${
+                              errors?.cardNumber?.message ? "1px solid red" : ""
+                            }`,
+                          }}
+                        >
                           <InputGroup.Text
                             id="basic-addon1"
                             className="border-0"
@@ -614,11 +772,11 @@ const PurchasePlan = () => {
                           />
                         </InputGroup>
                       </FormGroup>
-                      <span style={{ color: "#FF0000" }} className="mb-3">
+                      <div style={{ color: "#FF0000" }} className="mb-2">
                         {errors?.cardNumber?.message
                           ? errors?.cardNumber?.message
                           : ""}
-                      </span>
+                      </div>
                     </div>
                     <div className="mt-2">
                       <Form.Label
@@ -626,12 +784,26 @@ const PurchasePlan = () => {
                         style={{
                           fontSize: "14px",
                           fontWeight: 700,
+                          color: `${
+                            errors?.nameOnCard?.message ? "#FF0000" : ""
+                          }`,
                         }}
                       >
                         NOME DO TITULAR
                       </Form.Label>
                       <FormGroup>
-                        <InputGroup className="mb-3 rounded">
+                        <InputGroup
+                          className={
+                            errors?.nameOnCard?.message
+                              ? "rounded"
+                              : "rounded mb-3"
+                          }
+                          style={{
+                            border: `${
+                              errors?.nameOnCard?.message ? "1px solid red" : ""
+                            }`,
+                          }}
+                        >
                           <InputGroup.Text
                             id="basic-addon1"
                             className="border-0"
@@ -654,11 +826,11 @@ const PurchasePlan = () => {
                           />
                         </InputGroup>
                       </FormGroup>
-                      <span style={{ color: "#FF0000" }} className="mb-3">
+                      <div style={{ color: "#FF0000" }} className="mb-2">
                         {errors?.nameOnCard?.message
                           ? errors?.nameOnCard?.message
                           : ""}
-                      </span>
+                      </div>
                     </div>
                     <Row>
                       <Col xs={6} md={6}>
@@ -668,6 +840,13 @@ const PurchasePlan = () => {
                             style={{
                               fontSize: "14px",
                               fontWeight: 700,
+                              color: `${
+                                errors?.cardMonth?.message
+                                  ? "#FF0000"
+                                  : errors?.cardYear?.message
+                                  ? "#FF0000"
+                                  : ""
+                              }`,
                             }}
                           >
                             VALIDADE
@@ -675,7 +854,24 @@ const PurchasePlan = () => {
                           <div className="d-flex gap-2">
                             <div style={{ width: "50%" }}>
                               <FormGroup>
-                                <InputGroup className="mb-3 rounded">
+                                <InputGroup
+                                  className={
+                                    errors?.cardMonth?.message
+                                      ? "rounded"
+                                      : errors?.cardYear?.message
+                                      ? "rounded"
+                                      : errors?.cvc?.message
+                                      ? "rounded"
+                                      : "rounded mb-3"
+                                  }
+                                  style={{
+                                    border: `${
+                                      errors?.cardMonth?.message
+                                        ? "1px solid #FF0000"
+                                        : ""
+                                    }`,
+                                  }}
+                                >
                                   <Form.Control
                                     {...register("cardMonth", {
                                       required:
@@ -697,7 +893,24 @@ const PurchasePlan = () => {
                             </div>
                             <div style={{ width: "50%", gap: "20px" }}>
                               <FormGroup>
-                                <InputGroup className="mb-3 rounded">
+                                <InputGroup
+                                  className={
+                                    errors?.cardMonth?.message
+                                      ? "rounded"
+                                      : errors?.cardYear?.message
+                                      ? "rounded"
+                                      : errors?.cvc?.message
+                                      ? "rounded"
+                                      : "rounded mb-3"
+                                  }
+                                  style={{
+                                    border: `${
+                                      errors?.cardYear?.message
+                                        ? "1px solid #FF0000"
+                                        : ""
+                                    }`,
+                                  }}
+                                >
                                   <Form.Control
                                     {...register("cardYear", {
                                       required:
@@ -727,20 +940,36 @@ const PurchasePlan = () => {
                             style={{
                               fontSize: "14px",
                               fontWeight: 700,
+                              color: `${errors?.cvc?.message ? "#FF0000" : ""}`,
                             }}
                           >
                             CVC
                           </Form.Label>
                           <FormGroup>
                             <InputGroup
-                              className="mb-3 rounded"
-                              style={{ border: "1px solid #00000080" }}
+                              className={
+                                errors?.cardMonth?.message
+                                  ? "rounded"
+                                  : errors?.cardYear?.message
+                                  ? "rounded"
+                                  : errors?.cvc?.message
+                                  ? "rounded"
+                                  : "rounded mb-3"
+                              }
+                              style={{
+                                border: `${
+                                  errors?.cvc?.message
+                                    ? "1px solid #FF0000"
+                                    : "1px solid #00000080"
+                                }`,
+                              }}
                             >
                               <InputGroup.Text
                                 id="basic-addon1"
                                 style={{
                                   background: "#ECEFF3",
                                 }}
+                                className="border-0"
                               >
                                 <i
                                   className="bi bi-lock-fill ms-1 mt-1"
@@ -755,7 +984,7 @@ const PurchasePlan = () => {
                                 onBlur={() => setFocusField(null)}
                                 placeholder="digite o CVC do cartão"
                                 type="password"
-                                className="Cardinput badge-relative"
+                                className="border-0 Cardinput badge-relative"
                                 style={{
                                   fontSize: "14px",
                                 }}
@@ -764,15 +993,15 @@ const PurchasePlan = () => {
                           </FormGroup>
                         </div>
                       </Col>
-                      <span style={{ color: "#FF0000" }} className="mb-3">
+                      <div style={{ color: "#FF0000" }} className="mb-2">
                         {errors?.cardMonth?.message
                           ? errors?.cardMonth?.message
                           : errors?.cardYear?.message
-                            ? errors?.cardYear?.message
-                            : errors?.cvc?.message
-                              ? errors?.cvc?.message
-                              : ""}
-                      </span>
+                          ? errors?.cardYear?.message
+                          : errors?.cvc?.message
+                          ? errors?.cvc?.message
+                          : ""}
+                      </div>
                     </Row>
                     <div className="mt-2">
                       <Form.Label
@@ -789,11 +1018,12 @@ const PurchasePlan = () => {
                           <InputGroup className="mb-3 rounded">
                             <Form.Control
                               readOnly
-                              placeholder={`${params.purchaseType === "plan" ? "1" : "1"
-                                } x de ${new Intl.NumberFormat("pt-BR", {
-                                  style: "currency",
-                                  currency: "BRL",
-                                }).format(planData.monthlyPlanPrice)}`}
+                              placeholder={`${
+                                params.purchaseType === "plan" ? "1" : "1"
+                              } x de ${new Intl.NumberFormat("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                              }).format(planData.monthlyPlanPrice)}`}
                               type="text"
                               className="border-0 Cardinput badge-relative ps-3"
                               style={{
