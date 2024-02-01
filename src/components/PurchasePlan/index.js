@@ -421,7 +421,14 @@ const PurchasePlan = () => {
                     <Form.Label style={{ fontSize: "14px", fontWeight: 700 }}>
                       Estado
                     </Form.Label>
-                    <Select options={stateOptions} />
+                    <Select
+                      {...register("state", {
+                        required: "Por favor insira o nome do estado",
+                      })}
+                      options={stateOptions}
+                      menuPlacement="auto"
+
+                    />
 
                     {/*  <FormGroup>
                       <InputGroup className="mb-3 rounded">
@@ -761,10 +768,10 @@ const PurchasePlan = () => {
                         {errors?.cardMonth?.message
                           ? errors?.cardMonth?.message
                           : errors?.cardYear?.message
-                          ? errors?.cardYear?.message
-                          : errors?.cvc?.message
-                          ? errors?.cvc?.message
-                          : ""}
+                            ? errors?.cardYear?.message
+                            : errors?.cvc?.message
+                              ? errors?.cvc?.message
+                              : ""}
                       </span>
                     </Row>
                     <div className="mt-2">
@@ -782,12 +789,11 @@ const PurchasePlan = () => {
                           <InputGroup className="mb-3 rounded">
                             <Form.Control
                               readOnly
-                              placeholder={`${
-                                params.purchaseType === "plan" ? "1" : "1"
-                              } x de ${new Intl.NumberFormat("pt-BR", {
-                                style: "currency",
-                                currency: "BRL",
-                              }).format(planData.monthlyPlanPrice)}`}
+                              placeholder={`${params.purchaseType === "plan" ? "1" : "1"
+                                } x de ${new Intl.NumberFormat("pt-BR", {
+                                  style: "currency",
+                                  currency: "BRL",
+                                }).format(planData.monthlyPlanPrice)}`}
                               type="text"
                               className="border-0 Cardinput badge-relative ps-3"
                               style={{
