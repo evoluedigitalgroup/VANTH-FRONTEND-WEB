@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import Cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { plansListData } from "../../helper/API/Plan";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { createPlanSubscription } from "../../helper/API/purchase";
@@ -38,6 +38,7 @@ const PurchasePlan = () => {
   const {
     register,
     handleSubmit,
+    control,
     watch,
     formState: { errors },
   } = useForm();
@@ -52,7 +53,7 @@ const PurchasePlan = () => {
       addressLine2: data.addressLine2,
       zipCode: data.zipCode,
       city: data.city,
-      state: data.state,
+      state: data.state.value,
     };
 
     const cardData = {
@@ -152,9 +153,8 @@ const PurchasePlan = () => {
                     style={{
                       fontSize: "14px",
                       fontWeight: 700,
-                      color: `${
-                        errors?.fullName?.message ? "#FF0000" : "black"
-                      }`,
+                      color: `${errors?.fullName?.message ? "#FF0000" : "black"
+                        }`,
                     }}
                   >
                     NOME
@@ -165,9 +165,8 @@ const PurchasePlan = () => {
                         errors?.fullName?.message ? "rounded" : "rounded mb-3"
                       }
                       style={{
-                        border: `${
-                          errors?.fullName?.message ? "1px solid red" : ""
-                        }`,
+                        border: `${errors?.fullName?.message ? "1px solid red" : ""
+                          }`,
                       }}
                     >
                       <InputGroup.Text
@@ -211,9 +210,8 @@ const PurchasePlan = () => {
                         errors?.email?.message ? "rounded" : "rounded mb-3"
                       }
                       style={{
-                        border: `${
-                          errors?.email?.message ? "1px solid red" : ""
-                        }`,
+                        border: `${errors?.email?.message ? "1px solid red" : ""
+                          }`,
                       }}
                     >
                       <InputGroup.Text
@@ -255,9 +253,8 @@ const PurchasePlan = () => {
                         errors?.cpf?.message ? "rounded" : "rounded mb-3"
                       }
                       style={{
-                        border: `${
-                          errors?.cpf?.message ? "1px solid red" : ""
-                        }`,
+                        border: `${errors?.cpf?.message ? "1px solid red" : ""
+                          }`,
                       }}
                     >
                       <InputGroup.Text
@@ -287,9 +284,8 @@ const PurchasePlan = () => {
                     style={{
                       fontSize: "14px",
                       fontWeight: 700,
-                      color: `${
-                        errors?.phoneNumber?.message ? "#FF0000" : "black"
-                      }`,
+                      color: `${errors?.phoneNumber?.message ? "#FF0000" : "black"
+                        }`,
                     }}
                   >
                     CELULAR
@@ -302,9 +298,8 @@ const PurchasePlan = () => {
                           : "rounded mb-3"
                       }
                       style={{
-                        border: `${
-                          errors?.phoneNumber?.message ? "1px solid red" : ""
-                        }`,
+                        border: `${errors?.phoneNumber?.message ? "1px solid red" : ""
+                          }`,
                       }}
                     >
                       <InputGroup.Text
@@ -367,9 +362,8 @@ const PurchasePlan = () => {
                       style={{
                         fontSize: "14px",
                         fontWeight: 700,
-                        color: `${
-                          errors?.addressLine1?.message ? "#FF0000" : "black"
-                        }`,
+                        color: `${errors?.addressLine1?.message ? "#FF0000" : "black"
+                          }`,
                       }}
                     >
                       Endereço Linha 1
@@ -382,9 +376,8 @@ const PurchasePlan = () => {
                             : "rounded mb-3"
                         }
                         style={{
-                          border: `${
-                            errors?.addressLine1?.message ? "1px solid red" : ""
-                          }`,
+                          border: `${errors?.addressLine1?.message ? "1px solid red" : ""
+                            }`,
                         }}
                       >
                         <InputGroup.Text
@@ -417,9 +410,8 @@ const PurchasePlan = () => {
                       style={{
                         fontSize: "14px",
                         fontWeight: 700,
-                        color: `${
-                          errors?.addressLine2?.message ? "#FF0000" : "black"
-                        }`,
+                        color: `${errors?.addressLine2?.message ? "#FF0000" : "black"
+                          }`,
                       }}
                     >
                       Endereço Linha 2
@@ -432,9 +424,8 @@ const PurchasePlan = () => {
                             : "rounded mb-3"
                         }
                         style={{
-                          border: `${
-                            errors?.addressLine2?.message ? "1px solid red" : ""
-                          }`,
+                          border: `${errors?.addressLine2?.message ? "1px solid red" : ""
+                            }`,
                         }}
                       >
                         <InputGroup.Text
@@ -467,9 +458,8 @@ const PurchasePlan = () => {
                       style={{
                         fontSize: "14px",
                         fontWeight: 700,
-                        color: `${
-                          errors?.zipCode?.message ? "#FF0000" : "black"
-                        }`,
+                        color: `${errors?.zipCode?.message ? "#FF0000" : "black"
+                          }`,
                       }}
                     >
                       CEP
@@ -480,9 +470,8 @@ const PurchasePlan = () => {
                           errors?.zipCode?.message ? "rounded" : "rounded mb-3"
                         }
                         style={{
-                          border: `${
-                            errors?.zipCode?.message ? "1px solid red" : ""
-                          }`,
+                          border: `${errors?.zipCode?.message ? "1px solid red" : ""
+                            }`,
                         }}
                       >
                         <InputGroup.Text
@@ -526,9 +515,8 @@ const PurchasePlan = () => {
                           errors?.city?.message ? "rounded" : "rounded mb-3"
                         }
                         style={{
-                          border: `${
-                            errors?.city?.message ? "1px solid red" : ""
-                          }`,
+                          border: `${errors?.city?.message ? "1px solid red" : ""
+                            }`,
                         }}
                       >
                         <InputGroup.Text
@@ -559,19 +547,28 @@ const PurchasePlan = () => {
                       style={{
                         fontSize: "14px",
                         fontWeight: 700,
-                        color: `${
-                          errors?.state?.message ? "#FF0000" : "black"
-                        }`,
+                        color: `${errors?.state?.message ? "#FF0000" : "black"
+                          }`,
                       }}
                     >
                       Estado
                     </Form.Label>
-                    <Select
-                      {...register("state", {
+
+                    <Controller
+                      name="state"
+                      control={control}
+                      rules={{
                         required: "Por favor insira o nome do estado",
-                      })}
-                      options={stateOptions}
-                      menuPlacement="auto"
+                      }}
+                      render={({ field }) => {
+                        return (
+                          <Select
+                            {...field}
+                            options={stateOptions}
+                            menuPlacement="auto"
+                          />
+                        )
+                      }}
                     />
 
                     {/*  <FormGroup>
@@ -730,9 +727,8 @@ const PurchasePlan = () => {
                         style={{
                           fontSize: "14px",
                           fontWeight: 700,
-                          color: `${
-                            errors?.cardNumber?.message ? "#FF0000" : ""
-                          }`,
+                          color: `${errors?.cardNumber?.message ? "#FF0000" : ""
+                            }`,
                         }}
                       >
                         NÚMERO DO CARTÃO
@@ -745,9 +741,8 @@ const PurchasePlan = () => {
                               : "rounded mb-3"
                           }
                           style={{
-                            border: `${
-                              errors?.cardNumber?.message ? "1px solid red" : ""
-                            }`,
+                            border: `${errors?.cardNumber?.message ? "1px solid red" : ""
+                              }`,
                           }}
                         >
                           <InputGroup.Text
@@ -784,9 +779,8 @@ const PurchasePlan = () => {
                         style={{
                           fontSize: "14px",
                           fontWeight: 700,
-                          color: `${
-                            errors?.nameOnCard?.message ? "#FF0000" : ""
-                          }`,
+                          color: `${errors?.nameOnCard?.message ? "#FF0000" : ""
+                            }`,
                         }}
                       >
                         NOME DO TITULAR
@@ -799,9 +793,8 @@ const PurchasePlan = () => {
                               : "rounded mb-3"
                           }
                           style={{
-                            border: `${
-                              errors?.nameOnCard?.message ? "1px solid red" : ""
-                            }`,
+                            border: `${errors?.nameOnCard?.message ? "1px solid red" : ""
+                              }`,
                           }}
                         >
                           <InputGroup.Text
@@ -840,13 +833,12 @@ const PurchasePlan = () => {
                             style={{
                               fontSize: "14px",
                               fontWeight: 700,
-                              color: `${
-                                errors?.cardMonth?.message
-                                  ? "#FF0000"
-                                  : errors?.cardYear?.message
+                              color: `${errors?.cardMonth?.message
+                                ? "#FF0000"
+                                : errors?.cardYear?.message
                                   ? "#FF0000"
                                   : ""
-                              }`,
+                                }`,
                             }}
                           >
                             VALIDADE
@@ -859,17 +851,16 @@ const PurchasePlan = () => {
                                     errors?.cardMonth?.message
                                       ? "rounded"
                                       : errors?.cardYear?.message
-                                      ? "rounded"
-                                      : errors?.cvc?.message
-                                      ? "rounded"
-                                      : "rounded mb-3"
+                                        ? "rounded"
+                                        : errors?.cvc?.message
+                                          ? "rounded"
+                                          : "rounded mb-3"
                                   }
                                   style={{
-                                    border: `${
-                                      errors?.cardMonth?.message
-                                        ? "1px solid #FF0000"
-                                        : ""
-                                    }`,
+                                    border: `${errors?.cardMonth?.message
+                                      ? "1px solid #FF0000"
+                                      : ""
+                                      }`,
                                   }}
                                 >
                                   <Form.Control
@@ -898,17 +889,16 @@ const PurchasePlan = () => {
                                     errors?.cardMonth?.message
                                       ? "rounded"
                                       : errors?.cardYear?.message
-                                      ? "rounded"
-                                      : errors?.cvc?.message
-                                      ? "rounded"
-                                      : "rounded mb-3"
+                                        ? "rounded"
+                                        : errors?.cvc?.message
+                                          ? "rounded"
+                                          : "rounded mb-3"
                                   }
                                   style={{
-                                    border: `${
-                                      errors?.cardYear?.message
-                                        ? "1px solid #FF0000"
-                                        : ""
-                                    }`,
+                                    border: `${errors?.cardYear?.message
+                                      ? "1px solid #FF0000"
+                                      : ""
+                                      }`,
                                   }}
                                 >
                                   <Form.Control
@@ -951,17 +941,16 @@ const PurchasePlan = () => {
                                 errors?.cardMonth?.message
                                   ? "rounded"
                                   : errors?.cardYear?.message
-                                  ? "rounded"
-                                  : errors?.cvc?.message
-                                  ? "rounded"
-                                  : "rounded mb-3"
+                                    ? "rounded"
+                                    : errors?.cvc?.message
+                                      ? "rounded"
+                                      : "rounded mb-3"
                               }
                               style={{
-                                border: `${
-                                  errors?.cvc?.message
-                                    ? "1px solid #FF0000"
-                                    : "1px solid #00000080"
-                                }`,
+                                border: `${errors?.cvc?.message
+                                  ? "1px solid #FF0000"
+                                  : "1px solid #00000080"
+                                  }`,
                               }}
                             >
                               <InputGroup.Text
@@ -997,10 +986,10 @@ const PurchasePlan = () => {
                         {errors?.cardMonth?.message
                           ? errors?.cardMonth?.message
                           : errors?.cardYear?.message
-                          ? errors?.cardYear?.message
-                          : errors?.cvc?.message
-                          ? errors?.cvc?.message
-                          : ""}
+                            ? errors?.cardYear?.message
+                            : errors?.cvc?.message
+                              ? errors?.cvc?.message
+                              : ""}
                       </div>
                     </Row>
                     <div className="mt-2">
@@ -1018,12 +1007,11 @@ const PurchasePlan = () => {
                           <InputGroup className="mb-3 rounded">
                             <Form.Control
                               readOnly
-                              placeholder={`${
-                                params.purchaseType === "plan" ? "1" : "1"
-                              } x de ${new Intl.NumberFormat("pt-BR", {
-                                style: "currency",
-                                currency: "BRL",
-                              }).format(planData.monthlyPlanPrice)}`}
+                              placeholder={`${params.purchaseType === "plan" ? "1" : "1"
+                                } x de ${new Intl.NumberFormat("pt-BR", {
+                                  style: "currency",
+                                  currency: "BRL",
+                                }).format(planData.monthlyPlanPrice)}`}
                               type="text"
                               className="border-0 Cardinput badge-relative ps-3"
                               style={{
