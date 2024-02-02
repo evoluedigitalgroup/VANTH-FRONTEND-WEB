@@ -1,17 +1,28 @@
 import React from "react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { profileAtom } from "../recoil/Atoms";
+import { profileAtom, afterAuthRedirect } from "../recoil/Atoms";
+import { setRedirectAfterAuth } from "../recoil/helpers/redirectHelper";
 
 function Protected(props) {
-	const { Component, requiredPlan } = props;
+
+	const location = useLocation();
+
+	const { Component, requiredPlan, captureUrlToRedirect } = props;
 	const profile = useRecoilValue(profileAtom);
 	const navigate = useNavigate();
 	useEffect(() => {
+		console.log('location : ', location)
+
 		let login = localStorage.getItem("login");
 
 		if (!login) {
+
+			if (captureUrlToRedirect) {
+				afterAuthRedirect(setRedirectAfterAuth(location.pathname));
+			}
+
 			navigate("/login");
 		}
 

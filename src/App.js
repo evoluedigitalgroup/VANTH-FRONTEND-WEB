@@ -68,7 +68,7 @@ function App() {
         }
         <Route
           path="/perfil/my-plan/purchase/:purchaseType/:purchaseId"
-          element={<Protected Component={PurchasePlan} />}
+          element={<Protected captureUrlToRedirect Component={PurchasePlan} />}
         />
         <Route
           path="/perfil/my-plan"

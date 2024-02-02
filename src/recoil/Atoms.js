@@ -69,3 +69,10 @@ export const contractModels = atom({
     pdfEditor: null,
   },
 });
+
+
+export const afterAuthRedirect = atom({
+  key: "afterAuthRedirect",
+  default: null,
+  effects_UNSTABLE: [persistAtom],
+});
