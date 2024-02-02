@@ -8,6 +8,7 @@ const LoginForm = ({
   hidePassword,
   hidePwd,
   loading,
+  login,
 }) => {
   return (
     <div>
@@ -68,7 +69,49 @@ const LoginForm = ({
               <Form.Check type="checkbox" label="Lembrar" />
             </Form.Group>
           </Col>
-          <Col className="d-flex mt-5 justify-content-center">
+          <Row className="d-flex justify-content-center w-100 m-0 my-4">
+            <Col xs={6} md={6} className="d-md-none">
+              <Button
+                className="py-2"
+                onClick={login}
+                style={{
+                  width: "100%",
+                  color: "#0068FF",
+                  backgroundColor: "white",
+                  fontSize: 16,
+                  fontWeight: 800,
+                  border: "1px solid #0068FF",
+                }}
+              >
+                Cadastrar
+              </Button>
+            </Col>
+            <Col xs={6} md={6}>
+              <Button
+                className="py-2"
+                type="submit"
+                disabled={loading}
+                style={{
+                  width: "100%",
+                  color: "white",
+                  backgroundColor: "#0068FF",
+                  fontSize: 16,
+                  fontWeight: 800,
+                  border: "1px solid #0068FF",
+                }}
+              >
+                Enviar
+                {loading && (
+                  <Spinner
+                    animation="grow"
+                    variant="light"
+                    className="ms-3 py-2 fw-bold fs-4"
+                  />
+                )}
+              </Button>
+            </Col>
+          </Row>
+          {/* <Col className="d-flex mt-5 justify-content-center">
             <Button
               className="login-btn px-5 py-2 fw-bold fs-4 d-flex align-items-center"
               type="submit"
@@ -83,7 +126,7 @@ const LoginForm = ({
                 />
               )}
             </Button>
-          </Col>
+          </Col> */}
         </Row>
       </form>
     </div>

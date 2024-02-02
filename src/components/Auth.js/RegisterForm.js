@@ -13,6 +13,7 @@ const RegisterForm = ({
   loading,
   registerFormValues,
   getDesignaition,
+  showLoginFrom,
 }) => {
   const [company, setCompany] = useState(true);
   const [member, setMember] = useState(false);
@@ -29,10 +30,9 @@ const RegisterForm = ({
 
   const onRegister = (e) => {
     e.preventDefault();
-    const userType = company ? 'company' : 'member'
+    const userType = company ? "company" : "member";
     registerUser(e, userType);
-  }
-
+  };
 
   return (
     <div>
@@ -168,7 +168,7 @@ const RegisterForm = ({
                 </InputGroup.Text>
               </InputGroup>
             </Col>
-            <Col className="d-flex mt-1 justify-content-center">
+            {/* <Col className="d-flex mt-1 justify-content-center">
               <Button
                 className="login-btn px-5 py-2 fw-bold fs-4"
                 onClick={onRegister}
@@ -184,7 +184,7 @@ const RegisterForm = ({
                   />
                 )}
               </Button>
-            </Col>
+            </Col> */}
           </Row>
         )}
         {member && (
@@ -318,7 +318,7 @@ const RegisterForm = ({
                 </InputGroup.Text>
               </InputGroup>
             </Col>
-            <Col className="d-flex mt-1 justify-content-center">
+            {/* <Col className="d-flex mt-1 justify-content-center">
               <Button
                 className="login-btn px-5 py-2 fw-bold fs-4"
                 onClick={onRegister}
@@ -334,9 +334,52 @@ const RegisterForm = ({
                   />
                 )}
               </Button>
-            </Col>
+            </Col> */}
           </Row>
         )}
+        <Row className="d-flex justify-content-center w-100 m-0 my-4">
+          <Col xs={6} md={6} className="d-md-none">
+            <Button
+              className="py-2"
+              onClick={showLoginFrom}
+              style={{
+                width: "100%",
+                color: "#0068FF",
+                backgroundColor: "white",
+                fontSize: 16,
+                fontWeight: 800,
+                border: "1px solid #0068FF",
+              }}
+            >
+              Enviar
+            </Button>
+          </Col>
+          <Col xs={6} md={6}>
+            <Button
+              className="py-2"
+              onClick={onRegister}
+              disabled={loading}
+              type="submit"
+              style={{
+                width: "100%",
+                color: "white",
+                backgroundColor: "#0068FF",
+                fontSize: 16,
+                fontWeight: 800,
+                border: "1px solid #0068FF",
+              }}
+            >
+              Criar conta
+              {loading && (
+                <Spinner
+                  animation="grow"
+                  variant="light"
+                  className="ms-3 py-2 fw-bold fs-4"
+                />
+              )}
+            </Button>
+          </Col>
+        </Row>
       </form>
     </div>
   );

@@ -11,7 +11,6 @@ body {
 }
 
 @media (max-width: 550px) {
-
   /* body {
     padding-top: 25px;
   } */
@@ -100,6 +99,14 @@ body {
   .selctedUserNameAndTelephoneLabel {
     width: 100% !important;
   }
+}
+
+.login-btn {
+  background-color: #0068ff !important;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 800;
+  color: white !important;
 }
 
 .Dashboard {
@@ -238,10 +245,6 @@ body {
 /* .login-enter:hover::after {
   width: 100%;
 } */
-
-.login-btn {
-  background-color: #1c3d59 !important;
-}
 
 .active {
   color: #000;
