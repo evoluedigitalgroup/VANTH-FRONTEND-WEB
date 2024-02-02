@@ -13,7 +13,7 @@ import { afterAuthRedirect, jwtAtom, loginAtom, profileAtom } from "../recoil/At
 import { profileData } from "../helper/API/Profile";
 
 const Login = () => {
-  const [redirectAfterAuth, setRedirectAfterAuth] = useRecoilValue(afterAuthRedirect);
+  const [redirectAfterAuth, setRedirectAfterAuth] = useRecoilState(afterAuthRedirect);
   const [loginData, setLoginData] = useRecoilState(loginAtom);
   const [JWT, setJwt] = useRecoilState(jwtAtom);
   const [profileItem, setProfileItem] = useRecoilState(profileAtom);
@@ -178,7 +178,7 @@ const Login = () => {
       if (redirectAfterAuth) {
         const redirect = redirectAfterAuth;
         setRedirectAfterAuth(null);
-        navigate(redirect);
+        window.location.href = redirect;
       } else {
         navigate("/insights");
       }
