@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, FormGroup, InputGroup, Modal, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Form,
+  FormGroup,
+  InputGroup,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import { toast } from "react-toastify";
 import { LINK_URL } from "../../config";
 import {
@@ -14,7 +22,7 @@ import PermissionSwith from "./documents/PermissionSwitch";
 import Loader from "../Loader";
 import PermissionSwitchTable from "./documents/PermissionSwitchTable";
 import { useRecoilValue } from "recoil";
-import { profileAtom } from '../../recoil/Atoms';
+import { profileAtom } from "../../recoil/Atoms";
 
 const GenerateLinkNew = ({
   open,
@@ -27,7 +35,7 @@ const GenerateLinkNew = ({
   editSwitchesData = null,
 }) => {
   const [link, setLink] = useState(null);
-  const profile = useRecoilValue(profileAtom)
+  const profile = useRecoilValue(profileAtom);
 
   const [permission, setPermission] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -92,7 +100,6 @@ const GenerateLinkNew = ({
     setFormValuesData();
   }, []);
 
-
   const handleCheck = (e) => {
     setFormValues({
       ...formValues,
@@ -122,17 +129,16 @@ const GenerateLinkNew = ({
     });
   };
 
-
   const onSubmitOtherInfo = async (newPermission) => {
     const permissionName = newPermission.key.trim();
     const permissionValue = false;
 
-    const keyname = permissionName.split(' ').join('_').toLowerCase();
+    const keyname = permissionName.split(" ").join("_").toLowerCase();
 
     const newPermissionObj = {
       key: keyname,
       title: permissionName,
-    }
+    };
 
     const newDocumentResult = await addNewDocumentType(newPermissionObj);
 
@@ -142,88 +148,87 @@ const GenerateLinkNew = ({
     } else {
       toast.error(newDocumentResult.message);
     }
-
-  }
+  };
 
   const AddNewPermission = () => {
-
     const [otherInfo, setOtherInfo] = useState(undefined);
-
 
     const onClickOtherInfo = () => {
       setOtherInfo(null);
-    }
+    };
 
     return (
       <Col md={6}>
-        {
-          otherInfo === undefined ? (
-            <>
-              <button type="button" style={{ width: '100%', border: 0, background: 'transparent' }} onClick={onClickOtherInfo}>
-                <InputGroup.Text className="border-0 p-0">
-                  <i
-                    class="bi bi-plus-circle fs-4"
-                    style={{ color: "#0068FF" }}
-                  ></i>
-                  <h6 className="ms-4" style={{ fontSize: "14px", fontWeight: 600 }}>
-                    Adicionar mais
-                  </h6>
-                </InputGroup.Text>
-              </button>
-            </>
-          ) : null
-        }
-        {
-          otherInfo === null || (otherInfo && !otherInfo.saved) ? (
-            <>
-              <div
-                style={{
-                  width: '100%',
-                  border: 0,
-                  background: '#F4F6F8'
-                }}
-              >
-                <InputGroup.Text className="border-0">
-                  <i
-                    class="bi bi-dash-circle fs-4"
-                    style={{ color: "#0068FF" }}
-                    onClick={() => setOtherInfo(undefined)}
-                  ></i>
-                  <input
-                    className="ms-2"
-                    style={{
-                      fontSize: "14px",
-                      width: '100%',
-                      background: 'transparent',
-                      border: 0
-                    }}
-                    onChange={(e) => {
-                      console.log('e.target.value', e.target.value);
-                      setOtherInfo({
-                        key: e.target.value,
-                        value: "",
-                        saved: false
-                      })
-                    }}
-                    value={otherInfo?.key}
-                    placeholder="Nome do Documento..."
-                  />
-                  <i
-                    class="bi bi-check-lg fs-4"
-                    style={{ color: "#0068FF" }}
-                    onClick={() => {
-                      onSubmitOtherInfo(otherInfo)
-                    }}
-                  ></i>
-                </InputGroup.Text>
-              </div>
-            </>
-          ) : null
-        }
+        {otherInfo === undefined ? (
+          <>
+            <button
+              type="button"
+              style={{ width: "100%", border: 0, background: "transparent" }}
+              onClick={onClickOtherInfo}
+            >
+              <InputGroup.Text className="border-0 p-0">
+                <i
+                  class="bi bi-plus-circle fs-4"
+                  style={{ color: "#0068FF" }}
+                ></i>
+                <h6
+                  className="ms-4"
+                  style={{ fontSize: "14px", fontWeight: 600 }}
+                >
+                  Adicionar mais
+                </h6>
+              </InputGroup.Text>
+            </button>
+          </>
+        ) : null}
+        {otherInfo === null || (otherInfo && !otherInfo.saved) ? (
+          <>
+            <div
+              style={{
+                width: "100%",
+                border: 0,
+                background: "#F4F6F8",
+              }}
+            >
+              <InputGroup.Text className="border-0">
+                <i
+                  class="bi bi-dash-circle fs-4"
+                  style={{ color: "#0068FF" }}
+                  onClick={() => setOtherInfo(undefined)}
+                ></i>
+                <input
+                  className="ms-2"
+                  style={{
+                    fontSize: "14px",
+                    width: "100%",
+                    background: "transparent",
+                    border: 0,
+                  }}
+                  onChange={(e) => {
+                    console.log("e.target.value", e.target.value);
+                    setOtherInfo({
+                      key: e.target.value,
+                      value: "",
+                      saved: false,
+                    });
+                  }}
+                  value={otherInfo?.key}
+                  placeholder="Nome do Documento..."
+                />
+                <i
+                  class="bi bi-check-lg fs-4"
+                  style={{ color: "#0068FF" }}
+                  onClick={() => {
+                    onSubmitOtherInfo(otherInfo);
+                  }}
+                ></i>
+              </InputGroup.Text>
+            </div>
+          </>
+        ) : null}
       </Col>
-    )
-  }
-
+    );
+  };
 
   return (
     <div>
@@ -268,10 +273,28 @@ const GenerateLinkNew = ({
               <Form.Control className="border-0 p-3 fw-bold" value={link} />
             </InputGroup>
           </Col>
+        </Row>
+        <Row>
+          <Col md={6}>
+            <div className="d-flex align-items-center ms-md-4">
+              <h6
+                style={{
+                  fontWeight: "600",
+                  fontSize: "12px",
+                  color: "#85A6A2",
+                }}
+              >
+                Enviar com:
+              </h6>
+              <img src="/assets/img/whatsApp.svg" />
+              <img src="/assets/img/mail.png" />
+              <img src="/assets/img/sms.png" />
+            </div>
+          </Col>
           <Col md={6} className="my-3 text-md-end text-center">
             <Button
               disabled={loading}
-              className="px-5"
+              className="px-5 me-3"
               style={{ background: "#1C3D59", border: "none" }}
               onClick={submitForm}
             >
