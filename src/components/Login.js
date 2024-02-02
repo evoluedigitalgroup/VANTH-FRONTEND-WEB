@@ -51,7 +51,7 @@ const Login = () => {
   useEffect(() => {
     let login = localStorage.getItem("login");
     if (login) {
-      navigate("/Insights");
+      localStorage.clear();
     }
   }, []);
 
@@ -90,7 +90,6 @@ const Login = () => {
           setProfileItem(response.data);
           toast.success(res.message);
         });
-
       } else {
         setLoading(false);
         toast.error(res.message);
@@ -98,20 +97,17 @@ const Login = () => {
     });
   };
 
-
-
   const registerUser = (event, userType) => {
-
     setLoading(true);
     event.preventDefault();
 
-    if (!registerFormValues.code && userType === 'member') {
+    if (!registerFormValues.code && userType === "member") {
       toast.error("Por favor insira o código");
       setLoading(false);
-    } else if (!registerFormValues.designation && userType === 'member') {
+    } else if (!registerFormValues.designation && userType === "member") {
       toast.error("Insira a designação");
       setLoading(false);
-    } else if (!registerFormValues.companyName && userType === 'company') {
+    } else if (!registerFormValues.companyName && userType === "company") {
       toast.error("Insira o nome da empresa");
       setLoading(false);
     } else if (!registerFormValues.name) {
@@ -184,7 +180,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="Dashboard d-none d-md-flex align-items-center ">
+      <div className="Dashboard d-none d-md-flex align-items-center">
         <Row className="w-100 m-1 d-flex align-items-center justify-content-center">
           <Col
             md={4}
@@ -265,7 +261,7 @@ const Login = () => {
           style={{ height: "248px", width: "372px" }}
         />
         <div className="mx-3">
-          {login && (
+          {login ? (
             <>
               <h6
                 className="actives"
@@ -276,134 +272,17 @@ const Login = () => {
               <h6 style={{ fontSize: 12, fontWeight: 600 }}>
                 Digite seu e-mail e senha para entrar ou cadastre-se
               </h6>
-              <Form>
-                <FormGroup>
-                  <Form.Label
-                    className="mt-3"
-                    style={{ fontSize: 12, fontWeight: 500 }}
-                  >
-                    Email
-                  </Form.Label>
-                  <InputGroup className="rounded-2">
-                    <InputGroup.Text
-                      id="basic-addon1"
-                      className="p-2 border-0 rounded"
-                    >
-                      <i
-                        className="bi bi-envelope-fill"
-                        style={{ color: "#CED4DB" }}
-                      ></i>
-                    </InputGroup.Text>
-                    <Form.Control
-                      type="text"
-                      name="email"
-                      placeholder="Email cadastrado"
-                      className="border-0 ps-0"
-                      controlId="formBasicEmail"
-                      style={{ fontSize: 13 }}
-                    />
-                  </InputGroup>
-                </FormGroup>
-              </Form>
-              <Form>
-                <FormGroup>
-                  <Form.Label
-                    className="mt-3"
-                    style={{ fontSize: 12, fontWeight: 500 }}
-                  >
-                    Senha
-                  </Form.Label>
-                  <InputGroup className="rounded-2">
-                    <InputGroup.Text
-                      id="basic-addon1"
-                      className="p-2 border-0 rounded"
-                    >
-                      <i
-                        className="bi bi-lock-fill"
-                        style={{ color: "#CED4DB" }}
-                      ></i>
-                    </InputGroup.Text>
-                    <Form.Control
-                      type="password"
-                      name="email"
-                      placeholder="Senha"
-                      className="border-0 ps-0"
-                      controlId="formBasicEmail"
-                      style={{ fontSize: 13 }}
-                    />
-                  </InputGroup>
-                </FormGroup>
-              </Form>
-
-              <div className="d-flex align-items-center justify-content-between">
-                <Form.Group className="my-3" controlId="formBasicCheckbox">
-                  <Form.Check
-                    type="checkbox"
-                    label="Lembrar"
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 500,
-                      color: "rgba(39, 43, 48, 1)",
-                    }}
-                  />
-                </Form.Group>
-                <span
-                  style={{ fontSize: 12, fontWeight: 600, color: "#0068FF" }}
-                >
-                  Esqueci minha senha
-                </span>
-              </div>
-              <Row>
-                <Col xs={6} md={6}>
-                  <Button
-                    className="px-5 py-2"
-                    type="submit"
-                    // disabled={loading}
-                    onClick={Account}
-                    style={{
-                      width: "100%",
-                      color: "#0068FF",
-                      backgroundColor: "white",
-                      fontSize: 13,
-                      fontWeight: 800,
-                    }}
-                  >
-                    Cadastrar
-                    {/* {loading && (
-								<Spinner
-									animation='grow'
-									variant='light'
-									className='ms-3 py-2 fw-bold fs-4'
-								/>
-							)} */}
-                  </Button>
-                </Col>
-                <Col xs={6} md={6}>
-                  <Button
-                    className="login-btn px-5 py-2 border-0 text-center"
-                    type="submit"
-                    onClick={Login}
-                    style={{
-                      width: "100%",
-                      color: "#FFF5F1",
-                      fontSize: 13,
-                      fontWeight: 800,
-                    }}
-                  >
-                    Enviar
-                    {/* {loading && (
-								<Spinner
-									animation='grow'
-									variant='light'
-									className='ms-3 py-2 fw-bold fs-4'
-								/>
-							)} */}
-                  </Button>
-                </Col>
-              </Row>
+              <LoginForm
+                formValues={formValues}
+                handleForm={handleForm}
+                ProLogin={ProLogin}
+                hidePassword={hidePassword}
+                hidePwd={() => setHidePassword(!hidePassword)}
+                loading={loading}
+                login={Account}
+              />
             </>
-          )}
-          {account && (
+          ) : (
             <>
               <h6
                 className="actives"
@@ -411,453 +290,22 @@ const Login = () => {
               >
                 Criar conta
               </h6>
-
-              <Row className="mt-3">
-                <Col xs={4}>
-                  {company && (
-                    <h6
-                      className="actives"
-                      style={{
-                        fontSize: 17,
-                        fontWeight: 900,
-                        width: "fit-content",
-                      }}
-                    >
-                      Empresa
-                    </h6>
-                  )}
-                  {member && (
-                    <h6
-                      className="inactive"
-                      onClick={Company}
-                      style={{
-                        fontSize: 17,
-                        fontWeight: 900,
-                        width: "fit-content",
-                      }}
-                    >
-                      Empresa
-                    </h6>
-                  )}
-                </Col>
-                <Col xs={8}>
-                  {company && (
-                    <h6
-                      className="inactive"
-                      onClick={Member}
-                      style={{
-                        fontSize: 17,
-                        fontWeight: 900,
-                        width: "fit-content",
-                      }}
-                    >
-                      Membro
-                    </h6>
-                  )}
-                  {member && (
-                    <h6
-                      className="actives"
-                      style={{
-                        fontSize: 17,
-                        fontWeight: 900,
-                        width: "fit-content",
-                      }}
-                    >
-                      Membro
-                    </h6>
-                  )}
-                </Col>
-              </Row>
-
-              {company && (
-                <>
-                  <Form>
-                    <FormGroup>
-                      <Form.Label
-                        className="mt-3"
-                        style={{ fontSize: 12, fontWeight: 500 }}
-                      >
-                        nome da empresa
-                      </Form.Label>
-                      <InputGroup className="rounded-2">
-                        <InputGroup.Text className="p-2 border-0 rounded">
-                          <i
-                            className="bi bi-hash"
-                            style={{ color: "#CED4DB" }}
-                          ></i>
-                        </InputGroup.Text>
-                        <Form.Control
-                          placeholder="O nome da sua empresa"
-                          type="text"
-                          className="border-0 ps-0"
-                          style={{ fontSize: 13 }}
-                        />
-                      </InputGroup>
-                    </FormGroup>
-                  </Form>
-                  <Form>
-                    <FormGroup>
-                      <Form.Label
-                        className="mt-3"
-                        style={{ fontSize: 12, fontWeight: 500 }}
-                      >
-                        Nome
-                      </Form.Label>
-                      <InputGroup className="rounded-2">
-                        <InputGroup.Text className="p-2 border-0 rounded">
-                          <i
-                            className="bi bi-person-fill"
-                            style={{ color: "#CED4DB" }}
-                          ></i>
-                        </InputGroup.Text>
-                        <Form.Control
-                          placeholder="Seu primeiro e último nome"
-                          type="text"
-                          className="border-0 ps-0"
-                          style={{ fontSize: 13 }}
-                        />
-                      </InputGroup>
-                    </FormGroup>
-                  </Form>
-                  <Form>
-                    <FormGroup>
-                      <Form.Label
-                        className="mt-3"
-                        style={{ fontSize: 12, fontWeight: 500 }}
-                      >
-                        E-mail
-                      </Form.Label>
-                      <InputGroup className="rounded-2">
-                        <InputGroup.Text className="p-2 border-0 rounded">
-                          <i
-                            className="bi bi-envelope-fill"
-                            style={{ color: "#CED4DB" }}
-                          ></i>
-                        </InputGroup.Text>
-                        <Form.Control
-                          placeholder="E-mail"
-                          type="text"
-                          className="border-0 ps-0"
-                          style={{ fontSize: 13 }}
-                        />
-                      </InputGroup>
-                    </FormGroup>
-                  </Form>
-                  <Form>
-                    <FormGroup>
-                      <Form.Label
-                        className="mt-3"
-                        style={{ fontSize: 12, fontWeight: 500 }}
-                      >
-                        Senha
-                      </Form.Label>
-                      <InputGroup className="rounded-2">
-                        <InputGroup.Text className="p-2 border-0 rounded">
-                          <i
-                            className="bi bi-lock-fill"
-                            style={{ color: "#CED4DB" }}
-                          ></i>
-                        </InputGroup.Text>
-                        <Form.Control
-                          placeholder="Sua senha"
-                          type="text"
-                          className="border-0 ps-0"
-                          style={{ fontSize: 13 }}
-                        />
-                      </InputGroup>
-                    </FormGroup>
-                  </Form>
-                  <div className="d-flex align-items-center justify-content-between">
-                    <Form.Group className="my-3" controlId="formBasicCheckbox">
-                      <Form.Check
-                        type="checkbox"
-                        label="Lembrar"
-                        style={{
-                          fontSize: 12,
-                          fontWeight: 500,
-                          color: "rgba(39, 43, 48, 1)",
-                        }}
-                      />
-                    </Form.Group>
-                    <span
-                      style={{
-                        fontSize: 12,
-                        fontWeight: 600,
-                        color: "#272B30",
-                      }}
-                    >
-                      Esqueci minha senha
-                    </span>
-                  </div>
-                  <Row className="mb-3">
-                    <Col xs={6} md={6}>
-                      <Button
-                        className="px-5 py-2"
-                        type="submit"
-                        // disabled={loading}
-                        onClick={Login}
-                        style={{
-                          width: "100%",
-                          color: "#0068FF",
-                          backgroundColor: "white",
-                          fontSize: 13,
-                          fontWeight: 800,
-                        }}
-                      >
-                        Entrar
-                        {/* {loading && (
-              <Spinner
-                animation='grow'
-                variant='light'
-                className='ms-3 py-2 fw-bold fs-4'
+              <RegisterForm
+                handleRegisterForm={handleRegisterForm}
+                registerUser={registerUser}
+                hidePassword={hidePassword}
+                hidePwd={() => setHidePassword(!hidePassword)}
+                hideCnfrmPassword={hideConfirmPassword}
+                hideCnfrmPwd={() =>
+                  setHideConfirmPassword(!hideConfirmPassword)
+                }
+                registerFormValues={registerFormValues}
+                setConfirmPassword={setConfirmPassword}
+                confirmPassword={confirmPassword}
+                loading={loading}
+                getDesignaition={getDesignaition}
+                showLoginFrom={Login}
               />
-            )} */}
-                      </Button>
-                    </Col>
-                    <Col xs={6} md={6}>
-                      <Button
-                        className="login-btn px-5 py-2 border-0 text-center"
-                        type="submit"
-                        onClick={Account}
-                        style={{
-                          width: "100%",
-                          color: "#FFF5F1",
-                          fontSize: 13,
-                          fontWeight: 800,
-                        }}
-                      >
-                        Cadastrar
-                        {/* {loading && (
-              <Spinner
-                animation='grow'
-                variant='light'
-                className='ms-3 py-2 fw-bold fs-4'
-              />
-            )} */}
-                      </Button>
-                    </Col>
-                  </Row>
-                </>
-              )}
-
-              {member && (
-                <>
-                  <Form>
-                    <FormGroup>
-                      <Form.Label
-                        className="mt-3"
-                        style={{ fontSize: 12, fontWeight: 500 }}
-                      >
-                        Código para criação
-                      </Form.Label>
-                      <InputGroup className="rounded-2">
-                        <InputGroup.Text className="p-2 border-0 rounded">
-                          <i
-                            className="bi bi-hash"
-                            style={{ color: "#CED4DB" }}
-                          ></i>
-                        </InputGroup.Text>
-                        <Form.Control
-                          placeholder=" Código que você recebeu"
-                          type="text"
-                          className="border-0 ps-0"
-                          style={{ fontSize: 13 }}
-                        />
-                      </InputGroup>
-                    </FormGroup>
-                  </Form>
-                  <Form>
-                    <FormGroup>
-                      <Form.Label
-                        className="mt-3"
-                        style={{ fontSize: 12, fontWeight: 500 }}
-                      >
-                        Seu cargo
-                      </Form.Label>
-                      <InputGroup className="rounded-2">
-                        <InputGroup.Text className="p-2 border-0 rounded">
-                          <i
-                            className="bi bi-bag-dash-fill"
-                            style={{ color: "#CED4DB" }}
-                          ></i>
-                        </InputGroup.Text>
-                        <Form.Control
-                          placeholder="Sua função"
-                          type="text"
-                          className="border-0 ps-0"
-                          style={{ fontSize: 13 }}
-                        />
-                      </InputGroup>
-                    </FormGroup>
-                  </Form>
-                  <Form>
-                    <FormGroup>
-                      <Form.Label
-                        className="mt-3"
-                        style={{ fontSize: 12, fontWeight: 500 }}
-                      >
-                        Nome
-                      </Form.Label>
-                      <InputGroup className="rounded-2">
-                        <InputGroup.Text className="p-2 border-0 rounded">
-                          <i
-                            className="bi bi-bag-dash-fill"
-                            style={{ color: "#CED4DB" }}
-                          ></i>
-                        </InputGroup.Text>
-                        <Form.Control
-                          placeholder="Seu primeiro e último nome"
-                          type="text"
-                          className="border-0 ps-0"
-                          style={{ fontSize: 13 }}
-                        />
-                      </InputGroup>
-                    </FormGroup>
-                  </Form>
-                  <Form>
-                    <FormGroup>
-                      <Form.Label
-                        className="mt-3"
-                        style={{ fontSize: 12, fontWeight: 500 }}
-                      >
-                        E-mail
-                      </Form.Label>
-                      <InputGroup className="rounded-2">
-                        <InputGroup.Text className="p-2 border-0 rounded">
-                          <i
-                            className="bi bi-envelope-fill"
-                            style={{ color: "#CED4DB" }}
-                          ></i>
-                        </InputGroup.Text>
-                        <Form.Control
-                          placeholder="E-mail"
-                          type="text"
-                          className="border-0 ps-0"
-                          style={{ fontSize: 13 }}
-                        />
-                      </InputGroup>
-                    </FormGroup>
-                  </Form>
-                  <Form>
-                    <FormGroup>
-                      <Form.Label
-                        className="mt-3"
-                        style={{ fontSize: 12, fontWeight: 500 }}
-                      >
-                        Senha
-                      </Form.Label>
-                      <InputGroup className="rounded-2">
-                        <InputGroup.Text className="p-2 border-0 rounded">
-                          <i
-                            className="bi bi-lock-fill"
-                            style={{ color: "#CED4DB" }}
-                          ></i>
-                        </InputGroup.Text>
-                        <Form.Control
-                          placeholder="Sua senha"
-                          type="text"
-                          className="border-0 ps-0"
-                          style={{ fontSize: 13 }}
-                        />
-                      </InputGroup>
-                    </FormGroup>
-                  </Form>
-                  <Form>
-                    <FormGroup>
-                      <Form.Label
-                        className="mt-3"
-                        style={{ fontSize: 12, fontWeight: 500 }}
-                      >
-                        Repetir senha
-                      </Form.Label>
-                      <InputGroup className="rounded-2">
-                        <InputGroup.Text className="p-2 border-0 rounded">
-                          <i
-                            className="bi bi-lock-fill"
-                            style={{ color: "#CED4DB" }}
-                          ></i>
-                        </InputGroup.Text>
-                        <Form.Control
-                          placeholder="Sua senha"
-                          type="text"
-                          className="border-0 ps-0"
-                          style={{ fontSize: 13 }}
-                        />
-                      </InputGroup>
-                    </FormGroup>
-                  </Form>
-                  <div className="d-flex align-items-center justify-content-between">
-                    <Form.Group className="my-3" controlId="formBasicCheckbox">
-                      <Form.Check
-                        type="checkbox"
-                        label="Lembrar"
-                        style={{
-                          fontSize: 12,
-                          fontWeight: 500,
-                          color: "rgba(39, 43, 48, 1)",
-                        }}
-                      />
-                    </Form.Group>
-                    <span
-                      style={{
-                        fontSize: 12,
-                        fontWeight: 600,
-                        color: "#272B30",
-                      }}
-                    >
-                      Esqueci minha senha
-                    </span>
-                  </div>
-                  <Row className="mb-3">
-                    <Col xs={6} md={6}>
-                      <Button
-                        className="px-5 py-2"
-                        type="submit"
-                        // disabled={loading}
-                        onClick={Login}
-                        style={{
-                          width: "100%",
-                          color: "#0068FF",
-                          backgroundColor: "white",
-                          fontSize: 13,
-                          fontWeight: 800,
-                        }}
-                      >
-                        Entrar
-                        {/* {loading && (
-              <Spinner
-                animation='grow'
-                variant='light'
-                className='ms-3 py-2 fw-bold fs-4'
-              />
-            )} */}
-                      </Button>
-                    </Col>
-                    <Col xs={6} md={6}>
-                      <Button
-                        className="login-btn px-5 py-2 border-0 text-center"
-                        type="submit"
-                        onClick={Account}
-                        style={{
-                          width: "100%",
-                          color: "#FFF5F1",
-                          fontSize: 13,
-                          fontWeight: 800,
-                        }}
-                      >
-                        Cadastrar
-                        {/* {loading && (
-              <Spinner
-                animation='grow'
-                variant='light'
-                className='ms-3 py-2 fw-bold fs-4'
-              />
-            )} */}
-                      </Button>
-                    </Col>
-                  </Row>
-                </>
-              )}
             </>
           )}
         </div>
