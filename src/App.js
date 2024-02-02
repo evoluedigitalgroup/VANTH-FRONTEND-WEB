@@ -55,7 +55,7 @@ function App() {
         )}
         {permissions?.newUser ? (
           <Route
-            path="/Permissoes"
+            path="/permissoes"
             element={<Protected requiredPlan Component={Permissões} />}
           />
         ) : (
