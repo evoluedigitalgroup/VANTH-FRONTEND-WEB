@@ -9,10 +9,11 @@ import { getDesignation, loginAdmin, registerAdmin } from "../helper/API/auth";
 import LoginForm from "./Auth.js/LoginForm";
 import RegisterForm from "./Auth.js/RegisterForm";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { jwtAtom, loginAtom, profileAtom } from "../recoil/Atoms";
+import { afterAuthRedirect, jwtAtom, loginAtom, profileAtom } from "../recoil/Atoms";
 import { profileData } from "../helper/API/Profile";
 
 const Login = () => {
+  const [redirectAfterAuth, setRedirectAfterAuth] = useRecoilValue(afterAuthRedirect);
   const [loginData, setLoginData] = useRecoilState(loginAtom);
   const [JWT, setJwt] = useRecoilState(jwtAtom);
   const [profileItem, setProfileItem] = useRecoilState(profileAtom);
@@ -174,7 +175,13 @@ const Login = () => {
 
   useEffect(() => {
     if (profileItem?.name) {
-      navigate("/Insights");
+      if (redirectAfterAuth) {
+        const redirect = redirectAfterAuth;
+        setRedirectAfterAuth(null);
+        navigate(redirect);
+      } else {
+        navigate("/insights");
+      }
     }
   }, [profileItem]);
 

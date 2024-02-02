@@ -1,12 +1,12 @@
 import React from "react";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { profileAtom, afterAuthRedirect } from "../recoil/Atoms";
 import { setRedirectAfterAuth } from "../recoil/helpers/redirectHelper";
 
 function Protected(props) {
-
+	const setAfterAuthRedirect = useSetRecoilState(afterAuthRedirect);
 	const location = useLocation();
 
 	const { Component, requiredPlan, captureUrlToRedirect } = props;
@@ -20,7 +20,7 @@ function Protected(props) {
 		if (!login) {
 
 			if (captureUrlToRedirect) {
-				afterAuthRedirect(setRedirectAfterAuth(location.pathname));
+				setAfterAuthRedirect(setRedirectAfterAuth(location.pathname));
 			}
 
 			navigate("/login");

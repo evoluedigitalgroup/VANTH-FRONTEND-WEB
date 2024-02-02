@@ -38,7 +38,7 @@ function App() {
         <Route path="*" element={<Navigate to="error" replace />} />
         <Route path="/login" element={<Protected Component={Login} />} />
 
-        <Route path="/Insights" element={<Protected requiredPlan Component={Insights} />} />
+        <Route path="/insights" element={<Protected requiredPlan Component={Insights} />} />
         <Route path="/clientes" element={<Protected requiredPlan Component={Clients} />} />
         {permissions?.contract ? (
           <Route path="/contratos" element={<Protected requiredPlan Component={Contract} />} />
