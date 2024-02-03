@@ -108,24 +108,30 @@ const GenerateLinkNew = ({
   };
 
   const submitForm = (e) => {
-    const submitData = {
-      permission: {
-        ...formValues,
-      },
-      contactId: editData.id,
-      requestId: editData.documentRequest.id,
-      generateLink: link,
-    };
+    return new Promise((resolve, reject) => {
 
-    generateLink(submitData).then((res) => {
-      if (res.success) {
-        setRefresh(refresh + 1);
-        toast.success(res.message);
-        copy(link);
-        handleClose();
-      } else {
-        toast.error(res.message);
-      }
+
+      const submitData = {
+        permission: {
+          ...formValues,
+        },
+        contactId: editData.id,
+        requestId: editData.documentRequest.id,
+        generateLink: link,
+      };
+
+      generateLink(submitData).then((res) => {
+        if (res.success) {
+          setRefresh(refresh + 1);
+          toast.success(res.message);
+          copy(link);
+          handleClose();
+          resolve();
+        } else {
+          toast.error(res.message);
+          resolve();
+        }
+      });
     });
   };
 
@@ -148,6 +154,24 @@ const GenerateLinkNew = ({
     } else {
       toast.error(newDocumentResult.message);
     }
+  };
+
+  const onClickWhatsApp = async () => {
+    await submitForm()
+    window.open(`https://api.whatsapp.com/send?text=${link}`, "_blank");
+    // window.location.href = `https://api.whatsapp.com/send?text=${link}`;
+  };
+
+  const onClickSms = async () => {
+    await submitForm()
+    window.open(`sms:?&body=${link}`, "_blank");
+    // window.location.href = `sms:?&body=${link}`;
+  };
+
+  const onClickEmail = async () => {
+    await submitForm()
+    window.open(`mailto:?&body=${link}`, "_blank");
+    // window.location.href = `mailto:?&body=${link}`;
   };
 
   const AddNewPermission = () => {
@@ -286,9 +310,15 @@ const GenerateLinkNew = ({
               >
                 Enviar com:
               </h6>
-              <img src="/assets/img/whatsApp.svg" />
-              <img src="/assets/img/mail.png" />
-              <img src="/assets/img/sms.png" />
+              <button onClick={onClickWhatsApp} style={{ background: 'transparent', border: 0 }}>
+                <img src="/assets/img/whatsApp.svg" />
+              </button>
+              <button onClick={onClickEmail} style={{ background: 'transparent', border: 0 }}>
+                <img src="/assets/img/mail.png" />
+              </button>
+              <button onClick={onClickSms} style={{ background: 'transparent', border: 0 }}>
+                <img src="/assets/img/sms.png" />
+              </button>
             </div>
           </Col>
           <Col md={6} className="my-3 text-md-end text-center">
