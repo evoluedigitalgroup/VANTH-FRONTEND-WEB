@@ -159,19 +159,16 @@ const GenerateLinkNew = ({
   const onClickWhatsApp = async () => {
     await submitForm()
     window.open(`https://api.whatsapp.com/send?text=${link}`, "_blank");
-    // window.location.href = `https://api.whatsapp.com/send?text=${link}`;
   };
 
   const onClickSms = async () => {
     await submitForm()
     window.open(`sms:?&body=${link}`, "_blank");
-    // window.location.href = `sms:?&body=${link}`;
   };
 
   const onClickEmail = async () => {
     await submitForm()
     window.open(`mailto:?&body=${link}`, "_blank");
-    // window.location.href = `mailto:?&body=${link}`;
   };
 
   const AddNewPermission = () => {
