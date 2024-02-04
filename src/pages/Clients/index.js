@@ -11,6 +11,7 @@ import TableNavbar from "../../components/TableNavbar";
 import { contactTableData } from "../../recoil/Atoms";
 import NewClientAdd from "./NewClientAdd";
 import { contactPaginationData, toReloadContactData } from "../../recoil/PaginationAtoms/Contact";
+import { Helmet } from "react-helmet";
 
 
 const ClientData = ({
@@ -151,6 +152,9 @@ const Clients = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Vanth System | Clients</title>
+      </Helmet>
       <AfterAuth>
         <div className="d-flex align-items-center justify-content-between mt-3 mx-md-5 mx-3">
           <h2 className="">Clientes</h2>

@@ -10,6 +10,7 @@ import TableNavbar from "../../components/TableNavbar";
 import { documentTableData } from "../../recoil/Atoms";
 import NewMemberAdd from "../../components/Document/NewMemberAdd";
 import { documentPaginationData, toReloadDocumentData } from "../../recoil/PaginationAtoms/Document";
+import { Helmet } from "react-helmet";
 
 const DocumentData = ({
   search,
@@ -156,6 +157,9 @@ const Documents = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Vanth System | Documentos</title>
+      </Helmet>
       <AfterAuth>
         <h2 className="mt-3 ms-md-5 ms-3">Documentos</h2>
         <Card className="mx-0 mx-md-5 my-3 p-3 px-4 cardComponent">

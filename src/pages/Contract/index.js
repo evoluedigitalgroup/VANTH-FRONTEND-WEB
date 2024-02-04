@@ -26,6 +26,7 @@ import {
 import ContractCopylinkModal from "./NewContract/ContractCopylinkModal";
 import ReviewAndInformationModal from "./NewContract/ReviewAndInformationModal";
 import { contractPaginationData, toReloadContractData } from "../../recoil/PaginationAtoms/Contract";
+import { Helmet } from "react-helmet";
 
 
 const ContractData = ({
@@ -181,6 +182,9 @@ const Contact = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Vanth System | Contratos</title>
+      </Helmet>
       <AfterAuth>
         <div className="d-flex align-items-center justify-content-between mt-3 mx-md-5 ms-3">
           <h2 className="">Contratos</h2>

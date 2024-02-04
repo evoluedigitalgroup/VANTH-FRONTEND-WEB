@@ -3,6 +3,7 @@ import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { Helmet } from "react-helmet";
 //
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
@@ -185,6 +186,9 @@ const Login = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Vanth System | Entrar</title>
+      </Helmet>
       <div className="Dashboard d-none d-md-flex align-items-center">
         <Row className="w-100 m-1 d-flex align-items-center justify-content-center">
           <Col

@@ -30,6 +30,7 @@ import Sidebar from "../../components/Sidebar";
 import NavbarCom from "../../components/NavbarCom";
 import { getChartData } from "../../helper/API/insight";
 import { getAllChartData, loginAtom } from "../../recoil/Atoms";
+import { Helmet } from "react-helmet";
 
 
 const Insights = () => {
@@ -189,6 +190,9 @@ const Insights = () => {
   ));
   return (
     <>
+      <Helmet>
+        <title>Vanth System | Insigths</title>
+      </Helmet>
       <AfterAuth>
         <h2 className="mt-3 mx-md-5 mx-4 fw-bold">Insigths</h2>
         <Card className="p-4 pt-0 pt-md-4 mx-md-5 my-3 cardComponent">

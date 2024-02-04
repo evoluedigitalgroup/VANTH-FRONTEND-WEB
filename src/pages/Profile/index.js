@@ -9,6 +9,7 @@ import ProfileCard from "../../components/Profile/ProfileCard";
 import { useRecoilValue } from "recoil";
 import { loginAtom } from "../../recoil/Atoms";
 import { usageAtom } from "../../recoil/UsageAtoms/Usage";
+import { Helmet } from "react-helmet";
 
 const Perfil = () => {
 
@@ -50,6 +51,9 @@ const Perfil = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Vanth System | Perfil</title>
+      </Helmet>
       <AfterAuth>
         <h3 className="mx-4 mx-md-5 mt-3" style={{ fontWeight: 900 }}>
           Meu perfil

@@ -10,6 +10,7 @@ import { profileAtom } from "../../recoil/Atoms";
 import { usageAtom } from "../../recoil/UsageAtoms/Usage";
 import NewProgressbar from "../../components/NewProgressbar";
 import { getPlanUsageData, plansListData } from "./api";
+import { Helmet } from "react-helmet";
 
 const MyPlan = () => {
   const [plansList, setPlansList] = useState(null);
@@ -188,32 +189,38 @@ const MyPlan = () => {
   }
 
   return (
-    <AfterAuth>
-      <div className="mx-3 mx-md-5 mt-3 d-flex align-items-center gap-4">
-        {/* <img src="/assets/img/leftArrow.svg" /> */}
-        <h3 className="pt-2">Meu plano</h3>
-      </div>
-      <Card className="my-3 mx-md-5 p-3 px-md-4 cardComponent">
-        {
-          profile?.companyData?.selectedPlan ? (
-            <>
-              <div className="fw-bold">Dash de uso</div>
-              <Row>
-                <StorageBox />
-                <SignedContractsBox />
-                <UsersBox />
-              </Row>
-            </>
-          ) : null
-        }
-        {/* {
+    <>
+      <Helmet>
+        <title>Vanth System | Meu plano</title>
+      </Helmet>
+
+      <AfterAuth>
+        <div className="mx-3 mx-md-5 mt-3 d-flex align-items-center gap-4">
+          {/* <img src="/assets/img/leftArrow.svg" /> */}
+          <h3 className="pt-2">Meu plano</h3>
+        </div>
+        <Card className="my-3 mx-md-5 p-3 px-md-4 cardComponent">
+          {
+            profile?.companyData?.selectedPlan ? (
+              <>
+                <div className="fw-bold">Dash de uso</div>
+                <Row>
+                  <StorageBox />
+                  <SignedContractsBox />
+                  <UsersBox />
+                </Row>
+              </>
+            ) : null
+          }
+          {/* {
           profile?.companyData?.selectedPlan ? (
             <PackagesBox />
           ) : null
         } */}
-        <PlansBox />
-      </Card>
-    </AfterAuth>
+          <PlansBox />
+        </Card>
+      </AfterAuth>
+    </>
   );
 };
 

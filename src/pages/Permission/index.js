@@ -8,6 +8,7 @@ import TableNavbar from "../../components/TableNavbar";
 import PermissionTable from "./PermissionTable";
 import { permissionTableApi } from "./api";
 import Loader from "../../components/Loader";
+import { Helmet } from "react-helmet";
 
 const Permission = () => {
   let active = 2;
@@ -66,6 +67,9 @@ const Permission = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Vanth System | Permissões</title>
+      </Helmet>
       <AfterAuth>
         <h2 className="mt-3 ms-md-5 ms-3">Permissões</h2>
         <Card className="p-md-3 mx-md-5 mx-3 my-3 cardComponent">
