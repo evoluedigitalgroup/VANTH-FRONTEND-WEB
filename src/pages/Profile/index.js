@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import Pagination from "react-bootstrap/Pagination";
-import AfterAuth from "../HOC/AfterAuth";
+import AfterAuth from "../../HOC/AfterAuth";
 import { useNavigate } from 'react-router-dom'
-import ProfilePicture from "../components/Profile/ProfilePicture";
-import ChangePassword from "../components/Profile/ChangePassword";
-import AddUser from "../components/Profile/AddUser";
-import ProfileCard from "../components/Profile/ProfileCard";
+import ProfilePicture from "../../components/Profile/ProfilePicture";
+import ChangePassword from "../../components/Profile/ChangePassword";
+import AddUser from "../../components/Profile/AddUser";
+import ProfileCard from "../../components/Profile/ProfileCard";
 import { useRecoilValue } from "recoil";
-import { loginAtom } from "../recoil/Atoms";
-import { usageAtom } from "../recoil/UsageAtoms/Usage";
+import { loginAtom } from "../../recoil/Atoms";
+import { usageAtom } from "../../recoil/UsageAtoms/Usage";
 
 const Perfil = () => {
 
@@ -41,7 +41,7 @@ const Perfil = () => {
   const showAddUser = () => {
     if (permissions.newUser) {
       if (usage?.totalUsers?.percent === 100) {
-        navigate('/perfil/my-plan');
+        navigate('/profile/my-plan');
       } else {
         setAddUser(true);
       }

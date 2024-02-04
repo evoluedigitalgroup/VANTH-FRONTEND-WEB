@@ -76,7 +76,7 @@ const PurchasePlan = () => {
 
     if (paymentRecord.success) {
       toast.success("Plano comprado com sucesso");
-      navigate("/perfil/my-plan");
+      navigate("/profile/my-plan");
     } else {
       toast.error(paymentRecord.message);
     }
@@ -115,7 +115,7 @@ const PurchasePlan = () => {
   return (
     <AfterAuth>
       <div className="mx-3 mx-md-5 mt-3 d-flex  align-items-center gap-4">
-        <Link to="/perfil/my-plan">
+        <Link to="/profile/my-plan">
           <img className="d-none d-md-block" src="/assets/img/leftArrow.svg" />
         </Link>
         <h3 className="pt-2">Meu plano</h3>

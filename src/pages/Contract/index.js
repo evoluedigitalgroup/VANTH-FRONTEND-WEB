@@ -187,7 +187,7 @@ const Contact = () => {
           <button
             onClick={() => {
               if (usage?.digitalSignatures?.percent === 100) {
-                navigate('/perfil/my-plan');
+                navigate('/profile/my-plan');
               } else {
                 setModels(openSelectClient())
               }

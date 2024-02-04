@@ -17,7 +17,7 @@ import Insights from "./pages/Insights";
 import Permission from "./pages/Permission";
 import Documents from "./pages/Documents";
 import Protected from "./components/Protected";
-import Perfil from "./pages/Perfil";
+import Profile from "./pages/Profile";
 import Logout from "./pages/Logout";
 import ErrorPage from "./pages/ErrorPage";
 import Clients from "./pages/Clients";
@@ -64,17 +64,17 @@ function App() {
         ) : (
           <Route path="error" element={<ErrorPage />} />
         )}
-        <Route path="/perfil" element={<Protected Component={Perfil} />} />
+        <Route path="/profile" element={<Protected Component={Profile} />} />
         {
           //  purchaseType = "plan" or "package"
           //  planId = "plan id" or "package id"
         }
         <Route
-          path="/perfil/my-plan/purchase/:purchaseType/:purchaseId"
+          path="/profile/my-plan/purchase/:purchaseType/:purchaseId"
           element={<Protected captureUrlToRedirect Component={PurchasePlan} />}
         />
         <Route
-          path="/perfil/my-plan"
+          path="/profile/my-plan"
           element={<Protected Component={MyPlan} />}
         />
         <Route path="/logout" element={<Protected Component={Logout} />} />

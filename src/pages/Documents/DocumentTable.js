@@ -70,7 +70,7 @@ const DocumentTable = ({
 
   const handleShowLinkModal = (val) => {
     if (usage?.storage?.percent === 100) {
-      navigate('/perfil/my-plan');
+      navigate('/profile/my-plan');
     } else {
       setOpenLinkModal(true);
       setEditData(val);

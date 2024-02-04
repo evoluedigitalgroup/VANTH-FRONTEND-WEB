@@ -22,7 +22,7 @@ const UpgradePlan = ({ data, isUpdate, index }) => {
   const navigate = useNavigate()
 
   const onClickPurchase = () => {
-    navigate(`/perfil/my-plan/purchase/plan/${data.id}`)
+    navigate(`/profile/my-plan/purchase/plan/${data.id}`)
   };
 
   return (

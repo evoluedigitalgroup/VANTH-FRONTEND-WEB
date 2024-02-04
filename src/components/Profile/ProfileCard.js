@@ -160,7 +160,7 @@ const ProfileCard = ({
                   {new Intl.NumberFormat('pt-BR').format((usage?.storage?.existing / 1000))} {usage?.storage?.storageUnit} de {usage?.storage?.totalStorageAllowed} {usage?.storage?.storageUnit} usados
                 </span>
               </div>
-              <Link to="/perfil/my-plan" className="mt-2 text-decoration-none">
+              <Link to="/profile/my-plan" className="mt-2 text-decoration-none">
                 <img src="/assets/img/cloud.svg" />
                 <span
                   style={{
@@ -183,7 +183,7 @@ const ProfileCard = ({
                   {usage?.digitalSignatures?.existing} de {usage?.digitalSignatures?.allowed} contratos
                 </span>
               </div>
-              <Link to="/perfil/my-plan" className="mt-2 text-decoration-none">
+              <Link to="/profile/my-plan" className="mt-2 text-decoration-none">
                 <img src="/assets/img/file.svg" />
                 <span
                   style={{

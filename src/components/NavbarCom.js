@@ -53,9 +53,9 @@ const NavbarCom = ({ setShowSide, showSide }) => {
               </Navbar.Brand>
               <Nav className="me-auto"></Nav>
               <Nav className="mx-md-1 mx-md-5 px-md-3">
-                <NavLink style={{ textDecoration: "none" }} to={"/perfil"}>
+                <NavLink style={{ textDecoration: "none" }} to={"/profile"}>
                   <div
-                    className={`${pathName == "/perfil" && "Nav-after"
+                    className={`${pathName == "/profile" && "Nav-after"
                       } text-white d-flex align-items-center`}
                   >
                     <span className="d-none d-md-flex me-2">
@@ -65,9 +65,9 @@ const NavbarCom = ({ setShowSide, showSide }) => {
                       class="bi bi-bell-fill d-flex d-md-none me-2"
                       style={{ color: "#6F767E", fontSize: 16 }}
                     ></i>
-                    <NavLink to={"/perfil"}>
+                    <NavLink to={"/profile"}>
                       <img
-                        className={`${pathName == "/perfil" && "Imgborder"}`}
+                        className={`${pathName == "/profile" && "Imgborder"}`}
                         src={
                           profileItem.profileImage
                             ? profileItem.profileImage

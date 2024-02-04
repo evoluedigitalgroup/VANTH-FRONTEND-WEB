@@ -28,7 +28,7 @@ function Protected(props) {
 
 		if (requiredPlan) {
 			if (!profile?.companyData?.selectedPlan) {
-				navigate("/perfil/my-plan")
+				navigate("/profile/my-plan")
 			}
 		}
 
