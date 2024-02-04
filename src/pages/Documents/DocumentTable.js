@@ -78,7 +78,6 @@ const DocumentTable = ({
   };
 
   const getRequiredLength = (obj) => {
-    console.log('obj', obj)
     return Object.values(obj?.documentRequest?.requiredPermission).filter(
       (val) => val
     ).length;

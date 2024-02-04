@@ -90,7 +90,7 @@ const ChangePassword = ({ open, handleClose }) => {
                   className="border-0"
                   style={{ backgroundColor: "#F4F6F8" }}
                 >
-                  <i class="bi bi-lock-fill" style={{ color: "#CED4DB" }}></i>
+                  <i className="bi bi-lock-fill" style={{ color: "#CED4DB" }}></i>
                 </InputGroup.Text>
                 <Form.Control
                   className="border-0 ps-0 shadow-none"
@@ -108,7 +108,7 @@ const ChangePassword = ({ open, handleClose }) => {
                   className="border-0"
                   style={{ backgroundColor: "#F4F6F8" }}
                 >
-                  <i class="bi bi-lock-fill" style={{ color: "#CED4DB" }}></i>
+                  <i className="bi bi-lock-fill" style={{ color: "#CED4DB" }}></i>
                 </InputGroup.Text>
 
                 <Form.Control
@@ -122,7 +122,7 @@ const ChangePassword = ({ open, handleClose }) => {
                 <InputGroup.Text className="p-2 border-0">
                   {hidePassword && (
                     <i
-                      class="bi bi-eye-slash-fill"
+                      className="bi bi-eye-slash-fill"
                       style={{ color: "#CED4DB" }}
                       onClick={() => setHidePassword(!hidePassword)}
                     ></i>
@@ -130,7 +130,7 @@ const ChangePassword = ({ open, handleClose }) => {
 
                   {!hidePassword && (
                     <i
-                      class="bi bi-eye-fill"
+                      className="bi bi-eye-fill"
                       style={{ color: "#CED4DB" }}
                       onClick={() => setHidePassword(!hidePassword)}
                     ></i>
@@ -144,7 +144,7 @@ const ChangePassword = ({ open, handleClose }) => {
               </Form.Label>
               <InputGroup className="mb-3 border-0 rounded">
                 <InputGroup.Text className="p-2 border-0">
-                  <i class="bi bi-lock-fill" style={{ color: "#CED4DB" }}></i>
+                  <i className="bi bi-lock-fill" style={{ color: "#CED4DB" }}></i>
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Repetir nova senha"
@@ -160,7 +160,7 @@ const ChangePassword = ({ open, handleClose }) => {
                 <InputGroup.Text className="p-2 border-0">
                   {hideConfirmPassword && (
                     <i
-                      class="bi bi-eye-slash-fill"
+                      className="bi bi-eye-slash-fill"
                       style={{ color: "#CED4DB" }}
                       onClick={() =>
                         setHideConfirmPassword(!hideConfirmPassword)
@@ -170,7 +170,7 @@ const ChangePassword = ({ open, handleClose }) => {
 
                   {!hideConfirmPassword && (
                     <i
-                      class="bi bi-eye-fill"
+                      className="bi bi-eye-fill"
                       style={{ color: "#CED4DB" }}
                       onClick={() =>
                         setHideConfirmPassword(!hideConfirmPassword)

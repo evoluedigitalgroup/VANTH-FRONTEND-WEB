@@ -41,13 +41,13 @@ const Pagination = (props) => {
 			{currentPage !== 1 ? (
 				<li className='pagination-btn' onClick={onPrevious}>
 					<div>
-						<i class='bi bi-arrow-left-short fs-5 pagination-btn-shadow'></i>
+						<i className='bi bi-arrow-left-short fs-5 pagination-btn-shadow'></i>
 					</div>
 				</li>
 			) : (
 				<li className='pagination-btn opacity-50'>
 					<div>
-						<i class='bi bi-arrow-left-short fs-5 pagination-btn-shadow'></i>
+						<i className='bi bi-arrow-left-short fs-5 pagination-btn-shadow'></i>
 					</div>
 				</li>
 			)}
@@ -71,15 +71,13 @@ const Pagination = (props) => {
 			{currentPage !== lastPage ? (
 				<li className='pagination-btn' onClick={onNext}>
 					<div>
-						<i class='bi bi-arrow-right-short fs-5 pagination-btn-shadow'></i>
-						{/* <i class='bi bi-arrow-right-circle fs-5'></i> */}
+						<i className='bi bi-arrow-right-short fs-5 pagination-btn-shadow'></i>
 					</div>
 				</li>
 			) : (
 				<li className='pagination-btn opacity-50'>
 					<div>
-						<i class='bi bi-arrow-right-short fs-5 pagination-btn-shadow'></i>
-						{/* <i class='bi bi-arrow-right-circle fs-5'></i> */}
+						<i className='bi bi-arrow-right-short fs-5 pagination-btn-shadow'></i>
 					</div>
 				</li>
 			)}

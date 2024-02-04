@@ -10,6 +10,9 @@ const DocsBlock = ({
   withInput = false,
   handleFileChange = () => { },
 }) => {
+  console.log(`${item.label} : obj`, obj)
+
+
   const isNotAttached =
     obj?.docs?.[item.label] === null && !obj?.docStatus?.[item.label];
   const isWaitingForApproval =
@@ -19,6 +22,7 @@ const DocsBlock = ({
   const isRejected =
     obj?.docs?.[item.label] === null && obj?.docStatus?.[item.label];
 
+
   return (
     <Col
       md={4}
@@ -27,6 +31,13 @@ const DocsBlock = ({
         position: "relative",
       }}
     >
+      <div>
+        withInput: {withInput + ''}<br />
+        isNotAttached: {isNotAttached + ''}<br />
+        isWaitingForApproval: {isWaitingForApproval + ''}<br />
+        isApproved: {isApproved + ''}<br />
+        isRejected: {isRejected + ''}<br />
+      </div>
       {withInput && !isApproved && !isWaitingForApproval && (
         <div
           style={{

@@ -188,7 +188,7 @@ const GenerateLinkModel = ({
             >
               <InputGroup.Text className="border-0 p-0">
                 <i
-                  class="bi bi-plus-circle fs-4"
+                  className="bi bi-plus-circle fs-4"
                   style={{ color: "#0068FF" }}
                 ></i>
                 <h6
@@ -212,7 +212,7 @@ const GenerateLinkModel = ({
             >
               <InputGroup.Text className="border-0">
                 <i
-                  class="bi bi-dash-circle fs-4"
+                  className="bi bi-dash-circle fs-4"
                   style={{ color: "#0068FF" }}
                   onClick={() => setOtherInfo(undefined)}
                 ></i>
@@ -236,7 +236,7 @@ const GenerateLinkModel = ({
                   placeholder="Nome do Documento..."
                 />
                 <i
-                  class="bi bi-check-lg fs-4"
+                  className="bi bi-check-lg fs-4"
                   style={{ color: "#0068FF" }}
                   onClick={() => {
                     onSubmitOtherInfo(otherInfo);

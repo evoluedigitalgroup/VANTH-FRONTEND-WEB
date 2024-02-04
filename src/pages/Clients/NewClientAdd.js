@@ -293,7 +293,7 @@ const NewClientAdd = ({
                   <button type="button" style={{ width: '100%', border: 0, background: '#F4F6F8' }} onClick={onClickOtherInfo}>
                     <InputGroup.Text className="border-0">
                       <i
-                        class="bi bi-plus-circle fs-4"
+                        className="bi bi-plus-circle fs-4"
                         style={{ color: "#0068FF" }}
                       ></i>
                       <h6 className="ms-4 mt-2" style={{ fontSize: "14px" }}>
@@ -319,7 +319,7 @@ const NewClientAdd = ({
                   >
                     <InputGroup.Text className="border-0">
                       <i
-                        class="bi bi-dash-circle fs-4"
+                        className="bi bi-dash-circle fs-4"
                         style={{ color: "#0068FF" }}
                         onClick={() => setOtherInfo(undefined)}
                       ></i>
@@ -341,7 +341,7 @@ const NewClientAdd = ({
                         placeholder="Digite o tipo de informação..."
                       />
                       <i
-                        class="bi bi-check-lg fs-4"
+                        className="bi bi-check-lg fs-4"
                         style={{ color: "#0068FF" }}
                         onClick={() => {
                           setOtherInfo({

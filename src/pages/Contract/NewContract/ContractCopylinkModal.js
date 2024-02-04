@@ -79,7 +79,7 @@ const ContractCopylinkModal = ({
             {data?.originalFileName}
           </h6>
           <i
-            class="bi bi-x p-0 m-0"
+            className="bi bi-x p-0 m-0"
             style={{
               color: "red",
               cursor: "pointer",

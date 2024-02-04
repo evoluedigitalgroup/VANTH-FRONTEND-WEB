@@ -53,7 +53,7 @@ const TableNavbar = ({
                   id="basic-addon2"
                   className="border-0"
                 >
-                  <i class="bi bi-x"></i>
+                  <i className="bi bi-x"></i>
                 </InputGroup.Text>
               )}
             </InputGroup>

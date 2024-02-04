@@ -48,7 +48,7 @@ const MyPlan = () => {
   const CustomLeftArrow = () => {
     return (
       <>
-        <i class="bi bi-chevron-right"></i>
+        <i className="bi bi-chevron-right"></i>
       </>
     );
   };
@@ -56,7 +56,7 @@ const MyPlan = () => {
   const CustomRightArrow = () => {
     return (
       <div className="d-flex align-items-center">
-        <i class="bi bi-chevron-right"></i>
+        <i className="bi bi-chevron-right"></i>
       </div>
     );
   };

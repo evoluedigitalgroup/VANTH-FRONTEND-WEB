@@ -62,7 +62,7 @@ const NavbarCom = ({ setShowSide, showSide }) => {
                       {profileItem?.name}
                     </span>
                     <i
-                      class="bi bi-bell-fill d-flex d-md-none me-2"
+                      className="bi bi-bell-fill d-flex d-md-none me-2"
                       style={{ color: "#6F767E", fontSize: 16 }}
                     ></i>
                     <NavLink to={"/profile"}>
@@ -84,16 +84,6 @@ const NavbarCom = ({ setShowSide, showSide }) => {
                     </NavLink>
                   </div>
                 </NavLink>
-                {/* <div
-                  style={{
-                    border: "1px solid gray",
-                    marginBlock: "20px",
-                    marginInline: "10px",
-                  }}
-                ></div>
-                <div style={{ marginTop: 20 }}>
-                  <i class="bi bi-bell-fill text-white"></i>
-                </div> */}
               </Nav>
             </Navbar.Collapse>
           </Col>

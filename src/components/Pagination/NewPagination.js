@@ -26,7 +26,7 @@ const NewPagination = ({
                   onClick={() => setActivePage(1)}
                 >
                   <div>
-                    <i class="bi bi-arrow-left-short fs-5 pagination-btn-shadow"></i>
+                    <i className="bi bi-arrow-left-short fs-5 pagination-btn-shadow"></i>
                   </div>
                 </li>
 
@@ -56,7 +56,6 @@ const NewPagination = ({
                 >
                   <div>
                     <i className="bi bi-arrow-right-short fs-5 pagination-btn-shadow"></i>
-                    {/* <i class='bi bi-arrow-right-circle fs-5'></i> */}
                   </div>
                 </li>
               </>
