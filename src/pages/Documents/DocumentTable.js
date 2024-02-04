@@ -83,38 +83,6 @@ const DocumentTable = ({
     ).length;
   };
 
-  const getTrClass = (obj) => {
-    console.log('length : ', getRequiredLength(obj))
-    return idArray.includes(obj.id) &&
-      getRequiredLength(obj) <= 3 &&
-      getRequiredLength(obj) !== 0
-      ? "row-height1"
-      : idArray.includes(obj.id) &&
-        getRequiredLength(obj) >= 4 &&
-        getRequiredLength(obj) <= 6 &&
-        getRequiredLength(obj) !== 0
-        ? "row-height2"
-        : idArray.includes(obj.id) &&
-          getRequiredLength(obj) >= 14 &&
-          getRequiredLength(obj) !== 0
-          ? "row-height"
-          : idArray.includes(obj.id) &&
-            getRequiredLength(obj) >= 6 &&
-            getRequiredLength(obj) <= 9
-            ? "row-height3"
-            : idArray.includes(obj.id) &&
-              getRequiredLength(obj) >= 9 &&
-              getRequiredLength(obj) <= 12
-              ? "row-height4"
-              : idArray.includes(obj.id) &&
-                getRequiredLength(obj) >= 12 &&
-                getRequiredLength(obj) <= 14
-                ? "row-height6"
-                : idArray.includes(obj.id) && getRequiredLength(obj) === 0
-                  ? "row-height5"
-                  : "";
-  };
-
   const refreshDocumentTypes = () => {
     getAllDocumentListData();
   }
@@ -145,13 +113,13 @@ const DocumentTable = ({
           <tbody>
             {tableData?.map((obj, i) => (
               <tr
+                key={`document-${i}`}
                 style={{
                   position: "relative",
                   cursor: "pointer",
                   fontSize: "14px",
+                  height: getHeightValue(obj),
                 }}
-                className={getTrClass(obj)}
-              // className={getTrClass(obj)}
               >
                 <td onClick={() => handleShowRow(obj.id)} className="fw-bold">
                   {obj.name}

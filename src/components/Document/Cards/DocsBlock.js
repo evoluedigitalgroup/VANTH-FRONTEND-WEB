@@ -31,13 +31,6 @@ const DocsBlock = ({
         position: "relative",
       }}
     >
-      <div>
-        withInput: {withInput + ''}<br />
-        isNotAttached: {isNotAttached + ''}<br />
-        isWaitingForApproval: {isWaitingForApproval + ''}<br />
-        isApproved: {isApproved + ''}<br />
-        isRejected: {isRejected + ''}<br />
-      </div>
       {withInput && !isApproved && !isWaitingForApproval && (
         <div
           style={{
