@@ -6,7 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
-import { passwordChange } from "../../helper/API/Profile";
+import { passwordChange } from "../../pages/Login/Profile";
 
 const ChangePassword = ({ open, handleClose }) => {
   const [hidePassword, setHidePassword] = useState(false);

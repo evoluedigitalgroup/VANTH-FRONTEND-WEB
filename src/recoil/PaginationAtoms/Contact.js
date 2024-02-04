@@ -1,5 +1,5 @@
 import { atom, selector, selectorFamily } from "recoil";
-import { getContactList } from "../../helper/API/contact";
+import { getContactList } from "../../pages/Clients/api";
 
 export const contactActivePageAtom = atom({
 	key: "contactActivePage",

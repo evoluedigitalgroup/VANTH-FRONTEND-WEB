@@ -10,7 +10,7 @@ import Card from "react-bootstrap/Card";
 import { profileAtom } from "../../recoil/Atoms";
 import { useRecoilValue } from "recoil";
 import ProfileTable from "./ProfileTable";
-import { profileHistory } from "../../helper/API/Profile";
+import { profileHistory } from "../../pages/Login/Profile";
 import Loader from "../Loader";
 import TableNavbar from "../TableNavbar";
 import NewProgressbar from "../NewProgressbar";

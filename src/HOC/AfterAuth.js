@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import NavbarCom from "../components/NavbarCom";
 import Sidebar from "../components/Sidebar";
-import { getPlanUsageData } from "../helper/API/Plan";
+import { getPlanUsageData } from "../pages/MyPlan/api";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { usageAtom } from "../recoil/UsageAtoms/Usage";
 import { profileAtom } from '../recoil/Atoms';

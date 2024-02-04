@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Table from "react-bootstrap/Table";
-import InputGroup from "react-bootstrap/InputGroup";
-import Form from "react-bootstrap/Form";
 import Pagination from "react-bootstrap/Pagination";
-import Card from "react-bootstrap/Card";
 import AfterAuth from "../HOC/AfterAuth";
 import { useNavigate } from 'react-router-dom'
 import ProfilePicture from "../components/Profile/ProfilePicture";

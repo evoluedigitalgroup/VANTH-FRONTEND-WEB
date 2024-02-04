@@ -21,13 +21,11 @@ import {
   attachDocument,
   contactForm,
   generateLink,
-} from "../../helper/API/contact";
+} from "../../pages/Clients/api";
 import {
   submitAddressDocument,
   submitDocument,
 } from "../../helper/API/document";
-import TableRowDocument from "./NewClientCards/TableRowDocument";
-import GenerateLinkBtn from "./NewClientCards/GenerateLinkBtn";
 import { LINK_URL } from "../../config";
 
 const NewMemberAdd = ({ show, handleClose, refresh, setRefresh }) => {

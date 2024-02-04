@@ -6,7 +6,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { profileAtom } from "../../recoil/Atoms";
-import { editProfile, profileData } from "../../helper/API/Profile";
+import { editProfile, profileData } from "../../pages/Login/Profile";
 import { toast } from "react-toastify";
 const ProfilePicture = ({ open, handleClose }) => {
   const hiddenFileInput = React.useRef(null);

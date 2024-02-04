@@ -5,7 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { profileData } from "../helper/API/Profile";
+import { profileData } from "../pages/Login/Profile";
 import { profileAtom } from "../recoil/Atoms";
 
 const NavbarCom = ({ setShowSide, showSide }) => {

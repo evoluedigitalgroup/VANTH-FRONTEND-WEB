@@ -1,28 +1,31 @@
-import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Show from "./components/Show";
+import "react-toastify/dist/ReactToastify.css";
+import "./helper/prototype";
+import "./App.css";
+
 import { Navigate, Route, Routes } from "react-router-dom";
-import Login from "./components/Login";
+import { ToastContainer } from "react-toastify";
+import { useRecoilValue } from "recoil";
+
+import Show from "./pages/Landing";
+import Login from "./pages/Login";
+
+import { loginAtom } from "./recoil/Atoms";
+
 import Contract from "./pages/Contract";
 import Insights from "./pages/Insights";
-import Permissões from "./pages/Permissões";
+import Permission from "./pages/Permission";
 import Documents from "./pages/Documents";
 import Protected from "./components/Protected";
 import Perfil from "./pages/Perfil";
 import Logout from "./pages/Logout";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "./helper/prototype";
-import { useRecoilValue } from "recoil";
-import { loginAtom } from "./recoil/Atoms";
 import ErrorPage from "./pages/ErrorPage";
-import { Suspense } from "react";
-import DocumentCard from "./pages/DocumentCard";
 import Clients from "./pages/Clients";
-import MyPlan from "./components/MyPlan/MyPlan";
-import PurchasePlan from "./components/PurchasePlan";
-import RequestedSignature from "./pages/RequestedSignature";
+import MyPlan from "./pages/MyPlan";
+import PurchasePlan from "./pages/PurchasePlan";
+import RequestedSignature from "./pages/Public/RequestedSignature";
 import DocuSignReturn from "./pages/DocuSignReturn";
+import DocumentVerification from "./pages/Public/DocumentVerification";
 
 function App() {
   const login = useRecoilValue(loginAtom);
@@ -56,7 +59,7 @@ function App() {
         {permissions?.newUser ? (
           <Route
             path="/permissoes"
-            element={<Protected requiredPlan Component={Permissões} />}
+            element={<Protected requiredPlan Component={Permission} />}
           />
         ) : (
           <Route path="error" element={<ErrorPage />} />
@@ -77,7 +80,7 @@ function App() {
         <Route path="/logout" element={<Protected Component={Logout} />} />
         <Route
           path="/document-verification/:companyId/:contactId/:requestId"
-          element={<DocumentCard />}
+          element={<DocumentVerification />}
         />
         <Route
           path="/requested-signature/:companyId/:contractId/:docusignEnvelopeId"

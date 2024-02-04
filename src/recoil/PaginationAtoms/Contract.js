@@ -1,5 +1,5 @@
 import { atom, selector, selectorFamily } from "recoil";
-import { getContractList } from "../../helper/API/contract";
+import { getContractList } from "../../pages/Contract/api";
 
 export const contractActivePageAtom = atom({
 	key: "contractActivePage",
