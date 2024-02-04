@@ -211,6 +211,7 @@ const DocumentTable = ({
                                         <Form.Control
                                           placeholder="Sua informação"
                                           type="text"
+                                          readOnly
                                           value={objct.value}
                                           name="name"
                                         />
