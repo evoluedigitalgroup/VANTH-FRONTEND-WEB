@@ -88,12 +88,20 @@ const DocumentVerification = () => {
   const handleSubmit = () => {
     setLoading(true);
 
-    let submitCallArray = Object.keys(images).map((key) => {
+    let submitCallArray = Object.keys(images).map((key, i) => {
       const formData = new FormData();
       formData.append("addressProof", images[key]);
       formData.append("id", contactId);
       formData.append("type", key);
-      return attachDocument(formData);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          attachDocument(formData).then((res) => {
+            resolve(res);
+          }).catch((err) => {
+            reject(err)
+          });
+        }, i * 1000);
+      });
     });
 
     Promise.all(submitCallArray)

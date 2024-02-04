@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Card, Row, Col } from "react-bootstrap";
+import { Card, Row, Col, Form, FormGroup, InputGroup } from "react-bootstrap";
 import { isMobile } from 'react-device-detect';
 import { useNavigate } from 'react-router-dom';
 import Button from "react-bootstrap/Button";
@@ -83,12 +83,24 @@ const DocumentTable = ({
     ).length;
   };
 
+  const getOtherInformationLength = (obj) => {
+    return obj?.otherInformation.length;
+  };
+
   const refreshDocumentTypes = () => {
     getAllDocumentListData();
   }
 
   const getHeightValue = (obj) => {
-    return idArray.includes(obj.id) ? ((Math.ceil(getRequiredLength(obj) / (isMobile ? 1 : 3)) * 150) + 100) + 'px' : 'unset';
+    return idArray.includes(obj.id)
+      ? (
+        (Math.ceil(
+          (
+            getRequiredLength(obj)
+            + getOtherInformationLength(obj)
+          ) / (isMobile ? 1 : 3)
+        ) * 150) + 100) + 'px'
+      : 'unset';
   }
 
   return (
@@ -187,6 +199,30 @@ const DocumentTable = ({
                           }}
                         >
                           <>
+                            {
+                              obj.otherInformation.map((objct, i) => {
+                                return (
+                                  <Col key={`${i}`} md={4} xs={12}>
+                                    <Form>
+                                      <Form.Label className="Doc-Font-Color">
+                                        {objct.key}
+                                      </Form.Label>
+                                      <FormGroup className="" style={{ position: "relative" }}>
+                                        <Form.Control
+                                          placeholder="Sua informação"
+                                          type="text"
+                                          value={objct.value}
+                                          name="name"
+                                        />
+                                      </FormGroup>
+                                    </Form>
+                                  </Col>
+                                )
+                              })
+                            }
+
+
+
                             <TableRowDocument
                               obj={obj}
                               permission={
