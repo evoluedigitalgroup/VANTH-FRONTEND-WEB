@@ -8,6 +8,7 @@ import {
   APPROVE_VISITOR,
   GET_ALL_DOCUMENTS_LIST,
   ADD_NEW_DOCUMENT_TYPE,
+  GET_ALL_DOCUMENTS_LIST_PUBLIC,
 } from "../../helper/url";
 
 export const getContactList = (page, search, limit = 10) => {
@@ -78,6 +79,18 @@ export const generateNewLink = (submitData) => {
 export const getAllDocumentsList = () => {
   return new Promise((resolve, reject) => {
     AfterAuthApi(GET_ALL_DOCUMENTS_LIST, "post")
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject();
+      });
+  });
+};
+
+export const getAllDocumentsPublicList = (submitData) => {
+  return new Promise((resolve, reject) => {
+    AfterAuthApi(GET_ALL_DOCUMENTS_LIST_PUBLIC, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })

@@ -11,7 +11,7 @@ import {
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import TableRowDocument from "../../../components/Document/table/TableRowDocument";
-import { attachDocument, getAllDocumentsList } from "../../Clients/api";
+import { attachDocument, getAllDocumentsList, getAllDocumentsPublicList } from "../../Clients/api";
 import { getDocument } from "../../../helper/API/document";
 import { incrementCounter } from "../../../helper/API/auth";
 
@@ -39,7 +39,8 @@ const DocumentVerification = () => {
   const { companyId, contactId, requestId } = useParams();
 
   const getAllDocumentsListData = async () => {
-    const documentList = await getAllDocumentsList();
+    const documentList = await getAllDocumentsPublicList({ company: companyId });
+    console.log("documentList : ", documentList);
     setDocumentListData(documentList.data);
   };
 
