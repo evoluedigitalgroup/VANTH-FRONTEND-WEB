@@ -1,6 +1,7 @@
 import { AfterAuthApi, ApiCall } from "../../helper";
 import {
   CREATE_TEMPLATE,
+  GENERATE_CONTRACT_DOWNLOAD_LINK,
   GENERATE_CONTRACT_LINK,
   GET_CONTRACTS,
   GET_CONTRACT_DETAILS_LINK,
@@ -68,6 +69,19 @@ export const generateContractLink = (submitData) => {
 export const getPublicContractDetails = (submitData) => {
   return new Promise((resolve, reject) => {
     AfterAuthApi(GET_CONTRACT_DETAILS_LINK, "post", submitData)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject();
+      });
+  });
+};
+
+
+export const generateContractDownloadLink = (submitData) => {
+  return new Promise((resolve, reject) => {
+    AfterAuthApi(GENERATE_CONTRACT_DOWNLOAD_LINK, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })

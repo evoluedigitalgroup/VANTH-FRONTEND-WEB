@@ -18,7 +18,7 @@ import { CONTRACT_LINK_URL } from "../../config";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { contractModels, contractSelectedUser, profileAtom } from "../../recoil/Atoms";
 import { selectedTemplatesAtom } from "../../recoil/ContractAtoms/Templates";
-import { openPreviewContract, resetModels } from "../../recoil/helpers/contractModels";
+import { openPreviewContract, openReviewTemplateSelect, resetModels } from "../../recoil/helpers/contractModels";
 
 const ContractTable = ({
   idArray,
@@ -28,7 +28,8 @@ const ContractTable = ({
   tableDataArray,
   totalPage,
   handleShowRow,
-  setContractLink
+  setContractLink,
+  setReviewTemplates
 }) => {
   const profile = useRecoilValue(profileAtom);
 
@@ -176,7 +177,21 @@ const ContractTable = ({
     setModels(openPreviewContract());
   }
 
+  const onReviewLink = (obj) => {
+    const templatesValue = obj.contractDocumentIds.map((val) => val.template);
+    const setValue = {
+      data: obj,
+      templatesList: templatesValue
+    }
+    console.log("setValue", setValue);
+    setReviewTemplates(setValue);
+
+    setModels(resetModels());
+    setModels(openReviewTemplateSelect());
+  }
+
   const ActionBtn = ({ data: obj }) => {
+
     if (obj?.status === "pending") {
       return <GenerateLinkBtn
         onClick={() => {
@@ -186,21 +201,41 @@ const ContractTable = ({
         md={12}
       />
     } else if (obj?.status === "rejected") {
-      return (
-        <GenerateLinkBtn
-          onClick={() => { }}
+      return <GenerateLinkBtn
+        onClick={() => {
+          onGenerateLink(obj);
+        }}
+        obj={obj}
+        md={12}
+      />
+    } else if (obj?.status === 'signed') {
+      if (!obj?.isApproved || obj?.isApproved === "pending") {
+        return (
+          <ReviewContractBtn
+            onClick={() => {
+              onReviewLink(obj)
+            }}
+            obj={obj}
+            md={12}
+          />
+        )
+      } else if (obj?.isApproved === "rejected") {
+        return <GenerateLinkBtn
+          onClick={() => {
+            onGenerateLink(obj);
+          }}
           obj={obj}
           md={12}
         />
-      )
-    } else if (obj?.status === 'signed' && !obj?.isApproved) {
-      return (
-        <ReviewContractBtn
-          onClick={() => { }}
-          obj={obj}
-          md={12}
-        />
-      )
+      } else if (obj?.isApproved === "approved") {
+        return (
+          <ViewContractBtn
+            onClick={() => { }}
+            obj={obj}
+            md={12}
+          />
+        )
+      }
     } else {
       return (
         <ViewContractBtn

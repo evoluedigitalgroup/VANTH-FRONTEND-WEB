@@ -25,6 +25,7 @@ import {
 } from "../../recoil/helpers/contractModels";
 import ContractCopylinkModal from "./NewContract/ContractCopylinkModal";
 import ReviewAndInformationModal from "./NewContract/ReviewAndInformationModal";
+import SelectContractReviewModal from "./Model/SelectContractReviewModal";
 import { contractPaginationData, toReloadContractData } from "../../recoil/PaginationAtoms/Contract";
 import { Helmet } from "react-helmet";
 
@@ -42,7 +43,8 @@ const ContractData = ({
   setActive,
   handleShowRow,
   idArray,
-  setContractLink
+  setContractLink,
+  setReviewTemplates
 }) => {
 
   const tableData = useRecoilValue(
@@ -115,6 +117,7 @@ const ContractData = ({
         handleShowRow={handleShowRow}
         idArray={idArray}
         setContractLink={setContractLink}
+        setReviewTemplates={setReviewTemplates}
       />
     </Suspense>
   );
@@ -147,6 +150,8 @@ const Contact = () => {
   const [show, setShow] = useState(false);
 
   const [newTableRow, setNewtableRow] = useState([]);
+
+  const [reviewTemplates, setReviewTemplates] = useState([]);
 
 
   const [idArray, setIdArray] = useState([]);
@@ -283,6 +288,7 @@ const Contact = () => {
               setActive={setActive}
               idArray={idArray}
               setContractLink={setContractLink}
+              setReviewTemplates={setReviewTemplates}
             />
           </Suspense>
         </Card>
@@ -317,6 +323,13 @@ const Contact = () => {
             selectedPdf={selectedPdf}
             onHide={() => setModels(resetModels())}
             selectedOption={selectedOption}
+          />
+        </div>
+        <div>
+          <SelectContractReviewModal
+            show={models.reviewTemplateSelect}
+            onHide={() => setModels(resetModels())}
+            templatesData={reviewTemplates}
           />
         </div>
       </AfterAuth>
