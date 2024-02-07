@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, InputGroup, Modal, Row, Spinner } from "react-bootstrap";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "react-toastify";
@@ -21,10 +21,11 @@ const ContractCopylinkModal = ({
   onHide,
   selectedOption,
   refresh,
-  setRefresh
+  setRefresh,
+  link = false
 }) => {
   const [loading, setLoading] = useState(false);
-  const [generatedLink, setGeneratedLink] = useState(false);
+  const [generatedLink, setGeneratedLink] = useState(link);
   const [documents, setDocuments] = useState([]);
   const profile = useRecoilValue(profileAtom);
 
@@ -48,6 +49,10 @@ const ContractCopylinkModal = ({
     setShowReviewaAndInformationModal(true);
     onHide();
   };
+
+  useEffect(() => {
+    setGeneratedLink(link);
+  }, [link]);
 
   const removeSelectedTemplates = (clickId) => {
     setSelectedTemplates(
@@ -139,7 +144,6 @@ const ContractCopylinkModal = ({
     console.log(submitData);
     setLoading(true)
     generateContractLink(submitData).then((res) => {
-      console.log('res : ', res);
       if (res.success) {
         const generatedLinkValue = `${CONTRACT_LINK_URL}${profile.company}/${res.data.uuid}/${res.data.docusignEnvelopeId}`;
         setGeneratedLink(generatedLinkValue);
@@ -329,7 +333,6 @@ const ContractCopylinkModal = ({
               <AddNewDocument />
             </Row>
           </div>
-
           <LinkBlocks />
           <GenerateLinkBlock />
         </div>

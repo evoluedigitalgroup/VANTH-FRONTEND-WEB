@@ -40,7 +40,9 @@ const ContractData = ({
   filterVal,
   active,
   setActive,
-
+  handleShowRow,
+  idArray,
+  setContractLink
 }) => {
 
   const tableData = useRecoilValue(
@@ -110,6 +112,9 @@ const ContractData = ({
         setRefresh={setRefresh}
         tableDataArray={tableData}
         totalPage={totalPage}
+        handleShowRow={handleShowRow}
+        idArray={idArray}
+        setContractLink={setContractLink}
       />
     </Suspense>
   );
@@ -132,6 +137,7 @@ const Contact = () => {
     approved: false,
     all: true,
   });
+  const [contractLink, setContractLink] = useState(false);
   const [filterVal, setFilterVal] = useState("All");
 
   const [search, setSearch] = useState();
@@ -143,6 +149,9 @@ const Contact = () => {
   const [newTableRow, setNewtableRow] = useState([]);
 
 
+  const [idArray, setIdArray] = useState([]);
+  const [id, setId] = useState(null);
+  const [open, setOpen] = useState(false);
 
 
   const [table, setTable] = useRecoilState(contractTableData);
@@ -177,6 +186,20 @@ const Contact = () => {
     } else {
       // setSearch("");
       setSearchResult(false);
+    }
+  };
+
+  const handleShowRow = (id) => {
+    setOpen(!open);
+    setId(id);
+
+    if (idArray.includes(id)) {
+      var index = idArray.indexOf(id);
+      if (index !== -1) {
+        idArray.splice(index, 1);
+      }
+    } else {
+      setIdArray((old) => [...old, id]);
     }
   };
 
@@ -254,9 +277,12 @@ const Contact = () => {
               setTableRow={setTableRow}
               searchResult={searchResult}
               setSearchResult={setSearchResult}
+              handleShowRow={handleShowRow}
               filterVal={filterVal}
               active={active}
               setActive={setActive}
+              idArray={idArray}
+              setContractLink={setContractLink}
             />
           </Suspense>
         </Card>
@@ -275,9 +301,13 @@ const Contact = () => {
           <ContractCopylinkModal
             selectedOption={selectedOption}
             show={models.previewContract}
-            onHide={() => setModels(resetModels())}
+            onHide={() => {
+              setModels(resetModels())
+              setContractLink(false)
+            }}
             refresh={refresh}
             setRefresh={setRefresh}
+            link={contractLink}
           />
         </div>
         <div>
