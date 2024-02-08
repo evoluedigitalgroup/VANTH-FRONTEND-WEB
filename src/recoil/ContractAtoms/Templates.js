@@ -15,3 +15,8 @@ export const selectedTemplatesAtom = atom({
 	default: [],
 	effects_UNSTABLE: [persistAtom],
 });
+
+export const contractApprovalDataAtom = atom({
+	key: "contractApprovalData",
+	default: null
+});

@@ -1,50 +1,57 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { contractModels, contractNewFileSelected } from "../../../recoil/Atoms";
 import {
-  openPDFEditor,
-  openPreviewContract,
-  resetModels,
+  openContractReview,
 } from "../../../recoil/helpers/contractModels";
-import { templatesListAtom, selectedTemplatesAtom } from '../../../recoil/ContractAtoms/Templates';
-import { generateContractDownloadLink, getTemplates } from "../../Contract/api";
+import { templatesListAtom, selectedTemplatesAtom, contractApprovalDataAtom } from '../../../recoil/ContractAtoms/Templates';
+import { getTemplates } from "../../Contract/api";
+import { set } from "react-hook-form";
 
 const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
   const [loading, setLoading] = useState(true);
+  const setContractApprovalData = useSetRecoilState(contractApprovalDataAtom)
   const [models, setModels] = useRecoilState(contractModels);
   const [selectedFile, setSelectedFile] = useRecoilState(
     contractNewFileSelected
   );
 
   const handleContractSelected = (item) => {
-    console.log("templatesData", templatesData.data.contractDocumentIds);
+    console.log('item', item)
+    const selectedDocument = templatesData.data.contractDocumentIds.find((obj) => obj.template.id === item.template.id);
+    console.log('selectedDocument', selectedDocument)
+    const url = selectedDocument.signedDocument;
+    const documentId = selectedDocument.documentId;
 
-    console.log("item", item);
 
-    const submitData = {
-      contractId: templatesData.data.id,
-      documentId: templatesData.data.contractDocumentIds.find((obj) => obj.template.id === item.id).documentId
-    }
+    const isAnyRejected = templatesData.data.contractDocumentIds.some((obj) => obj.isApproved === "rejected");
+    console.log('isAnyRejected', isAnyRejected)
 
-    console.log("submitData", submitData)
+    const isApproved = selectedDocument.isApproved === "approved";
+    const isRejected = selectedDocument.isApproved === "rejected";
 
-    generateContractDownloadLink(submitData).then((res) => {
-      console.log("res", res);
-    }).catch((err) => {
-      console.log("err", err);
+    setContractApprovalData({
+      data: templatesData,
+      id: templatesData.data.id,
+      documentId,
+      url,
+      showButtons: (!isApproved && !isRejected) && !isAnyRejected
     });
-
+    setModels(openContractReview());
   };
 
   const DocumentBlock = ({ data, onClick = () => { } }) => {
     return (
-      <Col md={6} xs={6} className="p-0 mb-2" onClick={onClick} style={{ cursor: "pointer" }}>
+      <Col md={6} xs={6} className="p-0 mb-2 position-relative" onClick={onClick} style={{ cursor: "pointer" }}>
         <div
           className="d-flex align-items-start justify-content-between px-2 py-1 me-3"
           style={{
-            backgroundColor: "white",
+            backgroundColor: data.isApproved === 'approved'
+              ? "#58a43d"
+              : data.isApproved === 'rejected' ? "#ae2424" : "white",
             borderRadius: "5px 5px 0 0",
+
             border: "1px solid #00000040",
           }}
         >
@@ -56,8 +63,11 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
               overflowWrap: "anywhere",
             }}
           >
-            <a href={data.originalFile} target="__blank" style={{ color: '#000000' }}>
-              {data?.originalFileName}
+            <a href={data?.signedDocument} target="__blank" style={{
+              color: data.isApproved === 'pending'
+                ? "black" : "white",
+            }}>
+              {data?.template?.originalFileName}
             </a>
           </h6>
         </div>
@@ -72,9 +82,10 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
         >
           <img
             style={{ height: "100%", width: "100%" }}
-            src={data?.templatePreviewImageFile}
+            src={data?.template?.templatePreviewImageFile}
           />
         </div>
+
       </Col>
     );
   };
@@ -101,12 +112,14 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
           >
             <Row>
 
-              {templatesData?.templatesList?.map((item, index) => (
-                <DocumentBlock key={index} data={item} onClick={() => {
-                  handleContractSelected(item)
-                }} />
+              {templatesData?.data?.contractDocumentIds?.map((item, index) => (
+                <>
+                  <DocumentBlock key={index} data={item} onClick={() => {
+                    handleContractSelected(item)
+                  }} />
+                </>
               ))}
-              {templatesData?.templatesList?.length === 0 && (
+              {templatesData?.data?.contractDocumentIds?.length === 0 && (
                 <div className="text-center w-100">
                   <img src="/assets/img/empty.png" style={{ height: "50px" }} />
                   <h6 className="mt-3">Nenhum modelo encontrado</h6>

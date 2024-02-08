@@ -1,59 +1,54 @@
-export const openSelectClient = (state) => {
+const allStates = {
+  selectClient: null,
+  selectTemplate: null,
+  previewContract: null,
+  pdfEditor: null,
+  reviewTemplateSelect: null,
+  contractReview: null
+}
+
+export const openSelectClient = () => {
   return {
+    ...allStates,
     selectClient: true,
-    selectTemplate: null,
-    previewContract: null,
-    pdfEditor: null,
-    reviewTemplateSelect: null
   };
 };
 
-export const resetModels = (state) => {
-  return {
-    selectClient: null,
-    selectTemplate: null,
-    previewContract: null,
-    pdfEditor: null,
-    reviewTemplateSelect: null
-  };
+export const resetModels = () => {
+  return allStates;
 };
 
-export const openSelectTemplate = (state) => {
+export const openSelectTemplate = () => {
   return {
-    selectClient: null,
+    ...allStates,
     selectTemplate: true,
-    previewContract: null,
-    pdfEditor: null,
-    reviewTemplateSelect: null
   };
 };
 
-export const openPreviewContract = (state) => {
+export const openPreviewContract = () => {
   return {
-    selectClient: null,
-    selectTemplate: null,
+    ...allStates,
     previewContract: true,
-    pdfEditor: null,
-    reviewTemplateSelect: null
   };
 };
 
-export const openPDFEditor = (state) => {
+export const openPDFEditor = () => {
   return {
-    selectClient: null,
-    selectTemplate: null,
-    previewContract: null,
+    ...allStates,
     pdfEditor: true,
-    reviewTemplateSelect: null
   };
 };
 
-export const openReviewTemplateSelect = (state) => {
+export const openReviewTemplateSelect = () => {
   return {
-    selectClient: null,
-    selectTemplate: null,
-    previewContract: null,
-    pdfEditor: null,
-    reviewTemplateSelect: true
+    ...allStates,
+    reviewTemplateSelect: true,
   };
 };
+
+export const openContractReview = () => {
+  return {
+    ...allStates,
+    contractReview: true
+  };
+}

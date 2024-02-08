@@ -67,7 +67,8 @@ export const contractModels = atom({
     selectTemplate: null,
     previewContract: null,
     pdfEditor: null,
-    reviewTemplateSelect: null
+    reviewTemplateSelect: null,
+    contractReview: null,
   },
 });
 

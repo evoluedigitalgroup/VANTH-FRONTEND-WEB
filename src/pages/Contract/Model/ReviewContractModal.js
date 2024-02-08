@@ -1,25 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
-import { toast } from "react-toastify";
-import { approvedDocumentList } from "../../helper/API/document";
 
-import { Document, Page, pdfjs } from "react-pdf";
+import { pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import Loader from "../Loader";
-// pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import Loader from "../../../components/Loader";
+import { useRecoilState } from "recoil";
+import { contractModels } from "../../../recoil/Atoms";
+import { openReviewTemplateSelect, resetModels } from "../../../recoil/helpers/contractModels";
+
 const ReviewContractModal = ({
-  open,
-  handleClose,
+  show,
+  onHide,
   url,
   handleSubmit,
-  isApproved,
-  isRejected
+  showButtons,
+  data,
+  setReviewTemplates
 }) => {
+
+  const [models, setModels] = useRecoilState(contractModels);
 
   const [reload, setReload] = useState(false);
 
   const [imagePreview, setImagePreview] = useState(url);
+
+  useEffect(() => {
+    setImagePreview(url);
+  }, [url]);
 
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -51,17 +59,28 @@ const ReviewContractModal = ({
     }, 3000);
   };
 
+  const changeBack = () => {
+    setReviewTemplates(data);
+    setModels(resetModels());
+    setModels(openReviewTemplateSelect());
+  }
 
   return (
     <div>
-      <Modal show={open} onHide={handleClose} centered className="zindex">
+      <Modal show={show} onHide={onHide} centered className="zindex">
         <Row className="p-3 px-3">
-          <Col md={10}>
-            <h5 className="fw-bold mt-1">Analisar documentos enviados</h5>
+          <Col xs={1}>
+            <button className="bg-white border-0" onClick={changeBack}>
+              <img src="/assets/img/leftArrow.svg" />
+            </button>
           </Col>
-          <Col>
+          <Col xs={9}>
+            <h6 className="fw-bold mt-1">Analisar documentos enviados</h6>
+          </Col>
+
+          <Col xs={2}>
             <Button
-              onClick={handleClose}
+              onClick={onHide}
               className="bg-white border-0 text-dark"
             >
               <img src="/assets/img/close.png"></img>
@@ -89,7 +108,7 @@ const ReviewContractModal = ({
               className="border d-flex align-items-center justify-content-center  position-relative rounded-2 mb-4"
               style={{ height: "400px" }}
             >
-              {reload ? (
+              {reload || !imagePreview ? (
                 <div className="d-flex align-items-center justify-content-center h-100 ">
                   <Loader />
                 </div>
@@ -125,7 +144,7 @@ const ReviewContractModal = ({
             </div>
           </Col>
         </Row>
-        {isApproved || isRejected ? null : (
+        {!showButtons ? null : (
           <Row className="px-4 gx-2 my-2">
             <Col>
               <Button
@@ -134,7 +153,7 @@ const ReviewContractModal = ({
                   background: "#1C3D59",
                   fontSize: "14px",
                 }}
-                onClick={() => handleSubmit("reject")}
+                onClick={() => handleSubmit("rejected")}
               >
                 <img src="/assets/img/X.png" />
                 &nbsp;Reprovar&nbsp;documento

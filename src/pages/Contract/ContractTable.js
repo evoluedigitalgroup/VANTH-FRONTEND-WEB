@@ -97,17 +97,22 @@ const ContractTable = ({
 
   const ContractStatus = ({ data: obj }) => {
 
+    const isApproved = obj?.contractDocumentIds.filter((val) => val.isApproved === "approved").length === obj?.contractDocumentIds.length;
+    const idRejected = !!obj?.contractDocumentIds.filter((val) => val.isApproved === "rejected").length;
+
     const classValue = () => {
       if (obj?.status === "pending") {
         return "document-pending";
       } else if (obj?.status === "rejected") {
         return "contact-wait";
       } else if (obj?.status === 'signed') {
-        if (!obj?.isApproved || obj?.isApproved === "pending") {
+
+
+        if (!isApproved && !idRejected) {
           return "document-wait";
-        } else if (obj?.isApproved === "rejected") {
+        } else if (idRejected) {
           return "contact-wait";
-        } else if (obj?.isApproved === "approved") {
+        } else if (isApproved) {
           return "document-success";
         }
       } else {
@@ -121,11 +126,11 @@ const ContractTable = ({
       } else if (obj?.status === "rejected") {
         return "Assinatura recusada";
       } else if (obj?.status === 'signed') {
-        if (!obj?.isApproved || obj?.isApproved === "pending") {
+        if (!isApproved && !idRejected) {
           return "Aguardando revisão";
-        } else if (obj?.isApproved === "rejected") {
+        } else if (idRejected) {
           return "Reprovado";
-        } else if (obj?.isApproved === "approved") {
+        } else if (isApproved) {
           return "Aprovado";
         }
       } else {
@@ -190,7 +195,10 @@ const ContractTable = ({
     setModels(openReviewTemplateSelect());
   }
 
-  const ActionBtn = ({ data: obj }) => {
+  const ActionBtn = ({ data: obj, index }) => {
+
+    const isApproved = obj?.contractDocumentIds.filter((val) => val.isApproved === "approved").length === obj?.contractDocumentIds.length;
+    const idRejected = !!obj?.contractDocumentIds.filter((val) => val.isApproved === "rejected").length;
 
     if (obj?.status === "pending") {
       return <GenerateLinkBtn
@@ -209,7 +217,7 @@ const ContractTable = ({
         md={12}
       />
     } else if (obj?.status === 'signed') {
-      if (!obj?.isApproved || obj?.isApproved === "pending") {
+      if (!isApproved && !idRejected) {
         return (
           <ReviewContractBtn
             onClick={() => {
@@ -219,18 +227,21 @@ const ContractTable = ({
             md={12}
           />
         )
-      } else if (obj?.isApproved === "rejected") {
-        return <GenerateLinkBtn
+      } else if (idRejected) {
+        return <ViewContractBtn
           onClick={() => {
-            onGenerateLink(obj);
+            onReviewLink(obj);
           }}
           obj={obj}
           md={12}
         />
-      } else if (obj?.isApproved === "approved") {
+        return null;
+      } else if (isApproved) {
         return (
           <ViewContractBtn
-            onClick={() => { }}
+            onClick={() => {
+              onReviewLink(obj)
+            }}
             obj={obj}
             md={12}
           />
@@ -287,7 +298,7 @@ const ContractTable = ({
                         top: "0"
                       }}
                     >
-                      <ActionBtn data={obj} />
+                      <ActionBtn data={obj} index={i} />
                     </Row>
                   ) : null}
                 </tr>

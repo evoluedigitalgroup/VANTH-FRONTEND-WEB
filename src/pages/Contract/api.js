@@ -1,15 +1,15 @@
 import { AfterAuthApi, ApiCall } from "../../helper";
 import {
   CREATE_TEMPLATE,
-  GENERATE_CONTRACT_DOWNLOAD_LINK,
   GENERATE_CONTRACT_LINK,
   GET_CONTRACTS,
   GET_CONTRACT_DETAILS_LINK,
   GET_TEMPLATES,
+  UPDATE_CONTRACT_APPROVAL_STATUS_LINK,
   UPDATE_CONTRACT_STATUS_LINK
 } from "../../helper/url";
 
-
+//
 export const getContractList = (page, search, limit = 10) => {
   return new Promise((resolve, reject) => {
     const submitData = {
@@ -27,6 +27,7 @@ export const getContractList = (page, search, limit = 10) => {
   });
 };
 
+//
 export const createContract = (submitData) => {
   return new Promise((resolve, reject) => {
     AfterAuthApi(CREATE_TEMPLATE, "post", submitData)
@@ -65,7 +66,7 @@ export const generateContractLink = (submitData) => {
   });
 };
 
-
+//
 export const getPublicContractDetails = (submitData) => {
   return new Promise((resolve, reject) => {
     AfterAuthApi(GET_CONTRACT_DETAILS_LINK, "post", submitData)
@@ -78,10 +79,10 @@ export const getPublicContractDetails = (submitData) => {
   });
 };
 
-
-export const generateContractDownloadLink = (submitData) => {
+//
+export const updateContractApprovalStatus = (submitData) => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(GENERATE_CONTRACT_DOWNLOAD_LINK, "post", submitData)
+    AfterAuthApi(UPDATE_CONTRACT_APPROVAL_STATUS_LINK, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -89,4 +90,4 @@ export const generateContractDownloadLink = (submitData) => {
         reject();
       });
   });
-};
+}

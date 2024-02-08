@@ -9,7 +9,7 @@ import AfterAuth from "../../HOC/AfterAuth";
 import Loader from "../../components/Loader";
 import TableNavbar from "../../components/TableNavbar";
 import { usageAtom } from "../../recoil/UsageAtoms/Usage";
-import { getContractList } from "./api";
+import { getContractList, updateContractApprovalStatus } from "./api";
 import {
   contractModels,
   contractNewFileSelected,
@@ -20,6 +20,7 @@ import {
 import SelectClientModal from "./NewContract/SelectClientModal";
 import SelectTemplateModal from "./NewContract/SelectTemplateModal";
 import {
+  openReviewTemplateSelect,
   openSelectClient,
   resetModels,
 } from "../../recoil/helpers/contractModels";
@@ -28,6 +29,9 @@ import ReviewAndInformationModal from "./NewContract/ReviewAndInformationModal";
 import SelectContractReviewModal from "./Model/SelectContractReviewModal";
 import { contractPaginationData, toReloadContractData } from "../../recoil/PaginationAtoms/Contract";
 import { Helmet } from "react-helmet";
+import ReviewContractModal from "./Model/ReviewContractModal";
+import { contractApprovalDataAtom } from "../../recoil/ContractAtoms/Templates";
+import { toast } from "react-toastify";
 
 
 const ContractData = ({
@@ -140,6 +144,7 @@ const Contact = () => {
     approved: false,
     all: true,
   });
+  const [contractApprovalData, setContractApprovalData] = useRecoilState(contractApprovalDataAtom);
   const [contractLink, setContractLink] = useState(false);
   const [filterVal, setFilterVal] = useState("All");
 
@@ -207,6 +212,48 @@ const Contact = () => {
       setIdArray((old) => [...old, id]);
     }
   };
+
+  const reviewContractSubmitHandle = async (action) => {
+    const response = await updateContractApprovalStatus({
+      contractId: contractApprovalData?.id,
+      documentId: contractApprovalData?.documentId,
+      action: action
+    })
+
+    if (response.success) {
+      toast.success(response.message);
+
+      const reviewTemplatesData = { ...reviewTemplates };
+      const documentsData = [...reviewTemplatesData.data.contractDocumentIds];
+
+      const updatedData = documentsData.map((obj) => {
+        if (obj.documentId === contractApprovalData.documentId) {
+          return {
+            ...obj,
+            isApproved: action
+          }
+        }
+        return {
+          ...obj
+        }
+      });
+
+      const updatedTemplates = {
+        ...reviewTemplates,
+        data: {
+          ...reviewTemplates.data,
+          contractDocumentIds: updatedData
+        }
+      }
+
+      setReviewTemplates(updatedTemplates)
+      setModels(openReviewTemplateSelect());
+      setRefresh(refresh + 1);
+    } else {
+      toast.error(response.message);
+    }
+
+  }
 
   return (
     <>
@@ -328,8 +375,25 @@ const Contact = () => {
         <div>
           <SelectContractReviewModal
             show={models.reviewTemplateSelect}
-            onHide={() => setModels(resetModels())}
+            onHide={() => {
+              setModels(resetModels())
+              setRefresh(refresh + 1);
+            }}
             templatesData={reviewTemplates}
+          />
+        </div>
+        <div>
+          <ReviewContractModal
+            show={models.contractReview}
+            onHide={() => {
+              setModels(resetModels())
+              setContractApprovalData(null)
+            }}
+            url={contractApprovalData?.url}
+            handleSubmit={reviewContractSubmitHandle}
+            showButtons={contractApprovalData?.showButtons}
+            data={contractApprovalData?.data}
+            setReviewTemplates={setReviewTemplates}
           />
         </div>
       </AfterAuth>
