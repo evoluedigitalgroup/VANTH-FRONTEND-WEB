@@ -109,6 +109,10 @@ const GenerateLinkModel = ({
   const submitForm = (e) => {
     return new Promise((resolve, reject) => {
 
+      if (Object.keys(formValues).filter((key) => formValues[key] === true).length === 0) {
+        toast.error('Selecione pelo menos um documento para enviar');
+        return
+      }
 
       const submitData = {
         permission: {

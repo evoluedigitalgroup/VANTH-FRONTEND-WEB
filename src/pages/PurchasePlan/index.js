@@ -19,12 +19,15 @@ import Select from "react-select";
 import { plansListData } from "../MyPlan/api";
 import { createPlanSubscription } from "./api";
 import { Helmet } from "react-helmet";
+import { useRecoilValue } from "recoil";
+import { profileAtom } from "../../recoil/Atoms";
 
 const PurchasePlan = () => {
   const [planData, setPlanData] = useState(null);
   const params = useParams();
   const navigate = useNavigate();
   const [focusedField, setFocusField] = useState(null);
+  const profile = useRecoilValue(profileAtom);
 
   useEffect(() => {
     if (params.purchaseType === "plan") {
@@ -49,8 +52,8 @@ const PurchasePlan = () => {
     const customerData = {
       fullName: data.fullName,
       email: data.email,
-      phoneNumber: data.phoneNumber,
-      cpf: data.cpf,
+      phoneNumber: data.phoneNumber.replace(/\D/g, ''),
+      cpf: data.cpf.replace(/\D/g, ''),
       addressLine1: data.addressLine1,
       addressLine2: data.addressLine2,
       zipCode: data.zipCode,
@@ -72,6 +75,8 @@ const PurchasePlan = () => {
       purchaseType: params.purchaseType,
       purchaseId: params.purchaseId,
     };
+
+    // console.log(submitData);
 
     const paymentRecord = await createPlanSubscription(submitData);
 
@@ -113,6 +118,11 @@ const PurchasePlan = () => {
     { label: "Tocantins", value: "TO" },
   ];
 
+  const today = new Date();
+  const afterSevenDays = new Date(today);
+  afterSevenDays.setDate(afterSevenDays.getDate() + 7);
+  const afterSevenDaysFormatted = `${afterSevenDays.getDate()}/${afterSevenDays.getMonth() + 1}/${afterSevenDays.getFullYear()}`;
+
   return (
     <>
       <Helmet>
@@ -133,9 +143,17 @@ const PurchasePlan = () => {
                   className="shoppingImage"
                   src="/assets/img/shopping.svg"
                 ></img>
-                <div className="fw-bold fs-5 mx-1 ">Confirme sua compra:</div>
+                <div className="fw-bold fs-5 mx-1 ">Insira os dados do seu cartão de pagamento:</div>
               </div>
-
+              {
+                !profile?.companyData?.selectedPlan ? (
+                  <div
+                    className="mx-2"
+                    style={{ color: "#0068ff" }}
+                  >sua compra será só debitada após o término do período de teste grátis, em 7 dias (seu teste expira em {afterSevenDaysFormatted})
+                  </div>
+                ) : null
+              }
               <Row>
                 <Col sm={12} md={6}>
                   <div className="d-flex mt-md-5 mt-4">
