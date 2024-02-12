@@ -109,7 +109,6 @@ const Login = () => {
         toast.error(res.message);
       }
     });
-    setStartJoyRide({ ...startJoyRide, run: true });
   };
 
   const registerUser = (event, userType) => {
@@ -144,6 +143,9 @@ const Login = () => {
       registerAdmin(registerFormValues).then((res) => {
         if (res.success) {
           setLoading(false);
+          if (userType === "member") {
+            setStartJoyRide({ ...startJoyRide, run: true });
+          }
           Login();
           toast.success(res.message);
           navigate("/login");

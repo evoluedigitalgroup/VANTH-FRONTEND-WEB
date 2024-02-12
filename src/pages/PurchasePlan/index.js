@@ -19,10 +19,11 @@ import Select from "react-select";
 import { plansListData } from "../MyPlan/api";
 import { createPlanSubscription } from "./api";
 import { Helmet } from "react-helmet";
-import { useRecoilValue } from "recoil";
-import { profileAtom } from "../../recoil/Atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { profileAtom, showTutorialAtom } from "../../recoil/Atoms";
 
 const PurchasePlan = () => {
+  const [startJoyRide, setStartJoyRide] = useRecoilState(showTutorialAtom);
   const [planData, setPlanData] = useState(null);
   const params = useParams();
   const navigate = useNavigate();
@@ -82,7 +83,8 @@ const PurchasePlan = () => {
 
     if (paymentRecord.success) {
       toast.success("Plano comprado com sucesso");
-      navigate("/profile/my-plan");
+      setStartJoyRide({ ...startJoyRide, run: true });
+      navigate("/insights");
     } else {
       toast.error(paymentRecord.message);
     }
