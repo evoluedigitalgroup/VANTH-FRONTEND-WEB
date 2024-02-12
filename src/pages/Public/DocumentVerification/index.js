@@ -71,7 +71,20 @@ const DocumentVerification = () => {
     });
   }, [refresh]);
 
-  const handleFileChange = (e, name) => {
+  const handleFileChange = (e, name, remove = false) => {
+
+    if (remove) {
+      let dataValue = data;
+      dataValue.docs[name] = null;
+      setData(dataValue);
+
+      let imageList = { ...images };
+      imageList = _.omit(imageList, name);
+      setImages(imageList);
+
+      return;
+    }
+
     if (e.target.files[0].type !== "application/pdf") {
       toast.error("Por favor, selecione apenas arquivo pdf");
     } else {
@@ -406,6 +419,7 @@ const DocumentVerification = () => {
                   handleFileChange={handleFileChange}
                   inputRef={inputRef}
                   withInput={true}
+                  handleShowImageModal={() => { }}
                 />
               </Row>
 

@@ -10,8 +10,6 @@ const DocsBlock = ({
   withInput = false,
   handleFileChange = () => { },
 }) => {
-  console.log(`${item.label} : obj`, obj)
-
 
   //  File not attached in the docs & also not found in the docStatus
   const isNotAttached =
@@ -99,7 +97,7 @@ const DocsBlock = ({
         )}
         {isWaitingForApproval && (
           <Button
-            className="w-100 p-0 ms-0"
+            className="w-100 p-0 ms-0 position-relative"
             onClick={
               obj?.docs?.[item.label] === null
                 ? null
@@ -107,8 +105,21 @@ const DocsBlock = ({
             }
             variant="outline-warning"
           >
+            {Object.keys(obj?.docs?.[item.label]).length ? null : (
+              <div
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  color: '#FF0000',
+                  zIndex: 1000,
+                  padding: 10
+                }}
+                onClick={(e) => {
+                  handleFileChange(e, item.label, true)
+                }}
+              >X</div>
+            )}
             <i className="bi bi-clock-fill fs-2"></i>
-
             <h6
               style={{
                 color: "#C4CCD2",
