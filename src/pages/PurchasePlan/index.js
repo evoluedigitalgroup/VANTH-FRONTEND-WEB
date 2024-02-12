@@ -16,14 +16,18 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Select from "react-select";
 //  
-import { plansListData } from "../MyPlan/api";
+import { getPlanUsageData, plansListData } from "../MyPlan/api";
 import { createPlanSubscription } from "./api";
 import { Helmet } from "react-helmet";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { profileAtom, showTutorialAtom } from "../../recoil/Atoms";
+import { usageAtom } from "../../recoil/UsageAtoms/Usage";
+import { profileData } from "../Login/Profile";
 
 const PurchasePlan = () => {
   const [startJoyRide, setStartJoyRide] = useRecoilState(showTutorialAtom);
+  const [profileItem, setProfileItem] = useRecoilState(profileAtom);
+  const [usage, setUsage] = useRecoilState(usageAtom);
   const [planData, setPlanData] = useState(null);
   const params = useParams();
   const navigate = useNavigate();
@@ -48,6 +52,15 @@ const PurchasePlan = () => {
     watch,
     formState: { errors },
   } = useForm();
+
+  const redirectToInsights = () => {
+    setTimeout(() => {
+      if (!profile?.companyData?.selectedPlan) {
+        setStartJoyRide({ ...startJoyRide, run: true });
+      }
+      window.location.href = "/insights";
+    }, 2000);
+  }
 
   const onSubmit = async (data) => {
     const customerData = {
@@ -81,10 +94,31 @@ const PurchasePlan = () => {
 
     const paymentRecord = await createPlanSubscription(submitData);
 
+
+
     if (paymentRecord.success) {
-      toast.success("Plano comprado com sucesso");
-      setStartJoyRide({ ...startJoyRide, run: true });
-      navigate("/insights");
+
+
+      profileData().then((res) => {
+        if (res.success) {
+          setProfileItem(res.data);
+
+          getPlanUsageData()
+            .then((res) => {
+              if (res.success) {
+                setUsage(res.data);
+                toast.success("Plano comprado com sucesso");
+                redirectToInsights();
+              }
+            })
+            .catch((err) => {
+              console.log("err : ", err);
+            });
+
+        }
+      });
+
+      // navigate("/insights");
     } else {
       toast.error(paymentRecord.message);
     }

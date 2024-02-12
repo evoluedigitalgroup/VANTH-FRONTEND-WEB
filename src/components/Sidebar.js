@@ -173,6 +173,36 @@ const Sidebar = ({ setShowSide, showSide }) => {
             <Col className="mt-3 c-point d-flex justify-content-center">
               <Row className="mt-4">
                 <Col md={1} xs={1}>
+                  <i class="bi bi-lightbulb" style={{ color: "#c2c2c2" }}></i>
+                  {/* <img src="/assets/img/side-4.png"></img> */}
+                </Col>
+
+                <Col>
+                  <button
+                    style={{
+                      textDecoration: "none",
+                      color: "#c2c2c2",
+                      background: "transparent",
+                      border: "none",
+                    }}
+                    onClick={() => {
+                      setTutorialValue({ run: true, index: 0 })
+                      window.location.href = '/insights';
+                    }}
+                  >
+                    Tutorial
+                  </button>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <Row className="d-flex align-items-end flex-column sidebarLogout">
+            <Col className="d-flex justify-content-center align-items-end">
+              <div className="border-div"></div>
+            </Col>
+            <Col className="mt-3 c-point d-flex justify-content-center">
+              <Row className="mt-4">
+                <Col md={1} xs={1}>
                   <img src="/assets/img/side-4.png"></img>
                 </Col>
 

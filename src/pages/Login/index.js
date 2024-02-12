@@ -144,7 +144,7 @@ const Login = () => {
         if (res.success) {
           setLoading(false);
           if (userType === "member") {
-            setStartJoyRide({ ...startJoyRide, run: true });
+            setStartJoyRide({ run: true, index: 0 });
           }
           Login();
           toast.success(res.message);
