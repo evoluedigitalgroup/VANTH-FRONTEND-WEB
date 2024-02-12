@@ -8,11 +8,22 @@ import { Helmet } from "react-helmet";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import { profileData } from "./Profile";
-import { getDesignation, loginAdmin, registerAdmin } from "../../helper/API/auth";
-import { afterAuthRedirect, jwtAtom, loginAtom, profileAtom } from "../../recoil/Atoms";
+import {
+  getDesignation,
+  loginAdmin,
+  registerAdmin,
+} from "../../helper/API/auth";
+import {
+  afterAuthRedirect,
+  jwtAtom,
+  loginAtom,
+  profileAtom,
+  showTutorialAtom,
+} from "../../recoil/Atoms";
 
 const Login = () => {
-  const [redirectAfterAuth, setRedirectAfterAuth] = useRecoilState(afterAuthRedirect);
+  const [redirectAfterAuth, setRedirectAfterAuth] =
+    useRecoilState(afterAuthRedirect);
   const [loginData, setLoginData] = useRecoilState(loginAtom);
   const [JWT, setJwt] = useRecoilState(jwtAtom);
   const [profileItem, setProfileItem] = useRecoilState(profileAtom);
@@ -49,6 +60,7 @@ const Login = () => {
   let navigate = useNavigate();
 
   useEffect(() => {
+    console.log("login 1");
     let login = localStorage.getItem("login");
     if (login) {
       localStorage.clear();
@@ -71,6 +83,8 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  const [startJoyRide, setStartJoyRide] = useRecoilState(showTutorialAtom);
 
   const ProLogin = (event) => {
     event.preventDefault();
@@ -95,6 +109,7 @@ const Login = () => {
         toast.error(res.message);
       }
     });
+    setStartJoyRide({ ...startJoyRide, run: true });
   };
 
   const registerUser = (event, userType) => {
@@ -173,14 +188,20 @@ const Login = () => {
   };
 
   useEffect(() => {
+    console.log("login 2");
     if (profileItem?.name) {
       if (redirectAfterAuth) {
+        console.log("login 3");
         const redirect = redirectAfterAuth;
         setRedirectAfterAuth(null);
         window.location.href = redirect;
       } else {
-        navigate("/insights");
+        console.log("login 4");
+        window.location.href = "/insights";
+        // navigate("/insights");
       }
+    } else {
+      console.log("login 4");
     }
   }, [profileItem]);
 

@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Card, Row, Col, Form, FormGroup, InputGroup } from "react-bootstrap";
-import { isMobile } from 'react-device-detect';
-import { useNavigate } from 'react-router-dom';
+import { isMobile } from "react-device-detect";
+import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import { useRecoilValue } from "recoil";
-//  
+import { useRecoilState, useRecoilValue } from "recoil";
+//
 import { getAllDocumentsList } from "./api";
-import { loginAtom } from "../../recoil/Atoms";
+import { loginAtom, showTutorialAtom } from "../../recoil/Atoms";
 import {
   documentActivePageAtom,
   documentNextPageSelector,
@@ -37,7 +37,6 @@ const DocumentTable = ({
   tableDataArray,
   totalPage,
 }) => {
-
   const navigate = useNavigate();
 
   const usage = useRecoilValue(usageAtom);
@@ -48,10 +47,12 @@ const DocumentTable = ({
   const [tableData, setTableData] = useState(tableRow);
   const [documents, setDocument] = useState();
   const [documentListData, setDocumentListData] = useState([]);
+  const [tutorialValue, setTutorialValue] = useRecoilState(showTutorialAtom);
+  const getTutorialValue = useRecoilValue(showTutorialAtom);
 
   const getAllDocumentListData = async () => {
     const documentList = await getAllDocumentsList();
-    console.log('documentList', documentList);
+    console.log("documentList", documentList);
     setDocumentListData(documentList.data);
   };
 
@@ -70,7 +71,7 @@ const DocumentTable = ({
 
   const handleShowLinkModal = (val) => {
     if (usage?.storage?.percent === 100) {
-      navigate('/profile/my-plan');
+      navigate("/profile/my-plan");
     } else {
       setOpenLinkModal(true);
       setEditData(val);
@@ -89,19 +90,19 @@ const DocumentTable = ({
 
   const refreshDocumentTypes = () => {
     getAllDocumentListData();
-  }
+  };
 
   const getHeightValue = (obj) => {
     return idArray.includes(obj.id)
-      ? (
-        (Math.ceil(
-          (
-            getRequiredLength(obj)
-            + getOtherInformationLength(obj)
-          ) / (isMobile ? 1 : 3)
-        ) * 150) + 100) + 'px'
-      : 'unset';
-  }
+      ? Math.ceil(
+          (getRequiredLength(obj) + getOtherInformationLength(obj)) /
+            (isMobile ? 1 : 3)
+        ) *
+          150 +
+          100 +
+          "px"
+      : "unset";
+  };
 
   return (
     <div>
@@ -125,6 +126,7 @@ const DocumentTable = ({
           <tbody>
             {tableData?.map((obj, i) => (
               <tr
+                id="documentTable"
                 key={`document-${i}`}
                 style={{
                   position: "relative",
@@ -173,91 +175,90 @@ const DocumentTable = ({
                       obj.allStatus === "pending"
                         ? "document-pending"
                         : obj.allStatus === "wait"
-                          ? "document-wait"
-                          : "document-success"
+                        ? "document-wait"
+                        : "document-success"
                     }
                   >
                     {obj.allStatus === "pending"
                       ? "Aguard. doc."
                       : obj.allStatus === "wait"
-                        ? "Aguard. rev."
-                        : "Concluído"}
+                      ? "Aguard. rev."
+                      : "Concluído"}
                   </Button>
                 </td>
                 {(obj.allStatus === "pending" ||
                   obj.allStatus === "wait" ||
                   obj.allStatus === "approved") && (
-                    <div>
-                      {idArray.includes(obj.id) ? (
-                        <Row
-                          className="position-absolute mt-5 my-2"
-                          style={{
-                            left: "0",
-                            bottom: "0",
-                            width: "100%",
-                            top: "0"
-                          }}
-                        >
-                          <>
-                            {
-                              obj.otherInformation.map((objct, i) => {
-                                return (
-                                  <Col key={`${i}`} md={4} xs={12}>
-                                    <Form>
-                                      <Form.Label className="Doc-Font-Color">
-                                        {objct.key}
-                                      </Form.Label>
-                                      <FormGroup className="" style={{ position: "relative" }}>
-                                        <Form.Control
-                                          placeholder="Sua informação"
-                                          type="text"
-                                          readOnly
-                                          value={objct.value}
-                                          name="name"
-                                        />
-                                      </FormGroup>
-                                    </Form>
-                                  </Col>
-                                )
-                              })
-                            }
-
-
-
-                            <TableRowDocument
-                              obj={obj}
-                              permission={
-                                obj?.documentRequest?.requiredPermission
-                              }
-                              documentListData={documentListData}
-                              handleShowImageModal={handleShowImageModal}
-                            />
-                            <GenerateLinkBtn
-                              onClick={() => handleShowLinkModal(obj)}
-                              obj={obj}
-                              md={12}
-                            />
-                          </>
-                          {obj.allStatus === "approved" && (
-                            <Row>
-                              <Col
-                                className="d-flex justify-content-center mt-2 ms-4"
-                                style={{
-                                  color: "#C4CCD2",
-                                  fontSize: "12px",
-                                }}
-                              >
-                                Responsável por esse cliente:
-                                {adminName.name}
+                  <div>
+                    {idArray.includes(obj.id) ? (
+                      <Row
+                        className="position-absolute mt-5 my-2"
+                        style={{
+                          left: "0",
+                          bottom: "0",
+                          width: "100%",
+                          top: "0",
+                        }}
+                      >
+                        <>
+                          {obj.otherInformation.map((objct, i) => {
+                            return (
+                              <Col key={`${i}`} md={4} xs={12}>
+                                <Form>
+                                  <Form.Label className="Doc-Font-Color">
+                                    {objct.key}
+                                  </Form.Label>
+                                  <FormGroup
+                                    className=""
+                                    style={{ position: "relative" }}
+                                  >
+                                    <Form.Control
+                                      placeholder="Sua informação"
+                                      type="text"
+                                      readOnly
+                                      value={objct.value}
+                                      name="name"
+                                    />
+                                  </FormGroup>
+                                </Form>
                               </Col>
-                            </Row>
-                          )}
-                        </Row>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  )}
+                            );
+                          })}
+
+                          <TableRowDocument
+                            obj={obj}
+                            permission={
+                              obj?.documentRequest?.requiredPermission
+                            }
+                            documentListData={documentListData}
+                            handleShowImageModal={handleShowImageModal}
+                          />
+                          <GenerateLinkBtn
+                            onClick={() => handleShowLinkModal(obj)}
+                            obj={obj}
+                            md={12}
+                          />
+                        </>
+                        {obj.allStatus === "approved" && (
+                          <Row>
+                            <Col
+                              className="d-flex justify-content-center mt-2 ms-4"
+                              style={{
+                                color: "#C4CCD2",
+                                fontSize: "12px",
+                              }}
+                            >
+                              Responsável por esse cliente:
+                              {adminName.name}
+                            </Col>
+                          </Row>
+                        )}
+                      </Row>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                )}
               </tr>
             ))}
           </tbody>

@@ -11,7 +11,7 @@ import {
 import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
 import copy from "copy-to-clipboard";
-//  
+//
 import { LINK_URL } from "../../config";
 import {
   addNewDocumentType,
@@ -108,8 +108,6 @@ const GenerateLinkModel = ({
 
   const submitForm = (e) => {
     return new Promise((resolve, reject) => {
-
-
       const submitData = {
         permission: {
           ...formValues,
@@ -156,17 +154,17 @@ const GenerateLinkModel = ({
   };
 
   const onClickWhatsApp = async () => {
-    await submitForm()
+    await submitForm();
     window.open(`https://api.whatsapp.com/send?text=${link}`, "_blank");
   };
 
   const onClickSms = async () => {
-    await submitForm()
+    await submitForm();
     window.open(`sms:?&body=${link}`, "_blank");
   };
 
   const onClickEmail = async () => {
-    await submitForm()
+    await submitForm();
     window.open(`mailto:?&body=${link}`, "_blank");
   };
 
@@ -266,7 +264,7 @@ const GenerateLinkModel = ({
           editData={editData}
           switchesData={switchesData}
         />
-        <Row className="px-4 pt-3">
+        <Row id="requestOtherDocuments" className="px-4 pt-3">
           <Col md={12}>
             <h6>Solicitar outros documentos</h6>
           </Col>
@@ -288,7 +286,7 @@ const GenerateLinkModel = ({
           <Col md={12} className="mt-3">
             <h6>Link para compartilhar com o cliente</h6>
           </Col>
-          <Col md={6} className="p-2">
+          <Col id="shareLinkInput" md={6} className="p-2">
             <InputGroup className="border-0 rounded ">
               <Form.Control className="border-0 p-3 fw-bold" value={link} />
             </InputGroup>
@@ -306,13 +304,22 @@ const GenerateLinkModel = ({
               >
                 Enviar com:
               </h6>
-              <button onClick={onClickWhatsApp} style={{ background: 'transparent', border: 0 }}>
+              <button
+                onClick={onClickWhatsApp}
+                style={{ background: "transparent", border: 0 }}
+              >
                 <img src="/assets/img/whatsApp.svg" />
               </button>
-              <button onClick={onClickEmail} style={{ background: 'transparent', border: 0 }}>
+              <button
+                onClick={onClickEmail}
+                style={{ background: "transparent", border: 0 }}
+              >
                 <img src="/assets/img/mail.png" />
               </button>
-              <button onClick={onClickSms} style={{ background: 'transparent', border: 0 }}>
+              <button
+                onClick={onClickSms}
+                style={{ background: "transparent", border: 0 }}
+              >
                 <img src="/assets/img/sms.png" />
               </button>
             </div>

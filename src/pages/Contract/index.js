@@ -1,8 +1,8 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-//  
+//
 import { PAGE_LIMIT } from "../../config";
 import ContractTable from "./ContractTable";
 import AfterAuth from "../../HOC/AfterAuth";
@@ -16,6 +16,7 @@ import {
   contractSelectedUser,
   contractTableData,
   profileAtom,
+  showTutorialAtom,
 } from "../../recoil/Atoms";
 import SelectClientModal from "./NewContract/SelectClientModal";
 import SelectTemplateModal from "./NewContract/SelectTemplateModal";
@@ -27,12 +28,14 @@ import {
 import ContractCopylinkModal from "./NewContract/ContractCopylinkModal";
 import ReviewAndInformationModal from "./NewContract/ReviewAndInformationModal";
 import SelectContractReviewModal from "./Model/SelectContractReviewModal";
-import { contractPaginationData, toReloadContractData } from "../../recoil/PaginationAtoms/Contract";
+import {
+  contractPaginationData,
+  toReloadContractData,
+} from "../../recoil/PaginationAtoms/Contract";
 import { Helmet } from "react-helmet";
 import ReviewContractModal from "./Model/ReviewContractModal";
 import { contractApprovalDataAtom } from "../../recoil/ContractAtoms/Templates";
 import { toast } from "react-toastify";
-
 
 const ContractData = ({
   search,
@@ -48,9 +51,8 @@ const ContractData = ({
   handleShowRow,
   idArray,
   setContractLink,
-  setReviewTemplates
+  setReviewTemplates,
 }) => {
-
   const tableData = useRecoilValue(
     contractPaginationData(searchResult ? search : (search = ""))
   );
@@ -71,7 +73,7 @@ const ContractData = ({
 
   useEffect(() => {
     handleToggle();
-  }, [filterVal])
+  }, [filterVal]);
 
   const handleToggle = () => {
     if (filterVal === "Pending") {
@@ -109,7 +111,6 @@ const ContractData = ({
     }
   };
 
-
   return (
     <Suspense fallback={<Loader />}>
       <ContractTable
@@ -127,11 +128,7 @@ const ContractData = ({
   );
 };
 
-
-
-
 const Contact = () => {
-
   const navigate = useNavigate();
 
   const usage = useRecoilValue(usageAtom);
@@ -144,7 +141,9 @@ const Contact = () => {
     approved: false,
     all: true,
   });
-  const [contractApprovalData, setContractApprovalData] = useRecoilState(contractApprovalDataAtom);
+  const [contractApprovalData, setContractApprovalData] = useRecoilState(
+    contractApprovalDataAtom
+  );
   const [contractLink, setContractLink] = useState(false);
   const [filterVal, setFilterVal] = useState("All");
 
@@ -158,16 +157,15 @@ const Contact = () => {
 
   const [reviewTemplates, setReviewTemplates] = useState([]);
 
-
   const [idArray, setIdArray] = useState([]);
   const [id, setId] = useState(null);
   const [open, setOpen] = useState(false);
-
 
   const [table, setTable] = useRecoilState(contractTableData);
   const [models, setModels] = useRecoilState(contractModels);
   const selectedOption = useRecoilValue(contractSelectedUser);
   const selectedPdf = useRecoilValue(contractNewFileSelected);
+  const [tutorialValue, setTutorialValue] = useRecoilState(showTutorialAtom);
 
   useEffect(() => {
     setLoading(true);
@@ -217,8 +215,8 @@ const Contact = () => {
     const response = await updateContractApprovalStatus({
       contractId: contractApprovalData?.id,
       documentId: contractApprovalData?.documentId,
-      action: action
-    })
+      action: action,
+    });
 
     if (response.success) {
       toast.success(response.message);
@@ -230,30 +228,29 @@ const Contact = () => {
         if (obj.documentId === contractApprovalData.documentId) {
           return {
             ...obj,
-            isApproved: action
-          }
+            isApproved: action,
+          };
         }
         return {
-          ...obj
-        }
+          ...obj,
+        };
       });
 
       const updatedTemplates = {
         ...reviewTemplates,
         data: {
           ...reviewTemplates.data,
-          contractDocumentIds: updatedData
-        }
-      }
+          contractDocumentIds: updatedData,
+        },
+      };
 
-      setReviewTemplates(updatedTemplates)
+      setReviewTemplates(updatedTemplates);
       setModels(openReviewTemplateSelect());
       setRefresh(refresh + 1);
     } else {
       toast.error(response.message);
     }
-
-  }
+  };
 
   return (
     <>
@@ -264,11 +261,12 @@ const Contact = () => {
         <div className="d-flex align-items-center justify-content-between mt-3 mx-md-5 ms-3">
           <h2 className="">Contratos</h2>
           <button
+            id="newContratoAddButton"
             onClick={() => {
               if (usage?.digitalSignatures?.percent === 100) {
-                navigate('/profile/my-plan');
+                navigate("/profile/my-plan");
               } else {
-                setModels(openSelectClient())
+                setModels(openSelectClient());
               }
             }}
             className="py-2 px-3"
@@ -297,22 +295,25 @@ const Contact = () => {
           >
             <div className="">
               <Button
-                className={`fs-color mx-2 border-0 ${active.pending ? "activeBtnTable" : "inActiveBtnTable"
-                  }`}
+                className={`fs-color mx-2 border-0 ${
+                  active.pending ? "activeBtnTable" : "inActiveBtnTable"
+                }`}
                 onClick={(e) => setFilterVal("Pending")}
               >
                 Pendentes
               </Button>
               <Button
-                className={`fs-color  mx-2 border-0 ${active.approved ? "activeBtnTable" : "inActiveBtnTable"
-                  }`}
+                className={`fs-color  mx-2 border-0 ${
+                  active.approved ? "activeBtnTable" : "inActiveBtnTable"
+                }`}
                 onClick={(e) => setFilterVal("Responded")}
               >
                 Respondidas
               </Button>
               <Button
-                className={`fs-color px-4 border-0 ${active.all ? "activeBtnTable" : "inActiveBtnTable"
-                  }`}
+                className={`fs-color px-4 border-0 ${
+                  active.all ? "activeBtnTable" : "inActiveBtnTable"
+                }`}
                 onClick={(e) => setFilterVal("All")}
               >
                 Todos
@@ -355,8 +356,8 @@ const Contact = () => {
             selectedOption={selectedOption}
             show={models.previewContract}
             onHide={() => {
-              setModels(resetModels())
-              setContractLink(false)
+              setModels(resetModels());
+              setContractLink(false);
             }}
             refresh={refresh}
             setRefresh={setRefresh}
@@ -376,7 +377,7 @@ const Contact = () => {
           <SelectContractReviewModal
             show={models.reviewTemplateSelect}
             onHide={() => {
-              setModels(resetModels())
+              setModels(resetModels());
               setRefresh(refresh + 1);
             }}
             templatesData={reviewTemplates}
@@ -386,8 +387,8 @@ const Contact = () => {
           <ReviewContractModal
             show={models.contractReview}
             onHide={() => {
-              setModels(resetModels())
-              setContractApprovalData(null)
+              setModels(resetModels());
+              setContractApprovalData(null);
             }}
             url={contractApprovalData?.url}
             handleSubmit={reviewContractSubmitHandle}

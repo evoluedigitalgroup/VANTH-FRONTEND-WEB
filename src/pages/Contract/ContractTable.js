@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import Table from "react-bootstrap/Table";
 import { Button, Row } from "react-bootstrap";
-//  
+//
 import {
   contractActivePageAtom,
   contractNextPageSelector,
@@ -16,9 +16,17 @@ import ReviewContractBtn from "./ReviewContractBtn";
 import ViewContractBtn from "./ViewContractBtn";
 import { CONTRACT_LINK_URL } from "../../config";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { contractModels, contractSelectedUser, profileAtom } from "../../recoil/Atoms";
+import {
+  contractModels,
+  contractSelectedUser,
+  profileAtom,
+} from "../../recoil/Atoms";
 import { selectedTemplatesAtom } from "../../recoil/ContractAtoms/Templates";
-import { openPreviewContract, openReviewTemplateSelect, resetModels } from "../../recoil/helpers/contractModels";
+import {
+  openPreviewContract,
+  openReviewTemplateSelect,
+  resetModels,
+} from "../../recoil/helpers/contractModels";
 
 const ContractTable = ({
   idArray,
@@ -29,7 +37,7 @@ const ContractTable = ({
   totalPage,
   handleShowRow,
   setContractLink,
-  setReviewTemplates
+  setReviewTemplates,
 }) => {
   const profile = useRecoilValue(profileAtom);
 
@@ -37,7 +45,9 @@ const ContractTable = ({
   const [selectedOption, setSelectedOption] =
     useRecoilState(contractSelectedUser);
 
-  const [selectedTemplates, setSelectedTemplates] = useRecoilState(selectedTemplatesAtom);
+  const [selectedTemplates, setSelectedTemplates] = useRecoilState(
+    selectedTemplatesAtom
+  );
 
   const [open, setOpen] = useState(false);
   const [id, setId] = useState(null);
@@ -53,21 +63,15 @@ const ContractTable = ({
 
   const ClientName = ({ data: obj }) => {
     return (
-      <td
-        className="fw-bold"
-        onClick={() => handleShowRow(obj.id)}
-      >
+      <td className="fw-bold" onClick={() => handleShowRow(obj.id)}>
         {obj?.recipient?.name}
       </td>
-    )
-  }
+    );
+  };
 
   const ClientStatus = ({ data: obj }) => {
     return (
-      <td
-        className="fw-bold"
-        onClick={() => handleShowRow(obj.id)}
-      >
+      <td className="fw-bold" onClick={() => handleShowRow(obj.id)}>
         <Button
           style={{
             width: "100px",
@@ -81,33 +85,34 @@ const ContractTable = ({
             obj?.recipient?.contactApprove === "pending"
               ? "document-pending"
               : obj?.recipient?.contactApprove === "rejected"
-                ? "contact-wait"
-                : "document-success"
+              ? "contact-wait"
+              : "document-success"
           }
         >
           {obj?.recipient?.contactApprove === "pending"
             ? "Aguardando"
             : obj?.recipient?.contactApprove === "rejected"
-              ? "Reprovado"
-              : "Aprovado"}
+            ? "Reprovado"
+            : "Aprovado"}
         </Button>
       </td>
-    )
-  }
+    );
+  };
 
   const ContractStatus = ({ data: obj }) => {
-
-    const isApproved = obj?.contractDocumentIds.filter((val) => val.isApproved === "approved").length === obj?.contractDocumentIds.length;
-    const idRejected = !!obj?.contractDocumentIds.filter((val) => val.isApproved === "rejected").length;
+    const isApproved =
+      obj?.contractDocumentIds.filter((val) => val.isApproved === "approved")
+        .length === obj?.contractDocumentIds.length;
+    const idRejected = !!obj?.contractDocumentIds.filter(
+      (val) => val.isApproved === "rejected"
+    ).length;
 
     const classValue = () => {
       if (obj?.status === "pending") {
         return "document-pending";
       } else if (obj?.status === "rejected") {
         return "contact-wait";
-      } else if (obj?.status === 'signed') {
-
-
+      } else if (obj?.status === "signed") {
         if (!isApproved && !idRejected) {
           return "document-wait";
         } else if (idRejected) {
@@ -118,14 +123,14 @@ const ContractTable = ({
       } else {
         return "document-success";
       }
-    }
+    };
 
     const labelValue = () => {
       if (obj?.status === "pending") {
         return "aguardando assinatura";
       } else if (obj?.status === "rejected") {
         return "Assinatura recusada";
-      } else if (obj?.status === 'signed') {
+      } else if (obj?.status === "signed") {
         if (!isApproved && !idRejected) {
           return "Aguardando revisão";
         } else if (idRejected) {
@@ -136,12 +141,10 @@ const ContractTable = ({
       } else {
         return "Assinada";
       }
-    }
+    };
 
     return (
-      <td
-        className="fw-bold"
-      >
+      <td className="fw-bold">
         <Button
           style={{
             width: "150px",
@@ -156,16 +159,13 @@ const ContractTable = ({
         >
           {labelValue()}
         </Button>
-
       </td>
-    )
-  }
+    );
+  };
 
   const getHeightValue = (obj) => {
-    return idArray.includes(obj.id)
-      ? (100) + 'px'
-      : 'unset';
-  }
+    return idArray.includes(obj.id) ? 100 + "px" : "unset";
+  };
 
   const onGenerateLink = (obj) => {
     setSelectedTemplates(obj.contractTemplates);
@@ -175,86 +175,89 @@ const ContractTable = ({
       value: obj.recipient.id,
       label: obj.recipient.name,
       phoneNumber: obj.recipient.phone,
-    })
+    });
     setContractLink(linkValue);
 
     setModels(resetModels());
     setModels(openPreviewContract());
-  }
+  };
 
   const onReviewLink = (obj) => {
     const templatesValue = obj.contractDocumentIds.map((val) => val.template);
     const setValue = {
       data: obj,
-      templatesList: templatesValue
-    }
+      templatesList: templatesValue,
+    };
     console.log("setValue", setValue);
     setReviewTemplates(setValue);
 
     setModels(resetModels());
     setModels(openReviewTemplateSelect());
-  }
+  };
 
   const ActionBtn = ({ data: obj, index }) => {
-
-    const isApproved = obj?.contractDocumentIds.filter((val) => val.isApproved === "approved").length === obj?.contractDocumentIds.length;
-    const idRejected = !!obj?.contractDocumentIds.filter((val) => val.isApproved === "rejected").length;
+    const isApproved =
+      obj?.contractDocumentIds.filter((val) => val.isApproved === "approved")
+        .length === obj?.contractDocumentIds.length;
+    const idRejected = !!obj?.contractDocumentIds.filter(
+      (val) => val.isApproved === "rejected"
+    ).length;
 
     if (obj?.status === "pending") {
-      return <GenerateLinkBtn
-        onClick={() => {
-          onGenerateLink(obj);
-        }}
-        obj={obj}
-        md={12}
-      />
-    } else if (obj?.status === "rejected") {
-      return <GenerateLinkBtn
-        onClick={() => {
-          onGenerateLink(obj);
-        }}
-        obj={obj}
-        md={12}
-      />
-    } else if (obj?.status === 'signed') {
-      if (!isApproved && !idRejected) {
-        return (
-          <ReviewContractBtn
-            onClick={() => {
-              onReviewLink(obj)
-            }}
-            obj={obj}
-            md={12}
-          />
-        )
-      } else if (idRejected) {
-        return <ViewContractBtn
+      return (
+        <GenerateLinkBtn
           onClick={() => {
-            onReviewLink(obj);
+            onGenerateLink(obj);
           }}
           obj={obj}
           md={12}
         />
+      );
+    } else if (obj?.status === "rejected") {
+      return (
+        <GenerateLinkBtn
+          onClick={() => {
+            onGenerateLink(obj);
+          }}
+          obj={obj}
+          md={12}
+        />
+      );
+    } else if (obj?.status === "signed") {
+      if (!isApproved && !idRejected) {
+        return (
+          <ReviewContractBtn
+            onClick={() => {
+              onReviewLink(obj);
+            }}
+            obj={obj}
+            md={12}
+          />
+        );
+      } else if (idRejected) {
+        return (
+          <ViewContractBtn
+            onClick={() => {
+              onReviewLink(obj);
+            }}
+            obj={obj}
+            md={12}
+          />
+        );
         return null;
       } else if (isApproved) {
         return (
           <ViewContractBtn
             onClick={() => {
-              onReviewLink(obj)
+              onReviewLink(obj);
             }}
             obj={obj}
             md={12}
           />
-        )
+        );
       }
     } else {
-      return (
-        <ViewContractBtn
-          onClick={() => { }}
-          obj={obj}
-          md={12}
-        />
-      )
+      return <ViewContractBtn onClick={() => {}} obj={obj} md={12} />;
     }
   };
 
@@ -267,7 +270,10 @@ const ContractTable = ({
             <tr style={{ color: "#B5B6B7", fontSize: "12px" }}>
               <th width={"25%"}>Nome</th>
               <th>Status do cliente</th>
-              <th className="d-none d-md-table-cell">Status do contrato</th>            </tr>
+              <th className="d-none d-md-table-cell">
+                Status do contrato
+              </th>{" "}
+            </tr>
           </thead>
         ) : (
           ""
@@ -277,13 +283,13 @@ const ContractTable = ({
             {tableData?.map((obj, i) => (
               <>
                 <tr
+                  id="contractTable"
                   style={{
                     position: "relative",
                     cursor: "pointer",
                     fontSize: "14px",
                     height: getHeightValue(obj),
                   }}
-
                 >
                   <ClientName data={obj} />
                   <ClientStatus data={obj} />
@@ -295,7 +301,7 @@ const ContractTable = ({
                         left: "0",
                         bottom: "0",
                         width: "100%",
-                        top: "0"
+                        top: "0",
                       }}
                     >
                       <ActionBtn data={obj} index={i} />
@@ -316,10 +322,7 @@ const ContractTable = ({
         )}
       </Table>
       <NewPagination
-        show={
-          tableDataArray?.findData?.length &&
-          tableDataArray?.totalFindData
-        }
+        show={tableDataArray?.findData?.length && tableDataArray?.totalFindData}
         atom={contractActivePageAtom}
         prevSelector={contractPrevPageSelector}
         nextSelector={contractNextPageSelector}

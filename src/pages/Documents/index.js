@@ -7,9 +7,12 @@ import AfterAuth from "../../HOC/AfterAuth";
 import DocumentTable from "./DocumentTable";
 import Loader from "../../components/Loader";
 import TableNavbar from "../../components/TableNavbar";
-import { documentTableData } from "../../recoil/Atoms";
+import { documentTableData, showTutorialAtom } from "../../recoil/Atoms";
 import NewMemberAdd from "../../components/Document/NewMemberAdd";
-import { documentPaginationData, toReloadDocumentData } from "../../recoil/PaginationAtoms/Document";
+import {
+  documentPaginationData,
+  toReloadDocumentData,
+} from "../../recoil/PaginationAtoms/Document";
 import { Helmet } from "react-helmet";
 
 const DocumentData = ({
@@ -28,17 +31,16 @@ const DocumentData = ({
   idArray,
   open,
   setOpen,
-  handleShowRow
+  handleShowRow,
 }) => {
-
-
-
   const tableData = useRecoilValue(
     documentPaginationData(searchResult ? search : (search = ""))
   );
 
   const [reloadVal, reloadData] = useRecoilState(toReloadDocumentData);
-  const totalPage = Math.ceil((tableData?.totalContactDetails || 1) / PAGE_LIMIT);
+  const totalPage = Math.ceil(
+    (tableData?.totalContactDetails || 1) / PAGE_LIMIT
+  );
   const [table, setTable] = useRecoilState(documentTableData);
 
   useEffect(() => {
@@ -46,14 +48,13 @@ const DocumentData = ({
     setSearchResult(false);
   }, [refresh]);
 
-
   useEffect(() => {
     setTableRow(tableData?.findContactData);
   }, [tableData]);
 
   useEffect(() => {
     handleToggle();
-  }, [filterVal])
+  }, [filterVal]);
 
   const handleToggle = (status) => {
     if (status === "Pending") {
@@ -91,7 +92,6 @@ const DocumentData = ({
     }
   };
 
-
   return (
     <Suspense fallback={<Loader />}>
       <DocumentTable
@@ -109,7 +109,6 @@ const DocumentData = ({
       />
     </Suspense>
   );
-
 };
 
 const Documents = () => {
@@ -132,6 +131,7 @@ const Documents = () => {
   const [open, setOpen] = useState(false);
   const [idArray, setIdArray] = useState([]);
   const [show, setShow] = useState(false);
+  const [tutorialValue, setTutorialValue] = useRecoilState(showTutorialAtom);
 
   const onEnter = (e) => {
     if (e.key === "Enter") {
@@ -153,6 +153,7 @@ const Documents = () => {
     } else {
       setIdArray((old) => [...old, id]);
     }
+    setTutorialValue({ ...tutorialValue, index: 9 });
   };
 
   return (
@@ -175,27 +176,32 @@ const Documents = () => {
               setRefresh={setRefresh}
               search={search}
             >
-              <Button
-                className={`fs-color  mx-1 border-0 ${active.approved ? "activeBtnTable" : "inActiveBtnTable"
+              <div id="documentTableNavBarButton">
+                <Button
+                  className={`fs-color  mx-1 border-0 ${
+                    active.approved ? "activeBtnTable" : "inActiveBtnTable"
                   }`}
-                onClick={(e) => setFilterVal("Approved")}
-              >
-                Concluídos
-              </Button>
-              <Button
-                className={`fs-color  mx-1 border-0 ${active.pending ? "activeBtnTable" : "inActiveBtnTable"
+                  onClick={(e) => setFilterVal("Approved")}
+                >
+                  Concluídos
+                </Button>
+                <Button
+                  className={`fs-color  mx-1 border-0 ${
+                    active.pending ? "activeBtnTable" : "inActiveBtnTable"
                   }`}
-                onClick={(e) => setFilterVal("Pending")}
-              >
-                Pendentes
-              </Button>
-              <Button
-                className={`fs-color px-4 mx-1 border-0 ${active.all ? "activeBtnTable" : "inActiveBtnTable"
+                  onClick={(e) => setFilterVal("Pending")}
+                >
+                  Pendentes
+                </Button>
+                <Button
+                  className={`fs-color px-4 mx-1 border-0 ${
+                    active.all ? "activeBtnTable" : "inActiveBtnTable"
                   }`}
-                onClick={(e) => setFilterVal("All")}
-              >
-                Todas
-              </Button>
+                  onClick={(e) => setFilterVal("All")}
+                >
+                  Todas
+                </Button>
+              </div>
             </TableNavbar>
           </div>
           <Suspense fallback={<Loader />}>

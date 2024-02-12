@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Select from "react-select";
 import { useRecoilState } from "recoil";
-//  
+//
 import Loader from "../../../components/Loader";
 import { getContactList } from "../../Clients/api";
 import { contractSelectedUser, contractModels } from "../../../recoil/Atoms";
@@ -76,7 +76,7 @@ const SelectClientModal = ({ show, onHide }) => {
           ) : (
             <>
               <div className="d-flex justify-content-between">
-                <h5 className="fw-bold mt-1">
+                <h5 id="link" className="fw-bold mt-1">
                   Link para solicitar assinatura de contrato
                 </h5>
                 <Button
@@ -87,8 +87,9 @@ const SelectClientModal = ({ show, onHide }) => {
                 </Button>
               </div>
               <div
+                id="selectUserNameAndTelephone"
                 className="mt-3 selctedUserNameAndTelephoneLabel"
-              // style={{ width: "60%" }}
+                // style={{ width: "60%" }}
               >
                 <Select
                   defaultValue={selectedOption}

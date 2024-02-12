@@ -1,5 +1,6 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useReducer, useState } from "react";
 import moment from "moment";
+import Joyride from "react-joyride";
 import Nav from "react-bootstrap/Nav";
 import pt from "date-fns/locale/pt-BR";
 import Card from "react-bootstrap/Card";
@@ -18,6 +19,7 @@ import { toast } from "react-toastify";
 import { getContactList } from "../Clients/api";
 import Loader from "../../components/Loader";
 
+import { Helmet } from "react-helmet";
 import AfterAuth from "../../HOC/AfterAuth";
 import Barchart1 from "./CHARTS/Barchart1";
 import Linechart from "./CHARTS/Linechart";
@@ -30,8 +32,7 @@ import Sidebar from "../../components/Sidebar";
 import NavbarCom from "../../components/NavbarCom";
 import { getChartData } from "../../helper/API/insight";
 import { getAllChartData, loginAtom } from "../../recoil/Atoms";
-import { Helmet } from "react-helmet";
-
+import { JoyRideCustomBox } from "../../components/JoyRideCustomBox";
 
 const Insights = () => {
   registerLocale("pt-BR", pt);
@@ -50,6 +51,9 @@ const Insights = () => {
   const [loading, setLoading] = useState(false);
   const [cardLoading, setCardLoading] = useState(false);
   const [recoilChartData, setRecoilChartData] = useRecoilState(getAllChartData);
+
+  const [joyHeight, setJoyHeight] = useState(100);
+
   useEffect(() => {
     setCardLoading(true);
     const submitData = { filter: status };
@@ -175,8 +179,9 @@ const Insights = () => {
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <div onClick={(e) => handleToggle("date")}>
       <Button
-        className={`fs-color  mx-1 example-custom-input border-class ${active.date ? "activeBtnTable" : "inActiveBtnTable"
-          }`}
+        className={`fs-color  mx-1 example-custom-input border-class ${
+          active.date ? "activeBtnTable" : "inActiveBtnTable"
+        }`}
         style={{ border: "5px solid #000 !important" }}
         onClick={onClick}
         ref={ref}
@@ -188,11 +193,51 @@ const Insights = () => {
       </Button>
     </div>
   ));
+
+  // useEffect(() => {
+  //   setJoyHeight(document.body.scrollHeight);
+  // }, []);
+
+  // const steps = [
+  //   {
+  //     target: "#yearMonthWeek",
+  //     content: (
+  //       <JoyRideCustomBox
+  //         titleFirstBold="Filtre as"
+  //         titleSecoudBold="informações"
+  //         subText="Filtre as informações do painel pelo período de preferência."
+  //       />
+  //     ),
+  //     disableBeacon: true,
+  //   },
+  //   {
+  //     target: "#documentos",
+  //     content: (
+  //       <JoyRideCustomBox
+  //         titleFirstBold="Documentos"
+  //         titleSecoudBold=""
+  //         subText="Veja o total de documentos já aprovados dos seus clientes."
+  //       />
+  //     ),
+  //   },
+  //   {
+  //     target: "#contratos",
+  //     content: (
+  //       <JoyRideCustomBox
+  //         titleFirstBold="Contratos"
+  //         titleSecoudBold=""
+  //         subText="Confira o total de documentos assinados na plataforma."
+  //       />
+  //     ),
+  //   },
+  // ];
+
   return (
     <>
       <Helmet>
         <title>Vanth System | Insigths</title>
       </Helmet>
+
       <AfterAuth>
         <h2 className="mt-3 mx-md-5 mx-4 fw-bold">Insigths</h2>
         <Card className="p-4 pt-0 pt-md-4 mx-md-5 my-3 cardComponent">
@@ -200,7 +245,7 @@ const Insights = () => {
             <Navbar expand="lg">
               <Container fluid>
                 <Navbar.Brand className="fw-bolder" href="#">
-                  <p className="fw-bolder">Visitas ao site</p>
+                  {/* <p className="fw-bolder">Visitas ao site</p> */}
                   <p className=" fs-color">
                     {recoilChartData?.reqDate?.startingDate}-{" "}
                     {recoilChartData?.reqDate?.endingDate}
@@ -216,55 +261,59 @@ const Insights = () => {
                   >
                     <InputGroup></InputGroup>
                   </Nav>
-                  <Button
-                    className={`fs-color  mx-1 border-0 ${active.year ? "activeBtnTable" : "inActiveBtnTable"
+                  <div className="d-flex" id="yearMonthWeek">
+                    <Button
+                      className={`fs-color mx-1 border-0 ${
+                        active.year ? "activeBtnTable" : "inActiveBtnTable"
                       }`}
-                    onClick={(e) => handleToggle("yearly")}
-                  >
-                    Ano
-                  </Button>
-                  <Button
-                    className={`fs-color  mx-1 border-0 ${active.month ? "activeBtnTable" : "inActiveBtnTable"
+                      onClick={(e) => handleToggle("yearly")}
+                    >
+                      Ano
+                    </Button>
+                    <Button
+                      className={`fs-color  mx-1 border-0 ${
+                        active.month ? "activeBtnTable" : "inActiveBtnTable"
                       }`}
-                    onClick={(e) => handleToggle("monthly")}
-                  >
-                    Mês
-                  </Button>
-                  <Button
-                    className={`fs-color  mx-1 border-0 ${active.week ? "activeBtnTable" : "inActiveBtnTable"
+                      onClick={(e) => handleToggle("monthly")}
+                    >
+                      Mês
+                    </Button>
+                    <Button
+                      className={`fs-color  mx-1 border-0 ${
+                        active.week ? "activeBtnTable" : "inActiveBtnTable"
                       }`}
-                    onClick={(e) => handleToggle("week")}
-                  >
-                    Semana
-                  </Button>
-                  <div className="vr" />
-                  <div
-                    style={{
-                      border: "1px solid #DCDFE6 !important",
-                    }}
-                  >
-                    {open && (
-                      <DatePicker
-                        style={{ color: "#FC671A" }}
-                        className="border-1"
-                        selected={startDate}
-                        onChange={onChange}
-                        startDate={startDate}
-                        endDate={endDate}
-                        locale="pt-BR"
-                        maxDate={new Date()}
-                        // minDate={
-                        // 	new Date(
-                        // 		startDate.setDate(30)
-                        // 	)
-                        // }
-                        onCalendarClose={handleCalendarClose}
-                        // onCalendarOpen={handleCalendarOpen}
-                        selectsRange
-                        selectsDisabledDaysInRange
-                        customInput={<ExampleCustomInput />}
-                      >
-                        {/* <div
+                      onClick={(e) => handleToggle("week")}
+                    >
+                      Semana
+                    </Button>
+                    <div className="vr" />
+                    <div
+                      style={{
+                        border: "1px solid #DCDFE6 !important",
+                      }}
+                    >
+                      {open && (
+                        <DatePicker
+                          style={{ color: "#FC671A" }}
+                          className="border-1"
+                          selected={startDate}
+                          onChange={onChange}
+                          startDate={startDate}
+                          endDate={endDate}
+                          locale="pt-BR"
+                          maxDate={new Date()}
+                          // minDate={
+                          // 	new Date(
+                          // 		startDate.setDate(30)
+                          // 	)
+                          // }
+                          onCalendarClose={handleCalendarClose}
+                          // onCalendarOpen={handleCalendarOpen}
+                          selectsRange
+                          selectsDisabledDaysInRange
+                          customInput={<ExampleCustomInput />}
+                        >
+                          {/* <div
 												className='text-end m-3'
 												style={{ color: "red" }}>
 												<button
@@ -273,8 +322,9 @@ const Insights = () => {
 													Aplicar
 												</button>
 											</div> */}
-                      </DatePicker>
-                    )}
+                        </DatePicker>
+                      )}
+                    </div>
                   </div>
                 </Navbar.Collapse>
               </Container>
@@ -286,7 +336,7 @@ const Insights = () => {
             <Loader />
           ) : (
             <>
-              <Row className="my-3">
+              {/* <Row className="my-3">
                 <Col md={6}>
                   <Card>
                     <Row className="p-3">
@@ -300,10 +350,10 @@ const Insights = () => {
                             <img
                               className="graphFirstImg"
                               src="/assets/img/newEye.svg"
-                            // style={{
-                            //   height: "5rem",
-                            //   width: "5rem",
-                            // }}
+                              // style={{
+                              //   height: "5rem",
+                              //   width: "5rem",
+                              // }}
                             />
                           </Col>
                           <Col
@@ -325,7 +375,7 @@ const Insights = () => {
                           </Col>
                         </Row>
                       </Col>
-                      {/* linechart left */}
+                      // linechart left
                       <Col
                         xs={12}
                         sm={12}
@@ -340,14 +390,17 @@ const Insights = () => {
                               style={{
                                 color:
                                   recoilChartData?.growth?.visitorIndication ===
-                                    "increment"
+                                  "increment"
                                     ? "#58A43D"
                                     : "#A43D3D",
                               }}
                             >
                               {recoilChartData?.growth?.visitorIndication ===
-                                "increment" ? (
-                                <img src="/assets/img/up.png" className="px-1" />
+                              "increment" ? (
+                                <img
+                                  src="/assets/img/up.png"
+                                  className="px-1"
+                                />
                               ) : (
                                 <img
                                   src="/assets/img/down.png"
@@ -364,7 +417,7 @@ const Insights = () => {
                             >
                               {recoilChartData?.growth?.visitor.slice(
                                 recoilChartData?.growth?.visitor.indexOf(" ") +
-                                1
+                                  1
                               )}
                             </div>
                           </div>
@@ -372,20 +425,20 @@ const Insights = () => {
                       </Col>
                     </Row>
                   </Card>
-                  {/* )} */}
+                  {/* )} 
                 </Col>
-                {/* second card */}
+                // second card 
                 <Col md={6}>
-                  {/* barchart right */}
+                  //  barchart right 
                   <Card className="p-3 mt-4 mt-md-0">
                     <Barchart1 />
                   </Card>
                 </Col>
-              </Row>
+                              </Row> */}
               <div className="mt-3">
                 <span style={{ fontWeight: 700 }}>Documentos</span>
               </div>
-              <Row className="my-3">
+              <Row id="documentos" className="my-3">
                 {/* third card */}
                 <Col md={6}>
                   <Card>
@@ -400,10 +453,10 @@ const Insights = () => {
                             <img
                               className="graphFirstImg"
                               src="/assets/img/newFile.svg"
-                            // style={{
-                            //   height: "5rem",
-                            //   width: "5rem",
-                            // }}
+                              // style={{
+                              //   height: "5rem",
+                              //   width: "5rem",
+                              // }}
                             />
                           </Col>
                           <Col
@@ -441,14 +494,17 @@ const Insights = () => {
                               style={{
                                 color:
                                   recoilChartData?.growth?.contactIndication ===
-                                    "increment"
+                                  "increment"
                                     ? "#58A43D"
                                     : "#A43D3D",
                               }}
                             >
                               {recoilChartData?.growth?.contactIndication ===
-                                "increment" ? (
-                                <img src="/assets/img/up.png" className="px-1" />
+                              "increment" ? (
+                                <img
+                                  src="/assets/img/up.png"
+                                  className="px-1"
+                                />
                               ) : (
                                 <img
                                   src="/assets/img/down.png"
@@ -465,7 +521,7 @@ const Insights = () => {
                             >
                               {recoilChartData?.growth?.contact.slice(
                                 recoilChartData?.growth?.contact.indexOf(" ") +
-                                1
+                                  1
                               )}
                             </div>
                           </div>
@@ -477,7 +533,7 @@ const Insights = () => {
                 {/* fourth card */}
                 <Col md={6}>
                   {/* barchart right */}
-                  <Card className="p-3 mt-4 mt-md-0">
+                  <Card className="p-3 mt-4 mt-md-0 h-100">
                     <NewBarChartVisitor />
                   </Card>
                 </Col>
@@ -485,7 +541,7 @@ const Insights = () => {
               <div className="mt-3">
                 <span style={{ fontWeight: 700 }}>Contratos</span>
               </div>
-              <Row className="my-3">
+              <Row id="contratos" className="my-3">
                 {/* third card */}
                 <Col md={6}>
                   <Card>
@@ -500,10 +556,10 @@ const Insights = () => {
                             <img
                               className="graphFirstImg"
                               src="/assets/img/newFile.svg"
-                            // style={{
-                            //   height: "5rem",
-                            //   width: "5rem",
-                            // }}
+                              // style={{
+                              //   height: "5rem",
+                              //   width: "5rem",
+                              // }}
                             />
                           </Col>
                           <Col
@@ -541,14 +597,17 @@ const Insights = () => {
                               style={{
                                 color:
                                   recoilChartData?.growth?.contactIndication ===
-                                    "increment"
+                                  "increment"
                                     ? "#58A43D"
                                     : "#A43D3D",
                               }}
                             >
                               {recoilChartData?.growth?.contactIndication ===
-                                "increment" ? (
-                                <img src="/assets/img/up.png" className="px-1" />
+                              "increment" ? (
+                                <img
+                                  src="/assets/img/up.png"
+                                  className="px-1"
+                                />
                               ) : (
                                 <img
                                   src="/assets/img/down.png"
@@ -565,7 +624,7 @@ const Insights = () => {
                             >
                               {recoilChartData?.growth?.contact.slice(
                                 recoilChartData?.growth?.contact.indexOf(" ") +
-                                1
+                                  1
                               )}
                             </div>
                           </div>
@@ -577,7 +636,7 @@ const Insights = () => {
                 {/* fourth card */}
                 <Col md={6}>
                   {/* barchart right */}
-                  <Card className="p-3 mt-4 mt-md-0">
+                  <Card className="p-3 mt-4 mt-md-0 h-100">
                     <Barchart />
                   </Card>
                 </Col>
