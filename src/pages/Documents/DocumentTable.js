@@ -199,44 +199,47 @@ const DocumentTable = ({
                           }}
                         >
                           <>
-                            {
-                              obj.otherInformation.map((objct, i) => {
-                                return (
-                                  <Col key={`${i}`} md={4} xs={12}>
-                                    <Form>
-                                      <Form.Label className="Doc-Font-Color">
-                                        {objct.key}
-                                      </Form.Label>
-                                      <FormGroup className="" style={{ position: "relative" }}>
-                                        <Form.Control
-                                          placeholder="Sua informação"
-                                          type="text"
-                                          readOnly
-                                          value={objct.value}
-                                          name="name"
-                                        />
-                                      </FormGroup>
-                                    </Form>
-                                  </Col>
-                                )
-                              })
-                            }
-
-
-
-                            <TableRowDocument
-                              obj={obj}
-                              permission={
-                                obj?.documentRequest?.requiredPermission
+                            <Row>
+                              {
+                                obj.otherInformation.map((objct, i) => {
+                                  return (
+                                    <Col key={`${i}`} md={4} xs={12}>
+                                      <Form>
+                                        <Form.Label className="Doc-Font-Color">
+                                          {objct?.key}
+                                        </Form.Label>
+                                        <FormGroup className="" style={{ position: "relative" }}>
+                                          <Form.Control
+                                            placeholder="Sua informação"
+                                            type="text"
+                                            readOnly
+                                            value={objct?.value ? objct?.value : objct?.placeholder}
+                                            name="name"
+                                          />
+                                        </FormGroup>
+                                      </Form>
+                                    </Col>
+                                  )
+                                })
                               }
-                              documentListData={documentListData}
-                              handleShowImageModal={handleShowImageModal}
-                            />
-                            <GenerateLinkBtn
-                              onClick={() => handleShowLinkModal(obj)}
-                              obj={obj}
-                              md={12}
-                            />
+                            </Row>
+
+
+                            <Row>
+                              <TableRowDocument
+                                obj={obj}
+                                permission={
+                                  obj?.documentRequest?.requiredPermission
+                                }
+                                documentListData={documentListData}
+                                handleShowImageModal={handleShowImageModal}
+                              />
+                              <GenerateLinkBtn
+                                onClick={() => handleShowLinkModal(obj)}
+                                obj={obj}
+                                md={12}
+                              />
+                            </Row>
                           </>
                           {obj.allStatus === "approved" && (
                             <Row>

@@ -9,6 +9,7 @@ import {
   GET_ALL_DOCUMENTS_LIST,
   ADD_NEW_DOCUMENT_TYPE,
   GET_ALL_DOCUMENTS_LIST_PUBLIC,
+  PUBLIC_UPDATE_CONTACT,
 } from "../../helper/url";
 
 export const getContactList = (page, search, limit = 10) => {
@@ -103,6 +104,19 @@ export const getAllDocumentsPublicList = (submitData) => {
 export const attachDocument = (submitData) => {
   return new Promise((resolve, reject) => {
     ApiCall(ATTACH_DOCUMENT, "post", submitData)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject();
+      });
+  });
+};
+
+
+export const updateClientContact = (submitData) => {
+  return new Promise((resolve, reject) => {
+    ApiCall(PUBLIC_UPDATE_CONTACT, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })

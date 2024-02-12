@@ -10,8 +10,9 @@ import {
 } from "react-bootstrap";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import _ from 'lodash';
 import TableRowDocument from "../../../components/Document/table/TableRowDocument";
-import { attachDocument, getAllDocumentsList, getAllDocumentsPublicList } from "../../Clients/api";
+import { attachDocument, getAllDocumentsList, getAllDocumentsPublicList, updateClientContact } from "../../Clients/api";
 import { getDocument } from "../../../helper/API/document";
 import { incrementCounter } from "../../../helper/API/auth";
 
@@ -26,6 +27,7 @@ const DocumentVerification = () => {
   const [images, setImages] = React.useState({});
   const [documentListData, setDocumentListData] = useState([]);
   const [addressImages, setAddressImages] = React.useState("");
+  const [otherInfoForm, setOtherInfoForm] = useState([]);
 
   // *******************NEW PDF PREVIEW ************ //
   const [numPages, setNumPages] = useState(null);
@@ -61,6 +63,8 @@ const DocumentVerification = () => {
     const submitData = { contactId, requestId };
     getDocument(submitData).then((res) => {
       if (res.success) {
+        const setInfoValue = _.cloneDeep(res.data.otherInformation);
+        setOtherInfoForm(setInfoValue);
         setData(res.data);
       } else {
       }
@@ -86,8 +90,8 @@ const DocumentVerification = () => {
     }
   };
 
-  const handleSubmit = () => {
-    setLoading(true);
+
+  const imageSubmitData = () => {
 
     let submitCallArray = Object.keys(images).map((key, i) => {
       const formData = new FormData();
@@ -105,7 +109,66 @@ const DocumentVerification = () => {
       });
     });
 
-    Promise.all(submitCallArray)
+    console.log("submitCallArray : ", submitCallArray);
+
+    return submitCallArray;
+  }
+
+  const textSubmitData = (submitCallArray) => {
+
+    const blankValues = otherInfoForm.filter((info) => info.value === "");
+    if (blankValues.length === 0) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const submitData = {
+            companyId, contactId, requestId,
+            otherInformation: otherInfoForm
+          }
+
+          updateClientContact(submitData).then((res) => {
+            if (res.success) {
+              resolve(res);
+            } else {
+              reject(res.message);
+            }
+          }).catch((err) => {
+            reject(err)
+          });
+        }, submitCallArray.length * 1000);
+      })
+    } else {
+      return new Promise((resolve, reject) => {
+        resolve();
+      });
+    }
+
+  }
+
+  const handleSubmit = async () => {
+    setLoading(true);
+
+
+    const blankValues = otherInfoForm.filter((info) => info.value === "");
+
+    if (blankValues.length > 0) {
+      toast.error("Por favor, preencha todos os campos obrigatórios");
+      setLoading(false);
+      return
+    }
+
+    const submitImageCallArray = imageSubmitData();
+
+    console.log("submitImageCallArray : ", submitImageCallArray)
+
+    const submitTextCallArray = textSubmitData(submitImageCallArray);
+
+    console.log("submitTextCallArray : ", submitTextCallArray)
+
+    const finalArray = [...submitImageCallArray, submitTextCallArray];
+
+    console.log("finalArray : ", finalArray);
+
+    Promise.all(finalArray)
       .then((responses) => {
         if (responses) {
           toast.success("Anexo adicionado com sucesso");
@@ -116,6 +179,17 @@ const DocumentVerification = () => {
       })
       .catch((err) => setDisable(true));
   };
+
+  const showButton = (() => {
+    const savedBlankValues = data?.otherInformation ? data?.otherInformation?.filter((info) => info.value === "") : [];
+    const blankValues = otherInfoForm.filter((info) => info.value === "");
+    if (!disable || (blankValues.length != savedBlankValues.length)) {
+      return true;
+    } else {
+      return false;
+    }
+  })()
+
   return (
     <>
       <div className="Dashboard DocumentCard d-flex align-items-center justify-content-center">
@@ -128,9 +202,38 @@ const DocumentVerification = () => {
           </div>
           <Card className="m-2 p-4" style={{ width: "80%" }}>
             <>
-              <h6 className="fw-bold">
-                Prosperity solicitou as seguintes informações:
-              </h6>
+              <Row>
+                <Col md={6} xs={12}>
+                  <h6 className="fw-bold">
+                    Prosperity solicitou as seguintes informações:
+                  </h6>
+                </Col>
+                <Col md={6} xs={12}>
+                  <div className="d-flex justify-content-end">
+                    {(
+                      <Button
+                        onClick={handleSubmit}
+                        className="p-3 px-4 fw-bold border-0"
+                        disabled={loading || !showButton}
+                        style={{
+                          opacity: showButton ? 1 : 0.5,
+                          width: "fit-content",
+                          background: "#0068ff",
+                        }}
+                      >
+                        Encaminhar
+                        {loading && (
+                          <Spinner
+                            animation="grow"
+                            variant="light"
+                            className="ms-3 py-2 fw-bold fs-4"
+                          />
+                        )}
+                      </Button>
+                    )}
+                  </div>
+                </Col>
+              </Row>
               <Row className="mt-3">
                 <Row>
                   <Col md={6} xs={12}>
@@ -256,6 +359,42 @@ const DocumentVerification = () => {
                     </Col>
                   )}
                 </Row>
+                <Row>
+                  {data?.otherInformation?.map((info, index) => (
+                    <Col key={`${index}`} md={6} xs={12}>
+                      <Form>
+                        <Form.Label>{info.key}</Form.Label>
+                        <InputGroup className="mb-3">
+                          <InputGroup.Text
+                            id="basic-addon1"
+                            className="border-0"
+                            style={{
+                              background: "#F4F6F8",
+                            }}
+                          >
+                            <i className="bi bi-person-vcard-fill link-icon"></i>
+                          </InputGroup.Text>
+                          <Form.Control
+                            type="text"
+                            className="Cardinput"
+                            placeholder={info?.placeholder}
+                            onChange={(e) => {
+                              setOtherInfoForm((prev) => {
+                                let temp = [...prev];
+                                temp[index].value = e.target.value;
+                                return temp;
+                              });
+                            }}
+                            disabled={info?.value ? true : false}
+                            value={info?.value ? info?.value : otherInfoForm[index].value}
+                          />
+                        </InputGroup>
+                      </Form>
+                    </Col>
+                  ))}
+
+                </Row>
+
               </Row>
               <Row className="mt-3 gx-2">
                 <TableRowDocument
@@ -269,28 +408,7 @@ const DocumentVerification = () => {
                   withInput={true}
                 />
               </Row>
-              <div className="d-flex justify-content-end">
-                {!disable && (
-                  <Button
-                    onClick={handleSubmit}
-                    className="mt-4 m-2 p-3 px-4 fw-bold border-0"
-                    disabled={loading}
-                    style={{
-                      width: "fit-content",
-                      background: "#1C3D59",
-                    }}
-                  >
-                    Encaminhar
-                    {loading && (
-                      <Spinner
-                        animation="grow"
-                        variant="light"
-                        className="ms-3 py-2 fw-bold fs-4"
-                      />
-                    )}
-                  </Button>
-                )}
-              </div>
+
             </>
           </Card>
         </Col>

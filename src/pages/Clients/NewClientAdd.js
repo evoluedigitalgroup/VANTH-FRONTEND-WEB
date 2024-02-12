@@ -260,7 +260,7 @@ const NewClientAdd = ({
                     <Form.Control
                       placeholder="Sua informação"
                       type="text"
-                      value={obj.value}
+                      value={obj.placeholder}
                       name="name"
                       className="Cardinput border-0"
                       // value={data?.name}
@@ -334,7 +334,8 @@ const NewClientAdd = ({
                         onChange={(e) => {
                           setOtherInfo({
                             key: e.target.value,
-                            value: otherInfo?.value,
+                            placeholder: otherInfo?.value,
+                            value: "",
                             saved: false
                           })
                         }}
@@ -346,7 +347,8 @@ const NewClientAdd = ({
                         onClick={() => {
                           setOtherInfo({
                             key: otherInfo?.key,
-                            value: otherInfo?.value,
+                            placeholder: otherInfo?.value,
+                            value: "",
                             saved: true
                           })
                         }}
@@ -384,7 +386,8 @@ const NewClientAdd = ({
                           setOtherInfo({
                             ...otherInfo,
                             key: otherInfo.key,
-                            value: e.target.value,
+                            placeholder: e.target.value,
+                            value: "",
                           })
                         }}
                       />
