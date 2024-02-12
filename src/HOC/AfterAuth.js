@@ -5,7 +5,7 @@ import Sidebar from "../components/Sidebar";
 import { getPlanUsageData } from "../pages/MyPlan/api";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { usageAtom } from "../recoil/UsageAtoms/Usage";
-import { profileAtom } from '../recoil/Atoms';
+import { profileAtom } from "../recoil/Atoms";
 
 const AfterAuth = ({ children }) => {
   const intervalRef = React.useRef();
@@ -13,16 +13,17 @@ const AfterAuth = ({ children }) => {
   const [usage, setUsage] = useRecoilState(usageAtom);
   const profile = useRecoilValue(profileAtom);
 
-
   const getPlanUsage = () => {
-    getPlanUsageData().then((res) => {
-      if (res.success) {
-        setUsage(res.data)
-      }
-    }).catch((err) => {
-      console.log('err : ', err);
-    });
-  }
+    getPlanUsageData()
+      .then((res) => {
+        if (res.success) {
+          setUsage(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log("err : ", err);
+      });
+  };
 
   const fiveMinutes = 300000;
 
@@ -31,11 +32,11 @@ const AfterAuth = ({ children }) => {
     intervalRef.current = setInterval(() => {
       getPlanUsage();
     }, fiveMinutes);
-  }
+  };
 
   useEffect(() => {
     if (profile?.companyData?.selectedPlan) {
-      console.log('profile : ', profile);
+      console.log("profile : ", profile);
       updatePlanUsage();
     }
   }, [profile?.companyData?.selectedPlan]);
@@ -71,7 +72,7 @@ const AfterAuth = ({ children }) => {
             // backgroundColor: "#DCDFE5",
             overflowY: "scroll",
             overflowX: "hidden",
-            height: "100%",
+            // height: "100%",
           }}
         >
           {children}

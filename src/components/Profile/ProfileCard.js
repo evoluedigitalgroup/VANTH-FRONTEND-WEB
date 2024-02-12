@@ -71,7 +71,7 @@ const ProfileCard = ({
             <Row>
               {/* image */}
               <Col xs={12} sm={12} md={12} lg={5} className="mt-md-3">
-                <div>
+                <div id="profileImg">
                   <img
                     src={
                       profile?.profileImage
@@ -139,6 +139,7 @@ const ProfileCard = ({
           >
             {permissions.newUser && (
               <Button
+                id="generateCodeNewAccountButton"
                 size="lg"
                 onClick={showAddUser}
                 className="border-0 shadow fs-6"
@@ -148,7 +149,11 @@ const ProfileCard = ({
                 Gerar código pra nova conta
               </Button>
             )}
-            <div className="text-start mt-2" style={{ width: "260px" }}>
+            <div
+              id="calculatePlanAndStorage"
+              className="text-start mt-2"
+              style={{ width: "260px" }}
+            >
               <div>
                 <NewProgressbar
                   bgcolor="#0068FF"
@@ -157,7 +162,12 @@ const ProfileCard = ({
                   progress={usage?.storage?.percent}
                 />
                 <span style={{ fontSize: "12px", color: "#97A7BA" }}>
-                  {new Intl.NumberFormat('pt-BR').format((usage?.storage?.existing / 1000))} {usage?.storage?.storageUnit} de {usage?.storage?.totalStorageAllowed} {usage?.storage?.storageUnit} usados
+                  {new Intl.NumberFormat("pt-BR").format(
+                    usage?.storage?.existing / 1000
+                  )}{" "}
+                  {usage?.storage?.storageUnit} de{" "}
+                  {usage?.storage?.totalStorageAllowed}{" "}
+                  {usage?.storage?.storageUnit} usados
                 </span>
               </div>
               <Link to="/profile/my-plan" className="mt-2 text-decoration-none">
@@ -180,7 +190,8 @@ const ProfileCard = ({
                   title1=""
                 />
                 <span style={{ fontSize: "12px", color: "#97A7BA" }}>
-                  {usage?.digitalSignatures?.existing} de {usage?.digitalSignatures?.allowed} contratos
+                  {usage?.digitalSignatures?.existing} de{" "}
+                  {usage?.digitalSignatures?.allowed} contratos
                 </span>
               </div>
               <Link to="/profile/my-plan" className="mt-2 text-decoration-none">

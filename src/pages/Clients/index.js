@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { useRecoilState, useRecoilValue } from "recoil";
-//  
+//
 import { getContactList } from "./api";
 import ContactTable from "./ContactTable";
 import { PAGE_LIMIT } from "../../config";
@@ -10,9 +10,13 @@ import Loader from "../../components/Loader";
 import TableNavbar from "../../components/TableNavbar";
 import { contactTableData } from "../../recoil/Atoms";
 import NewClientAdd from "./NewClientAdd";
-import { contactPaginationData, toReloadContactData } from "../../recoil/PaginationAtoms/Contact";
+import {
+  contactPaginationData,
+  toReloadContactData,
+} from "../../recoil/PaginationAtoms/Contact";
 import { Helmet } from "react-helmet";
-
+import { Tooltip } from "../../components/JoyRideCustomBox";
+import Joyride from "react-joyride";
 
 const ClientData = ({
   search,
@@ -34,7 +38,6 @@ const ClientData = ({
   const totalPage = Math.ceil((tableData?.totalFindData || 1) / PAGE_LIMIT);
   const [table, setTable] = useRecoilState(contactTableData);
 
-
   useEffect(() => {
     reloadData(reloadVal + 1);
     setSearchResult(false);
@@ -46,7 +49,7 @@ const ClientData = ({
 
   useEffect(() => {
     handleToggle();
-  }, [filterVal])
+  }, [filterVal]);
 
   const handleToggle = () => {
     if (filterVal === "Pending") {
@@ -95,9 +98,7 @@ const ClientData = ({
       />
     </Suspense>
   );
-
 };
-
 
 const Clients = () => {
   const [tableRow, setTableRow] = useState([]);
@@ -146,7 +147,6 @@ const Clients = () => {
     }
   };
 
-
   const [showNovaClientButtonClick, setShowNovaClientButtonClick] =
     useState(false);
 
@@ -159,6 +159,7 @@ const Clients = () => {
         <div className="d-flex align-items-center justify-content-between mt-3 mx-md-5 mx-3">
           <h2 className="">Clientes</h2>
           <button
+            id="newAddClient"
             onClick={() => {
               setShowNovaClientButtonClick(true);
             }}
@@ -188,22 +189,25 @@ const Clients = () => {
           >
             <div className="">
               <Button
-                className={`fs-color mx-2 border-0 ${active.pending ? "activeBtnTable" : "inActiveBtnTable"
-                  }`}
+                className={`fs-color mx-2 border-0 ${
+                  active.pending ? "activeBtnTable" : "inActiveBtnTable"
+                }`}
                 onClick={(e) => setFilterVal("Pending")}
               >
                 Pendentes
               </Button>
               <Button
-                className={`fs-color  mx-2 border-0 ${active.approved ? "activeBtnTable" : "inActiveBtnTable"
-                  }`}
+                className={`fs-color  mx-2 border-0 ${
+                  active.approved ? "activeBtnTable" : "inActiveBtnTable"
+                }`}
                 onClick={(e) => setFilterVal("Approved")}
               >
                 Respondidas
               </Button>
               <Button
-                className={`fs-color px-4 border-0 ${active.all ? "activeBtnTable" : "inActiveBtnTable"
-                  }`}
+                className={`fs-color px-4 border-0 ${
+                  active.all ? "activeBtnTable" : "inActiveBtnTable"
+                }`}
                 onClick={(e) => setFilterVal("All")}
               >
                 Todos

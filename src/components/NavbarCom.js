@@ -6,11 +6,11 @@ import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { profileData } from "../pages/Login/Profile";
-import { profileAtom } from "../recoil/Atoms";
+import { profileAtom, showTutorialAtom } from "../recoil/Atoms";
 
 const NavbarCom = ({ setShowSide, showSide }) => {
   const [profileItem, setProfileItem] = useRecoilState(profileAtom);
-
+  const [tutorialValue, setTutorialValue] = useRecoilState(showTutorialAtom);
   useEffect(() => {
     profileData().then((res) => {
       if (res.success) {
@@ -55,8 +55,13 @@ const NavbarCom = ({ setShowSide, showSide }) => {
               <Nav className="mx-md-1 mx-md-5 px-md-3">
                 <NavLink style={{ textDecoration: "none" }} to={"/profile"}>
                   <div
-                    className={`${pathName == "/profile" && "Nav-after"
-                      } text-white d-flex align-items-center`}
+                    id="profile"
+                    className={`${
+                      pathName == "/profile" && "Nav-after"
+                    } text-white d-flex align-items-center`}
+                    onClick={() =>
+                      setTutorialValue({ ...tutorialValue, index: 14 })
+                    }
                   >
                     <span className="d-none d-md-flex me-2">
                       {profileItem?.name}

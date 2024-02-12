@@ -4,8 +4,8 @@ const allStates = {
   previewContract: null,
   pdfEditor: null,
   reviewTemplateSelect: null,
-  contractReview: null
-}
+  contractReview: null,
+};
 
 export const openSelectClient = () => {
   return {
@@ -49,6 +49,6 @@ export const openReviewTemplateSelect = () => {
 export const openContractReview = () => {
   return {
     ...allStates,
-    contractReview: true
+    contractReview: true,
   };
-}
+};

@@ -72,9 +72,17 @@ export const contractModels = atom({
   },
 });
 
-
 export const afterAuthRedirect = atom({
   key: "afterAuthRedirect",
   default: null,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const showTutorialAtom = atom({
+  key: "showTutorial",
+  default: {
+    run: false,
+    index: 0,
+  },
   effects_UNSTABLE: [persistAtom],
 });

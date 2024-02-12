@@ -71,7 +71,9 @@ const Permission = () => {
         <title>Vanth System | Permissões</title>
       </Helmet>
       <AfterAuth>
-        <h2 className="mt-3 ms-md-5 ms-3">Permissões</h2>
+        <h2 id="h2Per" className="mt-3 ms-md-5 ms-3">
+          Permissões
+        </h2>
         <Card className="p-md-3 mx-md-5 mx-3 my-3 cardComponent">
           <Row>
             <Col className="m-md-2">

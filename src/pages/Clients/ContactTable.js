@@ -78,6 +78,7 @@ const ContactTable = ({
           <tbody>
             {tableData?.map((obj, i) => (
               <tr
+                id="clientTable"
                 style={{
                   position: "relative",
                   fontSize: "14px",
@@ -144,6 +145,7 @@ const ContactTable = ({
                 </td>
                 <td className="position-relative">
                   <Button
+                    id="clientTableButton"
                     style={{
                       width: "100px",
                       fontSize: "12px",
@@ -156,12 +158,12 @@ const ContactTable = ({
                       obj.contactApprove === "pending"
                         ? "document-pending"
                         : obj.contactApprove === "rejected"
-                          ? "contact-wait"
-                          : "document-success"
+                        ? "contact-wait"
+                        : "document-success"
                     }
                     onClick={
                       obj.contactApprove !== "rejected" &&
-                        obj.contactApprove !== "approved"
+                      obj.contactApprove !== "approved"
                         ? (e) => handalShowTooltip(e, obj.id)
                         : null
                     }
@@ -169,8 +171,8 @@ const ContactTable = ({
                     {obj.contactApprove === "pending"
                       ? "Aguardando"
                       : obj.contactApprove === "rejected"
-                        ? "Reprovado"
-                        : "Aprovado"}
+                      ? "Reprovado"
+                      : "Aprovado"}
                   </Button>
                   {show && (
                     <ContactTooltip
@@ -186,48 +188,48 @@ const ContactTable = ({
                 </td>
                 {
                   obj.contactApprove === "pending" &&
-                  (idArray.includes(obj.id) ? (
-                    <div
-                      className="d-flex justify-content-end"
-                      style={{
-                        position: "absolute",
-                        top: "45%",
-                        right: "0%",
-                        paddingRight: "1%",
-                        marginRight: "2px",
-                      }}
-                    >
-                      <h6
-                        style={{ color: "#B5B6B7" }}
-                        className="d-flex mt-1 align-items-center"
+                    (idArray.includes(obj.id) ? (
+                      <div
+                        className="d-flex justify-content-end"
+                        style={{
+                          position: "absolute",
+                          top: "45%",
+                          right: "0%",
+                          paddingRight: "1%",
+                          marginRight: "2px",
+                        }}
                       >
-                        Entrar em contato por:
-                      </h6>
-                      <div className="ps-3">
-                        {obj?.phone && (
-                          <Button
-                            style={{
-                              background: "#1C3D59",
-                            }}
-                            className="border-0"
-                          >
-                            <a
-                              href={`https://wa.me/${obj.phone}`}
-                              target="_blank"
+                        <h6
+                          style={{ color: "#B5B6B7" }}
+                          className="d-flex mt-1 align-items-center"
+                        >
+                          Entrar em contato por:
+                        </h6>
+                        <div className="ps-3">
+                          {obj?.phone && (
+                            <Button
                               style={{
-                                textDecoration: "none",
-                                color: "#fff",
+                                background: "#1C3D59",
                               }}
+                              className="border-0"
                             >
-                              <i className="bi bi-whatsapp"></i>
-                            </a>
-                          </Button>
-                        )}
+                              <a
+                                href={`https://wa.me/${obj.phone}`}
+                                target="_blank"
+                                style={{
+                                  textDecoration: "none",
+                                  color: "#fff",
+                                }}
+                              >
+                                <i className="bi bi-whatsapp"></i>
+                              </a>
+                            </Button>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    ""
-                  ))
+                    ) : (
+                      ""
+                    ))
                   // </div>
                 }
               </tr>
