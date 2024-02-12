@@ -377,7 +377,7 @@ const DocumentVerification = () => {
                           <Form.Control
                             type="text"
                             className="Cardinput"
-                            placeholder={info?.placeholder}
+                            placeholder={info?.placeholder ? info?.placeholder : "Sua informação"}
                             onChange={(e) => {
                               setOtherInfoForm((prev) => {
                                 let temp = [...prev];
