@@ -13,12 +13,19 @@ const DocsBlock = ({
   console.log(`${item.label} : obj`, obj)
 
 
+  //  File not attached in the docs & also not found in the docStatus
   const isNotAttached =
     obj?.docs?.[item.label] === null && !obj?.docStatus?.[item.label];
+
+  //  File attached & found in docs but not approved
   const isWaitingForApproval =
     obj?.docs?.[item.label] && !obj?.docs?.[item.label]?.approved;
+
+  //  File attached & found in docs & approved
   const isApproved =
     obj?.docs?.[item.label] && obj?.docs?.[item.label]?.approved;
+
+  //  File attached attached but since rejected, found in docStatus
   const isRejected =
     obj?.docs?.[item.label] === null && obj?.docStatus?.[item.label];
 

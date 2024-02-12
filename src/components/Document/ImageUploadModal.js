@@ -21,7 +21,7 @@ const ImageUploadModal = ({
   const hiddenFileInput = useRef(null);
   const [images, setImages] = useState("");
   const [imagePreview, setImagePreview] = useState(
-    documents.docs[documents.type]?.url
+    documents.docs[documents.type]?.url ? documents.docs[documents.type]?.url : documents.docStatus[documents.type]
   );
 
   const handleSubmit = (action) => {
@@ -156,7 +156,8 @@ const ImageUploadModal = ({
             </div>
           </Col>
         </Row>
-        {isApproved || isRejected ? null : (
+        {/* {isApproved || isRejected ? null :  */}
+        {(
           <Row className="px-4 gx-2 my-2">
             <Col>
               <Button
@@ -165,7 +166,7 @@ const ImageUploadModal = ({
                   background: "#1C3D59",
                   fontSize: "14px",
                 }}
-                disabled={documents.docs[documents?.type]?.approved}
+                // disabled={documents.docs[documents?.type]?.approved}
                 onClick={() => handleSubmit("reject")}
               >
                 <img src="/assets/img/X.png" />
@@ -175,7 +176,7 @@ const ImageUploadModal = ({
             <Col>
               <Button
                 className="p-0 py-2 w-100 border-0 fw-bold"
-                disabled={documents.docs[documents?.type]?.approved}
+                // disabled={documents.docs[documents?.type]?.approved}
                 style={{
                   backgroundColor: "#1C3D59",
                   fontSize: "14px",
