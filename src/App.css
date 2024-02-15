@@ -99,6 +99,26 @@ body {
   .selctedUserNameAndTelephoneLabel {
     width: 100% !important;
   }
+
+  /* .afterAuthSidebar {
+    z-index: 5001 !important;
+    width: 50%;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0;
+    height: 100vh !important;
+    background-color: rgba(0, 0, 0, 1);
+  } */
+
+  .side-line::after {
+    content: "";
+    position: absolute;
+    height: 25px;
+    width: 3px;
+    background-color: #0068ff !important;
+    top: 0;
+    left: -60px;
+  }
 }
 
 .login-btn {

@@ -87,6 +87,7 @@ const Login = () => {
   const [startJoyRide, setStartJoyRide] = useRecoilState(showTutorialAtom);
 
   const ProLogin = (event) => {
+    console.log("login ...");
     event.preventDefault();
     setLoading(true);
     loginAdmin(formValues).then(async (res) => {

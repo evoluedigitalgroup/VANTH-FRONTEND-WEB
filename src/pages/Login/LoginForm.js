@@ -19,7 +19,10 @@ const LoginForm = ({
               <Form.Label className="fs-5 fw-bold">Email</Form.Label>
               <InputGroup className="mb-4">
                 <InputGroup.Text id="basic-addon1" className="p-2">
-                  <i className="bi bi-person-fill" style={{ color: "#CED4DB" }}></i>
+                  <i
+                    className="bi bi-person-fill"
+                    style={{ color: "#CED4DB" }}
+                  ></i>
                 </InputGroup.Text>
                 <Form.Control
                   type="text"
@@ -36,7 +39,10 @@ const LoginForm = ({
               <Form.Label className="fs-5 fw-bold">Senha</Form.Label>
               <InputGroup className="mb-4">
                 <InputGroup.Text id="basic-addon1" className="p-2">
-                  <i className="bi bi-lock-fill" style={{ color: "#CED4DB" }}></i>
+                  <i
+                    className="bi bi-lock-fill"
+                    style={{ color: "#CED4DB" }}
+                  ></i>
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Sua senha"

@@ -62,7 +62,7 @@ const Sidebar = ({ setShowSide, showSide }) => {
   link.map((val) => {
     if (val.link == navigate.pathname) {
       val.active = true;
-      val.color = "#323537";
+      val.color = showSide ? "#0068FF" : "#323537";
     } else {
       val.active = false;
       val.color = "#c8c8c8";
@@ -85,11 +85,21 @@ const Sidebar = ({ setShowSide, showSide }) => {
     <>
       <Row
         className={showSide == true ? "d-block" : "d-none d-md-block"}
-        style={{ overflowY: "hidden", position: "relative", height: "100%" }}
+        style={{
+          overflowY: "hidden",
+          position: "relative",
+          height: "100%",
+          backgroundColor: showSide ? "rgba(32,29,32,1)" : "",
+        }}
       >
         <Col md={12} style={{ height: "100%" }}>
+          {showSide ? (
+            <div className="d-flex justify-content-end">
+              <i onClick={setShowSide} class="bi bi-x text-white fs-1"></i>
+            </div>
+          ) : null}
           <div
-            className="mt-5"
+            className={showSide ? "mt-4" : "mt-5"}
             style={{
               color: "#c2c2c2",
               marginLeft: "30%",
@@ -186,8 +196,8 @@ const Sidebar = ({ setShowSide, showSide }) => {
                       border: "none",
                     }}
                     onClick={() => {
-                      setTutorialValue({ run: true, index: 0 })
-                      window.location.href = '/insights';
+                      setTutorialValue({ run: true, index: 0 });
+                      window.location.href = "/insights";
                     }}
                   >
                     Tutorial

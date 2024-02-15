@@ -53,7 +53,48 @@ const AfterAuth = ({ children }) => {
       >
         <NavbarCom showSide={showSide} setShowSide={setShowSide} />
       </div>
-      <Row className="afterAuthMainRow p-0 m-0" style={{ height: "93vh" }}>
+
+      <div className="d-md-none p-0 m-0">
+        {showSide ? (
+          <>
+            <div
+              style={{
+                width: "50%",
+                position: "fixed",
+                top: "0",
+                left: "0",
+                zIndex: "5001",
+                height: "100vh",
+              }}
+            >
+              <Sidebar
+                showSide={showSide}
+                setShowSide={() => {
+                  setShowSide(false);
+                }}
+              />
+            </div>
+            <div
+              style={{
+                width: "50%",
+                position: "fixed",
+                top: "0",
+                right: "0",
+                zIndex: "5000",
+                height: "100vh",
+                background: "rgba(0,0,0,0.5)",
+              }}
+              onClick={() => setShowSide(false)}
+            ></div>
+          </>
+        ) : null}
+        <div>{children}</div>
+      </div>
+
+      <Row
+        className="d-none d-md-flex afterAuthMainRow p-0 m-0"
+        style={{ height: "93vh" }}
+      >
         <Col
           md={2}
           id="sidebar-wrapper"
