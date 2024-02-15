@@ -184,9 +184,8 @@ const Insights = () => {
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <div onClick={(e) => handleToggle("date")}>
       <Button
-        className={`fs-color  mx-1 example-custom-input border-class ${
-          active.date ? "activeBtnTable" : "inActiveBtnTable"
-        }`}
+        className={`fs-color  mx-1 example-custom-input border-class ${active.date ? "activeBtnTable" : "inActiveBtnTable"
+          }`}
         style={{ border: "5px solid #000 !important" }}
         onClick={onClick}
         ref={ref}
@@ -238,25 +237,22 @@ const Insights = () => {
                   </Nav>
                   <div className="d-flex" id="yearMonthWeek">
                     <Button
-                      className={`fs-color mx-1 border-0 ${
-                        active.year ? "activeBtnTable" : "inActiveBtnTable"
-                      }`}
+                      className={`fs-color mx-1 border-0 ${active.year ? "activeBtnTable" : "inActiveBtnTable"
+                        }`}
                       onClick={(e) => handleToggle("yearly")}
                     >
                       Ano
                     </Button>
                     <Button
-                      className={`fs-color  mx-1 border-0 ${
-                        active.month ? "activeBtnTable" : "inActiveBtnTable"
-                      }`}
+                      className={`fs-color  mx-1 border-0 ${active.month ? "activeBtnTable" : "inActiveBtnTable"
+                        }`}
                       onClick={(e) => handleToggle("monthly")}
                     >
                       Mês
                     </Button>
                     <Button
-                      className={`fs-color  mx-1 border-0 ${
-                        active.week ? "activeBtnTable" : "inActiveBtnTable"
-                      }`}
+                      className={`fs-color  mx-1 border-0 ${active.week ? "activeBtnTable" : "inActiveBtnTable"
+                        }`}
                       onClick={(e) => handleToggle("week")}
                     >
                       Semana
@@ -428,10 +424,10 @@ const Insights = () => {
                             <img
                               className="graphFirstImg"
                               src="/assets/img/newFile.svg"
-                              // style={{
-                              //   height: "5rem",
-                              //   width: "5rem",
-                              // }}
+                            // style={{
+                            //   height: "5rem",
+                            //   width: "5rem",
+                            // }}
                             />
                           </Col>
                           <Col
@@ -462,20 +458,20 @@ const Insights = () => {
                       >
                         <NewLinechart />
 
-                        {recoilChartData?.growth?.contact && (
+                        {recoilChartData?.growth?.contact.includes("NaN%") ? null : (
                           <div className="d-flex justify-content-center">
                             <div
                               className="px-3 fw-bold d-flex align-items-center border-chart-label1"
                               style={{
                                 color:
                                   recoilChartData?.growth?.contactIndication ===
-                                  "increment"
+                                    "increment"
                                     ? "#58A43D"
                                     : "#A43D3D",
                               }}
                             >
                               {recoilChartData?.growth?.contactIndication ===
-                              "increment" ? (
+                                "increment" ? (
                                 <img
                                   src="/assets/img/up.png"
                                   className="px-1"
@@ -496,7 +492,7 @@ const Insights = () => {
                             >
                               {recoilChartData?.growth?.contact.slice(
                                 recoilChartData?.growth?.contact.indexOf(" ") +
-                                  1
+                                1
                               )}
                             </div>
                           </div>
@@ -531,10 +527,10 @@ const Insights = () => {
                             <img
                               className="graphFirstImg"
                               src="/assets/img/newFile.svg"
-                              // style={{
-                              //   height: "5rem",
-                              //   width: "5rem",
-                              // }}
+                            // style={{
+                            //   height: "5rem",
+                            //   width: "5rem",
+                            // }}
                             />
                           </Col>
                           <Col
@@ -565,20 +561,20 @@ const Insights = () => {
                       >
                         <Linechart1 />
 
-                        {recoilChartData?.growth?.contact && (
+                        {recoilChartData?.growth?.contact.includes("NaN%") ? null : (
                           <div className="d-flex justify-content-center">
                             <div
                               className="px-3 fw-bold d-flex align-items-center border-chart-label1"
                               style={{
                                 color:
                                   recoilChartData?.growth?.contactIndication ===
-                                  "increment"
+                                    "increment"
                                     ? "#58A43D"
                                     : "#A43D3D",
                               }}
                             >
                               {recoilChartData?.growth?.contactIndication ===
-                              "increment" ? (
+                                "increment" ? (
                                 <img
                                   src="/assets/img/up.png"
                                   className="px-1"
@@ -599,7 +595,7 @@ const Insights = () => {
                             >
                               {recoilChartData?.growth?.contact.slice(
                                 recoilChartData?.growth?.contact.indexOf(" ") +
-                                  1
+                                1
                               )}
                             </div>
                           </div>
