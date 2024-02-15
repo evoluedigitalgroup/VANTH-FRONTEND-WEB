@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { profileData } from "../pages/Login/Profile";
 import { profileAtom, showTutorialAtom } from "../recoil/Atoms";
+import { isMobile } from "react-device-detect";
 
 const NavbarCom = ({ setShowSide, showSide }) => {
   const [profileItem, setProfileItem] = useRecoilState(profileAtom);
@@ -36,7 +37,20 @@ const NavbarCom = ({ setShowSide, showSide }) => {
               ></img>
             </Navbar.Brand>
             <div
-              onClick={() => setShowSide(!showSide)}
+              id="menuList"
+              onClick={() => {
+                if (tutorialValue?.index == 7) {
+                  console.log("click 7 index", tutorialValue?.index);
+                  setTutorialValue({ ...tutorialValue, index: 8 });
+                } else if (tutorialValue?.index == 13) {
+                  setTutorialValue({ ...tutorialValue, index: 14 });
+                } else if (tutorialValue?.index == 22) {
+                  setTutorialValue({ ...tutorialValue, index: 23 });
+                } else {
+                  setTutorialValue({ ...tutorialValue, index: 5 });
+                }
+                setShowSide(!showSide);
+              }}
               className="ps-0 d-flex align-items-center h-100 justify-content-center d-md-none"
             >
               <img
@@ -59,9 +73,11 @@ const NavbarCom = ({ setShowSide, showSide }) => {
                     className={`${
                       pathName == "/profile" && "Nav-after"
                     } text-white d-flex align-items-center`}
-                    onClick={() =>
-                      setTutorialValue({ ...tutorialValue, index: 14 })
-                    }
+                    onClick={() => {
+                      isMobile
+                        ? setTutorialValue({ ...tutorialValue, index: 18 })
+                        : setTutorialValue({ ...tutorialValue, index: 14 });
+                    }}
                   >
                     <span className="d-none d-md-flex me-2">
                       {profileItem?.name}

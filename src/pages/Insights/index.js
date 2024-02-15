@@ -31,8 +31,13 @@ import NewBarChartVisitor from "./CHARTS/NewBarchart";
 import Sidebar from "../../components/Sidebar";
 import NavbarCom from "../../components/NavbarCom";
 import { getChartData } from "../../helper/API/insight";
-import { getAllChartData, loginAtom } from "../../recoil/Atoms";
+import {
+  getAllChartData,
+  loginAtom,
+  showTutorialAtom,
+} from "../../recoil/Atoms";
 import { JoyRideCustomBox } from "../../components/JoyRideCustomBox";
+import { isMobile } from "react-device-detect";
 
 const Insights = () => {
   registerLocale("pt-BR", pt);
@@ -194,43 +199,7 @@ const Insights = () => {
     </div>
   ));
 
-  // useEffect(() => {
-  //   setJoyHeight(document.body.scrollHeight);
-  // }, []);
-
-  // const steps = [
-  //   {
-  //     target: "#yearMonthWeek",
-  //     content: (
-  //       <JoyRideCustomBox
-  //         titleFirstBold="Filtre as"
-  //         titleSecoudBold="informações"
-  //         subText="Filtre as informações do painel pelo período de preferência."
-  //       />
-  //     ),
-  //     disableBeacon: true,
-  //   },
-  //   {
-  //     target: "#documentos",
-  //     content: (
-  //       <JoyRideCustomBox
-  //         titleFirstBold="Documentos"
-  //         titleSecoudBold=""
-  //         subText="Veja o total de documentos já aprovados dos seus clientes."
-  //       />
-  //     ),
-  //   },
-  //   {
-  //     target: "#contratos",
-  //     content: (
-  //       <JoyRideCustomBox
-  //         titleFirstBold="Contratos"
-  //         titleSecoudBold=""
-  //         subText="Confira o total de documentos assinados na plataforma."
-  //       />
-  //     ),
-  //   },
-  // ];
+  const [tutorialValue, setTutorialValue] = useRecoilState(showTutorialAtom);
 
   return (
     <>
@@ -251,7 +220,15 @@ const Insights = () => {
                     {recoilChartData?.reqDate?.endingDate}
                   </p>
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="navbarScroll" />
+                <Navbar.Toggle
+                  id="navBarToggleInsights"
+                  aria-controls="navbarScroll"
+                  onClick={() => {
+                    isMobile
+                      ? setTutorialValue({ ...tutorialValue, index: 1 })
+                      : console.log();
+                  }}
+                />
                 <Navbar.Collapse id="navbarScroll">
                   {/* searchbar */}
                   <Nav

@@ -3,8 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import { NavLink, useLocation } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { loginAtom, showTutorialAtom } from "../recoil/Atoms";
-import Joyride from "react-joyride";
-import { Tooltip } from "./JoyRideCustomBox";
+import { isMobile } from "react-device-detect";
 
 const Sidebar = ({ setShowSide, showSide }) => {
   const login = useRecoilValue(loginAtom);
@@ -71,13 +70,21 @@ const Sidebar = ({ setShowSide, showSide }) => {
 
   const nextShowPopUp = (ind) => {
     if (ind == 1) {
-      setTutorialValue({ ...tutorialValue, index: 5 });
+      isMobile
+        ? setTutorialValue({ ...tutorialValue, index: 6 })
+        : setTutorialValue({ ...tutorialValue, index: 5 });
     } else if (ind == 2) {
-      setTutorialValue({ ...tutorialValue, index: 7 });
+      isMobile
+        ? setTutorialValue({ ...tutorialValue, index: 9 })
+        : setTutorialValue({ ...tutorialValue, index: 7 });
     } else if (ind == 4) {
-      setTutorialValue({ ...tutorialValue, index: 11 });
+      isMobile
+        ? setTutorialValue({ ...tutorialValue, index: 15 })
+        : setTutorialValue({ ...tutorialValue, index: 11 });
     } else if (ind == 3) {
-      setTutorialValue({ ...tutorialValue, index: 19 });
+      isMobile
+        ? setTutorialValue({ ...tutorialValue, index: 24 })
+        : setTutorialValue({ ...tutorialValue, index: 19 });
     }
   };
 

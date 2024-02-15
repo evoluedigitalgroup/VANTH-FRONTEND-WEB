@@ -1,8 +1,9 @@
-import ReactJoyride, { ACTIONS, EVENTS, STATUS } from "react-joyride";
+import Joyride, { ACTIONS, EVENTS, STATUS } from "react-joyride";
 import { JoyRideCustomBox } from "./components/JoyRideCustomBox";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { showTutorialAtom } from "./recoil/Atoms";
+import { isMobile } from "react-device-detect";
 
 export const WalkThrough = () => {
   const [joyHeight, setJoyHeight] = useState(0);
@@ -27,16 +28,18 @@ export const WalkThrough = () => {
         />
       ),
       disableBeacon: true,
+      disableOverlayClose: true,
     },
     {
       target: "#yearMonthWeek",
       content: (
         <JoyRideCustomBox
-          titleFirstBold="Documentos"
-          titleSecoudBold=""
-          subText="Veja o total de documentos já aprovados dos seus clientes."
+          titleFirstBold="Filtre as"
+          titleSecoudBold="informações"
+          subText="Filtre as informações do painel pelo período de preferência."
         />
       ),
+      disableOverlayClose: true,
     },
     {
       target: "#documentos",
@@ -47,6 +50,7 @@ export const WalkThrough = () => {
           subText="Veja o total de documentos já aprovados dos seus clientes."
         />
       ),
+      disableOverlayClose: true,
     },
     {
       target: "#contratos",
@@ -57,6 +61,7 @@ export const WalkThrough = () => {
           subText="Confira o total de documentos assinados na plataforma."
         />
       ),
+      disableOverlayClose: true,
     },
     {
       content: (
@@ -83,6 +88,7 @@ export const WalkThrough = () => {
           subText="Adicione novos clientes manualmente na plataforma."
         />
       ),
+      disableOverlayClose: true,
     },
     {
       target: "#DocumentosMenu",
@@ -108,6 +114,7 @@ export const WalkThrough = () => {
           subText="Filtre seus clientes e documentos de acordo com o status."
         />
       ),
+      disableOverlayClose: true,
     },
     {
       target: "#documentTable",
@@ -135,37 +142,6 @@ export const WalkThrough = () => {
       ),
       disableOverlayClose: true,
     },
-    // {
-    //   target: "#requestOtherDocuments",
-    //   content: (
-    //     <JoyRideCustomBox
-    //       titleFirstBold="Seleção de"
-    //       titleSecoudBold="documentos"
-    //       subText="Selecione os documentos á solicitar, você também pode adicionar qualquer tipo de documento á solicitar."
-    //     />
-    //   ),
-    //   placement: "right",
-    //   styles: {
-    //     options: {
-    //       zIndex: 10000,
-    //     },
-    //   },
-    // },
-    // {
-    //   target: "#shareLinkInput",
-    //   content: (
-    //     <JoyRideCustomBox
-    //       titleFirstBold="Envio da"
-    //       titleSecoudBold="Solicitação"
-    //       subText="Compartilhe com o cliente o link para preencher a documentação."
-    //     />
-    //   ),
-    //   styles: {
-    //     options: {
-    //       zIndex: 10000,
-    //     },
-    //   },
-    // },
     {
       target: "#ContratosMenu",
       content: (
@@ -189,7 +165,7 @@ export const WalkThrough = () => {
           subText="Clique para iniciar um novo contrato de assinatura digital."
         />
       ),
-      //12
+      disableOverlayClose: true,
     },
     {
       target: "#contractTable",
@@ -200,7 +176,7 @@ export const WalkThrough = () => {
           subText="Revise os contratos assinados para realizar a aprovação ou reprovação dos mesmos."
         />
       ),
-      //13
+      disableOverlayClose: true,
     },
     {
       target: "#profile",
@@ -213,14 +189,13 @@ export const WalkThrough = () => {
       ),
       styles: {
         options: {
-          zIndex: 50001,
+          zIndex: 5010,
         },
       },
       disableOverlayClose: true,
       hideCloseButton: true,
       hideFooter: true,
       spotlightClicks: true,
-      //14
     },
 
     {
@@ -232,6 +207,7 @@ export const WalkThrough = () => {
           subText="Clique no botão para adicionar usuários ou funcionários ao seu sistema"
         />
       ),
+      disableOverlayClose: true,
     },
     {
       target: "#calculatePlanAndStorage",
@@ -242,6 +218,7 @@ export const WalkThrough = () => {
           subText="Clique para gerenciar o seu plano e consumo. Conheça também nossos pacotes adicionais!"
         />
       ),
+      disableOverlayClose: true,
     },
     {
       target: "#profileImg",
@@ -252,6 +229,7 @@ export const WalkThrough = () => {
           subText="Aqui você pode adicionar ou alterar sua foto de perfil"
         />
       ),
+      disableOverlayClose: true,
     },
     {
       target: "#profileTable",
@@ -262,6 +240,7 @@ export const WalkThrough = () => {
           subText="Veja o histórico de usuários cadastrados na plataforma."
         />
       ),
+      disableOverlayClose: true,
     },
     {
       target: "#PermissoesMenu",
@@ -274,7 +253,378 @@ export const WalkThrough = () => {
       ),
       styles: {
         options: {
-          zIndex: 50001,
+          zIndex: 5010,
+        },
+      },
+      disableOverlayClose: true,
+      hideCloseButton: true,
+      hideFooter: true,
+      spotlightClicks: true,
+    },
+  ];
+
+  //Mobile Steps
+  const mobileSteps = [
+    {
+      target: "#navBarToggleInsights",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Clique aqui"
+          titleSecoudBold=""
+          subText=""
+        />
+      ),
+      disableBeacon: true,
+      disableOverlayClose: true,
+      hideCloseButton: true,
+      hideFooter: true,
+      placement: "bottom",
+      spotlightClicks: true,
+    },
+    {
+      target: "#yearMonthWeek",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Filtre as"
+          titleSecoudBold="informações"
+          subText="Filtre as informações do painel pelo período de preferência."
+        />
+      ),
+      disableOverlayClose: true,
+    },
+    {
+      target: "#documentos",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Documentos"
+          titleSecoudBold=""
+          subText="Veja o total de documentos já aprovados dos seus clientes."
+        />
+      ),
+      disableOverlayClose: true,
+    },
+    {
+      target: "#contratos",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Contratos"
+          titleSecoudBold=""
+          subText="Confira o total de documentos assinados na plataforma."
+        />
+      ),
+      disableOverlayClose: true,
+    },
+    {
+      target: "#menuList",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Clique aqui"
+          titleSecoudBold=""
+          subText=""
+        />
+      ),
+      styles: {
+        options: {
+          zIndex: 5010,
+        },
+      },
+      disableBeacon: true,
+      disableOverlayClose: true,
+      hideCloseButton: true,
+      hideFooter: true,
+      placement: "bottom",
+      spotlightClicks: true,
+    },
+    {
+      target: "#ClientesMenu",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Painel de"
+          titleSecoudBold="Clientes"
+          subText="Acesse sua lista de clientes ou leads cadastrados na plataforma!"
+        />
+      ),
+      placement: "right",
+      spotlightPadding: 0,
+      styles: {
+        options: {
+          zIndex: 5010,
+        },
+      },
+      disableBeacon: true,
+      disableOverlayClose: true,
+      hideCloseButton: true,
+      hideFooter: true,
+      spotlightClicks: true,
+    },
+    {
+      target: "#newAddClient",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Adicionar"
+          titleSecoudBold="Clientes"
+          subText="Adicione novos clientes manualmente na plataforma."
+        />
+      ),
+      disableOverlayClose: true,
+    },
+    {
+      target: "#menuList",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Clique aqui"
+          titleSecoudBold=""
+          subText=""
+        />
+      ),
+      styles: {
+        options: {
+          zIndex: 5010,
+        },
+      },
+      disableBeacon: true,
+      disableOverlayClose: true,
+      hideCloseButton: true,
+      hideFooter: true,
+      placement: "bottom",
+      spotlightClicks: true,
+    },
+    {
+      target: "#DocumentosMenu",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Painel de"
+          titleSecoudBold="Documentos"
+          subText="Gerencie os documentos de todos os seus clientes aprovados!"
+        />
+      ),
+      styles: {
+        options: {
+          zIndex: 5010,
+        },
+      },
+      disableBeacon: true,
+      disableOverlayClose: true,
+      hideCloseButton: true,
+      hideFooter: true,
+      spotlightClicks: true,
+    },
+    {
+      target: "#navBarToggle",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Clique aqui"
+          titleSecoudBold=""
+          subText=""
+        />
+      ),
+      styles: {
+        options: {
+          zIndex: 5010,
+        },
+      },
+      disableBeacon: true,
+      disableOverlayClose: true,
+      hideCloseButton: true,
+      hideFooter: true,
+      spotlightClicks: true,
+    },
+    {
+      target: "#documentTableNavBarButton",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Filtre as"
+          titleSecoudBold="informações"
+          subText="Filtre seus clientes e documentos de acordo com o status."
+        />
+      ),
+      disableOverlayClose: true,
+    },
+    {
+      target: "#documentTable",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Status e"
+          titleSecoudBold="Informações"
+          subText="Confira os status de documentações dos seus clientes. Clique no nome para ver mais opções."
+        />
+      ),
+      disableBeacon: true,
+      disableOverlayClose: true,
+      hideCloseButton: true,
+      hideFooter: true,
+      spotlightClicks: true,
+    },
+    {
+      target: "#generateLinkButton",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Solicitando"
+          titleSecoudBold="Documentos"
+          subText="Clique em gerar link para solicitar a documentação dos seus clientes."
+        />
+      ),
+      disableOverlayClose: true,
+    },
+    {
+      target: "#menuList",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Clique aqui"
+          titleSecoudBold=""
+          subText=""
+        />
+      ),
+      styles: {
+        options: {
+          zIndex: 5010,
+        },
+      },
+      disableBeacon: true,
+      disableOverlayClose: true,
+      hideCloseButton: true,
+      hideFooter: true,
+      placement: "bottom",
+      spotlightClicks: true,
+    },
+    {
+      target: "#ContratosMenu",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Painel de"
+          titleSecoudBold="Contratos"
+          subText="Solicite a assinatura digital de seus clientes para qualquer tipo de contrato."
+        />
+      ),
+      styles: {
+        options: {
+          zIndex: 5010,
+        },
+      },
+      disableOverlayClose: true,
+      hideCloseButton: true,
+      hideFooter: true,
+      spotlightClicks: true,
+    },
+    {
+      target: "#newContratoAddButton",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Novo Contrato"
+          titleSecoudBold=""
+          subText="Clique para iniciar um novo contrato de assinatura digital."
+        />
+      ),
+      disableOverlayClose: true,
+    },
+    {
+      target: "#contractTable",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Workflow de"
+          titleSecoudBold="aprovação"
+          subText="Revise os contratos assinados para realizar a aprovação ou reprovação dos mesmos."
+        />
+      ),
+      disableOverlayClose: true,
+    },
+    {
+      target: "#profile",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Meu Perfil"
+          titleSecoudBold=""
+          subText="Gerencie seu perfil, plano e usuários da plataforma."
+        />
+      ),
+      styles: {
+        options: {
+          zIndex: 5010,
+        },
+      },
+      disableOverlayClose: true,
+      hideCloseButton: true,
+      hideFooter: true,
+      spotlightClicks: true,
+    },
+
+    {
+      target: "#generateCodeNewAccountButton",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Adicione novos"
+          titleSecoudBold="Usuários"
+          subText="Clique no botão para adicionar usuários ou funcionários ao seu sistema"
+        />
+      ),
+      disableOverlayClose: true,
+    },
+    {
+      target: "#calculatePlanAndStorage",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Plano e Pacotes"
+          titleSecoudBold="Adicionais"
+          subText="Clique para gerenciar o seu plano e consumo. Conheça também nossos pacotes adicionais!"
+        />
+      ),
+      disableOverlayClose: true,
+    },
+    {
+      target: "#profileImg",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Foto de Perfil"
+          titleSecoudBold=""
+          subText="Aqui você pode adicionar ou alterar sua foto de perfil"
+        />
+      ),
+      disableOverlayClose: true,
+    },
+    {
+      target: "#profileTable",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Histórico de"
+          titleSecoudBold="Usuários"
+          subText="Veja o histórico de usuários cadastrados na plataforma."
+        />
+      ),
+      disableOverlayClose: true,
+    },
+    {
+      target: "#menuList",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Clique aqui"
+          titleSecoudBold=""
+          subText=""
+        />
+      ),
+      styles: {
+        options: {
+          zIndex: 5010,
+        },
+      },
+      disableBeacon: true,
+      disableOverlayClose: true,
+      hideCloseButton: true,
+      hideFooter: true,
+      placement: "bottom",
+      spotlightClicks: true,
+    },
+    {
+      target: "#PermissoesMenu",
+      content: (
+        <JoyRideCustomBox
+          titleFirstBold="Painel de"
+          titleSecoudBold="Permissões"
+          subText="Tenha o controle de acesso ou permissões dos usuários criados."
+        />
+      ),
+      styles: {
+        options: {
+          zIndex: 5010,
         },
       },
       disableOverlayClose: true,
@@ -298,10 +648,10 @@ export const WalkThrough = () => {
   }
 
   return isLoaded ? (
-    <ReactJoyride
+    <Joyride
       run={getTutorialValue?.run}
       stepIndex={getTutorialValue?.index}
-      steps={steps}
+      steps={isMobile ? mobileSteps : steps}
       continuous={true}
       callback={handleJoyrideCallback}
       locale={{
@@ -329,35 +679,6 @@ export const WalkThrough = () => {
           backgroundColor: "#0068FF",
           color: "#FFFFFF",
           borderRadius: "5px",
-        },
-        buttonClose: {},
-        beaconInner: {
-          animation: "joyride-beacon-inner 1.2s infinite ease-in-out",
-          backgroundColor: "#0068FF",
-          borderRadius: "50%",
-          display: "block",
-          height: "50%",
-          left: "50%",
-          opacity: 0.7,
-          position: "absolute",
-          top: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "50%",
-        },
-        beaconOuter: {
-          animation: "joyride-beacon-outer 1.2s infinite ease-in-out",
-          backgroundColor: "#0068FF",
-          border: `2px solid #0068FF`,
-          borderRadius: "50%",
-          boxSizing: "border-box",
-          display: "block",
-          height: "100%",
-          left: 0,
-          opacity: 0.9,
-          position: "absolute",
-          top: 0,
-          transformOrigin: "center",
-          width: "100%",
         },
       }}
     />

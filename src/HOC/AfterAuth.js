@@ -6,6 +6,7 @@ import { getPlanUsageData } from "../pages/MyPlan/api";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { usageAtom } from "../recoil/UsageAtoms/Usage";
 import { profileAtom } from "../recoil/Atoms";
+import { isDesktop, isMobile } from "react-device-detect";
 
 const AfterAuth = ({ children }) => {
   const intervalRef = React.useRef();
@@ -54,71 +55,72 @@ const AfterAuth = ({ children }) => {
         <NavbarCom showSide={showSide} setShowSide={setShowSide} />
       </div>
 
-      <div className="d-md-none p-0 m-0">
-        {showSide ? (
-          <>
-            <div
-              style={{
-                width: "50%",
-                position: "fixed",
-                top: "0",
-                left: "0",
-                zIndex: "5001",
-                height: "100vh",
-              }}
-            >
-              <Sidebar
-                showSide={showSide}
-                setShowSide={() => {
-                  setShowSide(false);
+      {isMobile ? (
+        <div className="d-md-none p-0 m-0">
+          {showSide ? (
+            <>
+              <div
+                style={{
+                  width: "50%",
+                  position: "fixed",
+                  top: "0",
+                  left: "0",
+                  zIndex: "5001",
+                  height: "100vh",
                 }}
-              />
-            </div>
-            <div
-              style={{
-                width: "50%",
-                position: "fixed",
-                top: "0",
-                right: "0",
-                zIndex: "5000",
-                height: "100vh",
-                background: "rgba(0,0,0,0.5)",
-              }}
-              onClick={() => setShowSide(false)}
-            ></div>
-          </>
-        ) : null}
-        <div>{children}</div>
-      </div>
+              >
+                <Sidebar
+                  showSide={showSide}
+                  setShowSide={() => {
+                    setShowSide(false);
+                  }}
+                />
+              </div>
+              <div
+                style={{
+                  width: "50%",
+                  position: "fixed",
+                  top: "0",
+                  right: "0",
+                  zIndex: "5000",
+                  height: "100vh",
+                  background: "rgba(0,0,0,0.5)",
+                }}
+                onClick={() => setShowSide(false)}
+              ></div>
+            </>
+          ) : null}
+          <div>{children}</div>
+        </div>
+      ) : null}
 
-      <Row
-        className="d-none d-md-flex afterAuthMainRow p-0 m-0"
-        style={{ height: "93vh" }}
-      >
-        <Col
-          md={2}
-          id="sidebar-wrapper"
-          className="px-0 afterAuthSidebar"
-          style={{
-            overflow: "hidden !important",
-          }}
-        >
-          <Sidebar showSide={showSide} setShowSide={setShowSide} />
-        </Col>
-        <Col
-          md={10}
-          id="page-content-wrapper"
-          className="pt-md-4 px-0 px-md-3 childrenHeight bgColor"
-          style={{
-            // backgroundColor: "#DCDFE5",
-            overflowY: "scroll",
-            overflowX: "hidden",
-            // height: "100%",
-          }}
-        >
-          {children}
-        </Col>
-      </Row>
+      {isDesktop ? (
+        <Row className="afterAuthMainRow p-0 m-0" style={{ height: "93vh" }}>
+          <Col
+            md={2}
+            id="sidebar-wrapper"
+            className="px-0 afterAuthSidebar"
+            style={{
+              overflow: "hidden !important",
+            }}
+          >
+            <Sidebar showSide={showSide} setShowSide={setShowSide} />
+          </Col>
+          <Col
+            md={10}
+            id="page-content-wrapper"
+            className="pt-md-4 px-0 px-md-3 childrenHeight bgColor"
+            style={{
+              // backgroundColor: "#DCDFE5",
+              overflowY: "scroll",
+              overflowX: "hidden",
+              // height: "100%",
+            }}
+          >
+            {children}
+          </Col>
+        </Row>
+      ) : null}
     </div>
   );
 };
