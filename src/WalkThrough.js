@@ -17,6 +17,7 @@ export const WalkThrough = () => {
     setIsLoaded(true);
   }, []);
 
+  //Deskotp Steps
   const steps = [
     {
       target: "#InsightsMenu",
@@ -58,12 +59,13 @@ export const WalkThrough = () => {
         <JoyRideCustomBox
           titleFirstBold="Contratos"
           titleSecoudBold=""
-          subText="Confira o total de documentos assinados na plataforma."
+          subText="Confira o total de contratos assinados!"
         />
       ),
       disableOverlayClose: true,
     },
     {
+      target: "#ClientesMenu",
       content: (
         <JoyRideCustomBox
           titleFirstBold="Painel de"
@@ -77,7 +79,6 @@ export const WalkThrough = () => {
       hideFooter: true,
       placement: "bottom",
       spotlightClicks: true,
-      target: "#ClientesMenu",
     },
     {
       target: "#newAddClient",
@@ -85,7 +86,7 @@ export const WalkThrough = () => {
         <JoyRideCustomBox
           titleFirstBold="Adicionar"
           titleSecoudBold="Clientes"
-          subText="Adicione novos clientes manualmente na plataforma."
+          subText="Adicione novos clientes na sua lista!"
         />
       ),
       disableOverlayClose: true,
@@ -96,7 +97,7 @@ export const WalkThrough = () => {
         <JoyRideCustomBox
           titleFirstBold="Painel de"
           titleSecoudBold="Documentos"
-          subText="Gerencie os documentos de todos os seus clientes aprovados!"
+          subText="Gerencie os documentos de todos os seus clientes!"
         />
       ),
       disableBeacon: true,
@@ -189,7 +190,7 @@ export const WalkThrough = () => {
       ),
       styles: {
         options: {
-          zIndex: 5010,
+          zIndex: 5000,
         },
       },
       disableOverlayClose: true,
@@ -253,12 +254,12 @@ export const WalkThrough = () => {
       ),
       styles: {
         options: {
-          zIndex: 5010,
+          zIndex: 5000,
         },
       },
       disableOverlayClose: true,
       hideCloseButton: true,
-      hideFooter: true,
+      hideFooter: false,
       spotlightClicks: true,
     },
   ];
@@ -278,7 +279,6 @@ export const WalkThrough = () => {
       disableOverlayClose: true,
       hideCloseButton: true,
       hideFooter: true,
-      placement: "bottom",
       spotlightClicks: true,
     },
     {
@@ -309,7 +309,7 @@ export const WalkThrough = () => {
         <JoyRideCustomBox
           titleFirstBold="Contratos"
           titleSecoudBold=""
-          subText="Confira o total de documentos assinados na plataforma."
+          subText="Confira o total de contratos assinados!"
         />
       ),
       disableOverlayClose: true,
@@ -323,11 +323,6 @@ export const WalkThrough = () => {
           subText=""
         />
       ),
-      styles: {
-        options: {
-          zIndex: 5010,
-        },
-      },
       disableBeacon: true,
       disableOverlayClose: true,
       hideCloseButton: true,
@@ -348,7 +343,7 @@ export const WalkThrough = () => {
       spotlightPadding: 0,
       styles: {
         options: {
-          zIndex: 5010,
+          zIndex: 5000,
         },
       },
       disableBeacon: true,
@@ -363,7 +358,7 @@ export const WalkThrough = () => {
         <JoyRideCustomBox
           titleFirstBold="Adicionar"
           titleSecoudBold="Clientes"
-          subText="Adicione novos clientes manualmente na plataforma."
+          subText="Adicione novos clientes na sua lista!"
         />
       ),
       disableOverlayClose: true,
@@ -377,11 +372,6 @@ export const WalkThrough = () => {
           subText=""
         />
       ),
-      styles: {
-        options: {
-          zIndex: 5010,
-        },
-      },
       disableBeacon: true,
       disableOverlayClose: true,
       hideCloseButton: true,
@@ -395,12 +385,12 @@ export const WalkThrough = () => {
         <JoyRideCustomBox
           titleFirstBold="Painel de"
           titleSecoudBold="Documentos"
-          subText="Gerencie os documentos de todos os seus clientes aprovados!"
+          subText="Gerencie os documentos de todos os seus clientes!"
         />
       ),
       styles: {
         options: {
-          zIndex: 5010,
+          zIndex: 5000,
         },
       },
       disableBeacon: true,
@@ -418,11 +408,6 @@ export const WalkThrough = () => {
           subText=""
         />
       ),
-      styles: {
-        options: {
-          zIndex: 5010,
-        },
-      },
       disableBeacon: true,
       disableOverlayClose: true,
       hideCloseButton: true,
@@ -475,11 +460,6 @@ export const WalkThrough = () => {
           subText=""
         />
       ),
-      styles: {
-        options: {
-          zIndex: 5010,
-        },
-      },
       disableBeacon: true,
       disableOverlayClose: true,
       hideCloseButton: true,
@@ -498,7 +478,7 @@ export const WalkThrough = () => {
       ),
       styles: {
         options: {
-          zIndex: 5010,
+          zIndex: 5000,
         },
       },
       disableOverlayClose: true,
@@ -537,11 +517,6 @@ export const WalkThrough = () => {
           subText="Gerencie seu perfil, plano e usuários da plataforma."
         />
       ),
-      styles: {
-        options: {
-          zIndex: 5010,
-        },
-      },
       disableOverlayClose: true,
       hideCloseButton: true,
       hideFooter: true,
@@ -601,11 +576,6 @@ export const WalkThrough = () => {
           subText=""
         />
       ),
-      styles: {
-        options: {
-          zIndex: 5010,
-        },
-      },
       disableBeacon: true,
       disableOverlayClose: true,
       hideCloseButton: true,
@@ -624,13 +594,10 @@ export const WalkThrough = () => {
       ),
       styles: {
         options: {
-          zIndex: 5010,
+          zIndex: 5000,
         },
       },
       disableOverlayClose: true,
-      hideCloseButton: true,
-      hideFooter: true,
-      spotlightClicks: true,
     },
   ];
 
@@ -657,7 +624,7 @@ export const WalkThrough = () => {
       locale={{
         next: "Próximo",
         back: "Voltar",
-        last: "Pronto!",
+        last: "Concluído",
       }}
       styles={{
         options: {

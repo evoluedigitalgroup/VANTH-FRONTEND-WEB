@@ -46,7 +46,7 @@ const AfterAuth = ({ children }) => {
     <div>
       <div
         style={{
-          height: "7vh",
+          height: "60px",
           position: "sticky",
           top: "0",
           zIndex: "5000",
@@ -95,7 +95,7 @@ const AfterAuth = ({ children }) => {
       ) : null}
 
       {isDesktop ? (
-        <Row className="afterAuthMainRow p-0 m-0" style={{ height: "93vh" }}>
+        <Row className="afterAuthMainRow p-0 m-0" style={{ height: "100vh" }}>
           <Col
             md={2}
             id="sidebar-wrapper"
@@ -114,7 +114,7 @@ const AfterAuth = ({ children }) => {
               // backgroundColor: "#DCDFE5",
               overflowY: "scroll",
               overflowX: "hidden",
-              // height: "100%",
+              height: "100%",
             }}
           >
             {children}

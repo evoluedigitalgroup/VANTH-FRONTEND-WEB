@@ -223,11 +223,9 @@ const Insights = () => {
                 <Navbar.Toggle
                   id="navBarToggleInsights"
                   aria-controls="navbarScroll"
-                  onClick={() => {
-                    isMobile
-                      ? setTutorialValue({ ...tutorialValue, index: 1 })
-                      : console.log();
-                  }}
+                  onClick={() =>
+                    setTutorialValue({ ...tutorialValue, index: 1 })
+                  }
                 />
                 <Navbar.Collapse id="navbarScroll">
                   {/* searchbar */}
@@ -634,9 +632,9 @@ const Insights = () => {
           ) : (
             ""
           )}
-          <div className="text-md-end text-center mx-2">
+          <div className="text-md-end text-center">
             <Button
-              className="px-5 shadow  py-2"
+              className="px-5 shadow py-2 mt-5 mt-md-0"
               style={{
                 backgroundColor: "#C4CCD2",
                 border: "none",

@@ -258,7 +258,7 @@ const Contact = () => {
         <title>Vanth System | Contratos</title>
       </Helmet>
       <AfterAuth>
-        <div className="d-flex align-items-center justify-content-between mt-3 mx-md-5 ms-3">
+        <div className="d-flex align-items-center justify-content-between mt-4 mx-md-5 mx-3">
           <h2 className="">Contratos</h2>
           <button
             id="newContratoAddButton"

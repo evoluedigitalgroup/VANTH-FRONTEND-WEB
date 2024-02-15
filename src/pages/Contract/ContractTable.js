@@ -27,6 +27,7 @@ import {
   openReviewTemplateSelect,
   resetModels,
 } from "../../recoil/helpers/contractModels";
+import { isDesktop } from "react-device-detect";
 
 const ContractTable = ({
   idArray,
@@ -144,7 +145,7 @@ const ContractTable = ({
     };
 
     return (
-      <td className="fw-bold">
+      <td className="d-none d-md-table-cell fw-bold">
         <Button
           style={{
             width: "150px",
@@ -268,11 +269,9 @@ const ContractTable = ({
         {tableData?.length ? (
           <thead>
             <tr style={{ color: "#B5B6B7", fontSize: "12px" }}>
-              <th width={"25%"}>Nome</th>
+              <th width={isDesktop ? "25%" : "50%"}>Nome</th>
               <th>Status do cliente</th>
-              <th className="d-none d-md-table-cell">
-                Status do contrato
-              </th>{" "}
+              <th className="d-none d-md-table-cell">Status do contrato</th>
             </tr>
           </thead>
         ) : (
