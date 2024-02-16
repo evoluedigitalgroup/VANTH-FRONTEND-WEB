@@ -7,6 +7,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { usageAtom } from "../recoil/UsageAtoms/Usage";
 import { profileAtom } from "../recoil/Atoms";
 import { isDesktop, isMobile } from "react-device-detect";
+import { whatsappNumber } from "../config";
 
 const AfterAuth = ({ children }) => {
   const intervalRef = React.useRef();
@@ -43,7 +44,7 @@ const AfterAuth = ({ children }) => {
   }, [profile?.companyData?.selectedPlan]);
 
   return (
-    <div>
+    <div className="position-relative">
       <div
         style={{
           height: "60px",
@@ -95,7 +96,7 @@ const AfterAuth = ({ children }) => {
       ) : null}
 
       {isDesktop ? (
-        <Row className="afterAuthMainRow p-0 m-0" style={{ height: "100vh" }}>
+        <Row className="afterAuthMainRow p-0 m-0" style={{ height: "93vh" }}>
           <Col
             md={2}
             id="sidebar-wrapper"
@@ -121,6 +122,15 @@ const AfterAuth = ({ children }) => {
           </Col>
         </Row>
       ) : null}
+
+      <div className="position-fixed c-point" style={{ bottom: 10, right: 10 }}>
+        <a href={`whatsapp://send?phone=${whatsappNumber}`}>
+          <img
+            src="/assets/img/whatsapplogo.png"
+            style={{ height: "40px", width: "40px" }}
+          />
+        </a>
+      </div>
     </div>
   );
 };

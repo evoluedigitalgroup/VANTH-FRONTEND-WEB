@@ -157,7 +157,8 @@ const DocumentTable = ({
                 </td>
                 <td
                   className="position-relative text-start"
-                  style={{ zIndex: 1000 }}
+                  // style={{ zIndex: 1000 }}
+                  onClick={() => handleShowRow(obj.id)}
                 >
                   <Button
                     style={{
