@@ -95,7 +95,7 @@ const DocumentTable = ({
   const getHeightValue = (obj) => {
     const totalLength = getRequiredLength(obj) + getOtherInformationLength(obj);
     const baseHeight = isMobile ? 1 : 3;
-    const minHeight = idArray.includes(obj.id) ? totalLength / baseHeight * 200 + 100 + "px" : "unset";
+    const minHeight = idArray.includes(obj.id) ? totalLength / baseHeight * 100 + 200 + "px" : "unset";
     return minHeight;
   };
   
@@ -235,11 +235,13 @@ const DocumentTable = ({
                             documentListData={documentListData}
                             handleShowImageModal={handleShowImageModal}
                           />
-                          <GenerateLinkBtn
-                            onClick={() => handleShowLinkModal(obj)}
-                            obj={obj}
-                            md={12}
-                          />
+                          <div className={`${isMobile ? 'mt-0' : 'mt-4'}`}>
+                            <GenerateLinkBtn
+                              onClick={() => handleShowLinkModal(obj)}
+                              obj={obj}
+                              md={12}
+                            />
+                          </div>
                         </Row>
                         {obj.allStatus === "approved" && (
                           <Row>

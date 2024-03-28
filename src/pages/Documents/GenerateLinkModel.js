@@ -270,10 +270,12 @@ const GenerateLinkModel = ({
 
   const onClickSms = async () => {
     const phone = clientFormValues.phone
+    const type = 'sms'
 
     const submitData = {
       phone, 
-      link
+      link,
+      type,
     }
 
     const res = await sendClientSms(submitData)
@@ -288,8 +290,24 @@ const GenerateLinkModel = ({
   };
 
   const onClickEmail = async () => {
-    await submitForm();
-    window.open(`mailto:?&body=${link}`, "_blank");
+    const email = clientFormValues.email
+    const type = 'email'
+
+    const submitData = {
+      email, 
+      link,
+      type,
+    }
+
+    const res = await sendClientSms(submitData)
+    
+    if (res.success) {
+      toast.success(res.message)
+    } else {
+      console.log(res)
+      toast.error("Error!")
+    }    
+
   };
 
   const AddNewPermission = () => {
