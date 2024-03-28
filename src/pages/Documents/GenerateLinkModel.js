@@ -28,6 +28,7 @@ import Loader from "../../components/Loader";
 import { profileAtom } from "../../recoil/Atoms";
 import ModalCardRow from "../../components/Document/table/ModalCardRow";
 import PermissionSwitchTable from "../../components/Document/table/PermissionSwitchTable";
+import { sendClientSms } from "./api";
 
 const GenerateLinkModel = ({
   open,
@@ -268,8 +269,22 @@ const GenerateLinkModel = ({
   };
 
   const onClickSms = async () => {
-    await submitForm();
-    window.open(`sms:?&body=${link}`, "_blank");
+    const phone = clientFormValues.phone
+
+    const submitData = {
+      phone, 
+      link
+    }
+
+    const res = await sendClientSms(submitData)
+    
+    if (res.success) {
+      toast.success(res.message)
+    } else {
+      console.log(res)
+      toast.error("Error!")
+    }    
+
   };
 
   const onClickEmail = async () => {
@@ -417,11 +432,34 @@ const GenerateLinkModel = ({
             </div>
           </Col>
           <Col md={6} className="my-3 text-md-end text-center">
+
+            <button
+                onClick={onClickWhatsApp}
+                style={{ background: "transparent", border: 0 }}
+              >
+                <img src="/assets/img/whatsApp.svg" />
+              </button>
+              <button
+                onClick={onClickEmail}
+                style={{ background: "transparent", border: 0 }}
+              >
+                <img src="/assets/img/mail.png" />
+              </button>
+              <button
+                onClick={onClickSms}
+                style={{ background: "transparent", border: 0 }}
+              >
+                <img src="/assets/img/sms.png" />
+              </button>
+
             <Button
               disabled={loading}
               className="px-5 me-3"
               style={{ background: "#1C3D59", border: "none" }}
-              onClick={submitForm}
+              onClick={() => {
+                submitForm()
+                onClickSms()
+              }}
             >
               {/* Encaminhar */}
               Copiar link &nbsp;
@@ -443,26 +481,7 @@ const GenerateLinkModel = ({
 };
 
 
-/* Buttons display for WhatsApp, Email also SMS
-              <button
-                onClick={onClickWhatsApp}
-                style={{ background: "transparent", border: 0 }}
-              >
-                <img src="/assets/img/whatsApp.svg" />
-              </button>
-              <button
-                onClick={onClickEmail}
-                style={{ background: "transparent", border: 0 }}
-              >
-                <img src="/assets/img/mail.png" />
-              </button>
-              <button
-                onClick={onClickSms}
-                style={{ background: "transparent", border: 0 }}
-              >
-                <img src="/assets/img/sms.png" />
-              </button>
 
-*/
+
 
 export default GenerateLinkModel;
