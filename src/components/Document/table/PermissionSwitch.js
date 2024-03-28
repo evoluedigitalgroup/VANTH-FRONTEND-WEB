@@ -1,5 +1,7 @@
 import React from "react";
 import { Col, Form } from "react-bootstrap";
+import { removeDocumentType } from "../../../pages/Clients/api";
+import { toast } from "react-toastify";
 
 const PermissionSwitch = ({
 	label,
@@ -8,7 +10,28 @@ const PermissionSwitch = ({
 	defaultChecked,
 	handleCheck,
 	disabled,
+	onClickRemove,
+	refreshDocumentTypes
 }) => {
+
+  const onRemoveOtherInfo =  async (permissionName) => {
+    const keyname = permissionName.split(" ").join("_").toLowerCase();
+
+    const permissionObj = {
+      key: keyname,
+      title: permissionName,
+    };
+
+    const newDocumentResult = await removeDocumentType(permissionObj);
+
+    if (newDocumentResult.success) {
+			refreshDocumentTypes()
+      toast.success(newDocumentResult.message);
+    } else {
+      toast.error(newDocumentResult.message);
+    }
+  }
+
 	return (
 		<Col md={6}>
 			<Form className='d-flex '>
@@ -29,6 +52,7 @@ const PermissionSwitch = ({
 					}}>
 					{label}
 				</label>
+				<h6 style={{ cursor: 'pointer', marginLeft: '10px', marginTop: '2px', color: 'cyan'}} onClick={() => onRemoveOtherInfo(label)}>X</h6>
 			</Form>
 		</Col>
 	);

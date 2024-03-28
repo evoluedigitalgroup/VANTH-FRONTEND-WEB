@@ -13,18 +13,23 @@ const RequestedSignature = () => {
   const [contractData, setContractData] = React.useState(null);
 
   const getDetails = async () => {
-    const { companyId, contractId, docusignEnvelopeId } = params;
+    console.log('params : ', params)
+    const { companyId, contractId, docusignEnvelopeId, recipientViwer } = params;
 
     const res = await getPublicContractDetails({
       companyId,
       contractId,
-      docusignEnvelopeId
+      docusignEnvelopeId,
+      recipientViwer
     });
     console.log(' res ', res.data);
-    if (res.success) {
-      setContractData(res.data);
-      setResponseType(res.data?.status);
-    }
+      if (res.success) {
+        setContractData(res.data);
+        setResponseType(res.data?.status);
+      } else {
+        setContractData(res.data?.ableRecipient)
+        setResponseType(false)
+      }
     setLoading(false);
   };
 
@@ -57,6 +62,12 @@ const RequestedSignature = () => {
           <img src="/assets/img/success.png" style={{ height: 200 }} />
         </div>
       );
+    } else if (responseType === 'pending_others') {
+      return (
+        <div className="d-flex flex-column align-items-center justify-content-center w-100">
+          <iframe src={contractData?.docusignUrl} style={{ height: '100%', width: '100%' }} />
+        </div>
+      );
     } else if (responseType === 'rejected') {
       return (
         <div className="d-flex flex-column align-items-center justify-content-center w-100">
@@ -64,8 +75,16 @@ const RequestedSignature = () => {
           <img src="/assets/img/info.png" style={{ height: 200 }} />
         </div>
       );
+    } else if (!responseType) {
+      return (
+        <div className="d-flex flex-column align-items-center justify-content-center w-100">
+          <h4 className="fw-bold">Aguarde {contractData[0].name} para assinar!</h4>
+          <img src="/assets/img/info.png" style={{ height: 200 }} />
+        </div>
+      );
     }
-    return null;
+
+    return null
   }
 
   return (

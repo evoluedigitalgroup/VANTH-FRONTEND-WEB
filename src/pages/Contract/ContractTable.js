@@ -59,14 +59,20 @@ const ContractTable = ({
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    console.log(tableRow)
     setTableData(tableRow);
   }, [tableRow]);
 
+  //Above Subs
+  //obj?.recipient.map((item, index) => { return item.name })
+
   const ClientName = ({ data: obj }) => {
     return (
-      <td className="fw-bold" onClick={() => handleShowRow(obj.id)}>
-        {obj?.recipient?.name}
-      </td>
+      <div className="d-flex flex-column mb-3">
+        <td className="fw-bold" onClick={() => handleShowRow(obj.id)}>
+          {obj?.recipient[0].name}
+        </td>
+      </div>
     );
   };
 
@@ -104,19 +110,22 @@ const ContractTable = ({
     const isApproved =
       obj?.contractDocumentIds.filter((val) => val.isApproved === "approved")
         .length === obj?.contractDocumentIds.length;
+        
     const idRejected = !!obj?.contractDocumentIds.filter(
       (val) => val.isApproved === "rejected"
     ).length;
 
-    const classValue = () => {
+    const classValue = () => {  
       if (obj?.status === "pending") {
+        return "document-pending";
+      } else if (obj?.status === "pending_others") {
         return "document-pending";
       } else if (obj?.status === "rejected") {
         return "contact-wait";
       } else if (obj?.status === "signed") {
         if (!isApproved && !idRejected) {
           return "document-wait";
-        } else if (idRejected) {
+        } else if (!isApproved) {
           return "contact-wait";
         } else if (isApproved) {
           return "document-success";
@@ -128,17 +137,19 @@ const ContractTable = ({
 
     const labelValue = () => {
       if (obj?.status === "pending") {
-        return "aguardando assinatura";
+        return "Aguardando Assinaturas";
       } else if (obj?.status === "rejected") {
         return "Assinatura recusada";
       } else if (obj?.status === "signed") {
         if (!isApproved && !idRejected) {
           return "Aguardando revisão";
-        } else if (idRejected) {
+        } else if (idRejected && !isApproved) {
           return "Reprovado";
         } else if (isApproved) {
           return "Aprovado";
         }
+      } else if (obj?.status === "pending_others") {
+        return "Aguardando Assinaturas"
       } else {
         return "Assinada";
       }
@@ -165,31 +176,41 @@ const ContractTable = ({
   };
 
   const getHeightValue = (obj) => {
-    return idArray.includes(obj.id) ? 100 + "px" : "unset";
+    return idArray.includes(obj.id) ? 300 + "px" : "unset";
   };
 
   const onGenerateLink = (obj) => {
     setSelectedTemplates(obj.contractTemplates);
-    const linkValue = `${CONTRACT_LINK_URL}${profile.company}/${obj.uuid}/${obj.docusignEnvelopeId}`;
 
     setSelectedOption({
       value: obj.recipient.id,
       label: obj.recipient.name,
       phoneNumber: obj.recipient.phone,
     });
-    setContractLink(linkValue);
+
+    let linkList = []
+
+    obj?.recipient.forEach((item, i) => {
+      linkList.push({
+        name: item.name,
+        link: `${CONTRACT_LINK_URL}${profile.company}/${obj.uuid}/${obj.docusignEnvelopeId}/${item.id}`,
+      })
+    })
+
+    setContractLink(linkList)
 
     setModels(resetModels());
     setModels(openPreviewContract());
   };
 
   const onReviewLink = (obj) => {
-    const templatesValue = obj.contractDocumentIds.map((val) => val.template);
+    const templatesValue = obj?.contractDocumentIds.map((val) => val.template);
+    console.log(templatesValue)
     const setValue = {
       data: obj,
       templatesList: templatesValue,
     };
-    console.log("setValue", setValue);
+    console.log("setValue", setValue, obj);
     setReviewTemplates(setValue);
 
     setModels(resetModels());
@@ -219,6 +240,16 @@ const ContractTable = ({
         <GenerateLinkBtn
           onClick={() => {
             onGenerateLink(obj);
+          }}
+          obj={obj}
+          md={12}
+        />
+      );
+    } else if (obj?.status === "pending_others") {
+      return (
+        <ViewContractBtn
+          onClick={() => {
+            onReviewLink(obj);
           }}
           obj={obj}
           md={12}
@@ -262,6 +293,87 @@ const ContractTable = ({
     }
   };
 
+  const ListClientsAndState = ({ data: obj }) => {
+    console.log(obj)
+    let getNameAndStatusList = []
+    
+    obj?.recipient.forEach((item, i) => {
+      obj?.recipientsStatus.forEach((o, i) => {
+        if(item.id == o.recipient) {
+          getNameAndStatusList.push({
+            name: item.name,
+            status: o.status,
+          })
+        }
+      })
+    })
+
+    console.log(getNameAndStatusList)
+
+    const classValue = (status) => {  
+      if (status === "pending") {
+        return "document-pending";
+      } else if (status === "pending_others") {
+        return "document-pending";
+      } else if (status === "rejected") {
+        return "contact-wait";
+      } else if (status === "signed") {
+        return "document-success";
+      } else {
+        return "document-success";
+      }
+    };
+
+    const labelValue = (status) => {
+      if (status === "pending") {
+        return "Aguardando Assinatura";
+      } else if (status === "rejected") {
+        return "Assinatura recusada";
+      } else if (status === "signed") {
+        return "Aprovado";
+      } else if (status === "pending_others") {
+        return "Aguardando todas as assinaturas"
+      } else {
+        return "Assinada";
+      }
+    };
+
+    return (
+      <div width={isDesktop ? "25%" : "50%"} style={{ paddingBottom: '5px', paddingTop: '50px' }} className="container d-flex flex-column mb-3">
+        <div className="container mt-1 mb-3 overflow-auto" style={{ maxHeight: '600px' }}>
+        {getNameAndStatusList.map((item, index) => {
+          return (
+            <div className="row" style={{ marginBottom: index < getNameAndStatusList.length - 1 ? '15px' : '5px', marginTop: '5px' }} key={index}>
+              <div className="col-md-6">
+                <p className="mb-0 fw-bold">Nome - {item.name}</p>
+              </div>
+              <div className="col-md-6 d-flex align-items-center">
+                <p className="mb-0 mr-4 ml-5 fw-bold">Status de Assinatura</p>
+                <p style={{ width: '10px'}}/>
+                <Button
+                  className={`${classValue(item.status)} mr-2 -none d-md-table-cell fw-bold`}
+                  style={{
+                    width: "150px",
+                    fontSize: "12px",
+                    borderRadius: "3px",
+                    border: "0px",
+                    fontWeight: "normal",
+                    padding: "0",
+                  }}
+                >
+                  {labelValue(item.status)}
+                </Button>
+              </div>
+            </div>
+          );
+        })}
+        </div>
+      </div>
+    );
+    
+    
+  }
+
   return (
     <div>
       {/* <Suspense fallback={<Loader />}> */}
@@ -293,18 +405,27 @@ const ContractTable = ({
                   <ClientName data={obj} />
                   <ClientStatus data={obj} />
                   <ContractStatus data={obj} />
+
                   {idArray.includes(obj.id) ? (
+                  <>  
                     <Row
                       className="position-absolute mt-5 my-2"
                       style={{
                         left: "0",
-                        bottom: "0",
+                        bottom: "",
                         width: "100%",
-                        top: "0",
+                        top: "",
+                        maxHeight: "200px", // Defina uma altura máxima aqui
+                        overflowY: idArray.includes(obj.id) ? "scroll" : "unset",
                       }}
                     >
-                      <ActionBtn data={obj} index={i} />
+                      <ListClientsAndState data={obj}/>
+
+                      <ActionBtn style={{
+                        padding: '40px'
+                      }} data={obj} index={i} />
                     </Row>
+                    </>
                   ) : null}
                 </tr>
               </>

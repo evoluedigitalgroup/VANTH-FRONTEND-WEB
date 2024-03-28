@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Col, Modal, Row } from "react-bootstrap";
 import Select from "react-select";
 import { useRecoilState } from "recoil";
 //
 import Loader from "../../../components/Loader";
 import { getContactList } from "../../Clients/api";
-import { contractSelectedUser, contractModels } from "../../../recoil/Atoms";
+import { contractSelectedUser, contractSelectedUsers, contractModels } from "../../../recoil/Atoms";
 import {
   openSelectTemplate,
   resetModels,
 } from "../../../recoil/helpers/contractModels";
+import { toast } from "react-toastify";
 
 const SelectClientModal = ({ show, onHide }) => {
   const options = [
@@ -23,10 +24,16 @@ const SelectClientModal = ({ show, onHide }) => {
   const [contactsData, setContactsData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [selectionList, setSelectionList] = useRecoilState(contractSelectedUsers)
+
   const handleShowTamplateModal = () => {
-    // setShowModal(true);
-    setModals(resetModels());
-    setModals(openSelectTemplate());
+    if(selectionList.length != 0) {
+      // setShowModal(true);
+      setModals(resetModels());
+      setModals(openSelectTemplate());
+    } else {
+      toast.error('Você precisa selecionar pelo menos um cliente!')
+    }
   };
 
   useEffect(() => {
@@ -36,6 +43,7 @@ const SelectClientModal = ({ show, onHide }) => {
         let optionsData = res.data.findData.map((item) => {
           return {
             value: item.id,
+            uuid: item.uuid,
             label: item.name,
             phoneNumber: item.phone,
           };
@@ -48,6 +56,23 @@ const SelectClientModal = ({ show, onHide }) => {
     });
   }, []);
 
+  const formatPhoneNumber = (number) => {
+    if (number != undefined && number != null) {
+      const clearNumber = number.replace(/\D/g, '')
+      return clearNumber.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3')
+    } else {
+      return number
+    }
+  }
+
+  const handleSelectChange = (option) => {
+    setSelectedOption(option);
+    if (!selectionList.some(item => item.label === option.label)) {
+      setSelectionList([...selectionList, option]);
+    }
+  }
+  
+
   const formatOptionLabel = ({ label, phoneNumber }) => (
     <div className="d-flex justify-content-between mx-md-4">
       <div>
@@ -59,7 +84,7 @@ const SelectClientModal = ({ show, onHide }) => {
           className="bi bi-telephone-fill px-1"
           style={{ color: "#BAC4C8" }}
         ></i>
-        {phoneNumber}
+        {formatPhoneNumber(phoneNumber)}
       </div>
     </div>
   );
@@ -94,9 +119,29 @@ const SelectClientModal = ({ show, onHide }) => {
                 <Select
                   defaultValue={selectedOption}
                   formatOptionLabel={formatOptionLabel}
-                  onChange={setSelectedOption}
+                  onChange={handleSelectChange}
                   options={contactsData}
                 />
+              </div>
+              <div>
+
+              <div className="my-4">
+                <h6 className="font-bold">Destinatários Selecionados</h6>
+
+                {selectionList.map((item, index) => {
+                  return(
+                  <div key={index} className="d-flex align-items-center align-center gap-4"> 
+                    <div className="d-flex align-items-center">
+                      <i className="bi bi-person-fill px-1" style={{ color: "#BAC4C8" }}></i>
+                      {item.label} <i> - </i>  {formatPhoneNumber(item.phoneNumber)}
+                    </div>
+                    <h6 style={{ color: 'blue', cursor: 'pointer' }} className="m-0" onClick={() => { setSelectionList( selectionList.filter((k) => k.label !== item.label) ) }}>X</h6>                     
+                  </div>
+                  )
+                })}
+
+              </div>
+
               </div>
               <div>
                 <button
@@ -107,7 +152,7 @@ const SelectClientModal = ({ show, onHide }) => {
                   solicitar
                   assinatura
                   de
-                  contratolassName="py-2 px-5"
+                  contratolassName="py-2 px-6"
                   style={{
                     background: "#0068FF",
                     border: "0",

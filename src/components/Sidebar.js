@@ -96,7 +96,7 @@ const Sidebar = ({ setShowSide, showSide }) => {
           overflowY: "hidden",
           position: "relative",
           height: "100%",
-          backgroundColor: showSide ? "rgba(32,29,32,1)" : "",
+          backgroundColor: showSide ? "rgba(24,29,32,1)" : "",
         }}
       >
         <Col md={12} style={{ height: "100%" }}>
@@ -203,8 +203,10 @@ const Sidebar = ({ setShowSide, showSide }) => {
                       border: "none",
                     }}
                     onClick={() => {
-                      setTutorialValue({ run: true, index: 0 });
-                      window.location.href = "/insights";
+                      if (!window.location.href.match("/profile/my-plan")) {
+                        setTutorialValue({ run: true, index : 0 });
+                        window.location.href = "/insights";   
+                      }
                     }}
                   >
                     Tutorial

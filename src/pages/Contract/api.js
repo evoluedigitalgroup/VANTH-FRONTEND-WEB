@@ -58,6 +58,7 @@ export const generateContractLink = (submitData) => {
   return new Promise((resolve, reject) => {
     AfterAuthApi(GENERATE_CONTRACT_LINK, "post", submitData)
       .then((res) => {
+        console.log(res.data)
         resolve(res.data);
       })
       .catch((err) => {
@@ -69,6 +70,7 @@ export const generateContractLink = (submitData) => {
 //
 export const getPublicContractDetails = (submitData) => {
   return new Promise((resolve, reject) => {
+    console.log('sended data : ', submitData)
     AfterAuthApi(GET_CONTRACT_DETAILS_LINK, "post", submitData)
       .then((res) => {
         resolve(res.data);

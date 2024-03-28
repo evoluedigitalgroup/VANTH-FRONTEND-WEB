@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
+  Badge,
   Button,
   Col,
   Form,
+  FormControl,
   FormGroup,
   InputGroup,
   Modal,
+  ModalBody,
+  ModalHeader,
   Row,
+  Spinner,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
@@ -15,6 +20,7 @@ import copy from "copy-to-clipboard";
 import { LINK_URL } from "../../config";
 import {
   addNewDocumentType,
+  contactForm,
   generateLink,
   generateNewLink,
 } from "../Clients/api";
@@ -41,12 +47,77 @@ const GenerateLinkModel = ({
 
   const [otherPermissions, setOtherPermissions] = useState([]);
 
+  const [otherInformation, setOtherInformation] = useState([]);
+  const [otherInfo, setOtherInfo] = useState(undefined);
+
+  const [clientFormValues, setClientFormValues] = useState({
+    name: editData?.name,
+    email: editData?.email,
+    phone: editData?.phone,
+    CPF: editData?.CPF,
+    CNPJ: editData?.CPNJ,
+  });
+
+  const handleChange = (e) => {
+    setFormValues({
+      ...formValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+
+
+  const handleSubmitData = () => {
+    console.log("formValues : ", formValues);
+    console.log("otherInformation : ", otherInformation);
+    const submitData = {
+      ...clientFormValues,
+      otherInformation,
+    };
+    console.log("submitData : ", submitData);
+    setLoading(true);
+    contactForm(submitData).then((res) => {
+      if (res.success) {
+        setRefresh(refresh + 1);
+        toast.success(res.message);
+        setLoading(false);
+        handleClose();
+      } else {
+        toast.error(res.message);
+        setLoading(false);
+      }
+    });
+  };
+
+  const onClickOtherInfo = (e) => {
+    setOtherInfo(null);
+  };
+
+  const onSubmitOtherInfoClient = (e) => {
+    if (otherInfo) {
+      if (otherInfo.key) {
+        setOtherInformation([...otherInformation, otherInfo]);
+        setOtherInfo(undefined);
+      } else {
+        toast.error("Por favor insira o tipo de informação");
+      }
+    } else {
+      toast.error("Por favor insira o tipo de informação");
+    }
+  };
+
+  const onClickRemove = (index) => {
+    setOtherInformation(otherInformation.filter((obj, i) => i !== index));
+  };
+
   useEffect(() => {
     setLoading(true);
     generateNewLink().then((res) => {
       if (res.success) {
         setLoading(false);
         setPermission(res.data);
+
+        console.log("editData: ", editData)
       } else {
         setLoading(false);
       }
@@ -106,6 +177,28 @@ const GenerateLinkModel = ({
     });
   };
 
+  async function writeClipboardText(text, func) {
+    try {
+      await navigator.clipboard.writeText(text).then(func)
+    } catch (err) {
+      console.error('Erro ao copiar o link: ', err);
+      toast.error('Erro ao copiar o link. Por favor, copie manualmente.');
+    }
+  }
+
+  function copyTextToClipboard(text) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+
+    document.body.appendChild(textarea);
+
+    textarea.select();
+
+    document.execCommand("copy");
+
+    document.body.removeChild(textarea);
+}
+
   const submitForm = (e) => {
     return new Promise((resolve, reject) => {
 
@@ -125,16 +218,25 @@ const GenerateLinkModel = ({
 
       generateLink(submitData).then((res) => {
         if (res.success) {
+
+        try {
+          copyTextToClipboard(link)
+
           setRefresh(refresh + 1);
           toast.success(res.message);
-          copy(link);
           handleClose();
-          resolve();
+          console.log('Link copiado com sucesso');
+        } catch (err) {
+          console.error('Erro ao copiar o link: ', err);
+          toast.error('Erro ao copiar o link. Por favor, copie manualmente.');
+        }
+          
         } else {
           toast.error(res.message);
-          resolve();
         }
       });
+      
+      
     });
   };
 
@@ -158,6 +260,7 @@ const GenerateLinkModel = ({
       toast.error(newDocumentResult.message);
     }
   };
+
 
   const onClickWhatsApp = async () => {
     await submitForm();
@@ -283,6 +386,7 @@ const GenerateLinkModel = ({
                 formValues={formValues}
                 editData={editData}
                 switchesData={switchesData}
+                refreshDocumentTypes={refreshDocumentTypes}
               />
               <AddNewPermission />
             </>
@@ -300,7 +404,7 @@ const GenerateLinkModel = ({
         </Row>
         <Row>
           <Col md={6}>
-            <div className="d-flex align-items-center ms-md-4">
+            <div className="px-4 d-flex align-items-center ms-md-4">
               <h6
                 style={{
                   fontWeight: "600",
@@ -308,26 +412,8 @@ const GenerateLinkModel = ({
                   color: "#85A6A2",
                 }}
               >
-                Enviar com:
+                Envie o Link acima para o cliente...
               </h6>
-              <button
-                onClick={onClickWhatsApp}
-                style={{ background: "transparent", border: 0 }}
-              >
-                <img src="/assets/img/whatsApp.svg" />
-              </button>
-              <button
-                onClick={onClickEmail}
-                style={{ background: "transparent", border: 0 }}
-              >
-                <img src="/assets/img/mail.png" />
-              </button>
-              <button
-                onClick={onClickSms}
-                style={{ background: "transparent", border: 0 }}
-              >
-                <img src="/assets/img/sms.png" />
-              </button>
             </div>
           </Col>
           <Col md={6} className="my-3 text-md-end text-center">
@@ -355,5 +441,28 @@ const GenerateLinkModel = ({
     </div>
   );
 };
+
+
+/* Buttons display for WhatsApp, Email also SMS
+              <button
+                onClick={onClickWhatsApp}
+                style={{ background: "transparent", border: 0 }}
+              >
+                <img src="/assets/img/whatsApp.svg" />
+              </button>
+              <button
+                onClick={onClickEmail}
+                style={{ background: "transparent", border: 0 }}
+              >
+                <img src="/assets/img/mail.png" />
+              </button>
+              <button
+                onClick={onClickSms}
+                style={{ background: "transparent", border: 0 }}
+              >
+                <img src="/assets/img/sms.png" />
+              </button>
+
+*/
 
 export default GenerateLinkModel;

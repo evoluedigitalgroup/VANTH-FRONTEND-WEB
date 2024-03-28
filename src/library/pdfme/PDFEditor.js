@@ -87,7 +87,7 @@ const PDFEditor = ({ basePdf, onReadyForSignature }) => {
             const fieldKeys = Object.keys(field);
             const newField = {};
             fieldKeys.forEach((key) => {
-                newField[key] = '###SIGN_HERE###';
+                newField[key] = key;
             });
             return newField;
         });

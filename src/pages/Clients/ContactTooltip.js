@@ -8,6 +8,7 @@ import { contactActivePageAtom } from '../../recoil/PaginationAtoms/Contact';
 import { useSetRecoilState } from "recoil";
 
 const ContactTooltip = ({
+  contactApprove,
   show,
   target,
   ref,
@@ -61,12 +62,13 @@ const ContactTooltip = ({
                     src="/assets/img/close1.png"
                   ></img>
                 </Col>
+
                 <Col md={6}>
                   <Button
                     variant="danger"
                     disabled={loading}
                     className="d-flex align-items-center px-3 border-0"
-                    onClick={() => handleSubmit("reject")}
+                    onClick={() => handleSubmit("rejected")}
                   >
                     <img src="/assets/img/X.png"></img>
                     &nbsp;
@@ -103,6 +105,28 @@ const ContactTooltip = ({
                         style={{ color: "#85A6A2" }}
                       ></div>
                     )}
+                  </Button>
+                </Col>
+
+                <Col style={{ marginTop: '10px' }} md={6}>
+                  <Button
+                    style={{ background: "#ff8c00" }}
+                    variant="danger"
+                    className="d-flex align-items-center px-3 border-0"
+                    disabled={loading}
+                    onClick={() => handleSubmit("delete")}
+                  >
+                    <img src="/assets/img/X.png" alt="Remove Icon" />
+                    &nbsp;
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        marginRight: "0.3rem",
+                      }}
+                      className="fw-bold"
+                    >
+                      Remover
+                    </span>
                   </Button>
                 </Col>
               </Row>

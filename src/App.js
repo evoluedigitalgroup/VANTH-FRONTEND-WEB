@@ -83,7 +83,7 @@ function App() {
           element={<DocumentVerification />}
         />
         <Route
-          path="/requested-signature/:companyId/:contractId/:docusignEnvelopeId"
+          path="/requested-signature/:companyId/:contractId/:docusignEnvelopeId/:recipientViwer"
           element={<RequestedSignature />}
         />
         <Route

@@ -17,6 +17,7 @@ export const GENERATE_DESIGNATION = "invite/get-code";
 export const INVITE_NEW_USER = "invite/invite-new-user";
 
 export const ADD_NEW_DOCUMENT_TYPE = "document/add-new-document-type";
+export const REMOVE_DOCUMENT_TYPE = "document/remove-document-type";
 
 export const PERMISSION_TABLE = "permissions/filter-users-list";
 export const CHANGE_PERMISSION = "permissions/change-permission";
@@ -29,6 +30,7 @@ export const CHANGE_PASSWORD = "auth/change-password";
 export const GET_PROFILE = "profile/get-profile";
 export const EDIT_PROFILE = "profile/edit-profile";
 export const GENERATE_LINK = "contacts/generate-document-request-link";
+export const SEND_GENERATED_LINK = "contacts/send-links"
 export const GENERATE_NEW_LINK = "contacts/get-document-file";
 export const GET_ALL_DOCUMENTS_LIST = "contacts/get-document-file";
 export const GET_ALL_DOCUMENTS_LIST_PUBLIC = "contacts/get-document-file-public";
@@ -48,4 +50,5 @@ export const UPDATE_CONTRACT_APPROVAL_STATUS_LINK = 'contract/update-contract-ap
 
 export const PLANS_LIST = 'plans/get-plans-list';
 export const PLAN_SUBSCRIBE = 'payment/subscribe-plan';
+export const REMOVE_PLAN_SUBSCRIBE = 'payment/remove-subscribe-plan';
 export const PLAN_USAGE = 'plans/usage';

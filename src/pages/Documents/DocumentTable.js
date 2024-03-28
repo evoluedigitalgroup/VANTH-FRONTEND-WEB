@@ -23,6 +23,7 @@ import { usageAtom } from "../../recoil/UsageAtoms/Usage";
 import NewPagination from "../../components/Pagination/NewPagination";
 import ImageUploadModal from "../../components/Document/ImageUploadModal";
 import TableRowDocument from "../../components/Document/table/TableRowDocument";
+import { formatarCNPJ, formatarCPF, formatarTelefone } from "../../library/contentformater/ContentFormater";
 
 const DocumentTable = ({
   tableRow,
@@ -57,7 +58,8 @@ const DocumentTable = ({
   useEffect(() => {
     setTableData(tableRow);
     getAllDocumentListData();
-  }, [tableRow]);
+  }, [tableRow, isMobile]);
+  
 
   const handleShowImageModal = (data, type) => {
     setDocument({
@@ -91,16 +93,14 @@ const DocumentTable = ({
   };
 
   const getHeightValue = (obj) => {
-    return idArray.includes(obj.id)
-      ? Math.ceil(
-          (getRequiredLength(obj) + getOtherInformationLength(obj)) /
-            (isMobile ? 1 : 3)
-        ) *
-          150 +
-          100 +
-          "px"
-      : "unset";
+    const totalLength = getRequiredLength(obj) + getOtherInformationLength(obj);
+    const baseHeight = isMobile ? 1 : 3;
+    const minHeight = idArray.includes(obj.id) ? totalLength / baseHeight * 200 + 100 + "px" : "unset";
+    return minHeight;
   };
+  
+
+  
 
   return (
     <div>
@@ -135,18 +135,18 @@ const DocumentTable = ({
                 <td onClick={() => handleShowRow(obj.id)} className="fw-bold">
                   {obj.name}
                 </td>
-                <td onClick={() => handleShowRow(obj.id)}>{obj.CPF}</td>
+                <td onClick={() => handleShowRow(obj.id)}>{formatarCPF(obj.CPF)}</td>
                 <td
                   className="d-none d-md-table-cell"
                   onClick={() => handleShowRow(obj.id)}
                 >
-                  {obj.CNPJ}
+                  {formatarCNPJ(obj.CNPJ)}
                 </td>
                 <td
                   className="d-none d-md-table-cell"
                   onClick={() => handleShowRow(obj.id)}
                 >
-                  {obj.phone}
+                  {formatarTelefone(obj.phone)}
                 </td>
                 <td onClick={() => handleShowRow(obj.id)}>{obj.date}</td>
                 <td
@@ -171,16 +171,16 @@ const DocumentTable = ({
                     }}
                     className={
                       obj.allStatus === "pending"
-                        ? "document-pending"
-                        : obj.allStatus === "wait"
                         ? "document-wait"
+                        : obj.allStatus === "wait"
+                        ? "document-pending"
                         : "document-success"
                     }
                   >
                     {obj.allStatus === "pending"
-                      ? "Aguard. doc."
-                      : obj.allStatus === "wait"
                       ? "Aguard. rev."
+                      : obj.allStatus === "wait"
+                      ? "Aguard. doc."
                       : "Concluído"}
                   </Button>
                 </td>
@@ -188,60 +188,59 @@ const DocumentTable = ({
                   obj.allStatus === "wait" ||
                   obj.allStatus === "approved") && (
                   <div>
-                    {idArray.includes(obj.id) ? (
-                      <Row
-                        className="position-absolute mt-5 my-2"
-                        style={{
-                          left: "0",
-                          bottom: "0",
-                          width: "100%",
-                          top: "0",
-                        }}
-                      >
-                        <>
-                          <Row className="mt-5 mt-md-0">
-                            {obj.otherInformation.map((objct, i) => {
-                              return (
-                                <Col key={`${i}`} md={4} xs={12}>
-                                  <Form>
-                                    <Form.Label className="Doc-Font-Color">
-                                      {objct?.key}
-                                    </Form.Label>
-                                    <FormGroup style={{ position: "relative" }}>
-                                      <Form.Control
-                                        placeholder="Sua informação"
-                                        type="text"
-                                        readOnly
-                                        value={
-                                          objct?.value
-                                            ? objct?.value
-                                            : objct?.placeholder
-                                        }
-                                        name="name"
-                                      />
-                                    </FormGroup>
-                                  </Form>
-                                </Col>
-                              );
-                            })}
-                          </Row>
+                  { idArray.includes(obj.id) ? (
+                    <div
+                    className="position-absolute my-3 mx-3"
+                    style={{
+                      left: "0",
+                      right: "0",
+                      top: "auto",
+                      transform: "translateY(10%)",
+                      overflowY: "auto",
+                    }}
+                    >
 
-                          <Row>
-                            <TableRowDocument
-                              obj={obj}
-                              permission={
-                                obj?.documentRequest?.requiredPermission
-                              }
-                              documentListData={documentListData}
-                              handleShowImageModal={handleShowImageModal}
-                            />
-                            <GenerateLinkBtn
-                              onClick={() => handleShowLinkModal(obj)}
-                              obj={obj}
-                              md={12}
-                            />
-                          </Row>
-                        </>
+                      <>
+                        <Row className="mt-5 mt-md-0">
+                          {obj.otherInformation.map((objct, i) => {
+                            return (
+                              <Col key={`${i}`} md={4} xs={12}>
+                                <Form>
+                                  <Form.Label className="Doc-Font-Color">
+                                    {objct?.key}
+                                  </Form.Label>
+                                  <FormGroup style={{ position: "relative" }}>
+                                    <Form.Control
+                                      placeholder="Sua informação"
+                                      type="text"
+                                      readOnly
+                                      value={
+                                        objct?.value
+                                          ? objct?.value
+                                          : objct?.placeholder
+                                      }
+                                      name="name"
+                                    />
+                                  </FormGroup>
+                                </Form>
+                              </Col>
+                            );
+                          })}
+                        </Row>
+
+                        <Row>
+                          <TableRowDocument
+                            obj={obj}
+                            permission={obj?.documentRequest?.requiredPermission}
+                            documentListData={documentListData}
+                            handleShowImageModal={handleShowImageModal}
+                          />
+                          <GenerateLinkBtn
+                            onClick={() => handleShowLinkModal(obj)}
+                            obj={obj}
+                            md={12}
+                          />
+                        </Row>
                         {obj.allStatus === "approved" && (
                           <Row>
                             <Col
@@ -256,10 +255,12 @@ const DocumentTable = ({
                             </Col>
                           </Row>
                         )}
-                      </Row>
-                    ) : (
-                      ""
-                    )}
+                      </>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
                   </div>
                 )}
               </tr>

@@ -43,6 +43,13 @@ const DocuSignReturn = () => {
           <img src="/assets/img/info.png" style={{ height: 200 }} />
         </div>
       );
+    } else if (response === 'pending_others') {
+      return (
+        <div className="d-flex mt-5 flex-column align-items-center justify-content-center w-100">
+          <h4 className="fw-bold mt-5">Aguardando os outros assinantes!</h4>
+          <img src="/assets/img/success.png" style={{ height: 200 }} />
+        </div>
+      );
     }
     return (
       <div className="d-flex mt-5 flex-column align-items-center justify-content-center w-100">
