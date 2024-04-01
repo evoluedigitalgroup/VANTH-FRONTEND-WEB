@@ -176,34 +176,19 @@ const GenerateLinkModel = ({
     });
   };
 
-  const unsecuredCopyToClipboard = (text) => {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    textArea.setSelectionRange(0, 99999);
-    document.execCommand("copy");
-    document.body.removeChild(textArea);
-  };
-
-  const securedCopyToClipboard = async (text) => {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    textArea.setSelectionRange(0, 99999);
-    await navigator.clipboard.writeText(text);
-    document.body.removeChild(textArea);
-  };
-
   const copyToClipboard = async (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    textArea.setSelectionRange(0, 99999);
     if (window.isSecureContext && navigator.clipboard) {
-      await securedCopyToClipboard();
+      await navigator.clipboard.writeText(text);
     } else {
-      unsecuredCopyToClipboard(text);
+      document.execCommand("copy");
     }
+    document.body.removeChild(textArea);
   };
 
   const submitForm = (e) => {
