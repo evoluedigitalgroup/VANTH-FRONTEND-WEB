@@ -176,19 +176,27 @@ const GenerateLinkModel = ({
     });
   };
 
-  function copyTextToClipboard(text) {
-    const textarea = document.createElement("textarea");
-    textarea.value = text;
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+    }
+    document.body.removeChild(textArea);
+  };
 
-    document.body.appendChild(textarea);
-
-    textarea.select();
-    textarea.setSelectionRange(0, 99999);
-
-    navigator.clipboard.writeText(textarea.value);
-
-    document.body.removeChild(textarea);
-  }
+  const copyTextToClipboard = (text) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+    } else {
+      unsecuredCopyToClipboard(text);
+    }
+  };
 
   const submitForm = (e) => {
     return new Promise((resolve, reject) => {
@@ -220,7 +228,10 @@ const GenerateLinkModel = ({
             console.log("Link copiado com sucesso");
           } catch (err) {
             console.error("Erro ao copiar o link: ", err);
-            toast.error("Erro ao copiar o link. Por favor, copie manualmente.");
+            toast.error(
+              "Erro ao copiar o link. Por favor, copie manualmente." +
+                err.message
+            );
           }
         } else {
           toast.error(res.message);
