@@ -6,11 +6,24 @@ import {
 	GENERATE_DESIGNATION,
 	INVITE_NEW_USER,
 	INCREMENT_COUNTER,
+	EMAIL_CONFIRMATION,
 } from "../url";
 
 export const loginAdmin = (submitData) => {
 	return new Promise((resolve, reject) => {
 		ApiCall(LOGIN_ADMIN, "post", submitData)
+			.then((res) => {
+				resolve(res.data);
+			})
+			.catch((err) => {
+				reject();
+			});
+	});
+};
+
+export const emailConfirmation = (submitData) => {
+	return new Promise((resolve, reject) => {
+		ApiCall(EMAIL_CONFIRMATION, "post", submitData)
 			.then((res) => {
 				resolve(res.data);
 			})
