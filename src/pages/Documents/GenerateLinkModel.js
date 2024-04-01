@@ -182,17 +182,25 @@ const GenerateLinkModel = ({
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
-    try {
-      document.execCommand("copy");
-    } catch (err) {
-      console.error("Unable to copy to clipboard", err);
-    }
+    textArea.setSelectionRange(0, 99999);
+    document.execCommand("copy");
     document.body.removeChild(textArea);
   };
 
-  const copyTextToClipboard = (text) => {
+  const securedCopyToClipboard = async (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    textArea.setSelectionRange(0, 99999);
+    await navigator.clipboard.writeText(text);
+    document.body.removeChild(textArea);
+  };
+
+  const copyToClipboard = async (text) => {
     if (window.isSecureContext && navigator.clipboard) {
-      navigator.clipboard.writeText(text);
+      await securedCopyToClipboard();
     } else {
       unsecuredCopyToClipboard(text);
     }
@@ -217,10 +225,10 @@ const GenerateLinkModel = ({
         generateLink: link,
       };
 
-      generateLink(submitData).then((res) => {
+      generateLink(submitData).then(async (res) => {
         if (res.success) {
           try {
-            copyTextToClipboard(link);
+            await copyToClipboard(link);
 
             setRefresh(refresh + 1);
             toast.success(res.message);
@@ -474,7 +482,6 @@ const GenerateLinkModel = ({
                 onClickSms();
               }}
             >
-              {/* Encaminhar */}
               Copiar link &nbsp;
               {loading && (
                 <div
