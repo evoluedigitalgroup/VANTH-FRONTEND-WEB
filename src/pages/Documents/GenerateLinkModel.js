@@ -66,8 +66,6 @@ const GenerateLinkModel = ({
     });
   };
 
-
-
   const handleSubmitData = () => {
     console.log("formValues : ", formValues);
     console.log("otherInformation : ", otherInformation);
@@ -118,7 +116,7 @@ const GenerateLinkModel = ({
         setLoading(false);
         setPermission(res.data);
 
-        console.log("editData: ", editData)
+        console.log("editData: ", editData);
       } else {
         setLoading(false);
       }
@@ -178,15 +176,6 @@ const GenerateLinkModel = ({
     });
   };
 
-  async function writeClipboardText(text, func) {
-    try {
-      await navigator.clipboard.writeText(text).then(func)
-    } catch (err) {
-      console.error('Erro ao copiar o link: ', err);
-      toast.error('Erro ao copiar o link. Por favor, copie manualmente.');
-    }
-  }
-
   function copyTextToClipboard(text) {
     const textarea = document.createElement("textarea");
     textarea.value = text;
@@ -194,18 +183,21 @@ const GenerateLinkModel = ({
     document.body.appendChild(textarea);
 
     textarea.select();
+    textarea.setSelectionRange(0, 99999);
 
-    document.execCommand("copy");
+    navigator.clipboard.writeText(textarea.value);
 
     document.body.removeChild(textarea);
-}
+  }
 
   const submitForm = (e) => {
     return new Promise((resolve, reject) => {
-
-      if (Object.keys(formValues).filter((key) => formValues[key] === true).length === 0) {
-        toast.error('Selecione pelo menos um documento para enviar');
-        return
+      if (
+        Object.keys(formValues).filter((key) => formValues[key] === true)
+          .length === 0
+      ) {
+        toast.error("Selecione pelo menos um documento para enviar");
+        return;
       }
 
       const submitData = {
@@ -219,25 +211,21 @@ const GenerateLinkModel = ({
 
       generateLink(submitData).then((res) => {
         if (res.success) {
+          try {
+            copyTextToClipboard(link);
 
-        try {
-          copyTextToClipboard(link)
-
-          setRefresh(refresh + 1);
-          toast.success(res.message);
-          handleClose();
-          console.log('Link copiado com sucesso');
-        } catch (err) {
-          console.error('Erro ao copiar o link: ', err);
-          toast.error('Erro ao copiar o link. Por favor, copie manualmente.');
-        }
-          
+            setRefresh(refresh + 1);
+            toast.success(res.message);
+            handleClose();
+            console.log("Link copiado com sucesso");
+          } catch (err) {
+            console.error("Erro ao copiar o link: ", err);
+            toast.error("Erro ao copiar o link. Por favor, copie manualmente.");
+          }
         } else {
           toast.error(res.message);
         }
       });
-      
-      
     });
   };
 
@@ -262,52 +250,49 @@ const GenerateLinkModel = ({
     }
   };
 
-
   const onClickWhatsApp = async () => {
     await submitForm();
     window.open(`https://api.whatsapp.com/send?text=${link}`, "_blank");
   };
 
   const onClickSms = async () => {
-    const phone = clientFormValues.phone
-    const type = 'sms'
+    const phone = clientFormValues.phone;
+    const type = "sms";
 
     const submitData = {
-      phone, 
+      phone,
       link,
       type,
-    }
+    };
 
-    const res = await sendClientSms(submitData)
-    
+    const res = await sendClientSms(submitData);
+
     if (res.success) {
-      toast.success(res.message)
+      toast.success(res.message);
     } else {
-      console.log(res)
-      toast.error("Error!")
-    }    
-
+      console.log(res);
+      toast.error("Error!");
+    }
   };
 
   const onClickEmail = async () => {
-    const email = clientFormValues.email
-    const type = 'email'
+    const email = clientFormValues.email;
+    const type = "email";
 
     const submitData = {
-      email, 
+      email,
       link,
       type,
-    }
+    };
 
-    const res = await sendClientSms(submitData)
-    
+    const res = await sendClientSms(submitData);
+
     if (res.success) {
-      toast.success(res.message)
+      toast.success(res.message);
     } else {
-      console.log(res)
-      toast.error("Error!")
-    }    
-
+      console.log(res);
+      toast.error("Error!");
+    }
   };
 
   const AddNewPermission = () => {
@@ -450,33 +435,32 @@ const GenerateLinkModel = ({
             </div>
           </Col>
           <Col md={6} className="my-3 text-md-end text-center">
-
             <button
-                onClick={onClickWhatsApp}
-                style={{ background: "transparent", border: 0 }}
-              >
-                <img src="/assets/img/whatsApp.svg" />
-              </button>
-              <button
-                onClick={onClickEmail}
-                style={{ background: "transparent", border: 0 }}
-              >
-                <img src="/assets/img/mail.png" />
-              </button>
-              <button
-                onClick={onClickSms}
-                style={{ background: "transparent", border: 0 }}
-              >
-                <img src="/assets/img/sms.png" />
-              </button>
+              onClick={onClickWhatsApp}
+              style={{ background: "transparent", border: 0 }}
+            >
+              <img src="/assets/img/whatsApp.svg" />
+            </button>
+            <button
+              onClick={onClickEmail}
+              style={{ background: "transparent", border: 0 }}
+            >
+              <img src="/assets/img/mail.png" />
+            </button>
+            <button
+              onClick={onClickSms}
+              style={{ background: "transparent", border: 0 }}
+            >
+              <img src="/assets/img/sms.png" />
+            </button>
 
             <Button
               disabled={loading}
               className="px-5 me-3"
               style={{ background: "#1C3D59", border: "none" }}
               onClick={() => {
-                submitForm()
-                onClickSms()
+                submitForm();
+                onClickSms();
               }}
             >
               {/* Encaminhar */}
@@ -497,9 +481,5 @@ const GenerateLinkModel = ({
     </div>
   );
 };
-
-
-
-
 
 export default GenerateLinkModel;
