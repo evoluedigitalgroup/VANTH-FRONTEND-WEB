@@ -42,3 +42,4 @@ export const PAGE_LIMIT = 10;
 export default config;
 
 export const whatsappNumber = "5511993000803";
+ 
