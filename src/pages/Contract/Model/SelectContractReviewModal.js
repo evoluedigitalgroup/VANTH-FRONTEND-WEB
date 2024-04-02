@@ -34,6 +34,7 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
     setContractApprovalData({
       data: templatesData,
       id: templatesData.data.id,
+      uuid: templatesData.data.uuid,
       documentId,
       url,
       showButtons: (!isApproved && !isRejected) && !isAnyRejected

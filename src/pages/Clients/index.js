@@ -153,7 +153,7 @@ const Clients = () => {
   return (
     <>
       <Helmet>
-        <title>Vanth System | Clients</title>
+        <title>Vanth System | Clientes</title>
       </Helmet>
       <AfterAuth>
         <div className="d-flex align-items-center justify-content-between mt-3 mx-md-5 mx-3">
@@ -178,7 +178,7 @@ const Clients = () => {
         <Card className="mx-0 mx-md-5 my-md-3 p-3 px-md-4 cardComponent">
           {/* <NAVBAR /> */}
           <TableNavbar
-            title={"Clients"}
+            title={"Clientes"}
             setSearch={setSearch}
             onEnter={onEnter}
             refresh={refresh}

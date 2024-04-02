@@ -12,9 +12,9 @@ import {
   selectedTemplatesAtom,
   templatesListAtom,
 } from "../../../recoil/ContractAtoms/Templates";
-import { generateContractLink } from "../api";
+import { generateContractLink, getContractList } from "../api";
 import { CONTRACT_LINK_URL } from "../../../config";
-import { contractModels, profileAtom } from "../../../recoil/Atoms";
+import { contractModels, contractSelectedUsers, profileAtom } from "../../../recoil/Atoms";
 
 const ContractCopylinkModal = ({
   show,
@@ -22,12 +22,15 @@ const ContractCopylinkModal = ({
   selectedOption,
   refresh,
   setRefresh,
-  link = false
+  link
 }) => {
+
   const [loading, setLoading] = useState(false);
-  const [generatedLink, setGeneratedLink] = useState(link);
+  const [generatedLink, setGeneratedLink] = useState([link]);
   const [documents, setDocuments] = useState([]);
   const profile = useRecoilValue(profileAtom);
+
+  const selectionList = useRecoilValue(contractSelectedUsers);
 
   const allTemplatesList = useRecoilValue(templatesListAtom);
   const [selectedTemplates, setSelectedTemplates] = useRecoilState(
@@ -38,6 +41,10 @@ const ContractCopylinkModal = ({
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [models, setModals] = useRecoilState(contractModels);
 
+  useEffect(() => {
+    setGeneratedLink(link);
+  }, [link]);
+  
   const handlePdfSelect = (file) => {
     setSelectedPdf(file);
   };
@@ -49,10 +56,6 @@ const ContractCopylinkModal = ({
     setShowReviewaAndInformationModal(true);
     onHide();
   };
-
-  useEffect(() => {
-    setGeneratedLink(link);
-  }, [link]);
 
   const removeSelectedTemplates = (clickId) => {
     setSelectedTemplates(
@@ -137,16 +140,34 @@ const ContractCopylinkModal = ({
   };
 
   const onGenerateLink = () => {
+    let generatedLinks = []
+
+    console.log(selectionList)
+    setLoading(true)
+
+    let submitClientIdList = []
+    selectionList.forEach((item, index) => submitClientIdList.push(item.value))
+
     const submitData = {
       selectedTemplates: selectedTemplates,
-      selectedContact: selectedOption.value,
+      selectedContacts: submitClientIdList,
     };
-    console.log(submitData);
-    setLoading(true)
+
+    console.log('submitData', submitData);
+
     generateContractLink(submitData).then((res) => {
       if (res.success) {
-        const generatedLinkValue = `${CONTRACT_LINK_URL}${profile.company}/${res.data.uuid}/${res.data.docusignEnvelopeId}`;
-        setGeneratedLink(generatedLinkValue);
+        let generatedLinkValue
+
+        submitClientIdList.forEach((item, index) => {
+          generatedLinkValue = `${CONTRACT_LINK_URL}${profile.company}/${res.data.uuid}/${res.data.docusignEnvelopeId}/${item}`;
+          console.log("CONTRACT_DATA_URI", generatedLinkValue)
+          generatedLinks.push(generatedLinkValue)
+
+          setGeneratedLink(generatedLinks)
+        })
+
+        setGeneratedLink(generatedLinks)
       } else {
         toast.error(res.message)
       }
@@ -171,17 +192,42 @@ const ContractCopylinkModal = ({
                 fontSize: "14px",
               }}
             >
-              Link para compartilhar com o cliente
+              Links para compartilhar com os clientes
             </h6>
           </div>
           <Row>
-            <Col md={6}>
+            <Col md={12}>
               <InputGroup className="mb-3" style={{ borderRadius: "6px" }}>
-                <Form.Control
-                  className="p-2 border-0 fw-bold shadow-none"
-                  style={{ backgroundColor: "#F4F6F8" }}
-                  value={generatedLink}
-                />
+                { generatedLink.map((item, i) => {
+                  
+                  if (!item.name) {
+                    return(
+                      <div
+                      key={i}
+                      > 
+                        <Form.Control
+                        className="p-2 border-0 fw-bold shadow-none"
+                        style={{ backgroundColor: "#F4F6F8" }}
+                        value={item}
+                        />
+                      </div>
+                    )
+                  }
+
+                  return(
+                    <div
+                    key={i}
+                    >
+                      <h7 className="fw-bold">Link de {item.name}</h7>
+
+                      <Form.Control
+                      className="p-2 border-0 fw-bold shadow-none"
+                      style={{ backgroundColor: "#F4F6F8" }}
+                      value={item.link}
+                      />
+                    </div>
+                  )
+                }) }
               </InputGroup>
             </Col>
           </Row>
@@ -193,12 +239,51 @@ const ContractCopylinkModal = ({
                 <h6
                   style={{
                     fontWeight: "600",
-                    fontSize: "12px",
+                    fontSize: "15px",
                     color: "#85A6A2",
                   }}
                 >
-                  Enviar com:
+                  Os links foram enviados para o e-mail de cada participante!
                 </h6>
+              </div>
+            </div>
+          </Col>
+          <Col xs={12} md={4}>
+            <div className="d-flex justify-content-md-end justify-content-center mt-md-4">
+                
+            </div>
+          </Col>
+        </Row>
+      </>
+    ) : null
+  }
+
+
+  //Copy link button
+
+  /*
+                <button
+                className="py-2"
+                style={{
+                  width: "100%",
+                  fontSize: "12px",
+                  fontWeight: 400,
+                  background: "#0068FF",
+                  border: "0",
+                  borderRadius: "6px",
+                  color: "white",
+                  fontWeight: 800,
+                }}
+                onClick={submitForm}
+              >
+                Copiar&nbsp;link
+              </button>
+
+
+
+                Share Buttons:
+
+
                 <a href={`https://wa.me/?text=${encodeURI(generatedLink)}`}>
                   <img
                     // style={{ height: "60px", width: "60px" }}
@@ -217,33 +302,8 @@ const ContractCopylinkModal = ({
                     src="/assets/img/sms.png"
                   />
                 </a>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} md={4}>
-            <div className="d-flex justify-content-md-end justify-content-center mt-md-4">
-              <button
-                className="py-2"
-                style={{
-                  width: "100%",
-                  fontSize: "12px",
-                  fontWeight: 400,
-                  background: "#0068FF",
-                  border: "0",
-                  borderRadius: "6px",
-                  color: "white",
-                  fontWeight: 800,
-                }}
-                onClick={submitForm}
-              >
-                Copiar&nbsp;link
-              </button>
-            </div>
-          </Col>
-        </Row>
-      </>
-    ) : null
-  }
+
+  */
 
   const GenerateLinkBlock = () => {
     return !generatedLink ? (
@@ -296,31 +356,6 @@ const ContractCopylinkModal = ({
             </Button>
           </div>
           <div
-            className="mt-2 selctedUserNameAndTelephoneLabel"
-          >
-            <div
-              className="p-2"
-              style={{ border: "1px solid #C7C7C7", borderRadius: "8px" }}
-            >
-              <div className="d-flex justify-content-between mx-4">
-                <div>
-                  <i
-                    className="bi bi-person-fill px-1"
-                    style={{ color: "#0068FF" }}
-                  ></i>
-                  {selectedOption?.label}
-                </div>
-                <div>
-                  <i
-                    className="bi bi-telephone-fill px-1"
-                    style={{ color: "#0068FF" }}
-                  ></i>
-                  {selectedOption?.phoneNumber}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
             style={{ height: "280px", overflowY: "scroll" }}
             className="mt-3 px-3"
           >
@@ -329,7 +364,10 @@ const ContractCopylinkModal = ({
                 .filter((obj) => selectedTemplates.indexOf(obj.id) > -1)
                 .map((item, index) => (
                   <DocumentBlock data={item} />
-                ))}
+                ))
+                
+                
+                }
               <AddNewDocument />
             </Row>
           </div>

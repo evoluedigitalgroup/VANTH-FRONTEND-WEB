@@ -59,7 +59,7 @@ const NavbarCom = ({ setShowSide, showSide }) => {
               ></img>
             </div>
           </Col>
-          <Col md={10} lg={10} sm={10} xs={9} className="py-1">
+          <Col md={10} lg={10} sm={10} xs={9} className="py-1" style={{ background: "linear-gradient(to right, rgba(64, 108, 173, 0.2), #4F555A)" }} >
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Navbar.Brand className="ps-0 d-md-none align-items-center justify-content-center">

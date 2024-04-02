@@ -26,6 +26,7 @@ import PurchasePlan from "./pages/PurchasePlan";
 import RequestedSignature from "./pages/Public/RequestedSignature";
 import DocuSignReturn from "./pages/DocuSignReturn";
 import DocumentVerification from "./pages/Public/DocumentVerification";
+import { EmailConfirmation } from "./pages/EmailConfirmation";
 
 function App() {
   const login = useRecoilValue(loginAtom);
@@ -83,12 +84,16 @@ function App() {
           element={<DocumentVerification />}
         />
         <Route
-          path="/requested-signature/:companyId/:contractId/:docusignEnvelopeId"
+          path="/requested-signature/:companyId/:contractId/:docusignEnvelopeId/:recipientViwer"
           element={<RequestedSignature />}
         />
         <Route
           path="/contract/docusign/return-url"
           element={<DocuSignReturn />}
+        />
+        <Route
+          path="/email-confirmation/:token"
+          element={<EmailConfirmation />}
         />
       </Routes>
       {/* </Suspense> */}

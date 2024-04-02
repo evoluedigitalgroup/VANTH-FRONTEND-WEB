@@ -42,8 +42,7 @@ const MyPlan = () => {
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
     { width: 550, itemsToShow: 2, itemsToScroll: 2 },
-    { width: 768, itemsToShow: 3, itemsToScroll: 3 },
-    { width: 1200, itemsToShow: 4 },
+    { width: 1200, itemsToShow: 3, itemsToScroll: 3 },
   ];
 
   const CustomLeftArrow = () => {
@@ -139,6 +138,7 @@ const MyPlan = () => {
   }
 
   const PlansBox = () => {
+  
     return (
       <div className="mt-2 mb-3">
         <div className="d-flex gap-3">
@@ -161,31 +161,23 @@ const MyPlan = () => {
         </div>
         <Row className="justify-content-center mt-3">
           <Carousel
-            className="d-md-none"
+            className="d-xl-none"
             breakPoints={breakPoints}
             disableArrowsOnEnd={false}
             pagination={false}
           >
-            {
-              plansList?.map((obj, index) => {
-                return (
-                  <UpgradePlan index={index} key={`${index}`} data={obj} isUpdate={!!profile?.companyData?.selectedPlan} />
-                )
-              })
-            }
+            {plansList?.map((obj, index) => (
+              <UpgradePlan index={index} key={`${index}`} data={obj} isUpdate={!!profile?.companyData?.selectedPlan} />
+            ))}
           </Carousel>
-          {
-            plansList?.map((obj, index) => {
-              return (
-                <Col key={`${index}`} md={4} className="d-md-flex d-none justify-content-center">
-                  <UpgradePlan index={index} data={obj} isUpdate={!!profile?.companyData?.selectedPlan} />
-                </Col>
-              )
-            })
-          }
+          {plansList?.map((obj, index) => (
+            <Col key={`${index}`} md={4} className="d-xl-flex d-none justify-content-center">
+              <UpgradePlan index={index} data={obj} isUpdate={!!profile?.companyData?.selectedPlan} />
+            </Col>
+          ))}
         </Row>
       </div>
-    )
+    );
   }
 
   return (

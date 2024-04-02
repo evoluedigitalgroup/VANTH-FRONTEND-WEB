@@ -12,6 +12,8 @@ import {
 import NewPagination from "../../components/Pagination/NewPagination";
 import RecordFound from "../../components/RecordFound";
 import ContactTooltip from "./ContactTooltip";
+import { formatarCNPJ, formatarCPF, formatarTelefone } from "../../library/contentformater/ContentFormater";
+import { Col, Modal, Row } from "react-bootstrap";
 
 const ContactTable = ({
   tableRow,
@@ -54,6 +56,33 @@ const ContactTable = ({
     setShow(true);
     setTarget(event.target);
   };
+
+  let modalState = false
+
+  const handleRemoveClient = (obj) => {
+    return(
+      <div>
+        <Modal
+        className='d-flex mt-5 align-items-center zindex'
+        show={modalState}
+        >
+        <Row className='p-3 px-4 mt-2'>
+					<Col md={10} xs={9}>
+						<h5 className='fw-bolder'>
+							Remova o cliente da sua lista de clientes!
+						</h5>
+					</Col>
+					<Col className='text-end'>
+						<img
+							style={{ cursor: "pointer" }}
+							onClick={() => modalState = false}
+							src='assets/img/close.png'></img>
+					</Col>
+				</Row>
+        </Modal>
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -102,7 +131,7 @@ const ContactTable = ({
                       : null
                   }
                 >
-                  {obj.CPF}
+                  {formatarCPF(obj.CPF)}
                 </td>
                 <td
                   className="d-none d-md-table-cell"
@@ -112,7 +141,7 @@ const ContactTable = ({
                       : null
                   }
                 >
-                  {obj.CNPJ}
+                  {formatarCNPJ(obj.CNPJ)}
                 </td>
                 <td
                   className="d-none d-md-table-cell"
@@ -122,7 +151,7 @@ const ContactTable = ({
                       : null
                   }
                 >
-                  {obj.phone}
+                  {formatarTelefone(obj.phone)}
                 </td>
                 <td
                   onClick={
@@ -165,7 +194,7 @@ const ContactTable = ({
                       obj.contactApprove !== "rejected" &&
                       obj.contactApprove !== "approved"
                         ? (e) => handalShowTooltip(e, obj.id)
-                        : null
+                        : (e) => handalShowTooltip(e, obj.id)
                     }
                   >
                     {obj.contactApprove === "pending"
@@ -176,6 +205,7 @@ const ContactTable = ({
                   </Button>
                   {show && (
                     <ContactTooltip
+                      contactApprove={obj.contactApprove}
                       show={show}
                       target={target}
                       ref={ref}

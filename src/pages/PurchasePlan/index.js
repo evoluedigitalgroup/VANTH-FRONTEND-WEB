@@ -107,6 +107,18 @@ const PurchasePlan = () => {
             .then((res) => {
               if (res.success) {
                 setUsage(res.data);
+
+                try {
+                  let tutorialState = JSON.parse(localStorage.getItem('recoil-persist')).login.permissions.tutorial;
+                  tutorialState = true;
+  
+                  const localStorageData = JSON.parse(localStorage.getItem('recoil-persist'));
+                  localStorageData.login.permissions.tutorial = tutorialState;
+                  localStorage.setItem('recoil-persist', JSON.stringify(localStorageData));
+                } catch (err) {
+                  console.error('erro!', err)
+                }
+
                 toast.success("Plano comprado com sucesso");
                 redirectToInsights();
               }
@@ -426,7 +438,7 @@ const PurchasePlan = () => {
                             }`,
                         }}
                       >
-                        Endereço Linha 1
+                        Endereço
                       </Form.Label>
                       <FormGroup>
                         <InputGroup
@@ -449,9 +461,9 @@ const PurchasePlan = () => {
                           ></InputGroup.Text>
                           <Form.Control
                             {...register("addressLine1", {
-                              required: "Por favor insira a linha de endereço 1",
+                              required: "Por favor, insira um endereço!",
                             })}
-                            placeholder="Insira a linha de endereço 1"
+                            placeholder="Insira um Endereço"
                             type="text"
                             className="border-0 Cardinput badge-relative"
                             style={{
@@ -474,7 +486,7 @@ const PurchasePlan = () => {
                             }`,
                         }}
                       >
-                        Endereço Linha 2
+                        Complemento
                       </Form.Label>
                       <FormGroup>
                         <InputGroup
@@ -496,10 +508,7 @@ const PurchasePlan = () => {
                             }}
                           ></InputGroup.Text>
                           <Form.Control
-                            {...register("addressLine2", {
-                              required: "Por favor insira a linha de endereço 2",
-                            })}
-                            placeholder="Insira a linha de endereço 2"
+                            placeholder="Insira um complemento (opcional)"
                             type="text"
                             className="border-0 Cardinput badge-relative"
                             style={{

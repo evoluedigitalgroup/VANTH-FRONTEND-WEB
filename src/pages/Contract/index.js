@@ -215,6 +215,7 @@ const Contact = () => {
     const response = await updateContractApprovalStatus({
       contractId: contractApprovalData?.id,
       documentId: contractApprovalData?.documentId,
+      uuid: contractApprovalData?.uuid,
       action: action,
     });
 

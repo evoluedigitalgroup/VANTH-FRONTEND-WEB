@@ -15,6 +15,7 @@ import TableRowDocument from "../../../components/Document/table/TableRowDocumen
 import { attachDocument, getAllDocumentsList, getAllDocumentsPublicList, updateClientContact } from "../../Clients/api";
 import { getDocument } from "../../../helper/API/document";
 import { incrementCounter } from "../../../helper/API/auth";
+import { formatarCNPJ, formatarCPF, formatarTelefone } from "../../../library/contentformater/ContentFormater";
 
 const DocumentVerification = () => {
   const inputRef = useRef();
@@ -218,33 +219,8 @@ const DocumentVerification = () => {
               <Row>
                 <Col md={6} xs={12}>
                   <h6 className="fw-bold">
-                    Prosperity solicitou as seguintes informações:
+                    Envie as seguintes informações:
                   </h6>
-                </Col>
-                <Col md={6} xs={12}>
-                  <div className="d-flex justify-content-end">
-                    {(
-                      <Button
-                        onClick={handleSubmit}
-                        className="p-3 px-4 fw-bold border-0"
-                        disabled={loading || !showButton}
-                        style={{
-                          opacity: showButton ? 1 : 0.5,
-                          width: "fit-content",
-                          background: "#0068ff",
-                        }}
-                      >
-                        Encaminhar
-                        {loading && (
-                          <Spinner
-                            animation="grow"
-                            variant="light"
-                            className="ms-3 py-2 fw-bold fs-4"
-                          />
-                        )}
-                      </Button>
-                    )}
-                  </div>
                 </Col>
               </Row>
               <Row className="mt-3">
@@ -291,7 +267,7 @@ const DocumentVerification = () => {
                             placeholder="Telefone"
                             type="text"
                             className="Cardinput"
-                            value={data?.phone}
+                            value={formatarTelefone(data?.phone)}
                             disabled
                           />
                         </InputGroup>
@@ -422,6 +398,33 @@ const DocumentVerification = () => {
                   handleShowImageModal={() => { }}
                 />
               </Row>
+
+              <Col md={6} xs={12}>
+                  <div className="d-flex">
+                    {(
+                      <Button
+                        onClick={handleSubmit}
+                        className="p-3 px-4 fw-bold border-0"
+                        disabled={loading || !showButton}
+                        style={{
+                          marginTop: '10px',
+                          opacity: showButton ? 1 : 0.5,
+                          width: "fit-content",
+                          background: "#0068ff",
+                        }}
+                      >
+                        Encaminhar
+                        {loading && (
+                          <Spinner
+                            animation="grow"
+                            variant="light"
+                            className="ms-3 py-2 fw-bold fs-4"
+                          />
+                        )}
+                      </Button>
+                    )}
+                  </div>
+                </Col>
 
             </>
           </Card>

@@ -14,7 +14,7 @@ const envData = (ENV, local, test, production) => {
   }
 };
 
-export const ENV_TYPE = "production"; // local // test // production
+export const ENV_TYPE = "local"; // local // test // production
 
 export const BASE_URL = envData(
   ENV_TYPE,
@@ -42,3 +42,4 @@ export const PAGE_LIMIT = 10;
 export default config;
 
 export const whatsappNumber = "5511993000803";
+ 

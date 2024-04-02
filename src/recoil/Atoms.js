@@ -50,6 +50,11 @@ export const contractSelectedUser = atom({
   default: null,
 });
 
+export const contractSelectedUsers = atom({
+  key: "contractSelectedUsersAtom",
+  default: [],
+});
+
 export const contractSelectedFiles = atom({
   key: "contractSelectedFilesAtom",
   default: null,

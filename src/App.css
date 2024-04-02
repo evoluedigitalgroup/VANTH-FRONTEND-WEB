@@ -225,7 +225,7 @@ body {
 
 .form-check-input {
   box-shadow: none !important;
-  border: 1px solid #85a6a2 !important;
+  border: 1px solid #0068FF !important;
 }
 
 .input-group-text {
@@ -258,7 +258,7 @@ body {
   width: 0%;
   left: 0;
   bottom: -5px;
-  background: #85A6A2;
+  background: #0068FF;
   transition: 200ms;
 } */
 
@@ -268,7 +268,7 @@ body {
 
 .active {
   color: #000;
-  /* border-bottom: 3px solid #85A6A2 !important; */
+  /* border-bottom: 3px solid #0068FF !important; */
 }
 
 .actives {
@@ -281,13 +281,13 @@ body {
 }
 
 .form-check-input:checked {
-  background-color: #85a6a2 !important;
+  background-color: #0068FF !important;
 }
 
 /* Navbar */
 
 .active-to {
-  background-color: #85a6a2 !important;
+  background-color: #0068FF !important;
   font-weight: 600 !important;
 }
 
@@ -321,7 +321,7 @@ body {
   left: 0%;
   height: 3px;
   width: 30% !important;
-  background-color: #85a6a2;
+  background-color: #0068FF;
   transition: 200ms;
 }
 
@@ -355,7 +355,7 @@ body {
   position: absolute;
   height: 25px;
   width: 3px;
-  background-color: #85a6a2;
+  background-color: #0068FF;
   top: 0;
   left: -60px;
 }
@@ -375,7 +375,7 @@ body {
 }
 
 .T-active {
-  background-color: #85a6a2 !important;
+  background-color: #0068FF !important;
 }
 
 .toggle {
@@ -404,11 +404,11 @@ body {
 .btnn:hover {
   font-weight: 900 !important;
   color: white !important;
-  background-color: #85a6a2 !important;
+  background-color: #0068FF !important;
 }
 
 .active-to {
-  background-color: #85a6a2 !important;
+  background-color: #0068FF !important;
 }
 
 .fs-color {
@@ -462,7 +462,7 @@ body {
 }
 
 .border-left {
-  border-left: 5px solid #85a6a2;
+  border-left: 5px solid #0068FF;
 }
 
 .row-height {
@@ -589,7 +589,7 @@ body {
 }
 
 .activeBtnTable {
-  background: #85a6a2 !important;
+  background: #0068FF !important;
   color: white !important;
   font-weight: bold !important;
 }
@@ -657,19 +657,19 @@ body {
 }
 
 .border-chart-label1 {
-  border-top: 1px solid #85a6a2;
-  border-bottom: 1px solid #85a6a2;
-  border-left: 1px solid #85a6a2;
+  border-top: 1px solid #0068FF;
+  border-bottom: 1px solid #0068FF;
+  border-left: 1px solid #0068FF;
   border-right: 0px;
   padding-left: 2rem !important;
   border-radius: 5px 0px 0px 5px;
 }
 
 .border-chart-label2 {
-  border-top: 1px solid #85a6a2;
-  border-bottom: 1px solid #85a6a2;
+  border-top: 1px solid #0068FF;
+  border-bottom: 1px solid #0068FF;
   border-left: 0px;
-  border-right: 1px solid #85a6a2;
+  border-right: 1px solid #0068FF;
   padding-right: 1rem;
   border-radius: 0px 5px 5px 0px;
 }
@@ -768,7 +768,7 @@ width: 100% !important;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background: #85A6A2 !important; */
+  /* background: #0068FF !important; */
 }
 
 .contact-wait {

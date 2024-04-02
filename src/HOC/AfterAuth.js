@@ -124,7 +124,7 @@ const AfterAuth = ({ children }) => {
       ) : null}
 
       <div className="position-fixed c-point" style={{ bottom: 10, right: 10 }}>
-        <a href={`whatsapp://send?phone=${whatsappNumber}`}>
+        <a href={`https://api.whatsapp.com/send?phone=${whatsappNumber}&text=Ol%C3%A1%2C+Tudo+bem%3F+Gostaria+de+saber+mais+sobre+a+Vanth+Docs+System.`}>
           <img
             src="/assets/img/whatsapplogo.png"
             style={{ height: "40px", width: "40px" }}

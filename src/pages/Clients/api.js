@@ -10,6 +10,7 @@ import {
   ADD_NEW_DOCUMENT_TYPE,
   GET_ALL_DOCUMENTS_LIST_PUBLIC,
   PUBLIC_UPDATE_CONTACT,
+  REMOVE_DOCUMENT_TYPE,
 } from "../../helper/url";
 
 export const getContactList = (page, search, limit = 10) => {
@@ -56,6 +57,18 @@ export const contactForm = (submitData) => {
 export const addNewDocumentType = (submitData) => {
   return new Promise((resolve, reject) => {
     AfterAuthApi(ADD_NEW_DOCUMENT_TYPE, "post", submitData)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject();
+      });
+  })
+};
+
+export const removeDocumentType = (submitData) => {
+  return new Promise((resolve, reject) => {
+    AfterAuthApi(REMOVE_DOCUMENT_TYPE, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })

@@ -9,7 +9,7 @@ const Loader = ({ message = () => { }, showMessage = false }) => {
 				width: showMessage ? '100%' : 'unset',
 				flexDirection: showMessage ? 'column' : 'unset'
 			}}>
-			<Spinner animation='border' role='status' style={{ color: "#85A6A2" }}>
+			<Spinner animation='border' role='status' style={{ color: "#0068FF" }}>
 				<span className='visually-hidden'>Em processamento...</span>
 			</Spinner>
 			{showMessage ? <div className='ms-2 mt-3 h4 text-center'>{message()}</div> : null}
