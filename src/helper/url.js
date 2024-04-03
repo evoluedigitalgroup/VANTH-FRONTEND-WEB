@@ -7,6 +7,8 @@ export const APPROVE_ADDRESS_PROOF = "doc/address-proof";
 export const ATTACH_DOCUMENT = "doc/attachment-document";
 export const PUBLIC_UPDATE_CONTACT = "doc/update-contact";
 export const EMAIL_CONFIRMATION = "auth/confirm";
+export const RESET_PASSWORD = "auth/reset-password";
+export const FORGOT_PASSWORD = "auth/forgot-password";
 
 export const GET_DOCUMENT_DETAIL = "get-document-details";
 
