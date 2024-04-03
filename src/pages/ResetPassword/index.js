@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 export function ResetPassword() {
   const { token } = useParams();
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
   const [formValues, setFormValues] = useState({
     password: "",
