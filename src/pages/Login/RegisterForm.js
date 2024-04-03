@@ -62,7 +62,7 @@ const RegisterForm = ({
         {company && (
           <Row>
             <Col md={12} className="mt-3">
-              <Form.Label className="fs-6 fw-bold">nome da empresa</Form.Label>
+              <Form.Label className="fs-6 fw-bold">Nome da empresa</Form.Label>
               <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1" className="p-2">
                   <i className="bi bi-hash" style={{ color: "#CED4DB" }}></i>
@@ -79,7 +79,10 @@ const RegisterForm = ({
               <Form.Label className="fs-6 fw-bold">Nome</Form.Label>
               <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1" className="p-2">
-                  <i className="bi bi-person-fill" style={{ color: "#CED4DB" }}></i>
+                  <i
+                    className="bi bi-person-fill"
+                    style={{ color: "#CED4DB" }}
+                  ></i>
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Seu primeiro e último nome"
@@ -93,7 +96,10 @@ const RegisterForm = ({
               <Form.Label className="fs-6 fw-bold">E-mail</Form.Label>
               <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1" className="p-2">
-                  <i className="bi bi-envelope" style={{ color: "#CED4DB" }}></i>
+                  <i
+                    className="bi bi-envelope"
+                    style={{ color: "#CED4DB" }}
+                  ></i>
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="E-mail"
@@ -107,7 +113,10 @@ const RegisterForm = ({
               <Form.Label className="fs-6 fw-bold">Senha</Form.Label>
               <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1" className="p-2">
-                  <i className="bi bi-lock-fill" style={{ color: "#CED4DB" }}></i>
+                  <i
+                    className="bi bi-lock-fill"
+                    style={{ color: "#CED4DB" }}
+                  ></i>
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Sua senha"
@@ -139,7 +148,10 @@ const RegisterForm = ({
               <Form.Label className="fs-6 fw-bold">Repetir senha</Form.Label>
               <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1" className="p-2">
-                  <i className="bi bi-lock-fill" style={{ color: "#CED4DB" }}></i>
+                  <i
+                    className="bi bi-lock-fill"
+                    style={{ color: "#CED4DB" }}
+                  ></i>
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Sua senha"
@@ -229,7 +241,10 @@ const RegisterForm = ({
               <Form.Label className="fs-6 fw-bold">Nome</Form.Label>
               <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1" className="p-2">
-                  <i className="bi bi-person-fill" style={{ color: "#CED4DB" }}></i>
+                  <i
+                    className="bi bi-person-fill"
+                    style={{ color: "#CED4DB" }}
+                  ></i>
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Seu primeiro e último nome"
@@ -243,7 +258,10 @@ const RegisterForm = ({
               <Form.Label className="fs-6 fw-bold">E-mail</Form.Label>
               <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1" className="p-2">
-                  <i className="bi bi-envelope" style={{ color: "#CED4DB" }}></i>
+                  <i
+                    className="bi bi-envelope"
+                    style={{ color: "#CED4DB" }}
+                  ></i>
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="E-mail"
@@ -257,7 +275,10 @@ const RegisterForm = ({
               <Form.Label className="fs-6 fw-bold">Senha</Form.Label>
               <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1" className="p-2">
-                  <i className="bi bi-lock-fill" style={{ color: "#CED4DB" }}></i>
+                  <i
+                    className="bi bi-lock-fill"
+                    style={{ color: "#CED4DB" }}
+                  ></i>
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Sua senha"
@@ -289,7 +310,10 @@ const RegisterForm = ({
               <Form.Label className="fs-6 fw-bold">Repetir senha</Form.Label>
               <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1" className="p-2">
-                  <i className="bi bi-lock-fill" style={{ color: "#CED4DB" }}></i>
+                  <i
+                    className="bi bi-lock-fill"
+                    style={{ color: "#CED4DB" }}
+                  ></i>
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Sua senha"
