@@ -27,6 +27,8 @@ import RequestedSignature from "./pages/Public/RequestedSignature";
 import DocuSignReturn from "./pages/DocuSignReturn";
 import DocumentVerification from "./pages/Public/DocumentVerification";
 import { EmailConfirmation } from "./pages/EmailConfirmation";
+import { ResetPassword } from "./pages/ResetPassword";
+import { ForgotPassword } from "./pages/ForgotPassword";
 
 function App() {
   const login = useRecoilValue(loginAtom);
@@ -42,10 +44,19 @@ function App() {
         <Route path="*" element={<Navigate to="error" replace />} />
         <Route path="/login" element={<Protected Component={Login} />} />
 
-        <Route path="/insights" element={<Protected requiredPlan Component={Insights} />} />
-        <Route path="/clientes" element={<Protected requiredPlan Component={Clients} />} />
+        <Route
+          path="/insights"
+          element={<Protected requiredPlan Component={Insights} />}
+        />
+        <Route
+          path="/clientes"
+          element={<Protected requiredPlan Component={Clients} />}
+        />
         {permissions?.contract ? (
-          <Route path="/contratos" element={<Protected requiredPlan Component={Contract} />} />
+          <Route
+            path="/contratos"
+            element={<Protected requiredPlan Component={Contract} />}
+          />
         ) : (
           <Route path="error" element={<ErrorPage />} />
         )}
@@ -95,6 +106,8 @@ function App() {
           path="/email-confirmation/:token"
           element={<EmailConfirmation />}
         />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
       {/* </Suspense> */}
     </>
