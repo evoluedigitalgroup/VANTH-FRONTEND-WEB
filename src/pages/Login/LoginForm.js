@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const LoginForm = ({
   formValues,
@@ -71,6 +72,9 @@ const LoginForm = ({
                 </InputGroup.Text>
               </InputGroup>
             </Form.Group>
+            <Link to="/forgot-password" className="text-decoration-none">
+              <p className="text-end">Esqueceu sua senha?</p>
+            </Link>
             <Form.Group className="mb-4" controlId="formBasicCheckbox">
               <Form.Check type="checkbox" label="Lembrar" />
             </Form.Group>
