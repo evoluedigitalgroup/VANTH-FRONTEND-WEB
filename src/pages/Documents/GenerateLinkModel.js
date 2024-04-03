@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {
-  Badge,
   Button,
   Col,
   Form,
-  FormControl,
-  FormGroup,
   InputGroup,
   Modal,
-  ModalBody,
-  ModalHeader,
   Row,
-  Spinner,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
-import copy from "copy-to-clipboard";
-//
+import copyToClipboard from "copy-to-clipboard";
 import { LINK_URL } from "../../config";
 import {
   addNewDocumentType,
@@ -174,21 +167,6 @@ const GenerateLinkModel = ({
       ...formValues,
       [e.target.name]: e.target.checked,
     });
-  };
-
-  const copyToClipboard = async (text) => {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    textArea.setSelectionRange(0, 99999);
-    if (window.isSecureContext && navigator.clipboard) {
-      await navigator.clipboard.writeText(text);
-    } else {
-      document.execCommand("copy");
-    }
-    document.body.removeChild(textArea);
   };
 
   const submitForm = (e) => {
