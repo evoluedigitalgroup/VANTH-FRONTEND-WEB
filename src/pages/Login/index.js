@@ -213,7 +213,9 @@ const Login = () => {
       <Helmet>
         <title>Vanth System | Entrar</title>
       </Helmet>
-      <div className="Dashboard d-none d-md-flex align-items-center">
+      <div className="Dashboard d-none d-md-flex align-items-center" style={{
+        backgroundImage: login ? "url(/assets/backgrounds/login.png)" : "url(/assets/backgrounds/register.png)",
+      }}>
         <Row className="w-100 m-1 d-flex align-items-center justify-content-center">
           <Col
             md={4}

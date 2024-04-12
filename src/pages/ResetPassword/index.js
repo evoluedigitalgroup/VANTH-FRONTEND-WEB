@@ -58,7 +58,9 @@ export function ResetPassword() {
       <Helmet>
         <title>Vanth System | Redefinição de senha</title>
       </Helmet>
-      <div className="Dashboard d-none d-md-flex align-items-center">
+      <div className="Dashboard d-none d-md-flex align-items-center" style={{
+        backgroundImage: "url(/assets/backgrounds/reset-password.png)",
+      }}>
         <Row className="w-100 m-1 d-flex align-items-center justify-content-center">
           <Col
             md={4}

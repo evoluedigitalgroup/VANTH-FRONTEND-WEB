@@ -10,7 +10,9 @@ const Dashboard = () => {
   }, 1000);
   return (
     <>
-      <div className="mainPage Dashboard d-flex align-items-center justify-content-center">
+      <div className="mainPage Dashboard d-flex align-items-center justify-content-center" style={{
+        backgroundImage: "url(/assets/backgrounds/landing.png)",
+      }}>
         <Col md={12} className="d-flex justify-content-center">
           <div className="TBA-Logo shadow-lg d-flex align-items-center justify-content-center">
             <img
