@@ -26,7 +26,7 @@ const LoginForm = ({
                   ></i>
                 </InputGroup.Text>
                 <Form.Control
-                  type="text"
+                  type="email"
                   name="email"
                   placeholder="Email"
                   onChange={handleForm}
