@@ -17,7 +17,7 @@ import { contactForm } from "./api";
 import { toast } from "react-toastify";
 
 const NewClientAdd = ({ show, handleClose, refresh, setRefresh }) => {
-  const [characterLimit] = useState(25);
+  const characterLimit = 100;
   const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState({
     name: "",
@@ -100,12 +100,12 @@ const NewClientAdd = ({ show, handleClose, refresh, setRefresh }) => {
           <Col md={4} xs={12}>
             <Form>
               <Form.Label className="Doc-Font-Color">
-                Nome completo do cleinte
+                Nome Completo ou Razão Social
               </Form.Label>
+              <Badge className="bg-f4f4f4 text-dark badge-absolute bg-white">
+                {formValues.name.length}/{characterLimit}
+              </Badge>
               <FormGroup className="" style={{ position: "relative" }}>
-                <Badge className="bg-f4f4f4 text-dark badge-absolute bg-white">
-                  {formValues.name.length}/{characterLimit}
-                </Badge>
                 <InputGroup className="mb-3 rounded">
                   <InputGroup.Text
                     id="basic-addon1"
@@ -117,12 +117,11 @@ const NewClientAdd = ({ show, handleClose, refresh, setRefresh }) => {
                     <i className="bi bi-person-fill link-icon"></i>
                   </InputGroup.Text>
                   <Form.Control
-                    maxLength={25}
+                    maxLength={characterLimit}
                     placeholder="Ana Júlia Garcia"
                     type="text"
                     name="name"
                     className="Cardinput border-0  badge-relative"
-                    // value={data?.name}
                     onChange={handleChange}
                   />
                 </InputGroup>
