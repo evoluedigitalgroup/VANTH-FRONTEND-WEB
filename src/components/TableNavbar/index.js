@@ -12,8 +12,6 @@ const TableNavbar = ({
   refresh,
   setRefresh,
   search,
-  setActive,
-  active,
 }) => {
   const onClose = () => {
     setSearch("");

@@ -24,7 +24,6 @@ const DocumentData = ({
   searchResult,
   setSearchResult,
   filterVal,
-  active,
   setActive,
   id,
   setId,
@@ -38,8 +37,9 @@ const DocumentData = ({
   );
 
   const [reloadVal, reloadData] = useRecoilState(toReloadDocumentData);
+
   const totalPage = Math.ceil(
-    (tableData?.totalContactDetails || 1) / PAGE_LIMIT
+    (tableData?.count || 1) / PAGE_LIMIT
   );
   const [table, setTable] = useRecoilState(documentTableData);
 
@@ -49,7 +49,7 @@ const DocumentData = ({
   }, [refresh]);
 
   useEffect(() => {
-    setTableRow(tableData?.findContactData);
+    setTableRow(tableData?.contacts);
   }, [tableData]);
 
   useEffect(() => {
@@ -92,6 +92,7 @@ const DocumentData = ({
     }
   };
 
+  console.log(totalPage, "totalPage")
   return (
     <Suspense fallback={<Loader />}>
       <DocumentTable
@@ -111,10 +112,9 @@ const DocumentData = ({
   );
 };
 
-const Documents = () => {
+export default function Documents() {
   const [tableRow, setTableRow] = useState([]);
   const [refresh, setRefresh] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [active, setActive] = useState({
     pending: false,
     approved: false,
@@ -166,10 +166,7 @@ const Documents = () => {
         <Card className="mx-0 mx-md-5 my-3 p-3 px-4 cardComponent">
           <div style={{ paddingRight: "2%" }}>
             <TableNavbar
-              title={"Documentos"}
-              btn1Text="Concluídos"
-              btn2Text="Pendentes"
-              btn3Text="Todas"
+              title="Documents"
               setSearch={setSearch}
               onEnter={onEnter}
               refresh={refresh}
@@ -178,26 +175,23 @@ const Documents = () => {
             >
               <div id="documentTableNavBarButton">
                 <Button
-                  className={`fs-color  mx-1 border-0 ${
-                    active.approved ? "activeBtnTable" : "inActiveBtnTable"
-                  }`}
-                  onClick={(e) => setFilterVal("Approved")}
+                  className={`fs-color  mx-1 border-0 ${active.approved ? "activeBtnTable" : "inActiveBtnTable"
+                    }`}
+                  onClick={() => setFilterVal("Approved")}
                 >
                   Concluídos
                 </Button>
                 <Button
-                  className={`fs-color  mx-1 border-0 ${
-                    active.pending ? "activeBtnTable" : "inActiveBtnTable"
-                  }`}
-                  onClick={(e) => setFilterVal("Pending")}
+                  className={`fs-color  mx-1 border-0 ${active.pending ? "activeBtnTable" : "inActiveBtnTable"
+                    }`}
+                  onClick={() => setFilterVal("Pending")}
                 >
                   Pendentes
                 </Button>
                 <Button
-                  className={`fs-color px-4 mx-1 border-0 ${
-                    active.all ? "activeBtnTable" : "inActiveBtnTable"
-                  }`}
-                  onClick={(e) => setFilterVal("All")}
+                  className={`fs-color px-4 mx-1 border-0 ${active.all ? "activeBtnTable" : "inActiveBtnTable"
+                    }`}
+                  onClick={() => setFilterVal("All")}
                 >
                   Todas
                 </Button>
@@ -237,5 +231,3 @@ const Documents = () => {
     </>
   );
 };
-
-export default Documents;

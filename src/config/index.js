@@ -37,7 +37,7 @@ export const CONTRACT_LINK_URL = envData(
   "https://system.vanthdocs.com.br/requested-signature/"
 );
 
-export const PAGE_LIMIT = 10;
+export const PAGE_LIMIT = 5;
 
 export default config;
 

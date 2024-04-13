@@ -19,9 +19,6 @@ export const documentPaginationData = selectorFamily({
 				get(toReloadDocumentData);
 				const currentPage = get(documentActivePageAtom);
 				const apiData = await getDocumentList(currentPage, search);
-
-				console.log('apiData : ', apiData)
-
 				return apiData.data;
 			},
 });

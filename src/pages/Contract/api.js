@@ -1,4 +1,5 @@
 import { api } from "../../helper";
+import { PAGE_LIMIT } from "../../config";
 import {
   CREATE_TEMPLATE,
   GENERATE_CONTRACT_LINK,
@@ -6,11 +7,10 @@ import {
   GET_CONTRACT_DETAILS_LINK,
   GET_TEMPLATES,
   UPDATE_CONTRACT_APPROVAL_STATUS_LINK,
-  UPDATE_CONTRACT_STATUS_LINK
 } from "../../helper/url";
 
 //
-export const getContractList = (page, search, limit = 10) => {
+export const getContractList = (page, search, limit = PAGE_LIMIT) => {
   return new Promise((resolve, reject) => {
     const submitData = {
       startFrom: (page - 1) * limit,

@@ -1,4 +1,5 @@
 import { api } from "../index";
+import { PAGE_LIMIT } from "../../config";
 import {
   DOCUMENT_LIST,
   APPROVED_DOCUMENT,
@@ -7,20 +8,19 @@ import {
   APPROVE_ADDRESS_PROOF,
 } from "../url";
 
-export const getDocumentList = (page, search, limit = 10) => {
-  return new Promise((resolve, reject) => {
-    const submitData = {
-      startFrom: (page - 1) * limit,
-      totalFetchRecords: limit,
-      search,
-    };
-    api(DOCUMENT_LIST, "post", submitData)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((err) => {
-        reject();
+export const getDocumentList = (page, search, limit = PAGE_LIMIT) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await api(DOCUMENT_LIST, "post", {
+        start: (page - 1) * limit,
+        limit,
+        search,
       });
+
+      resolve(response.data);
+    } catch (error) {
+      reject();
+    }
   });
 };
 

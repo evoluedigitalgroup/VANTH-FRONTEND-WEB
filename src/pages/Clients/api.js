@@ -1,4 +1,5 @@
 import { api } from "../../helper/index";
+import { PAGE_LIMIT } from "../../config";
 import {
   GET_CONTACT,
   GENERATE_LINK,
@@ -13,7 +14,7 @@ import {
   REMOVE_DOCUMENT_TYPE,
 } from "../../helper/url";
 
-export const getContactList = (page, search, limit = 10) => {
+export const getContactList = (page, search, limit = PAGE_LIMIT) => {
   return new Promise((resolve, reject) => {
     const submitData = {
       startFrom: (page - 1) * limit,
