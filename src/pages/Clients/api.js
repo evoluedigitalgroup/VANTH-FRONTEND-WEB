@@ -1,4 +1,4 @@
-import { AfterAuthApi, ApiCall } from "../../helper/index";
+import { api } from "../../helper/index";
 import {
   GET_CONTACT,
   GENERATE_LINK,
@@ -20,7 +20,7 @@ export const getContactList = (page, search, limit = 10) => {
       totalFetchRecords: limit,
       search,
     };
-    AfterAuthApi(GET_CONTACT, "post", submitData)
+    api(GET_CONTACT, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -32,7 +32,7 @@ export const getContactList = (page, search, limit = 10) => {
 
 export const generateLink = (submitData) => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(GENERATE_LINK, "post", submitData)
+    api(GENERATE_LINK, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -44,7 +44,7 @@ export const generateLink = (submitData) => {
 
 export const contactForm = (submitData) => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(CONTACT_FORM, "post", submitData)
+    api(CONTACT_FORM, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -56,7 +56,7 @@ export const contactForm = (submitData) => {
 
 export const addNewDocumentType = (submitData) => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(ADD_NEW_DOCUMENT_TYPE, "post", submitData)
+    api(ADD_NEW_DOCUMENT_TYPE, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -68,7 +68,7 @@ export const addNewDocumentType = (submitData) => {
 
 export const removeDocumentType = (submitData) => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(REMOVE_DOCUMENT_TYPE, "post", submitData)
+    api(REMOVE_DOCUMENT_TYPE, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -80,7 +80,7 @@ export const removeDocumentType = (submitData) => {
 
 export const generateNewLink = (submitData) => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(GENERATE_NEW_LINK, "post", submitData)
+    api(GENERATE_NEW_LINK, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -92,7 +92,7 @@ export const generateNewLink = (submitData) => {
 
 export const getAllDocumentsList = () => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(GET_ALL_DOCUMENTS_LIST, "post")
+    api(GET_ALL_DOCUMENTS_LIST, "post")
       .then((res) => {
         resolve(res.data);
       })
@@ -104,7 +104,7 @@ export const getAllDocumentsList = () => {
 
 export const getAllDocumentsPublicList = (submitData) => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(GET_ALL_DOCUMENTS_LIST_PUBLIC, "post", submitData)
+    api(GET_ALL_DOCUMENTS_LIST_PUBLIC, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -116,7 +116,7 @@ export const getAllDocumentsPublicList = (submitData) => {
 
 export const attachDocument = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(ATTACH_DOCUMENT, "post", submitData)
+    api(ATTACH_DOCUMENT, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -129,7 +129,7 @@ export const attachDocument = (submitData) => {
 
 export const updateClientContact = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(PUBLIC_UPDATE_CONTACT, "post", submitData)
+    api(PUBLIC_UPDATE_CONTACT, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -141,7 +141,7 @@ export const updateClientContact = (submitData) => {
 
 export const approveVisitor = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(APPROVE_VISITOR, "post", submitData)
+    api(APPROVE_VISITOR, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })

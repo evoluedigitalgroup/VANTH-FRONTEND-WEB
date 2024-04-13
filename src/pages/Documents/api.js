@@ -1,4 +1,4 @@
-import { AfterAuthApi, ApiCall } from "../../helper/index";
+import { api } from "../../helper/index";
 import {
   GET_ALL_DOCUMENTS_LIST,
   SEND_GENERATED_LINK
@@ -7,7 +7,7 @@ import {
 
 export const getAllDocumentsList = () => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(GET_ALL_DOCUMENTS_LIST, "post")
+    api(GET_ALL_DOCUMENTS_LIST, "post")
       .then((res) => {
         resolve(res.data);
       })
@@ -19,7 +19,7 @@ export const getAllDocumentsList = () => {
 
 export const sendClientSms = (submitData) => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(SEND_GENERATED_LINK, "post", submitData)
+    api(SEND_GENERATED_LINK, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })

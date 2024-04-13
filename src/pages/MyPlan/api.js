@@ -1,4 +1,4 @@
-import { AfterAuthApi } from "../../helper";
+import { api } from "../../helper";
 import {
 	PLANS_LIST,
 	PLAN_USAGE,
@@ -7,7 +7,7 @@ import {
 
 export const plansListData = () => {
 	return new Promise((resolve, reject) => {
-		AfterAuthApi(PLANS_LIST, "post")
+		api(PLANS_LIST, "post")
 			.then((res) => {
 				resolve(res.data);
 			})
@@ -19,7 +19,7 @@ export const plansListData = () => {
 
 export const getPlanUsageData = () => {
 	return new Promise((resolve, reject) => {
-		AfterAuthApi(PLAN_USAGE, "post")
+		api(PLAN_USAGE, "post")
 			.then((res) => {
 				resolve(res.data);
 			})
@@ -31,7 +31,7 @@ export const getPlanUsageData = () => {
 
 export const removePlanSubscription = (submitData) => {
 	return new Promise((resolve, reject) => {
-		AfterAuthApi(REMOVE_PLAN_SUBSCRIBE, "post", submitData)
+		api(REMOVE_PLAN_SUBSCRIBE, "post", submitData)
 			.then((res) => {
 				resolve(res.data);
 				console.log(res)

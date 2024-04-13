@@ -1,9 +1,9 @@
-import { AfterAuthApi, ApiCall } from "../../helper";
+import { api } from "../../helper";
 import { PERMISSION_TABLE, CHANGE_PERMISSION } from "../../helper/url";
 
 export const permissionTableApi = (submitData) => {
     return new Promise((resolve, reject) => {
-        AfterAuthApi(PERMISSION_TABLE, "post", submitData)
+        api(PERMISSION_TABLE, "post", submitData)
             .then((res) => {
                 resolve(res.data);
             })
@@ -15,7 +15,7 @@ export const permissionTableApi = (submitData) => {
 
 export const changePermission = (submitData) => {
     return new Promise((resolve, reject) => {
-        AfterAuthApi(CHANGE_PERMISSION, "post", submitData)
+        api(CHANGE_PERMISSION, "post", submitData)
             .then((res) => {
                 resolve(res.data);
             })

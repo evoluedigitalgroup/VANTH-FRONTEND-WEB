@@ -1,4 +1,4 @@
-import { AfterAuthApi, ApiCall } from "../index";
+import { api } from "../index";
 import {
   LOGIN_ADMIN,
   REGISTER_ADMIN,
@@ -13,7 +13,7 @@ import {
 
 export const loginAdmin = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(LOGIN_ADMIN, "post", submitData)
+    api(LOGIN_ADMIN, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -25,7 +25,7 @@ export const loginAdmin = (submitData) => {
 
 export const emailConfirmation = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(EMAIL_CONFIRMATION, "post", submitData)
+    api(EMAIL_CONFIRMATION, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -37,7 +37,7 @@ export const emailConfirmation = (submitData) => {
 
 export const resetPassword = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(RESET_PASSWORD, "post", submitData)
+    api(RESET_PASSWORD, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -49,7 +49,7 @@ export const resetPassword = (submitData) => {
 
 export const forgotPassword = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(FORGOT_PASSWORD, "post", submitData)
+    api(FORGOT_PASSWORD, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -61,7 +61,7 @@ export const forgotPassword = (submitData) => {
 
 export const registerAdmin = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(REGISTER_ADMIN, "post", submitData)
+    api(REGISTER_ADMIN, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -73,7 +73,7 @@ export const registerAdmin = (submitData) => {
 
 export const getDesignation = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(GENERATE_DESIGNATION, "post", submitData)
+    api(GENERATE_DESIGNATION, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -85,7 +85,7 @@ export const getDesignation = (submitData) => {
 
 export const incrementCounter = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(INCREMENT_COUNTER, "post", submitData)
+    api(INCREMENT_COUNTER, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -97,7 +97,7 @@ export const incrementCounter = (submitData) => {
 
 export const generateCode = () => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(GENERATE_NEW_CODE, "post")
+    api(GENERATE_NEW_CODE, "post")
       .then((res) => {
         resolve(res.data);
       })
@@ -109,7 +109,7 @@ export const generateCode = () => {
 
 export const inviteUser = (submitData) => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(INVITE_NEW_USER, "post", submitData)
+    api(INVITE_NEW_USER, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })

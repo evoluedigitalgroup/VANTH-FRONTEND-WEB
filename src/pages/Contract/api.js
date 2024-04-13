@@ -1,4 +1,4 @@
-import { AfterAuthApi, ApiCall } from "../../helper";
+import { api } from "../../helper";
 import {
   CREATE_TEMPLATE,
   GENERATE_CONTRACT_LINK,
@@ -17,7 +17,7 @@ export const getContractList = (page, search, limit = 10) => {
       totalFetchRecords: limit,
       search,
     };
-    AfterAuthApi(GET_CONTRACTS, "post", submitData)
+    api(GET_CONTRACTS, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -30,7 +30,7 @@ export const getContractList = (page, search, limit = 10) => {
 //
 export const createContract = (submitData) => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(CREATE_TEMPLATE, "post", submitData)
+    api(CREATE_TEMPLATE, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -43,7 +43,7 @@ export const createContract = (submitData) => {
 // 
 export const getTemplates = () => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(GET_TEMPLATES, "post", {})
+    api(GET_TEMPLATES, "post", {})
       .then((res) => {
         resolve(res.data);
       })
@@ -56,7 +56,7 @@ export const getTemplates = () => {
 //
 export const generateContractLink = (submitData) => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(GENERATE_CONTRACT_LINK, "post", submitData)
+    api(GENERATE_CONTRACT_LINK, "post", submitData)
       .then((res) => {
         console.log(res.data)
         resolve(res.data);
@@ -71,7 +71,7 @@ export const generateContractLink = (submitData) => {
 export const getPublicContractDetails = (submitData) => {
   return new Promise((resolve, reject) => {
     console.log('sended data : ', submitData)
-    AfterAuthApi(GET_CONTRACT_DETAILS_LINK, "post", submitData)
+    api(GET_CONTRACT_DETAILS_LINK, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -84,7 +84,7 @@ export const getPublicContractDetails = (submitData) => {
 //
 export const updateContractApprovalStatus = (submitData) => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(UPDATE_CONTRACT_APPROVAL_STATUS_LINK, "post", submitData)
+    api(UPDATE_CONTRACT_APPROVAL_STATUS_LINK, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })

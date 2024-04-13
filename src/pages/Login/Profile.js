@@ -1,4 +1,4 @@
-import { AfterAuthApi, ApiCall } from "../../helper/index";
+import { api } from "../../helper/index";
 import {
 	CHANGE_PASSWORD,
 	GET_PROFILE,
@@ -8,7 +8,7 @@ import {
 
 export const passwordChange = (submitData) => {
 	return new Promise((resolve, reject) => {
-		AfterAuthApi(CHANGE_PASSWORD, "post", submitData)
+		api(CHANGE_PASSWORD, "post", submitData)
 			.then((res) => {
 				resolve(res.data);
 			})
@@ -20,8 +20,9 @@ export const passwordChange = (submitData) => {
 
 export const profileData = (submitData = {}) => {
 	return new Promise((resolve, reject) => {
-		AfterAuthApi(GET_PROFILE, "post", submitData)
+		api(GET_PROFILE, "post", submitData)
 			.then((res) => {
+				console.log("PROFILE DATA", res.data);
 				resolve(res.data);
 			})
 			.catch((err) => {
@@ -32,7 +33,7 @@ export const profileData = (submitData = {}) => {
 
 export const editProfile = (submitData) => {
 	return new Promise((resolve, reject) => {
-		AfterAuthApi(EDIT_PROFILE, "post", submitData)
+		api(EDIT_PROFILE, "post", submitData)
 			.then((res) => {
 				resolve(res.data);
 			})
@@ -44,7 +45,7 @@ export const editProfile = (submitData) => {
 
 export const profileHistory = (submitData) => {
 	return new Promise((resolve, reject) => {
-		AfterAuthApi(PROFILE_HISTORY, "post", submitData)
+		api(PROFILE_HISTORY, "post", submitData)
 			.then((res) => {
 				resolve(res.data);
 			})

@@ -1,4 +1,4 @@
-import { AfterAuthApi, ApiCall } from "../index";
+import { api } from "../index";
 import {
   DOCUMENT_LIST,
   APPROVED_DOCUMENT,
@@ -14,7 +14,7 @@ export const getDocumentList = (page, search, limit = 10) => {
       totalFetchRecords: limit,
       search,
     };
-    AfterAuthApi(DOCUMENT_LIST, "post", submitData)
+    api(DOCUMENT_LIST, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -26,7 +26,7 @@ export const getDocumentList = (page, search, limit = 10) => {
 
 export const approvedDocumentList = (submitData) => {
   return new Promise((resolve, reject) => {
-    AfterAuthApi(APPROVED_DOCUMENT, "post", submitData)
+    api(APPROVED_DOCUMENT, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -38,7 +38,7 @@ export const approvedDocumentList = (submitData) => {
 
 export const getDocument = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(GET_DOCUMENT_DETAIL, "post", submitData)
+    api(GET_DOCUMENT_DETAIL, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -50,7 +50,7 @@ export const getDocument = (submitData) => {
 
 export const submitDocument = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(SUBMIT_DOCUMENT, "post", submitData)
+    api(SUBMIT_DOCUMENT, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
@@ -62,7 +62,7 @@ export const submitDocument = (submitData) => {
 
 export const submitAddressDocument = (submitData) => {
   return new Promise((resolve, reject) => {
-    ApiCall(APPROVE_ADDRESS_PROOF, "post", submitData)
+    api(APPROVE_ADDRESS_PROOF, "post", submitData)
       .then((res) => {
         resolve(res.data);
       })
