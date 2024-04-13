@@ -96,18 +96,18 @@ const Login = () => {
         setLoginData(res.data);
         localStorage.setItem(
           "accessToken",
-          JSON.stringify(res.data.jwtTokens.accessToken)
+          res.data.jwtTokens.accessToken
         );
         localStorage.setItem(
           "refreshToken",
-          JSON.stringify(res.data.jwtTokens.refreshToken)
+          res.data.jwtTokens.refreshToken
         );
         setJwt(res.data.jwtTokens.accessToken);
 
-        profileData().then((response) => {
-          setProfileItem(response.data);
-          toast.success(res.message);
-        });
+        const responseProfileData = await profileData();
+
+        setProfileItem(responseProfileData.data);
+        toast.success(res.message);
       } else {
         setLoading(false);
         toast.error(res.message);

@@ -9,7 +9,7 @@ const axiosIntance = axios.create({
 
 axiosIntance.interceptors.request.use(
 	(config) => {
-		const token = JSON.parse(localStorage.getItem("accessToken"));
+		const token = localStorage.getItem("accessToken")
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`;
 		}
@@ -24,9 +24,9 @@ axiosIntance.interceptors.response.use(
 	(response) => response,
 	async (error) => {
 		const originalRequest = error.config;
-		if (error.response.status === 403) {
+		if (error.response && error.response.status === 403) {
 			if (error.response.data.tokenExpired) {
-				const refreshToken = JSON.parse(localStorage.getItem("refreshToken"));
+				const refreshToken = localStorage.getItem("refreshToken")
 
 				if (!refreshToken) {
 					localStorage.clear();
@@ -43,7 +43,12 @@ axiosIntance.interceptors.response.use(
 							refreshToken,
 						})
 
-					localStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));
+					if (!response.data.success) {
+						localStorage.clear();
+						window.location.href = "/login";
+					}
+
+					localStorage.setItem("accessToken", response.data.accessToken)
 
 					originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
 
