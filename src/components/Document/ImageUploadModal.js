@@ -14,6 +14,7 @@ const ImageUploadModal = ({
   documents,
   refresh,
   setRefresh,
+  asClient,
 }) => {
 
   const [reload, setReload] = useState(false);
@@ -157,7 +158,7 @@ const ImageUploadModal = ({
           </Col>
         </Row>
         {/* {isApproved || isRejected ? null :  */}
-        {(
+        {!asClient && (
           <Row className="px-4 gx-2 my-2">
             <Col>
               <Button

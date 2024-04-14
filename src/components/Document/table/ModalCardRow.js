@@ -22,7 +22,6 @@ const ModalCardRow = ({ handleClose, editData, switchesData }) => {
 					<h6>Documentos já enviados e aprovados</h6>
 				</Col>
 				{
-					// Render all the documents here which are approved already
 					Object.keys(editData?.docs).map((key, index) => {
 						if (editData?.docs[key]) {
 							if (editData?.docs[key].approved) {
@@ -30,7 +29,7 @@ const ModalCardRow = ({ handleClose, editData, switchesData }) => {
 									<Col md={6} key={index}>
 										<img src='assets/img/right1.png'></img>
 										<span className='ps-2' style={{ fontWeight: "500" }}>
-											{switchesData.find((obj) => obj.label === key).title}
+											{switchesData.find((obj) => obj.label === key)?.title}
 										</span>
 									</Col>
 								);

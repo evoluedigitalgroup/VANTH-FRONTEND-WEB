@@ -16,6 +16,7 @@ import { attachDocument, getAllDocumentsList, getAllDocumentsPublicList, updateC
 import { getDocument } from "../../../helper/API/document";
 import { incrementCounter } from "../../../helper/API/auth";
 import { formatarCNPJ, formatarCPF, formatarTelefone } from "../../../library/contentformater/ContentFormater";
+import ImageUploadModal from "../../../components/Document/ImageUploadModal";
 
 const DocumentVerification = () => {
   const inputRef = useRef();
@@ -29,6 +30,16 @@ const DocumentVerification = () => {
   const [documentListData, setDocumentListData] = useState([]);
   const [addressImages, setAddressImages] = React.useState("");
   const [otherInfoForm, setOtherInfoForm] = useState([]);
+  const [openImageModal, setOpenImageModal] = useState(false);
+  const [document, setDocument] = useState({});
+
+  const handleShowImageModal = (data, type) => {
+    setDocument({
+      ...data,
+      type,
+    });
+    setOpenImageModal(true);
+  };
 
   // *******************NEW PDF PREVIEW ************ //
   const [numPages, setNumPages] = useState(null);
@@ -395,41 +406,51 @@ const DocumentVerification = () => {
                   handleFileChange={handleFileChange}
                   inputRef={inputRef}
                   withInput={true}
-                  handleShowImageModal={() => { }}
+                  handleShowImageModal={handleShowImageModal}
                 />
               </Row>
 
               <Col md={6} xs={12}>
-                  <div className="d-flex">
-                    {(
-                      <Button
-                        onClick={handleSubmit}
-                        className="p-3 px-4 fw-bold border-0"
-                        disabled={loading || !showButton}
-                        style={{
-                          marginTop: '10px',
-                          opacity: showButton ? 1 : 0.5,
-                          width: "fit-content",
-                          background: "#0068ff",
-                        }}
-                      >
-                        Encaminhar
-                        {loading && (
-                          <Spinner
-                            animation="grow"
-                            variant="light"
-                            className="ms-3 py-2 fw-bold fs-4"
-                          />
-                        )}
-                      </Button>
-                    )}
-                  </div>
-                </Col>
+                <div className="d-flex">
+                  {(
+                    <Button
+                      onClick={handleSubmit}
+                      className="p-3 px-4 fw-bold border-0"
+                      disabled={loading || !showButton}
+                      style={{
+                        marginTop: '10px',
+                        opacity: showButton ? 1 : 0.5,
+                        width: "fit-content",
+                        background: "#0068ff",
+                      }}
+                    >
+                      Encaminhar
+                      {loading && (
+                        <Spinner
+                          animation="grow"
+                          variant="light"
+                          className="ms-3 py-2 fw-bold fs-4"
+                        />
+                      )}
+                    </Button>
+                  )}
+                </div>
+              </Col>
 
             </>
           </Card>
         </Col>
       </div>
+      {openImageModal && (
+        <ImageUploadModal
+          open={openImageModal}
+          handleClose={() => setOpenImageModal(false)}
+          documents={document}
+          refresh={refresh}
+          setRefresh={setRefresh}
+          asClient
+        />
+      )}
     </>
   );
 };
