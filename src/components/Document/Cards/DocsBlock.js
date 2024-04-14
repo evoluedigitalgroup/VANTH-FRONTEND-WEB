@@ -25,7 +25,7 @@ const DocsBlock = ({
 
   //  File attached attached but since rejected, found in docStatus
   const isRejected =
-    obj?.docs?.[item.label] === null && obj?.docStatus?.[item.label];
+    obj?.docs?.[item.label] && obj?.docs?.[item.label]?.rejected;
 
 
   return (
