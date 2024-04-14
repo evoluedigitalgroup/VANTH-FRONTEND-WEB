@@ -23,6 +23,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { profileAtom, showTutorialAtom } from "../../recoil/Atoms";
 import { usageAtom } from "../../recoil/UsageAtoms/Usage";
 import { profileData } from "../Login/Profile";
+import removeNonNumericChars from "../../utils/remove-non-numeric-chars";
+import ReactInputMask from "react-input-mask";
 
 const PurchasePlan = () => {
   const [startJoyRide, setStartJoyRide] = useRecoilState(showTutorialAtom);
@@ -50,6 +52,7 @@ const PurchasePlan = () => {
     handleSubmit,
     control,
     watch,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -66,8 +69,8 @@ const PurchasePlan = () => {
     const customerData = {
       fullName: data.fullName,
       email: data.email,
-      phoneNumber: data.phoneNumber.replace(/\D/g, ''),
-      cpf: data.cpf.replace(/\D/g, ''),
+      phoneNumber: removeNonNumericChars(data.phoneNumber),
+      cpf: removeNonNumericChars(data.cpf),
       addressLine1: data.addressLine1,
       addressLine2: data.addressLine2,
       zipCode: data.zipCode,
@@ -90,11 +93,7 @@ const PurchasePlan = () => {
       purchaseId: params.purchaseId,
     };
 
-    // console.log(submitData);
-
     const paymentRecord = await createPlanSubscription(submitData);
-
-
 
     if (paymentRecord.success) {
 
@@ -111,7 +110,7 @@ const PurchasePlan = () => {
                 try {
                   let tutorialState = JSON.parse(localStorage.getItem('recoil-persist')).login.permissions.tutorial;
                   tutorialState = true;
-  
+
                   const localStorageData = JSON.parse(localStorage.getItem('recoil-persist'));
                   localStorageData.login.permissions.tutorial = tutorialState;
                   localStorage.setItem('recoil-persist', JSON.stringify(localStorageData));
@@ -129,8 +128,6 @@ const PurchasePlan = () => {
 
         }
       });
-
-      // navigate("/insights");
     } else {
       toast.error(paymentRecord.message);
     }
@@ -343,6 +340,11 @@ const PurchasePlan = () => {
                           placeholder="CPF/CNPJ"
                           type="text"
                           className="border-0 Cardinput badge-relative"
+                          as={ReactInputMask}
+                          mask={[
+                            "999.999.999-99",
+                            "99.999.999/9999-99",
+                          ]}
                           style={{
                             fontSize: "14px",
                           }}
@@ -395,9 +397,11 @@ const PurchasePlan = () => {
                           {...register("phoneNumber", {
                             required: "Por favor insira seu celular",
                           })}
-                          placeholder="00 00000-0000"
+                          placeholder="(00) 00000-0000"
                           type="text"
                           className="border-0 Cardinput badge-relative"
+                          as={ReactInputMask}
+                          mask="(99) 99999-9999"
                           style={{
                             fontSize: "14px",
                           }}
@@ -557,6 +561,8 @@ const PurchasePlan = () => {
                             placeholder="Por favor insira o CEP"
                             type="text"
                             className="border-0 Cardinput badge-relative"
+                            as={ReactInputMask}
+                            mask="99999-999"
                             style={{
                               fontSize: "14px",
                             }}
@@ -639,29 +645,6 @@ const PurchasePlan = () => {
                           )
                         }}
                       />
-
-                      {/*  <FormGroup>
-                      <InputGroup className="mb-3 rounded">
-                        <InputGroup.Text
-                          id="basic-addon1"
-                          className="border-0"
-                          style={{
-                            background: "#F4F6F8",
-                          }}
-                        ></InputGroup.Text>
-                        <Form.Control
-                          {...register("state", {
-                            required: "Por favor insira o nome do estado",
-                          })}
-                          placeholder="Insira o nome do estado"
-                          type="text"
-                          className="border-0 Cardinput badge-relative"
-                          style={{
-                            fontSize: "14px",
-                          }}
-                        />
-                      </InputGroup>
-                    </FormGroup> */}
                       <span style={{ color: "#FF0000" }} className="mb-3">
                         {errors?.state?.message ? errors?.state?.message : ""}
                       </span>
@@ -749,47 +732,6 @@ const PurchasePlan = () => {
                     />
 
                     <div className="ms-md-2 mt-3">
-                      {/* <span
-                      className="ms-md-2"
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: 700,
-                      }}
-                    >
-                      BANDEIRAS ACEITAS
-                    </span>
-                    <div
-                      className="d-flex align-items-center justify-content-around mt-1 py-md-2"
-                      style={{
-                        border: "1px solid #00000080",
-                        borderRadius: "10px",
-                      }}
-                    >
-                      <img
-                        className="debitCardSymbolImage"
-                        src="/assets/img/visaCard.svg"
-                      />
-                      <img
-                        className="debitCardSymbolImage"
-                        src="/assets/img/masterCard.svg"
-                      />
-                      <img
-                        className="debitCardSymbolImage"
-                        src="/assets/img/hiperCard.svg"
-                      />
-                      <img
-                        className="debitCardSymbolImage"
-                        src="/assets/img/americanExpress.svg"
-                      />
-                      <img
-                        className="debitCardSymbolImage"
-                        src="/assets/img/diners.svg"
-                      />
-                      <img
-                        className="debitCardSymbolImage"
-                        src="/assets/img/eloCard.svg"
-                      />
-                    </div> */}
                       <div className="mt-2">
                         <Form.Label
                           className="ms-md-2 mt-3"
@@ -830,6 +772,8 @@ const PurchasePlan = () => {
                               placeholder="digite o somente números do cartão"
                               type="text"
                               className="border-0 Cardinput badge-relative"
+                              as={ReactInputMask}
+                              mask="9999 9999 9999 9999"
                               style={{
                                 fontSize: "14px",
                               }}
@@ -1094,12 +1038,6 @@ const PurchasePlan = () => {
                                   background: "#ECEFF3",
                                 }}
                               >
-                                {/* <i
-                              className="bi bi-caret-down-fill ms-1 mt-1"
-                              style={{
-                                color: "#00000080",
-                              }}
-                            ></i> */}
                               </InputGroup.Text>
                             </InputGroup>
                           </FormGroup>

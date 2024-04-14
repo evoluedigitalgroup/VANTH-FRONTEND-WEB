@@ -180,23 +180,6 @@ const RegisterForm = ({
                 </InputGroup.Text>
               </InputGroup>
             </Col>
-            {/* <Col className="d-flex mt-1 justify-content-center">
-              <Button
-                className="login-btn px-5 py-2 fw-bold fs-4"
-                onClick={onRegister}
-                disabled={loading}
-                type="submit"
-              >
-                Criar conta
-                {loading && (
-                  <Spinner
-                    animation="grow"
-                    variant="light"
-                    className="ms-3 py-2 fw-bold fs-4"
-                  />
-                )}
-              </Button>
-            </Col> */}
           </Row>
         )}
         {member && (
@@ -342,23 +325,6 @@ const RegisterForm = ({
                 </InputGroup.Text>
               </InputGroup>
             </Col>
-            {/* <Col className="d-flex mt-1 justify-content-center">
-              <Button
-                className="login-btn px-5 py-2 fw-bold fs-4"
-                onClick={onRegister}
-                disabled={loading}
-                type="submit"
-              >
-                Criar conta
-                {loading && (
-                  <Spinner
-                    animation="grow"
-                    variant="light"
-                    className="ms-3 py-2 fw-bold fs-4"
-                  />
-                )}
-              </Button>
-            </Col> */}
           </Row>
         )}
         <Row className="d-flex justify-content-center w-100 m-0 my-4">

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Badge,
   Button,
   Col,
   Form,
-  FormControl,
   FormGroup,
   InputGroup,
   Modal,
@@ -15,6 +14,8 @@ import {
 } from "react-bootstrap";
 import { contactForm } from "./api";
 import { toast } from "react-toastify";
+import ReactInputMask from "react-input-mask";
+import removeNonNumericChars from "../../utils/remove-non-numeric-chars";
 
 const NewClientAdd = ({ show, handleClose, refresh, setRefresh }) => {
   const characterLimit = 100;
@@ -31,9 +32,17 @@ const NewClientAdd = ({ show, handleClose, refresh, setRefresh }) => {
   const [otherInfo, setOtherInfo] = useState(undefined);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    let formattedValue = value;
+
+    if (["phone", "CPF", "CNPJ"].includes(name)) {
+      formattedValue = removeNonNumericChars(value);
+    }
+
     setFormValues({
       ...formValues,
-      [e.target.name]: e.target.value,
+      [name]: formattedValue,
     });
   };
 
@@ -142,11 +151,12 @@ const NewClientAdd = ({ show, handleClose, refresh, setRefresh }) => {
                   <i className="bi bi-telephone link-icon"></i>
                 </InputGroup.Text>
                 <Form.Control
-                  placeholder="(00)00000-0000"
+                  placeholder="(00) 00000-0000"
                   type="text"
                   name="phone"
                   className="Cardinput border-0"
-                  // value={data?.email}
+                  as={ReactInputMask}
+                  mask="(99) 99999-9999"
                   onChange={handleChange}
                 />
               </InputGroup>
@@ -170,7 +180,8 @@ const NewClientAdd = ({ show, handleClose, refresh, setRefresh }) => {
                   type="text"
                   name="CPF"
                   className="Cardinput border-0"
-                  // value={data?.CpfOrCnpj}
+                  as={ReactInputMask}
+                  mask="999.999.999-99"
                   onChange={handleChange}
                 />
               </InputGroup>
@@ -196,7 +207,8 @@ const NewClientAdd = ({ show, handleClose, refresh, setRefresh }) => {
                   type="text"
                   name="CNPJ"
                   className="Cardinput border-0"
-                  // value={data?.CpfOrCnpj}
+                  as={ReactInputMask}
+                  mask="99.999.999/9999-99"
                   onChange={handleChange}
                 />
               </InputGroup>
@@ -220,7 +232,6 @@ const NewClientAdd = ({ show, handleClose, refresh, setRefresh }) => {
                   type="text"
                   name="email"
                   className="Cardinput border-0"
-                  // value={data?.CpfOrCnpj}
                   onChange={handleChange}
                 />
               </InputGroup>
@@ -250,7 +261,6 @@ const NewClientAdd = ({ show, handleClose, refresh, setRefresh }) => {
                       value={obj.placeholder}
                       name="name"
                       className="Cardinput border-0"
-                      // value={data?.name}
                       onChange={handleChange}
                     />
                     <InputGroup.Text
@@ -366,7 +376,6 @@ const NewClientAdd = ({ show, handleClose, refresh, setRefresh }) => {
                       type="text"
                       name="name"
                       className="Cardinput border-0"
-                      // value={data?.name}
                       onChange={(e) => {
                         setOtherInfo({
                           ...otherInfo,

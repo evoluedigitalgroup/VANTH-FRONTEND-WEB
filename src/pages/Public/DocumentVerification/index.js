@@ -15,8 +15,9 @@ import TableRowDocument from "../../../components/Document/table/TableRowDocumen
 import { attachDocument, getAllDocumentsList, getAllDocumentsPublicList, updateClientContact } from "../../Clients/api";
 import { getDocument } from "../../../helper/API/document";
 import { incrementCounter } from "../../../helper/API/auth";
-import { formatarCNPJ, formatarCPF, formatarTelefone } from "../../../library/contentformater/ContentFormater";
 import ImageUploadModal from "../../../components/Document/ImageUploadModal";
+import ReactInputMask from "react-input-mask";
+import removeNonNumericChars from "../../../utils/remove-non-numeric-chars";
 
 const DocumentVerification = () => {
   const inputRef = useRef();
@@ -272,13 +273,14 @@ const DocumentVerification = () => {
                             }}
                           >
                             <span className="bi bi-telephone link-icon"></span>
-                            {/* <i className='bi bi-envelope-fill '></i> */}
                           </InputGroup.Text>
                           <Form.Control
                             placeholder="Telefone"
                             type="text"
                             className="Cardinput"
-                            value={formatarTelefone(data?.phone)}
+                            value={removeNonNumericChars(data?.phone)}
+                            mask="(99) 99999-9999"
+                            as={ReactInputMask}
                             disabled
                           />
                         </InputGroup>
@@ -304,7 +306,9 @@ const DocumentVerification = () => {
                           placeholder="000.000.000-00"
                           type="text"
                           className="Cardinput"
-                          value={data?.CPF}
+                          value={removeNonNumericChars(data?.CPF)}
+                          as={ReactInputMask}
+                          mask="999.999.999-99"
                           disabled
                         />
                       </InputGroup>
@@ -324,10 +328,12 @@ const DocumentVerification = () => {
                           <i className="bi bi-person-vcard-fill link-icon"></i>
                         </InputGroup.Text>
                         <Form.Control
-                          placeholder="000.000.000-00"
+                          placeholder="00.000.000/0000-00"
                           type="text"
                           className="Cardinput"
-                          value={data?.CNPJ}
+                          value={removeNonNumericChars(data?.CNPJ)}
+                          as={ReactInputMask}
+                          mask="99.999.999/9999-99"
                           disabled
                         />
                       </InputGroup>

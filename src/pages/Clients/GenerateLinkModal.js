@@ -12,7 +12,6 @@ const GenerateLinkModal = ({
 	refresh,
 	setRefresh,
 }) => {
-	const [copyText, setCopyText] = useState(false);
 	const [formValues, setFormValues] = useState({
 		CPF: true,
 		socialContract: true,
@@ -134,13 +133,6 @@ const GenerateLinkModal = ({
 								className='border-0 p-3 fw-bold'
 								value={link}
 							/>
-							{/* <InputGroup.Text
-								id='basic-addon2'
-								className='border-0 c-point fw-normal'
-								style={{ color: "#85A6A2" }}
-								onClick={() => handleCopy(link)}>
-								{copyText ? "Copiada" : "Copiar"}
-							</InputGroup.Text> */}
 						</InputGroup>
 					</Col>
 					<Col className='my-4 w-100 d-flex justify-content-center'>
@@ -148,7 +140,6 @@ const GenerateLinkModal = ({
 							className='border-0'
 							style={{ background: "#1C3D59" }}
 							onClick={submitForm}>
-							{/* Encaminhar */}
 							Copiar
 						</Button>
 					</Col>

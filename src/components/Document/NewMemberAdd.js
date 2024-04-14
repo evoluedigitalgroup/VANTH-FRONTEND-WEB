@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Badge,
   Button,
-  Card,
-  CloseButton,
   Col,
   Form,
   FormGroup,
@@ -17,25 +15,15 @@ import {
 
 import { toast } from "react-toastify";
 import {
-  approveVisitor,
-  attachDocument,
   contactForm,
-  generateLink,
 } from "../../pages/Clients/api";
-import {
-  submitAddressDocument,
-  submitDocument,
-} from "../../helper/API/document";
-import { LINK_URL } from "../../config";
+import ReactInputMask from "react-input-mask";
+import removeNonNumericChars from "../../utils/remove-non-numeric-chars";
 
-const NewMemberAdd = ({ show, handleClose, refresh, setRefresh }) => {
+const NewMemberAdd = ({ show, handleClose }) => {
   const [characterLimit] = useState(25);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(null);
 
-  const [imagePreview, setImagePreview] = React.useState("");
-  const [addressImages, setAddressImages] = React.useState("");
-  const [addressImagePreview, setAddressImagePreview] = React.useState("");
   const [formValues, setFormValues] = useState({
     name: "",
     email: "",
@@ -45,9 +33,17 @@ const NewMemberAdd = ({ show, handleClose, refresh, setRefresh }) => {
   });
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    let valueFormatted = value;
+
+    if (["phone", "CPF", "CNPJ"].includes(name)) {
+      valueFormatted = removeNonNumericChars(value);
+    }
+
     setFormValues({
       ...formValues,
-      [e.target.name]: e.target.value,
+      [name]: valueFormatted,
     });
   };
 
@@ -109,7 +105,6 @@ const NewMemberAdd = ({ show, handleClose, refresh, setRefresh }) => {
                     type="text"
                     name="name"
                     className="Cardinput border-0  badge-relative "
-                    // value={data?.name}
                     onChange={handleChange}
                   />
                 </InputGroup>
@@ -130,11 +125,12 @@ const NewMemberAdd = ({ show, handleClose, refresh, setRefresh }) => {
                   <i className="bi bi-telephone link-icon"></i>
                 </InputGroup.Text>
                 <Form.Control
-                  placeholder="(00)00000-0000"
+                  placeholder="(00) 00000-0000"
                   type="text"
                   name="phone"
                   className="Cardinput border-0"
-                  // value={data?.email}
+                  as={ReactInputMask}
+                  mask="(99) 99999-9999"
                   onChange={handleChange}
                 />
               </InputGroup>
@@ -160,7 +156,8 @@ const NewMemberAdd = ({ show, handleClose, refresh, setRefresh }) => {
                   type="text"
                   name="CPF"
                   className="Cardinput border-0"
-                  // value={data?.CpfOrCnpj}
+                  as={ReactInputMask}
+                  mask="999.999.999-99"
                   onChange={handleChange}
                 />
               </InputGroup>
@@ -184,7 +181,8 @@ const NewMemberAdd = ({ show, handleClose, refresh, setRefresh }) => {
                   type="text"
                   name="CNPJ"
                   className="Cardinput border-0"
-                  // value={data?.CpfOrCnpj}
+                  as={ReactInputMask}
+                  mask="99.999.999/9999-99"
                   onChange={handleChange}
                 />
               </InputGroup>
@@ -208,7 +206,6 @@ const NewMemberAdd = ({ show, handleClose, refresh, setRefresh }) => {
                   type="text"
                   name="email"
                   className="Cardinput border-0"
-                  // value={data?.CpfOrCnpj}
                   onChange={handleChange}
                 />
               </InputGroup>
