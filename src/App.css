@@ -11,6 +11,7 @@ body {
 }
 
 @media (max-width: 550px) {
+
   /* body {
     padding-top: 25px;
   } */
@@ -776,13 +777,13 @@ width: 100% !important;
 }
 
 .document-pending {
-  background-color: #e9bc1e !important;
-}
-
-.document-wait {
   background-color: #e97f1e !important;
 }
 
-.document-success {
+.document-wait {
+  background-color: #e9bc1e !important;
+}
+
+.document-approved {
   background-color: #58a43d !important;
 }

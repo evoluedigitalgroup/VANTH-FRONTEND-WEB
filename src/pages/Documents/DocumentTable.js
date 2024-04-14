@@ -24,6 +24,7 @@ import NewPagination from "../../components/Pagination/NewPagination";
 import ImageUploadModal from "../../components/Document/ImageUploadModal";
 import TableRowDocument from "../../components/Document/table/TableRowDocument";
 import { formatarCNPJ, formatarCPF, formatarTelefone } from "../../library/contentformater/ContentFormater";
+import { get } from "react-hook-form";
 
 const DocumentTable = ({
   tableRow,
@@ -97,10 +98,20 @@ const DocumentTable = ({
 
   const getAllStatusText = (allStatus) => {
     return {
-      pending: "Aguard. rev.",
-      wait: "Aguard. doc.",
-      approved: "Concluído",
-    }[allStatus] || "Concluído";
+      pending: "Pendente",
+      'wait-review': "Aguardando Revisão",
+      'wait-documents': "Aguardando Documentos",
+      approved: "Aprovado",
+    }[allStatus] || "Não definido";
+  };
+
+  const getAllStatusClassname = (allStatus) => {
+    return {
+      pending: "document-pending",
+      'wait-review': "document-wait",
+      'wait-documents': "document-wait",
+      approved: "document-approved",
+    }[allStatus] || "";
   };
 
   return (
@@ -161,103 +172,93 @@ const DocumentTable = ({
                 >
                   <Button
                     style={{
-                      width: "100px",
+                      width: "175px",
                       fontSize: "12px",
                       fontWeight: "500",
                       border: "0",
-                      padding: "0",
+                      paddingInline: "10px",
+                      paddingBlock: "2px",
                       borderRadius: "3px",
                     }}
-                    className={
-                      obj.allStatus === "pending"
-                        ? "document-wait"
-                        : obj.allStatus === "wait"
-                          ? "document-pending"
-                          : "document-success"
-                    }
+                    className={getAllStatusClassname(obj.allStatus)}
                   >
                     {getAllStatusText(obj.allStatus)}
                   </Button>
                 </td>
-                {(obj.allStatus === "pending" ||
-                  obj.allStatus === "wait" ||
-                  obj.allStatus === "approved") && (
-                    <div>
-                      {idArray.includes(obj.id) && (
-                        <div
-                          className="position-absolute my-3 mx-3"
-                          style={{
-                            left: "0",
-                            right: "0",
-                            top: "auto",
-                            transform: "translateY(10%)",
-                            overflowY: "auto",
-                          }}
-                        >
+                <div>
+                  {idArray.includes(obj.id) && (
+                    <div
+                      className="position-absolute my-3 mx-3"
+                      style={{
+                        left: "0",
+                        right: "0",
+                        top: "auto",
+                        transform: "translateY(10%)",
+                        overflowY: "auto",
+                      }}
+                    >
 
-                          <>
-                            <Row className="mt-5 mt-md-0">
-                              {obj.otherInformation.map((objct, i) => {
-                                return (
-                                  <Col key={`${i}`} md={4} xs={12}>
-                                    <Form>
-                                      <Form.Label className="Doc-Font-Color">
-                                        {objct?.key}
-                                      </Form.Label>
-                                      <FormGroup style={{ position: "relative" }}>
-                                        <Form.Control
-                                          placeholder="Sua informação"
-                                          type="text"
-                                          readOnly
-                                          value={
-                                            objct?.value
-                                              ? objct?.value
-                                              : objct?.placeholder
-                                          }
-                                          name="name"
-                                        />
-                                      </FormGroup>
-                                    </Form>
-                                  </Col>
-                                );
-                              })}
-                            </Row>
+                      <>
+                        <Row className="mt-5 mt-md-0">
+                          {obj.otherInformation.map((objct, i) => {
+                            return (
+                              <Col key={`${i}`} md={4} xs={12}>
+                                <Form>
+                                  <Form.Label className="Doc-Font-Color">
+                                    {objct?.key}
+                                  </Form.Label>
+                                  <FormGroup style={{ position: "relative" }}>
+                                    <Form.Control
+                                      placeholder="Sua informação"
+                                      type="text"
+                                      readOnly
+                                      value={
+                                        objct?.value
+                                          ? objct?.value
+                                          : objct?.placeholder
+                                      }
+                                      name="name"
+                                    />
+                                  </FormGroup>
+                                </Form>
+                              </Col>
+                            );
+                          })}
+                        </Row>
 
-                            <Row>
-                              <TableRowDocument
-                                obj={obj}
-                                permission={obj?.documentRequest?.requiredPermission}
-                                documentListData={documentListData}
-                                handleShowImageModal={handleShowImageModal}
-                              />
-                              <div className={`${isMobile ? 'mt-0' : 'mt-4'}`}>
-                                <GenerateLinkBtn
-                                  onClick={() => handleShowLinkModal(obj)}
-                                  obj={obj}
-                                  md={12}
-                                />
-                              </div>
-                            </Row>
-                            {obj.allStatus === "approved" && (
-                              <Row>
-                                <Col
-                                  className="d-flex justify-content-center mt-2 ms-4"
-                                  style={{
-                                    color: "#C4CCD2",
-                                    fontSize: "12px",
-                                  }}
-                                >
-                                  Responsável por esse cliente:
-                                  {adminName.name}
-                                </Col>
-                              </Row>
-                            )}
-                          </>
-                        </div>
-                      )}
-
+                        <Row>
+                          <TableRowDocument
+                            obj={obj}
+                            permission={obj?.documentRequest?.requiredPermission}
+                            documentListData={documentListData}
+                            handleShowImageModal={handleShowImageModal}
+                          />
+                          <div className={`${isMobile ? 'mt-0' : 'mt-4'}`}>
+                            <GenerateLinkBtn
+                              onClick={() => handleShowLinkModal(obj)}
+                              obj={obj}
+                              md={12}
+                            />
+                          </div>
+                        </Row>
+                        {obj.allStatus === "approved" && (
+                          <Row>
+                            <Col
+                              className="d-flex justify-content-center mt-2 ms-4"
+                              style={{
+                                color: "#C4CCD2",
+                                fontSize: "12px",
+                              }}
+                            >
+                              Responsável por esse cliente:
+                              {adminName.name}
+                            </Col>
+                          </Row>
+                        )}
+                      </>
                     </div>
                   )}
+                </div>
               </tr>
             ))}
           </tbody>
