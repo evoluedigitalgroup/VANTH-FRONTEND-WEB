@@ -163,9 +163,11 @@ function StatusSelectorButton({ active, onClick, children }) {
 
 function StatusToggle({ value, onChange }) {
   const options = [
+    { key: "approved", label: "Aprovados" },
+    { key: "pending", label: "Pendentes" },
+    { key: "wait-documents", label: "Aguardando Documentos" },
+    { key: "wait-review", label: "Aguradando Revisão" },
     { key: "all", label: "Todas" },
-    { key: "approved", label: "Aprovado" },
-    { key: "pending", label: "Reprovado" },
   ];
 
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, InputGroup, Nav, Navbar } from "react-bootstrap";
+import { Form, InputGroup, Nav, Navbar } from "react-bootstrap";
 import { showTutorialAtom } from "../../recoil/Atoms";
 import { useRecoilState } from "recoil";
 import { isMobile } from "react-device-detect";

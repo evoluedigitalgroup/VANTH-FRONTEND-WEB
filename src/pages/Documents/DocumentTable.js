@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { Card, Row, Col, Form, FormGroup, InputGroup } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Form, FormGroup } from "react-bootstrap";
 import { isMobile } from "react-device-detect";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { useRecoilValue } from "recoil";
-//
 import { getAllDocumentsList } from "./api";
 import { loginAtom } from "../../recoil/Atoms";
 import {
@@ -24,7 +23,6 @@ import NewPagination from "../../components/Pagination/NewPagination";
 import ImageUploadModal from "../../components/Document/ImageUploadModal";
 import TableRowDocument from "../../components/Document/table/TableRowDocument";
 import { formatarCNPJ, formatarCPF, formatarTelefone } from "../../library/contentformater/ContentFormater";
-import { get } from "react-hook-form";
 
 const DocumentTable = ({
   tableRow,
