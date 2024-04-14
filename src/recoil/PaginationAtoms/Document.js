@@ -14,11 +14,17 @@ export const toReloadDocumentData = atom({
 export const documentPaginationData = selectorFamily({
 	key: "documentPaginationData",
 	get:
-		(search = null) =>
+		({
+			search,
+			status,
+		} = {
+			search: "",
+			status: "",
+		}) =>
 			async ({ get, set }) => {
 				get(toReloadDocumentData);
 				const currentPage = get(documentActivePageAtom);
-				const apiData = await getDocumentList(currentPage, search);
+				const apiData = await getDocumentList(currentPage, search, status);
 				return apiData.data;
 			},
 });

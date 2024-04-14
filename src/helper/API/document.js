@@ -8,13 +8,14 @@ import {
   APPROVE_ADDRESS_PROOF,
 } from "../url";
 
-export const getDocumentList = (page, search, limit = PAGE_LIMIT) => {
+export const getDocumentList = (page, search, status, limit = PAGE_LIMIT) => {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await api(DOCUMENT_LIST, "post", {
         start: (page - 1) * limit,
         limit,
         search,
+        status,
       });
 
       resolve(response.data);

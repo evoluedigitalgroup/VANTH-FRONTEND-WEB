@@ -95,6 +95,14 @@ const DocumentTable = ({
     return minHeight;
   };
 
+  const getAllStatusText = (allStatus) => {
+    return {
+      pending: "Aguard. rev.",
+      wait: "Aguard. doc.",
+      approved: "Concluído",
+    }[allStatus] || "Concluído";
+  };
+
   return (
     <div>
       <Table responsive>
@@ -168,11 +176,7 @@ const DocumentTable = ({
                           : "document-success"
                     }
                   >
-                    {obj.allStatus === "pending"
-                      ? "Aguard. rev."
-                      : obj.allStatus === "wait"
-                        ? "Aguard. doc."
-                        : "Concluído"}
+                    {getAllStatusText(obj.allStatus)}
                   </Button>
                 </td>
                 {(obj.allStatus === "pending" ||

@@ -8,7 +8,6 @@ const TableNavbar = ({
   children,
   title,
   setSearch,
-  onEnter,
   refresh,
   setRefresh,
   search,
@@ -55,7 +54,6 @@ const TableNavbar = ({
                 value={search}
                 name="search"
                 onChange={(e) => setSearch(e.target.value)}
-                onKeyPress={onEnter}
               />
               {!search == "" && (
                 <InputGroup.Text
