@@ -72,12 +72,12 @@ const LoginForm = ({
                 </InputGroup.Text>
               </InputGroup>
             </Form.Group>
-            <Link to="/forgot-password" className="text-decoration-none">
+            <Link to="/forgot-password" className="text-decoration-none" style={{
+              display: 'inline-block',
+              float: 'right',
+            }}>
               <p className="text-end">Esqueceu sua senha?</p>
             </Link>
-            <Form.Group className="mb-4" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Lembrar" />
-            </Form.Group>
           </Col>
           <Row className="d-flex justify-content-center w-100 m-0 my-4">
             <Col xs={6} md={6} className="d-md-none">
