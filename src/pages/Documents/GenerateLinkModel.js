@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
-import copyToClipboard from "copy-to-clipboard";
+import copyToClipboard from "../../utils/copy-to-clipboard";
 import { LINK_URL } from "../../config";
 import {
   addNewDocumentType,
