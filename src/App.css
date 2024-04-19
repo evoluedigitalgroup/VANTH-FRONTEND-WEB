@@ -787,3 +787,9 @@ width: 100% !important;
 .document-approved {
   background-color: #58a43d !important;
 }
+
+@media screen and (max-width: 1024px) {
+  .logo-container-forgot-password {
+    display: none;
+  }
+}

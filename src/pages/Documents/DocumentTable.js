@@ -73,32 +73,15 @@ const DocumentTable = ({
     }
   };
 
-  const getRequiredLength = (obj) => {
-    return Object.values(obj?.documentRequest?.requiredPermission).filter(
-      (val) => val
-    ).length;
-  };
-
-  const getOtherInformationLength = (obj) => {
-    return obj?.otherInformation.length;
-  };
-
   const refreshDocumentTypes = () => {
     getAllDocumentListData();
-  };
-
-  const getHeightValue = (obj) => {
-    const totalLength = getRequiredLength(obj) + getOtherInformationLength(obj);
-    const baseHeight = isMobile ? 1 : 3;
-    const minHeight = idArray.includes(obj.id) ? totalLength / baseHeight * 100 + 200 + "px" : "unset";
-    return minHeight;
   };
 
   const getAllStatusText = (allStatus) => {
     return {
       pending: "Pendente",
-      'wait-review': "Aguardando Revisão",
-      'wait-documents': "Aguardando Documentos",
+      'wait-review': "A. Revisão",
+      'wait-documents': "A. Documentos",
       approved: "Aprovado",
     }[allStatus] || "Não definido";
   };
@@ -131,133 +114,121 @@ const DocumentTable = ({
         {tableData?.length ? (
           <tbody>
             {tableData?.map((obj, i) => (
-              <tr
-                key={`document-${i}`}
-                style={{
-                  position: "relative",
-                  cursor: "pointer",
-                  fontSize: "14px",
-                  height: getHeightValue(obj),
-                }}
-              >
-                <td onClick={() => handleShowRow(obj.id)} className="fw-bold">
-                  {obj.name}
-                </td>
-                <td onClick={() => handleShowRow(obj.id)}>{formatarCPF(obj.CPF)}</td>
-                <td
-                  className="d-none d-md-table-cell"
+              <>
+                <tr
+                  key={`document-${obj.id}`}
                   onClick={() => handleShowRow(obj.id)}
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "14px",
+                  }}
                 >
-                  {formatarCNPJ(obj.CNPJ)}
-                </td>
-                <td
-                  className="d-none d-md-table-cell"
-                  onClick={() => handleShowRow(obj.id)}
-                >
-                  {formatarTelefone(obj.phone)}
-                </td>
-                <td onClick={() => handleShowRow(obj.id)}>{obj.date}</td>
-                <td
-                  className="d-none d-md-table-cell"
-                  onClick={() => handleShowRow(obj.id)}
-                >
-                  {obj.time}
-                </td>
-                <td
-                  className="position-relative text-start"
-                  // style={{ zIndex: 1000 }}
-                  onClick={() => handleShowRow(obj.id)}
-                >
-                  <Button
-                    style={{
-                      width: "175px",
-                      fontSize: "12px",
-                      fontWeight: "500",
-                      border: "0",
-                      paddingInline: "10px",
-                      paddingBlock: "2px",
-                      borderRadius: "3px",
-                    }}
-                    className={getAllStatusClassname(obj.allStatus)}
+                  <td className="fw-bold">
+                    {obj.name}
+                  </td>
+                  <td>{formatarCPF(obj.CPF)}</td>
+                  <td
+                    className="d-none d-md-table-cell"
                   >
-                    {getAllStatusText(obj.allStatus)}
-                  </Button>
-                </td>
-                <div>
-                  {idArray.includes(obj.id) && (
-                    <div
-                      className="position-absolute my-3 mx-3"
+                    {formatarCNPJ(obj.CNPJ)}
+                  </td>
+                  <td
+                    className="d-none d-md-table-cell"
+                  >
+                    {formatarTelefone(obj.phone)}
+                  </td>
+                  <td>{obj.date}</td>
+                  <td
+                    className="d-none d-md-table-cell"
+                  >
+                    {obj.time}
+                  </td>
+                  <td
+                    className="position-relative text-start"
+                  >
+                    <Button
                       style={{
-                        left: "0",
-                        right: "0",
-                        top: "auto",
-                        transform: "translateY(10%)",
-                        overflowY: "auto",
+                        width: "125px",
+                        fontSize: "12px",
+                        fontWeight: "500",
+                        border: "0",
+                        paddingInline: "10px",
+                        paddingBlock: "2px",
+                        borderRadius: "3px",
                       }}
+                      className={getAllStatusClassname(obj.allStatus)}
                     >
-
-                      <>
-                        <Row className="mt-5 mt-md-0">
-                          {obj.otherInformation.map((objct, i) => {
-                            return (
-                              <Col key={`${i}`} md={4} xs={12}>
-                                <Form>
-                                  <Form.Label className="Doc-Font-Color">
-                                    {objct?.key}
-                                  </Form.Label>
-                                  <FormGroup style={{ position: "relative" }}>
-                                    <Form.Control
-                                      placeholder="Sua informação"
-                                      type="text"
-                                      readOnly
-                                      value={
-                                        objct?.value
-                                          ? objct?.value
-                                          : objct?.placeholder
-                                      }
-                                      name="name"
-                                    />
-                                  </FormGroup>
-                                </Form>
-                              </Col>
-                            );
-                          })}
-                        </Row>
-
-                        <Row>
-                          <TableRowDocument
-                            obj={obj}
-                            permission={obj?.documentRequest?.requiredPermission}
-                            documentListData={documentListData}
-                            handleShowImageModal={handleShowImageModal}
-                          />
-                          <div className={`${isMobile ? 'mt-0' : 'mt-4'}`}>
-                            <GenerateLinkBtn
-                              onClick={() => handleShowLinkModal(obj)}
-                              obj={obj}
-                              md={12}
-                            />
-                          </div>
-                        </Row>
-                        {obj.allStatus === "approved" && (
-                          <Row>
-                            <Col
-                              className="d-flex justify-content-center mt-2 ms-4"
-                              style={{
-                                color: "#C4CCD2",
-                                fontSize: "12px",
-                              }}
-                            >
-                              Responsável por esse cliente:
-                              {adminName.name}
-                            </Col>
-                          </Row>
-                        )}
-                      </>
-                    </div>
-                  )}
-                </div>
-              </tr>
+                      {getAllStatusText(obj.allStatus)}
+                    </Button>
+                  </td>
+                </tr>
+                <tr
+                  key={`document-${obj.id}-info`}
+                  style={{
+                    display: idArray.includes(obj.id) ? "table-row" : "none",
+                  }}
+                >
+                  <td colSpan={7} className="my-3 mx-3" style={{
+                    width: "100%",
+                  }}>
+                    <Row className="mt-5 mt-md-0">
+                      {obj.otherInformation.map((objct, i) => {
+                        return (
+                          <Col key={`${i}`} md={4} xs={12}>
+                            <Form>
+                              <Form.Label className="Doc-Font-Color">
+                                {objct?.key}
+                              </Form.Label>
+                              <FormGroup style={{ position: "relative" }}>
+                                <Form.Control
+                                  placeholder="Sua informação"
+                                  type="text"
+                                  readOnly
+                                  value={
+                                    objct?.value
+                                      ? objct?.value
+                                      : objct?.placeholder
+                                  }
+                                  name="name"
+                                />
+                              </FormGroup>
+                            </Form>
+                          </Col>
+                        );
+                      })}
+                    </Row>
+                    <Row>
+                      <TableRowDocument
+                        obj={obj}
+                        permission={obj?.documentRequest?.requiredPermission}
+                        documentListData={documentListData}
+                        handleShowImageModal={handleShowImageModal}
+                      />
+                      <div className={`${isMobile ? 'mt-0' : 'mt-4'}`}>
+                        <GenerateLinkBtn
+                          onClick={() => handleShowLinkModal(obj)}
+                          obj={obj}
+                          md={12}
+                        />
+                      </div>
+                    </Row>
+                    {obj.allStatus === "approved" && (
+                      <Row>
+                        <Col
+                          className="d-flex justify-content-center mt-2 ms-4"
+                          style={{
+                            color: "#C4CCD2",
+                            fontSize: "12px",
+                          }}
+                        >
+                          Responsável por esse cliente:
+                          {adminName.name}
+                        </Col>
+                      </Row>
+                    )}
+                  </td>
+                </tr>
+              </>
             ))}
           </tbody>
         ) : (
