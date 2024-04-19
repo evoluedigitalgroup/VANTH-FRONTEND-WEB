@@ -41,7 +41,9 @@ const DocsBlock = ({
           style={{
             width: "100%",
             height: "100%",
-            position: "absolute"
+            position: "absolute",
+            cursor: "pointer",
+            zIndex: 1000,
           }}
         >
           <input
@@ -52,7 +54,7 @@ const DocsBlock = ({
             onChange={(e) => handleFileChange(e, item.label)}
             style={{
               zIndex: 1000,
-              opacity: "0",
+              opacity: 0,
               width: "100%",
               height: "100%",
             }}

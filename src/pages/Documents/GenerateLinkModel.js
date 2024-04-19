@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
-import copyToClipboard from "copy-to-clipboard";
+import copyToClipboard from "copy-text-to-clipboard";
 import { LINK_URL } from "../../config";
 import {
   addNewDocumentType,
@@ -191,7 +191,7 @@ const GenerateLinkModel = ({
       generateLink(submitData).then(async (res) => {
         if (res.success) {
           try {
-            await copyToClipboard(link);
+            copyToClipboard(link);
 
             setRefresh(refresh + 1);
             toast.success(res.message);
@@ -201,7 +201,7 @@ const GenerateLinkModel = ({
             console.error("Erro ao copiar o link: ", err);
             toast.error(
               "Erro ao copiar o link. Por favor, copie manualmente." +
-                err.message
+              err.message
             );
           }
         } else {
