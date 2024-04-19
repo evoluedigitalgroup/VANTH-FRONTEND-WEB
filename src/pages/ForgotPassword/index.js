@@ -1,8 +1,7 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { Col, Row, Spinner, Form, InputGroup, Button } from "react-bootstrap";
 import { Helmet } from "react-helmet";
-import { useState, useEffect } from "react";
-import { forgotPassword, resetPassword } from "../../helper/API/auth";
+import { useState } from "react";
+import { forgotPassword } from "../../helper/API/auth";
 import { toast } from "react-toastify";
 
 export function ForgotPassword() {
@@ -44,21 +43,33 @@ export function ForgotPassword() {
       <Helmet>
         <title>Vanth System | Redefinição de senha</title>
       </Helmet>
-      <div className="Dashboard d-none d-md-flex align-items-center" style={{
+      <div className="d-md-flex align-items-center" style={{
         backgroundImage: "url(/assets/backgrounds/forgot-password.png)",
+        display: "flex",
+        minHeight: '100vh',
+        width: '100%',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center center',
+        backgroundSize: 'cover',
       }}>
         <Row className="w-100 m-1 d-flex align-items-center justify-content-center">
           <Col
             md={4}
             sm={4}
             xs={12}
-            className="d-flex mb-3 justify-content-start"
+            className="mb-3 justify-content-start logo-container-forgot-password"
           >
             <div className="TBA-Logo d-flex align-items-center justify-content-center">
               <img src="/assets/img/vancehDigital.svg"></img>
             </div>
           </Col>
-          <Col md={4} sm={4} xs={12} className="Login p-4">
+          <Col md={4} sm={4} xs={12} style={{
+            background: 'white',
+            borderRadius: '10px',
+            padding: '20px',
+            maxWidth: '500px',
+            width: '100%',
+          }}>
             <h4 className="fw-bold fs-4">Esqueceu sua senha?</h4>
             <p className="text-muted">
               Digite seu e-mail e enviaremos um link para redefinir sua senha e
