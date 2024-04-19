@@ -372,7 +372,6 @@ const NewClientAdd = ({ show, handleClose, refresh, setRefresh }) => {
                     </InputGroup.Text>
                     <Form.Control
                       maxLength={25}
-                      placeholder="Sua informação"
                       type="text"
                       name="name"
                       className="Cardinput border-0"
