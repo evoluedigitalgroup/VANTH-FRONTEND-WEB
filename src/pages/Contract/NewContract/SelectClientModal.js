@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Modal, Row } from "react-bootstrap";
+import {
+  Button,
+  Modal,
+  Form,
+  FormGroup,
+  InputGroup,
+} from "react-bootstrap";
 import Select from "react-select";
 import { useRecoilState } from "recoil";
 //
 import Loader from "../../../components/Loader";
 import { getContactList } from "../../Clients/api";
-import { contractSelectedUser, contractSelectedUsers, contractModels } from "../../../recoil/Atoms";
+import { contractSelectedUser, contractSelectedUsers, contractModels, contractSelectedInvitors } from "../../../recoil/Atoms";
 import {
   openSelectTemplate,
   resetModels,
@@ -25,10 +31,10 @@ const SelectClientModal = ({ show, onHide }) => {
   const [loading, setLoading] = useState(false);
 
   const [selectionList, setSelectionList] = useRecoilState(contractSelectedUsers)
+  const [invitors, setInvitors] = useRecoilState(contractSelectedInvitors)
 
   const handleShowTamplateModal = () => {
-    if(selectionList.length != 0) {
-      // setShowModal(true);
+    if (selectionList.length != 0) {
       setModals(resetModels());
       setModals(openSelectTemplate());
     } else {
@@ -66,12 +72,29 @@ const SelectClientModal = ({ show, onHide }) => {
   }
 
   const handleSelectChange = (option) => {
+    if (!option) {
+      return;
+    }
+
     setSelectedOption(option);
     if (!selectionList.some(item => item.label === option.label)) {
       setSelectionList([...selectionList, option]);
     }
   }
-  
+
+  const [invitor, setInvitor] = useState({
+    name: "",
+    email: "",
+  });
+
+  const handleAddInvitor = (invitor) => {
+    if (invitor.name === "" || invitor.email === "") {
+      return;
+    }
+    setInvitor({ name: "", email: "" });
+    setInvitors([...invitors, invitor]);
+  };
+
 
   const formatOptionLabel = ({ label, phoneNumber }) => (
     <div className="d-flex justify-content-between mx-md-4">
@@ -111,36 +134,142 @@ const SelectClientModal = ({ show, onHide }) => {
                   <img src="/assets/img/close.png"></img>
                 </Button>
               </div>
+              <h5 style={{
+                fontSize: "20px",
+                fontWeight: "400",
+                marginTop: "20px",
+              }}>Adicionar novo assinante</h5>
+              <div style={{ display: "flex", alignItems: "center", width: "100%", gap: "1rem" }}>
+                <Form style={{ width: "100%" }}>
+                  <Form.Label className="Doc-Font-Color">
+                    Nome
+                  </Form.Label>
+                  <FormGroup className="" style={{ position: "relative" }}>
+                    <InputGroup className="mb-3 rounded">
+                      <Form.Control
+                        placeholder="Ana Júlia Garcia"
+                        type="text"
+                        name="name"
+                        className="Cardinput border-0  badge-relative"
+                        value={invitor.name}
+                        onChange={(e) =>
+                          setInvitor({ ...invitor, name: e.target.value })
+                        }
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                </Form>
+                <Form style={{ width: "100%" }}>
+                  <Form.Label className="Doc-Font-Color">
+                    Email
+                  </Form.Label>
+                  <FormGroup className="" style={{ position: "relative" }}>
+                    <InputGroup className="mb-3 rounded">
+                      <Form.Control
+                        placeholder="ana@email.com"
+                        type="e-mail"
+                        name="email"
+                        className="Cardinput border-0  badge-relative"
+                        value={invitor.email}
+                        onChange={(e) =>
+                          setInvitor({ ...invitor, email: e.target.value })
+                        }
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                </Form>
+                <Button onClick={() => handleAddInvitor(invitor)}>
+                  Adicionar
+                </Button>
+              </div>
+              <h5 style={{
+                fontSize: "20px",
+                fontWeight: "400",
+                marginTop: "20px",
+              }}>Adicionar cliente como assinante</h5>
               <div
                 id="selectUserNameAndTelephone"
                 className="mt-3 selctedUserNameAndTelephoneLabel"
-                // style={{ width: "60%" }}
               >
                 <Select
                   defaultValue={selectedOption}
                   formatOptionLabel={formatOptionLabel}
                   onChange={handleSelectChange}
                   options={contactsData}
+                  styles={{
+                    control: (styles) => ({
+                      ...styles,
+                      backgroundColor: "white",
+                      border: "1px solid #BAC4C8",
+                      borderRadius: "6px",
+                      height: "50px",
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                    }),
+                    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+                      return {
+                        ...styles,
+                        backgroundColor: isDisabled
+                          ? null
+                          : isSelected
+                            ? "#0068FF"
+                            : isFocused
+                              ? "#0068FF"
+                              : null,
+                        color: isDisabled
+                          ? "#ccc"
+                          : isSelected
+                            ? "white"
+                            : isFocused
+                              ? "white"
+                              : "black",
+                        cursor: isDisabled ? "not-allowed" : "default",
+                        ":active": {
+                          ...styles[":active"],
+                          backgroundColor: !isDisabled && (isSelected ? "#0053cc" : "#dcdcdc"),
+                        },
+                      };
+                    },
+                  }}
                 />
               </div>
               <div>
 
-              <div className="my-4">
-                <h6 className="font-bold">Destinatários Selecionados</h6>
-
-                {selectionList.map((item, index) => {
-                  return(
-                  <div key={index} className="d-flex align-items-center align-center gap-4"> 
-                    <div className="d-flex align-items-center">
-                      <i className="bi bi-person-fill px-1" style={{ color: "#BAC4C8" }}></i>
-                      {item.label} <i> - </i>  {formatPhoneNumber(item.phoneNumber)}
-                    </div>
-                    <h6 style={{ color: 'blue', cursor: 'pointer' }} className="m-0" onClick={() => { setSelectionList( selectionList.filter((k) => k.label !== item.label) ) }}>X</h6>                     
-                  </div>
-                  )
-                })}
-
-              </div>
+                <div className="my-4">
+                  {Boolean(selectionList.length) && (
+                    <>
+                      <h6 className="font-bold">Clientes Selecionados</h6>
+                      {selectionList.map((item, index) => {
+                        return (
+                          <div key={index} className="d-flex align-items-center align-center gap-4">
+                            <div className="d-flex align-items-center">
+                              <i className="bi bi-person-fill px-1" style={{ color: "#BAC4C8" }}></i>
+                              {item.label} <i> - </i>  {formatPhoneNumber(item.phoneNumber)}
+                            </div>
+                            <h6 style={{ color: 'blue', cursor: 'pointer' }} className="m-0" onClick={() => { setSelectionList(selectionList.filter((k) => k.label !== item.label)) }}>X</h6>
+                          </div>
+                        )
+                      })}
+                    </>
+                  )}
+                  {Boolean(invitors.length) && (
+                    <>
+                      <h6 className="font-bold">Assinantes Adicionados</h6>
+                      {invitors.map((item, index) => {
+                        return (
+                          <div key={index} className="d-flex align-items-center align-center gap-4">
+                            <div className="d-flex align-items-center">
+                              <i className="bi bi-person-fill px-1" style={{ color: "#BAC4C8" }}></i>
+                              {` ${item.name} - ${item.email} `}
+                            </div>
+                            <h6 style={{ color: 'blue', cursor: 'pointer' }} className="m-0" onClick={() => { setInvitors(invitors.filter((k) => k.name !== item.name)) }}>X</h6>
+                          </div>
+                        )
+                      })}
+                    </>
+                  )}
+                </div>
 
               </div>
               <div>

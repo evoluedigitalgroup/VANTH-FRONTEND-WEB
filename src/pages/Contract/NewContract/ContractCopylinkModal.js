@@ -14,7 +14,7 @@ import {
 } from "../../../recoil/ContractAtoms/Templates";
 import { generateContractLink, getContractList } from "../api";
 import { CONTRACT_LINK_URL } from "../../../config";
-import { contractModels, contractSelectedUsers, profileAtom } from "../../../recoil/Atoms";
+import { contractModels, contractSelectedUsers, profileAtom, contractSelectedInvitors } from "../../../recoil/Atoms";
 
 const ContractCopylinkModal = ({
   show,
@@ -31,6 +31,7 @@ const ContractCopylinkModal = ({
   const profile = useRecoilValue(profileAtom);
 
   const selectionList = useRecoilValue(contractSelectedUsers);
+  const [invitors, setInvitors] = useRecoilState(contractSelectedInvitors);
 
   const allTemplatesList = useRecoilValue(templatesListAtom);
   const [selectedTemplates, setSelectedTemplates] = useRecoilState(
@@ -44,7 +45,7 @@ const ContractCopylinkModal = ({
   useEffect(() => {
     setGeneratedLink(link);
   }, [link]);
-  
+
   const handlePdfSelect = (file) => {
     setSelectedPdf(file);
   };
@@ -142,15 +143,15 @@ const ContractCopylinkModal = ({
   const onGenerateLink = () => {
     let generatedLinks = []
 
-    console.log(selectionList)
     setLoading(true)
 
     let submitClientIdList = []
-    selectionList.forEach((item, index) => submitClientIdList.push(item.value))
+    selectionList.forEach((item) => submitClientIdList.push(item.value))
 
     const submitData = {
       selectedTemplates: selectedTemplates,
       selectedContacts: submitClientIdList,
+      visitorsBody: invitors.length > 0 ? invitors : undefined,
     };
 
     console.log('submitData', submitData);
@@ -198,36 +199,36 @@ const ContractCopylinkModal = ({
           <Row>
             <Col md={12}>
               <InputGroup className="mb-3" style={{ borderRadius: "6px" }}>
-                { generatedLink.map((item, i) => {
-                  
+                {generatedLink.map((item, i) => {
+
                   if (!item.name) {
-                    return(
+                    return (
                       <div
-                      key={i}
-                      > 
+                        key={i}
+                      >
                         <Form.Control
-                        className="p-2 border-0 fw-bold shadow-none"
-                        style={{ backgroundColor: "#F4F6F8" }}
-                        value={item}
+                          className="p-2 border-0 fw-bold shadow-none"
+                          style={{ backgroundColor: "#F4F6F8" }}
+                          value={item}
                         />
                       </div>
                     )
                   }
 
-                  return(
+                  return (
                     <div
-                    key={i}
+                      key={i}
                     >
                       <h7 className="fw-bold">Link de {item.name}</h7>
 
                       <Form.Control
-                      className="p-2 border-0 fw-bold shadow-none"
-                      style={{ backgroundColor: "#F4F6F8" }}
-                      value={item.link}
+                        className="p-2 border-0 fw-bold shadow-none"
+                        style={{ backgroundColor: "#F4F6F8" }}
+                        value={item.link}
                       />
                     </div>
                   )
-                }) }
+                })}
               </InputGroup>
             </Col>
           </Row>
@@ -250,7 +251,7 @@ const ContractCopylinkModal = ({
           </Col>
           <Col xs={12} md={4}>
             <div className="d-flex justify-content-md-end justify-content-center mt-md-4">
-                
+
             </div>
           </Col>
         </Row>
@@ -365,9 +366,9 @@ const ContractCopylinkModal = ({
                 .map((item, index) => (
                   <DocumentBlock data={item} />
                 ))
-                
-                
-                }
+
+
+              }
               <AddNewDocument />
             </Row>
           </div>
