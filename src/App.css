@@ -748,11 +748,6 @@ width: 15vw !important; */
   height: 100% !important;
 }
 
-/* .react-pdf__Page__canvas{
-  height: 49% !important;
-width: 100% !important;
-} */
-
 .react-pdf__Page__canvas {
   margin: 0 auto;
   width: 18vw !important;
@@ -769,11 +764,18 @@ width: 100% !important;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background: #0068FF !important; */
 }
 
-.contact-wait {
+.contact-pending {
+  background-color: #e97f1e !important;
+}
+
+.contact-rejected {
   background-color: #ae2424 !important;
+}
+
+.contact-approved {
+  background-color: #58a43d !important;
 }
 
 .document-pending {

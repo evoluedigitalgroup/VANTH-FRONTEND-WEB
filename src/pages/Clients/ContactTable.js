@@ -57,7 +57,23 @@ const ContactTable = ({
     setTarget(event.target);
   };
 
-  console.log('tableData', tableData);
+
+
+  const getContactApproveText = (contactApprove) => {
+    return {
+      pending: "Aguardando",
+      approved: "Aprovado",
+      rejected: "Reprovado",
+    }[contactApprove];
+  };
+
+  const getContactApproveClassname = (contactApprove) => {
+    return {
+      pending: "contact-pending",
+      approved: "contact-approved",
+      rejected: "contact-rejected",
+    }[contactApprove];
+  }
 
   return (
     <div>
@@ -158,13 +174,7 @@ const ContactTable = ({
                       fontWeight: "normal",
                       padding: "0",
                     }}
-                    className={
-                      obj.contactApprove === "pending"
-                        ? "document-pending"
-                        : obj.contactApprove === "rejected"
-                          ? "contact-wait"
-                          : "document-success"
-                    }
+                    className={getContactApproveClassname(obj.contactApprove)}
                     onClick={
                       obj.contactApprove !== "rejected" &&
                         obj.contactApprove !== "approved"
@@ -172,11 +182,7 @@ const ContactTable = ({
                         : (e) => handalShowTooltip(e, obj.id)
                     }
                   >
-                    {obj.contactApprove === "pending"
-                      ? "Aguardando"
-                      : obj.contactApprove === "rejected"
-                        ? "Reprovado"
-                        : "Aprovado"}
+                    {getContactApproveText(obj.contactApprove)}
                   </Button>
                   {show && (
                     <ContactTooltip

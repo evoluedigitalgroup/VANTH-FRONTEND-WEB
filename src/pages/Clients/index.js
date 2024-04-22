@@ -154,7 +154,7 @@ function StatusSelectorButton({ active, onClick, children }) {
 function StatusToggle({ value, onChange }) {
   const options = [
     { key: "approved", label: "Aprovados" },
-    { key: "reproved", label: "Reprovados" },
+    { key: "rejected", label: "Reprovados" },
     { key: "pending", label: "Aguardando" },
     { key: "all", label: "Todas" },
   ];
