@@ -57,36 +57,10 @@ const ContactTable = ({
     setTarget(event.target);
   };
 
-  let modalState = false
-
-  const handleRemoveClient = (obj) => {
-    return(
-      <div>
-        <Modal
-        className='d-flex mt-5 align-items-center zindex'
-        show={modalState}
-        >
-        <Row className='p-3 px-4 mt-2'>
-					<Col md={10} xs={9}>
-						<h5 className='fw-bolder'>
-							Remova o cliente da sua lista de clientes!
-						</h5>
-					</Col>
-					<Col className='text-end'>
-						<img
-							style={{ cursor: "pointer" }}
-							onClick={() => modalState = false}
-							src='assets/img/close.png'></img>
-					</Col>
-				</Row>
-        </Modal>
-      </div>
-    )
-  }
+  console.log('tableData', tableData);
 
   return (
     <div>
-      {/* <Suspense fallback={<Loader />}> */}
       <Table responsive>
         {tableData?.length ? (
           <thead>
@@ -107,6 +81,7 @@ const ContactTable = ({
           <tbody>
             {tableData?.map((obj, i) => (
               <tr
+                key={`contact-${obj.id}`}
                 id="clientTable"
                 style={{
                   position: "relative",
@@ -187,12 +162,12 @@ const ContactTable = ({
                       obj.contactApprove === "pending"
                         ? "document-pending"
                         : obj.contactApprove === "rejected"
-                        ? "contact-wait"
-                        : "document-success"
+                          ? "contact-wait"
+                          : "document-success"
                     }
                     onClick={
                       obj.contactApprove !== "rejected" &&
-                      obj.contactApprove !== "approved"
+                        obj.contactApprove !== "approved"
                         ? (e) => handalShowTooltip(e, obj.id)
                         : (e) => handalShowTooltip(e, obj.id)
                     }
@@ -200,8 +175,8 @@ const ContactTable = ({
                     {obj.contactApprove === "pending"
                       ? "Aguardando"
                       : obj.contactApprove === "rejected"
-                      ? "Reprovado"
-                      : "Aprovado"}
+                        ? "Reprovado"
+                        : "Aprovado"}
                   </Button>
                   {show && (
                     <ContactTooltip
@@ -218,48 +193,48 @@ const ContactTable = ({
                 </td>
                 {
                   obj.contactApprove === "pending" &&
-                    (idArray.includes(obj.id) ? (
-                      <div
-                        className="d-flex justify-content-end"
-                        style={{
-                          position: "absolute",
-                          top: "45%",
-                          right: "0%",
-                          paddingRight: "1%",
-                          marginRight: "2px",
-                        }}
+                  (idArray.includes(obj.id) ? (
+                    <div
+                      className="d-flex justify-content-end"
+                      style={{
+                        position: "absolute",
+                        top: "45%",
+                        right: "0%",
+                        paddingRight: "1%",
+                        marginRight: "2px",
+                      }}
+                    >
+                      <h6
+                        style={{ color: "#B5B6B7" }}
+                        className="d-flex mt-1 align-items-center"
                       >
-                        <h6
-                          style={{ color: "#B5B6B7" }}
-                          className="d-flex mt-1 align-items-center"
-                        >
-                          Entrar em contato por:
-                        </h6>
-                        <div className="ps-3">
-                          {obj?.phone && (
-                            <Button
+                        Entrar em contato por:
+                      </h6>
+                      <div className="ps-3">
+                        {obj?.phone && (
+                          <Button
+                            style={{
+                              background: "#1C3D59",
+                            }}
+                            className="border-0"
+                          >
+                            <a
+                              href={`https://wa.me/${obj.phone}`}
+                              target="_blank"
                               style={{
-                                background: "#1C3D59",
+                                textDecoration: "none",
+                                color: "#fff",
                               }}
-                              className="border-0"
                             >
-                              <a
-                                href={`https://wa.me/${obj.phone}`}
-                                target="_blank"
-                                style={{
-                                  textDecoration: "none",
-                                  color: "#fff",
-                                }}
-                              >
-                                <i className="bi bi-whatsapp"></i>
-                              </a>
-                            </Button>
-                          )}
-                        </div>
+                              <i className="bi bi-whatsapp"></i>
+                            </a>
+                          </Button>
+                        )}
                       </div>
-                    ) : (
-                      ""
-                    ))
+                    </div>
+                  ) : (
+                    ""
+                  ))
                   // </div>
                 }
               </tr>
@@ -270,7 +245,7 @@ const ContactTable = ({
         )}
       </Table>
       <NewPagination
-        show={tableDataArray?.findData?.length && tableDataArray?.totalFindData}
+        show={tableDataArray?.clients?.length && tableDataArray?.count}
         atom={contactActivePageAtom}
         prevSelector={contactPrevPageSelector}
         nextSelector={contactNextPageSelector}
@@ -278,7 +253,6 @@ const ContactTable = ({
         showLastSelector={contactShowLastPageSelector}
         totalPage={totalPage}
       />
-      {/* </Suspense> */}
     </div>
   );
 };

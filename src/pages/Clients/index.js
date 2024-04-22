@@ -15,77 +15,35 @@ import {
   toReloadContactData,
 } from "../../recoil/PaginationAtoms/Contact";
 import { Helmet } from "react-helmet";
-import { Tooltip } from "../../components/JoyRideCustomBox";
-import Joyride from "react-joyride";
 
 const ClientData = ({
-  search,
+  search = "",
   tableRow,
   refresh,
   setRefresh,
   setTableRow,
-  searchResult,
-  setSearchResult,
-  filterVal,
-  active,
-  setActive,
+  status,
 }) => {
   const tableData = useRecoilValue(
-    contactPaginationData(searchResult ? search : (search = ""))
+    contactPaginationData({
+      status,
+      search,
+    })
   );
 
   const [reloadVal, reloadData] = useRecoilState(toReloadContactData);
-  const totalPage = Math.ceil((tableData?.totalFindData || 1) / PAGE_LIMIT);
-  const [table, setTable] = useRecoilState(contactTableData);
+
+  const totalPage = Math.ceil(
+    (tableData?.count || 1) / PAGE_LIMIT
+  );
 
   useEffect(() => {
     reloadData(reloadVal + 1);
-    setSearchResult(false);
   }, [refresh]);
+
   useEffect(() => {
-    // setTable(tableData?.findData);
-    setTableRow(tableData?.findData);
+    setTableRow(tableData?.clients);
   }, [tableData]);
-
-  useEffect(() => {
-    handleToggle();
-  }, [filterVal]);
-
-  const handleToggle = () => {
-    if (filterVal === "Pending") {
-      setActive({
-        pending: true,
-        approved: false,
-        all: false,
-      });
-
-      const newData = tableData?.findData.filter((obj) => {
-        if (obj.contactApprove === "pending") {
-          return obj;
-        }
-      });
-      setTableRow(newData);
-    } else if (filterVal === "Approved") {
-      setActive({
-        pending: false,
-        approved: true,
-        all: false,
-      });
-      const newData = tableData?.findData.filter((obj) => {
-        if (obj.contactApprove === "approved") {
-          return obj;
-        }
-      });
-      setTableRow(newData);
-    } else {
-      setActive({
-        pending: false,
-        approved: false,
-        all: true,
-      });
-      setTableRow(tableData?.findData);
-    }
-  };
 
   return (
     <Suspense fallback={<Loader />}>
@@ -100,52 +58,25 @@ const ClientData = ({
   );
 };
 
-const Clients = () => {
+export default function Clients() {
   const [tableRow, setTableRow] = useState([]);
   const [refresh, setRefresh] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [active, setActive] = useState({
-    pending: false,
-    approved: false,
-    all: true,
-  });
-  const [filterVal, setFilterVal] = useState("All");
-
-  const [search, setSearch] = useState();
-
-  const [searchResult, setSearchResult] = useState(false);
-
-  const [show, setShow] = useState(false);
-
-  const [newTableRow, setNewtableRow] = useState([]);
+  const [status, setStatus] = useState("all"); // all, approved, reproved, pending
+  const [search, setSearch] = useState("");
 
   const [table, setTable] = useRecoilState(contactTableData);
 
   useEffect(() => {
-    setLoading(true);
-    const submitData = {
-      search,
-    };
-    getContactList(submitData).then((res) => {
+    getContactList(1, search).then((res) => {
       if (res.success) {
         setTable(res.data.findData);
         setTableRow(res.data.findData);
-        setLoading(false);
       } else {
         setTable([]);
         setTableRow([]);
-        setLoading(false);
       }
     });
   }, [refresh]);
-
-  const onEnter = (e) => {
-    if (e.key === "Enter") {
-      setSearchResult(true);
-    } else {
-      setSearchResult(false);
-    }
-  };
 
   const [showNovaClientButtonClick, setShowNovaClientButtonClick] =
     useState(false);
@@ -176,43 +107,14 @@ const Clients = () => {
           </button>
         </div>
         <Card className="mx-0 mx-md-5 my-md-3 p-3 px-md-4 cardComponent">
-          {/* <NAVBAR /> */}
           <TableNavbar
-            title={"Clientes"}
+            title="Clientes"
             setSearch={setSearch}
-            onEnter={onEnter}
             refresh={refresh}
             setRefresh={setRefresh}
             search={search}
-            setActive={setActive}
-            active={active}
           >
-            <div className="">
-              <Button
-                className={`fs-color mx-2 border-0 ${
-                  active.pending ? "activeBtnTable" : "inActiveBtnTable"
-                }`}
-                onClick={(e) => setFilterVal("Pending")}
-              >
-                Pendentes
-              </Button>
-              <Button
-                className={`fs-color  mx-2 border-0 ${
-                  active.approved ? "activeBtnTable" : "inActiveBtnTable"
-                }`}
-                onClick={(e) => setFilterVal("Approved")}
-              >
-                Respondidas
-              </Button>
-              <Button
-                className={`fs-color px-4 border-0 ${
-                  active.all ? "activeBtnTable" : "inActiveBtnTable"
-                }`}
-                onClick={(e) => setFilterVal("All")}
-              >
-                Todos
-              </Button>
-            </div>
+            <StatusToggle value={status} onChange={setStatus} />
           </TableNavbar>
           <Suspense fallback={<Loader />}>
             <ClientData
@@ -221,11 +123,7 @@ const Clients = () => {
               setRefresh={setRefresh}
               search={search}
               setTableRow={setTableRow}
-              searchResult={searchResult}
-              setSearchResult={setSearchResult}
-              filterVal={filterVal}
-              active={active}
-              setActive={setActive}
+              status={status}
             />
           </Suspense>
         </Card>
@@ -242,4 +140,36 @@ const Clients = () => {
   );
 };
 
-export default Clients;
+function StatusSelectorButton({ active, onClick, children }) {
+  return (
+    <Button
+      className={`fs-color mx-1 border-0 ${active ? "activeBtnTable" : "inActiveBtnTable"}`}
+      onClick={onClick}
+    >
+      {children}
+    </Button>
+  );
+}
+
+function StatusToggle({ value, onChange }) {
+  const options = [
+    { key: "approved", label: "Aprovados" },
+    { key: "reproved", label: "Reprovados" },
+    { key: "pending", label: "Aguardando" },
+    { key: "all", label: "Todas" },
+  ];
+
+  return (
+    <div>
+      {options.map((option) => (
+        <StatusSelectorButton
+          key={option.key}
+          active={value === option.key}
+          onClick={() => onChange(option.key)}
+        >
+          {option.label}
+        </StatusSelectorButton>
+      ))}
+    </div>
+  );
+}

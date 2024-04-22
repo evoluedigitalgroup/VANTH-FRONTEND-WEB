@@ -76,10 +76,7 @@ const Insights = () => {
   }, [status]);
   useEffect(() => {
     setLoading(true);
-    const submitData = {
-      search: "",
-    };
-    getContactList(submitData).then((res) => {
+    getContactList().then((res) => {
       if (res.success) {
         setTableRow(res.data.findData);
         setLoading(false);

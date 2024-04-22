@@ -14,11 +14,11 @@ export const toReloadContactData = atom({
 export const contactPaginationData = selectorFamily({
 	key: "contactPaginationData",
 	get:
-		(search = null) =>
+		({search = null, status = ""}) =>
 			async ({ get, set }) => {
 				get(toReloadContactData);
 				const currentPage = get(contactActivePageAtom);
-				const apiData = await getContactList(currentPage, search);
+				const apiData = await getContactList(currentPage, search, status);
 				return apiData.data;
 			},
 });

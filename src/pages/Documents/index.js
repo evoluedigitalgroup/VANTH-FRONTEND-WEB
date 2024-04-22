@@ -96,10 +96,6 @@ export default function Documents() {
     setTutorialValue({ ...tutorialValue, index: 9 });
   };
 
-  const handleChangeStatus = (status) => {
-    setStatus(status);
-  };
-
   return (
     <>
       <Helmet>
@@ -116,7 +112,7 @@ export default function Documents() {
               setRefresh={setRefresh}
               search={search}
             >
-              <StatusToggle value={status} onChange={handleChangeStatus} />
+              <StatusToggle value={status} onChange={setStatus} />
             </TableNavbar>
           </div>
           <Suspense fallback={<Loader />}>

@@ -14,12 +14,13 @@ import {
   REMOVE_DOCUMENT_TYPE,
 } from "../../helper/url";
 
-export const getContactList = (page, search, limit = PAGE_LIMIT) => {
+export const getContactList = (page = 1, search = "", status = "", limit = PAGE_LIMIT) => {
   return new Promise((resolve, reject) => {
     const submitData = {
-      startFrom: (page - 1) * limit,
-      totalFetchRecords: limit,
+      start: (page - 1) * limit,
+      limit,
       search,
+      status,
     };
     api(GET_CONTACT, "post", submitData)
       .then((res) => {

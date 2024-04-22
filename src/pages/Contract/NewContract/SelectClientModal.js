@@ -44,7 +44,7 @@ const SelectClientModal = ({ show, onHide }) => {
 
   useEffect(() => {
     setLoading(true);
-    getContactList(1, "", 9999999).then((res) => {
+    getContactList(1, "", "all", 9999999).then((res) => {
       if (res.success) {
         let optionsData = res.data.findData.map((item) => {
           return {
