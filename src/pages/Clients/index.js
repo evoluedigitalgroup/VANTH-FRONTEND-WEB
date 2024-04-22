@@ -1,7 +1,6 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { useRecoilState, useRecoilValue } from "recoil";
-//
 import { getContactList } from "./api";
 import ContactTable from "./ContactTable";
 import { PAGE_LIMIT } from "../../config";
