@@ -172,24 +172,102 @@ const DocumentTable = ({
                     width: "100%",
                   }}>
                     <Row className="mt-5 mt-md-0">
-                      {obj.otherInformation.map((objct, i) => {
+                      <Col md={4} xs={12}>
+                        <Form>
+                          <Form.Label className="Doc-Font-Color">
+                            Nome
+                          </Form.Label>
+                          <FormGroup>
+                            <Form.Control
+                              placeholder="Nome"
+                              type="text"
+                              readOnly
+                              value={obj.name || ""}
+                              name="name"
+                            />
+                          </FormGroup>
+                        </Form>
+                      </Col>
+                      <Col md={4} xs={12}>
+                        <Form>
+                          <Form.Label className="Doc-Font-Color">
+                            CPF
+                          </Form.Label>
+                          <FormGroup>
+                            <Form.Control
+                              placeholder="CPF"
+                              type="text"
+                              readOnly
+                              value={formatarCPF(obj.CPF) || ""}
+                              name="CPF"
+                            />
+                          </FormGroup>
+                        </Form>
+                      </Col>
+                      <Col md={4} xs={12}>
+                        <Form>
+                          <Form.Label className="Doc-Font-Color">
+                            CNPJ
+                          </Form.Label>
+                          <FormGroup>
+                            <Form.Control
+                              placeholder="CNPJ"
+                              type="text"
+                              readOnly
+                              value={formatarCNPJ(obj.CNPJ) || ""}
+                              name="CNPJ"
+                            />
+                          </FormGroup>
+                        </Form>
+                      </Col>
+                      <Col md={4} xs={12}>
+                        <Form>
+                          <Form.Label className="Doc-Font-Color">
+                            Email
+                          </Form.Label>
+                          <FormGroup>
+                            <Form.Control
+                              placeholder="Email"
+                              type="text"
+                              readOnly
+                              value={obj.email || ""}
+                              name="email"
+                            />
+                          </FormGroup>
+                        </Form>
+                      </Col>
+                      <Col md={4} xs={12}>
+                        <Form>
+                          <Form.Label className="Doc-Font-Color">
+                            Telefone
+                          </Form.Label>
+                          <FormGroup>
+                            <Form.Control
+                              placeholder="Telefone"
+                              type="text"
+                              readOnly
+                              value={formatarTelefone(obj.phone) || ""}
+                              name="phone"
+                            />
+                          </FormGroup>
+                        </Form>
+                      </Col>
+                      {obj.otherInformation.map((info, i) => {
                         return (
-                          <Col key={`${i}`} md={4} xs={12}>
+                          <Col key={info.key} md={4} xs={12}>
                             <Form>
                               <Form.Label className="Doc-Font-Color">
-                                {objct?.key}
+                                {info?.key}
                               </Form.Label>
-                              <FormGroup style={{ position: "relative" }}>
+                              <FormGroup>
                                 <Form.Control
-                                  placeholder="Sua informação"
+                                  placeholder={info?.placeholder}
                                   type="text"
                                   readOnly
                                   value={
-                                    objct?.value
-                                      ? objct?.value
-                                      : objct?.placeholder
+                                    info?.value || info?.placeholder || ""
                                   }
-                                  name="name"
+                                  name={info?.key}
                                 />
                               </FormGroup>
                             </Form>
@@ -268,7 +346,7 @@ const DocumentTable = ({
         showLastSelector={documentShowLastPageSelector}
         totalPage={totalPage}
       />
-    </div>
+    </div >
   );
 };
 
