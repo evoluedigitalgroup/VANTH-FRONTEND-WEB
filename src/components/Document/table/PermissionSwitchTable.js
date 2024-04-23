@@ -12,7 +12,6 @@ const PermissionSwitchTable = ({ formValues, handleCheck, editData, switchesData
               name={obj?.label}
               label={obj?.title}
               defaultChecked={formValues[obj?.label] || (editData?.docs?.[obj?.label] && editData?.docs?.[obj?.label]?.approved)}
-              //disabled={editData?.docs?.[obj?.label] && editData?.docs?.[obj?.label]?.approved}
               handleCheck={handleCheck}
               refreshDocumentTypes={refreshDocumentTypes}
             />

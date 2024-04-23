@@ -282,7 +282,11 @@ const DocumentTable = ({
                         documentListData={documentListData}
                         handleShowImageModal={handleShowImageModal}
                       />
-                      <div className={`${isMobile ? 'mt-0' : 'mt-4'}`}>
+                      <div className={`${isMobile ? 'mt-0' : 'mt-4'}`} style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        alignItems: "center",
+                      }}>
                         <GenerateLinkBtn
                           onClick={() => handleShowLinkModal(obj)}
                           obj={obj}

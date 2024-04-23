@@ -3,34 +3,31 @@ import { Col, Form } from "react-bootstrap";
 import { removeDocumentType } from "../../../pages/Clients/api";
 import { toast } from "react-toastify";
 
-const PermissionSwitch = ({
+export default function PermissionSwitch({
 	label,
 	name,
-	checked,
 	defaultChecked,
 	handleCheck,
 	disabled,
-	onClickRemove,
 	refreshDocumentTypes
-}) => {
+}) {
+	const onRemoveOtherInfo = async (permissionName) => {
+		const keyname = permissionName.split(" ").join("_").toLowerCase();
 
-  const onRemoveOtherInfo =  async (permissionName) => {
-    const keyname = permissionName.split(" ").join("_").toLowerCase();
+		const permissionObj = {
+			key: keyname,
+			title: permissionName,
+		};
 
-    const permissionObj = {
-      key: keyname,
-      title: permissionName,
-    };
+		const newDocumentResult = await removeDocumentType(permissionObj);
 
-    const newDocumentResult = await removeDocumentType(permissionObj);
-
-    if (newDocumentResult.success) {
+		if (newDocumentResult.success) {
 			refreshDocumentTypes()
-      toast.success(newDocumentResult.message);
-    } else {
-      toast.error(newDocumentResult.message);
-    }
-  }
+			toast.success(newDocumentResult.message);
+		} else {
+			toast.error(newDocumentResult.message);
+		}
+	}
 
 	return (
 		<Col md={6}>
@@ -39,7 +36,6 @@ const PermissionSwitch = ({
 					className='chack-item input-check fs-5 border-0'
 					type='switch'
 					id='custom-switch'
-					// checked={checked}
 					name={name}
 					defaultChecked={defaultChecked}
 					onChange={handleCheck}
@@ -52,10 +48,8 @@ const PermissionSwitch = ({
 					}}>
 					{label}
 				</label>
-				<h6 style={{ cursor: 'pointer', marginLeft: '10px', marginTop: '2px', color: 'cyan'}} onClick={() => onRemoveOtherInfo(label)}>X</h6>
+				<h6 style={{ cursor: 'pointer', marginLeft: '10px', marginTop: '2px', color: '#1C3D59' }} onClick={() => onRemoveOtherInfo(label)}>X</h6>
 			</Form>
 		</Col>
 	);
 };
-
-export default PermissionSwitch;

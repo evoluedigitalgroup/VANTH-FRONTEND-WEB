@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 
-const ModalCardRow = ({ handleClose, editData, switchesData }) => {
+export default function ModalCardRow({ handleClose, editData, switchesData }) {
 	return (
 		<div>
 			<Row className='p-3 px-4'>
@@ -21,25 +21,22 @@ const ModalCardRow = ({ handleClose, editData, switchesData }) => {
 				<Col md={12}>
 					<h6>Documentos já enviados e aprovados</h6>
 				</Col>
-				{
-					Object.keys(editData?.docs).map((key, index) => {
-						if (editData?.docs[key]) {
-							if (editData?.docs[key].approved) {
-								return (
-									<Col md={6} key={index}>
-										<img src='assets/img/right1.png'></img>
-										<span className='ps-2' style={{ fontWeight: "500" }}>
-											{switchesData.find((obj) => obj.label === key)?.title}
-										</span>
-									</Col>
-								);
-							}
+				{Object.keys(editData?.docs).map((key, index) => {
+					if (editData?.docs[key]) {
+						if (editData?.docs[key].approved) {
+							return (
+								<Col md={6} key={index}>
+									<img src='assets/img/right1.png'></img>
+									<span className='ps-2' style={{ fontWeight: "500" }}>
+										{switchesData.find((obj) => obj.label === key)?.title}
+									</span>
+								</Col>
+							);
 						}
-					})
+					}
+				})
 				}
 			</Row>
 		</div>
 	);
 };
-
-export default ModalCardRow;

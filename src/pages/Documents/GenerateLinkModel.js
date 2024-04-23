@@ -13,7 +13,6 @@ import copyToClipboard from "copy-text-to-clipboard";
 import { LINK_URL } from "../../config";
 import {
   addNewDocumentType,
-  contactForm,
   generateLink,
   generateNewLink,
 } from "../Clients/api";
@@ -22,8 +21,11 @@ import { profileAtom } from "../../recoil/Atoms";
 import ModalCardRow from "../../components/Document/table/ModalCardRow";
 import PermissionSwitchTable from "../../components/Document/table/PermissionSwitchTable";
 import { sendClientSms } from "./api";
+import { FaWhatsapp } from "react-icons/fa";
+import { FaSms } from "react-icons/fa";
+import { FaRegEnvelope } from "react-icons/fa";
 
-const GenerateLinkModel = ({
+export default function GenerateLinkModel({
   open,
   handleClose,
   editData,
@@ -32,14 +34,12 @@ const GenerateLinkModel = ({
   switchesData,
   refreshDocumentTypes,
   editSwitchesData = null,
-}) => {
+}) {
   const [link, setLink] = useState(null);
   const profile = useRecoilValue(profileAtom);
 
   const [permission, setPermission] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const [otherPermissions, setOtherPermissions] = useState([]);
 
   const [otherInformation, setOtherInformation] = useState([]);
   const [otherInfo, setOtherInfo] = useState(undefined);
@@ -51,56 +51,6 @@ const GenerateLinkModel = ({
     CPF: editData?.CPF,
     CNPJ: editData?.CPNJ,
   });
-
-  const handleChange = (e) => {
-    setFormValues({
-      ...formValues,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmitData = () => {
-    console.log("formValues : ", formValues);
-    console.log("otherInformation : ", otherInformation);
-    const submitData = {
-      ...clientFormValues,
-      otherInformation,
-    };
-    console.log("submitData : ", submitData);
-    setLoading(true);
-    contactForm(submitData).then((res) => {
-      if (res.success) {
-        setRefresh(refresh + 1);
-        toast.success(res.message);
-        setLoading(false);
-        handleClose();
-      } else {
-        toast.error(res.message);
-        setLoading(false);
-      }
-    });
-  };
-
-  const onClickOtherInfo = (e) => {
-    setOtherInfo(null);
-  };
-
-  const onSubmitOtherInfoClient = (e) => {
-    if (otherInfo) {
-      if (otherInfo.key) {
-        setOtherInformation([...otherInformation, otherInfo]);
-        setOtherInfo(undefined);
-      } else {
-        toast.error("Por favor insira o tipo de informação");
-      }
-    } else {
-      toast.error("Por favor insira o tipo de informação");
-    }
-  };
-
-  const onClickRemove = (index) => {
-    setOtherInformation(otherInformation.filter((obj, i) => i !== index));
-  };
 
   useEffect(() => {
     setLoading(true);
@@ -116,7 +66,6 @@ const GenerateLinkModel = ({
     });
   }, []);
 
-  const [copyText, setCopyText] = useState(false);
   const [formValues, setFormValues] = useState({});
 
   const setFormValuesData = async () => {
@@ -170,7 +119,7 @@ const GenerateLinkModel = ({
   };
 
   const submitForm = (e) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(() => {
       if (
         Object.keys(formValues).filter((key) => formValues[key] === true)
           .length === 0
@@ -213,7 +162,6 @@ const GenerateLinkModel = ({
 
   const onSubmitOtherInfo = async (newPermission) => {
     const permissionName = newPermission.key.trim();
-    const permissionValue = false;
 
     const keyname = permissionName.split(" ").join("_").toLowerCase();
 
@@ -392,53 +340,90 @@ const GenerateLinkModel = ({
             </>
           )}
         </Row>
-        <Row className="px-4">
-          <Col md={12} className="mt-3">
-            <h6>Link para compartilhar com o cliente</h6>
-          </Col>
-          <Col id="shareLinkInput" md={6} className="p-2">
-            <InputGroup className="border-0 rounded ">
-              <Form.Control className="border-0 p-3 fw-bold" value={link} />
-            </InputGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={6}>
-            <div className="px-4 d-flex align-items-center ms-md-4">
-              <h6
+        <div className="px-4" style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          marginTop: '20px',
+        }}>
+          <h6>Link para compartilhar com o cliente</h6>
+          <InputGroup className="border-0 rounded ">
+            <Form.Control className="border-0 p-3 fw-bold" value={link} readOnly />
+          </InputGroup>
+        </div>
+        <div className="px-4" style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          marginTop: '20px',
+        }}>
+          <h6>Escolha o meio de envio:</h6>
+          <div style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: '.5rem',
+          }}>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: "1rem",
+              marginBottom: '20px',
+            }}>
+              <button
+                onClick={onClickWhatsApp}
                 style={{
-                  fontWeight: "600",
-                  fontSize: "12px",
-                  color: "#85A6A2",
+                  width: '45px',
+                  height: '45px',
+                  background: "#58A43D",
+                  border: 0,
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                Envie o Link acima para o cliente...
-              </h6>
+                <FaWhatsapp style={{ color: 'white' }} />
+              </button>
+              <button
+                onClick={onClickEmail}
+                style={{
+                  width: '45px',
+                  height: '45px',
+                  background: "#888888",
+                  border: 0,
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <FaRegEnvelope style={{ color: 'white' }} />
+              </button>
+              <button
+                onClick={onClickSms}
+                style={{
+                  width: '45px',
+                  height: '45px',
+                  background: "white",
+                  border: '1px solid #2196F3',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <FaSms style={{ color: '#2196F3' }} />
+              </button>
             </div>
-          </Col>
-          <Col md={6} className="my-3 text-md-end text-center">
-            <button
-              onClick={onClickWhatsApp}
-              style={{ background: "transparent", border: 0 }}
-            >
-              <img src="/assets/img/whatsApp.svg" />
-            </button>
-            <button
-              onClick={onClickEmail}
-              style={{ background: "transparent", border: 0 }}
-            >
-              <img src="/assets/img/mail.png" />
-            </button>
-            <button
-              onClick={onClickSms}
-              style={{ background: "transparent", border: 0 }}
-            >
-              <img src="/assets/img/sms.png" />
-            </button>
-
             <Button
               disabled={loading}
-              className="px-5 me-3"
+              className="px-5"
               style={{ background: "#1C3D59", border: "none" }}
               onClick={() => {
                 submitForm();
@@ -448,7 +433,7 @@ const GenerateLinkModel = ({
               Copiar link &nbsp;
               {loading && (
                 <div
-                  className="spinner-border spinner-border-sm "
+                  className="spinner-border spinner-border-sm"
                   role="status"
                   style={{
                     color: "#85A6A2",
@@ -456,11 +441,9 @@ const GenerateLinkModel = ({
                 ></div>
               )}
             </Button>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Modal>
     </div>
   );
 };
-
-export default GenerateLinkModel;
