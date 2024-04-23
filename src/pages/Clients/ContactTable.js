@@ -115,12 +115,10 @@ const ContactTable = ({
                       padding: "0",
                     }}
                     className={getContactApproveClassname(obj.contactApprove)}
-                    onClick={
-                      obj.contactApprove !== "rejected" &&
-                        obj.contactApprove !== "approved"
-                        ? (e) => handalShowTooltip(e, obj.id)
-                        : (e) => handalShowTooltip(e, obj.id)
-                    }
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handalShowTooltip(event, obj.id)
+                    }}
                   >
                     {getContactApproveText(obj.contactApprove)}
                   </Button>

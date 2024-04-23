@@ -35,31 +35,15 @@ export default function GenerateLinkModel({
   refreshDocumentTypes,
   editSwitchesData = null,
 }) {
-  const [link, setLink] = useState(null);
   const profile = useRecoilValue(profileAtom);
 
-  const [permission, setPermission] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const [otherInformation, setOtherInformation] = useState([]);
-  const [otherInfo, setOtherInfo] = useState(undefined);
-
-  const [clientFormValues, setClientFormValues] = useState({
-    name: editData?.name,
-    email: editData?.email,
-    phone: editData?.phone,
-    CPF: editData?.CPF,
-    CNPJ: editData?.CPNJ,
-  });
 
   useEffect(() => {
     setLoading(true);
     generateNewLink().then((res) => {
       if (res.success) {
         setLoading(false);
-        setPermission(res.data);
-
-        console.log("editData: ", editData);
       } else {
         setLoading(false);
       }
@@ -68,97 +52,76 @@ export default function GenerateLinkModel({
 
   const [formValues, setFormValues] = useState({});
 
-  const setFormValuesData = async () => {
-    if (editSwitchesData) {
-      const editSwitchesDataCopy = {};
+  useEffect(() => {
+    const setFormValuesData = async () => {
+      if (editSwitchesData) {
+        const editSwitchesDataCopy = {};
 
-      Object.keys(editSwitchesData).map((key) => {
-        if (editData.docs[key]) {
-          if (editData.docs[key].approved) {
-            editSwitchesDataCopy[key] = true;
+        Object.keys(editSwitchesData).map((key) => {
+          if (editData.docs[key]) {
+            if (editData.docs[key].approved) {
+              editSwitchesDataCopy[key] = true;
+            } else {
+              editSwitchesDataCopy[key] = false;
+            }
           } else {
             editSwitchesDataCopy[key] = false;
           }
-        } else {
-          editSwitchesDataCopy[key] = false;
-        }
 
-        if (editSwitchesData[key] === true) {
-          editSwitchesDataCopy[key] = true;
-        }
-      });
-      setFormValues(editSwitchesDataCopy);
-    } else {
-      const formDataVal = {};
-      switchesData.map((obj) => {
-        if (editData.docs[obj.label]) {
-          if (editData.docs[obj.label].approved) {
-            formDataVal[obj.label] = true;
+          if (editSwitchesData[key] === true) {
+            editSwitchesDataCopy[key] = true;
+          }
+        });
+        setFormValues(editSwitchesDataCopy);
+      } else {
+        const formDataVal = {};
+        switchesData.map((obj) => {
+          if (editData.docs[obj.label]) {
+            if (editData.docs[obj.label].approved) {
+              formDataVal[obj.label] = true;
+            } else {
+              formDataVal[obj.label] = false;
+            }
           } else {
             formDataVal[obj.label] = false;
           }
-        } else {
-          formDataVal[obj.label] = false;
-        }
-      });
-      setFormValues(formDataVal);
-    }
-  };
+        });
+        setFormValues(formDataVal);
+      }
+    };
 
-  useEffect(() => {
-    const linkValue = `${LINK_URL}${profile.company}/${editData.id}/${editData.documentRequest.id}`;
-    setLink(linkValue);
     setFormValuesData();
   }, []);
 
-  const handleCheck = (e) => {
-    setFormValues({
-      ...formValues,
-      [e.target.name]: e.target.checked,
-    });
-  };
+  const link = `${LINK_URL}${profile.company}/${editData.id}/${editData.documentRequest.id}`;
 
-  const submitForm = (e) => {
-    return new Promise(() => {
-      if (
-        Object.keys(formValues).filter((key) => formValues[key] === true)
-          .length === 0
-      ) {
-        toast.error("Selecione pelo menos um documento para enviar");
-        return;
-      }
+  const handleCheck = async (e) => {
+    try {
+      const newFormValues = {
+        ...formValues,
+        [e.target.name]: e.target.checked,
+      };
 
-      const submitData = {
-        permission: {
-          ...formValues,
-        },
+      const response = await generateLink({
+        permission: newFormValues,
         contactId: editData.id,
         requestId: editData.documentRequest.id,
         generateLink: link,
-      };
+      })
 
-      generateLink(submitData).then(async (res) => {
-        if (res.success) {
-          try {
-            copyToClipboard(link);
+      if (!response.success) {
+        toast.error('Erro ao atualizar os dados');
+        return;
+      }
 
-            setRefresh(refresh + 1);
-            toast.success(res.message);
-            handleClose();
-            console.log("Link copiado com sucesso");
-          } catch (err) {
-            console.error("Erro ao copiar o link: ", err);
-            toast.error(
-              "Erro ao copiar o link. Por favor, copie manualmente." +
-              err.message
-            );
-          }
-        } else {
-          toast.error(res.message);
-        }
-      });
-    });
+      setFormValues(newFormValues)
+      setRefresh(refresh + 1)
+    } catch (error) {
+      toast.error('Erro ao atualizar os dados');
+    }
   };
+
+  const isValid = Object.keys(formValues).filter((key) => formValues[key] === true).length >= 1;
 
   const onSubmitOtherInfo = async (newPermission) => {
     const permissionName = newPermission.key.trim();
@@ -177,51 +140,6 @@ export default function GenerateLinkModel({
       toast.success(newDocumentResult.message);
     } else {
       toast.error(newDocumentResult.message);
-    }
-  };
-
-  const onClickWhatsApp = async () => {
-    await submitForm();
-    window.open(`https://api.whatsapp.com/send?text=${link}`, "_blank");
-  };
-
-  const onClickSms = async () => {
-    const phone = clientFormValues.phone;
-    const type = "sms";
-
-    const submitData = {
-      phone,
-      link,
-      type,
-    };
-
-    const res = await sendClientSms(submitData);
-
-    if (res.success) {
-      toast.success(res.message);
-    } else {
-      console.log(res);
-      toast.error("Error!");
-    }
-  };
-
-  const onClickEmail = async () => {
-    const email = clientFormValues.email;
-    const type = "email";
-
-    const submitData = {
-      email,
-      link,
-      type,
-    };
-
-    const res = await sendClientSms(submitData);
-
-    if (res.success) {
-      toast.success(res.message);
-    } else {
-      console.log(res);
-      toast.error("Error!");
     }
   };
 
@@ -340,110 +258,148 @@ export default function GenerateLinkModel({
             </>
           )}
         </Row>
-        <div className="px-4" style={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          marginTop: '20px',
-        }}>
-          <h6>Link para compartilhar com o cliente</h6>
-          <InputGroup className="border-0 rounded ">
-            <Form.Control className="border-0 p-3 fw-bold" value={link} readOnly />
-          </InputGroup>
-        </div>
-        <div className="px-4" style={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          marginTop: '20px',
-        }}>
-          <h6>Escolha o meio de envio:</h6>
-          <div style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginTop: '.5rem',
-          }}>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: "1rem",
-              marginBottom: '20px',
-            }}>
-              <button
-                onClick={onClickWhatsApp}
-                style={{
-                  width: '45px',
-                  height: '45px',
-                  background: "#58A43D",
-                  border: 0,
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <FaWhatsapp style={{ color: 'white' }} />
-              </button>
-              <button
-                onClick={onClickEmail}
-                style={{
-                  width: '45px',
-                  height: '45px',
-                  background: "#888888",
-                  border: 0,
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <FaRegEnvelope style={{ color: 'white' }} />
-              </button>
-              <button
-                onClick={onClickSms}
-                style={{
-                  width: '45px',
-                  height: '45px',
-                  background: "white",
-                  border: '1px solid #2196F3',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <FaSms style={{ color: '#2196F3' }} />
-              </button>
-            </div>
-            <Button
-              disabled={loading}
-              className="px-5"
-              style={{ background: "#1C3D59", border: "none" }}
-              onClick={() => {
-                submitForm();
-                onClickSms();
-              }}
-            >
-              Copiar link &nbsp;
-              {loading && (
-                <div
-                  className="spinner-border spinner-border-sm"
-                  role="status"
-                  style={{
-                    color: "#85A6A2",
-                  }}
-                ></div>
-              )}
-            </Button>
-          </div>
-        </div>
+        {!loading && (
+          <>
+            <ShowLink link={link} disabled={!isValid} />
+            <ShareLink link={link} client={editData} disabled={!isValid} />
+          </>
+        )}
       </Modal>
     </div>
   );
 };
+
+function ShowLink({ link, disabled }) {
+  return (
+    <div className="px-4" style={{
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      marginTop: '20px',
+      opacity: disabled ? 0.5 : 1,
+      cursor: disabled ? 'not-allowed' : 'pointer',
+    }}>
+      <h6>Link para compartilhar com o cliente</h6>
+      <InputGroup className="border-0 rounded ">
+        <Form.Control className="border-0 p-3 fw-bold" value={link} readOnly />
+      </InputGroup>
+    </div>
+  );
+}
+
+function ShareLink({ link, client, disabled }) {
+  const shareWithClient = async (method) => {
+    const submitData = {
+      phone: client.phone,
+      email: client.email,
+      link,
+      type: method,
+    };
+
+    const response = await sendClientSms(submitData);
+
+    if (response.success) {
+      toast.success(response.message);
+    } else {
+      toast.error(`Ocorreu um erro ao enviar o link via ${method}`);
+    }
+  };
+
+  const onClickWhatsApp = () => shareWithClient("whatsapp");
+  const onClickSms = () => shareWithClient("sms");
+  const onClickEmail = () => shareWithClient("email");
+  const onCopyLink = () => {
+    try {
+      copyToClipboard(link);
+
+      toast.success("Link copiado com sucesso");
+    } catch (error) {
+      toast.error("Erro ao copiar o link, tente novamente");
+    }
+  };
+
+  return (
+    <div className="px-4" style={{
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      marginTop: '20px',
+      opacity: disabled ? 0.5 : 1,
+      cursor: disabled ? 'not-allowed' : 'pointer',
+      pointerEvents: disabled ? 'none' : 'auto',
+    }}>
+      <h6>Escolha o meio de envio:</h6>
+      <div style={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: '.5rem',
+      }}>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: "1rem",
+          marginBottom: '20px',
+        }}>
+          <button
+            onClick={onClickWhatsApp}
+            style={{
+              width: '45px',
+              height: '45px',
+              background: "#58A43D",
+              border: 0,
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <FaWhatsapp style={{ color: 'white' }} />
+          </button>
+          <button
+            onClick={onClickEmail}
+            style={{
+              width: '45px',
+              height: '45px',
+              background: "#888888",
+              border: 0,
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <FaRegEnvelope style={{ color: 'white' }} />
+          </button>
+          <button
+            onClick={onClickSms}
+            style={{
+              width: '45px',
+              height: '45px',
+              background: "white",
+              border: '1px solid #2196F3',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <FaSms style={{ color: '#2196F3' }} />
+          </button>
+        </div>
+        <Button
+          className="px-5"
+          style={{ background: "#1C3D59", border: "none" }}
+          onClick={onCopyLink}
+        >
+          Copiar link
+        </Button>
+      </div>
+    </div>
+  );
+}

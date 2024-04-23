@@ -14,7 +14,7 @@ const envData = (ENV, local, test, production) => {
   }
 };
 
-export const ENV_TYPE = "production"; // local // test // production
+export const ENV_TYPE = "local"; // local // test // production
 
 export const BASE_URL = envData(
   ENV_TYPE,
