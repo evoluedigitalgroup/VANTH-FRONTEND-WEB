@@ -25,14 +25,14 @@ export const BASE_URL = envData(
 
 export const LINK_URL = envData(
   ENV_TYPE,
-  "http://localhost:3006/document-verification/",
+  "http://localhost:3000/document-verification/",
   "https://system.vanthdocs.com.br/document-verification/",
   "https://system.vanthdocs.com.br/document-verification/"
 );
 
 export const CONTRACT_LINK_URL = envData(
   ENV_TYPE,
-  "http://localhost:3006/requested-signature/",
+  "http://localhost:3000/requested-signature/",
   "https://system.vanthdocs.com.br/requested-signature/",
   "https://system.vanthdocs.com.br/requested-signature/"
 );

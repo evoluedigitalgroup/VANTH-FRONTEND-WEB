@@ -174,6 +174,12 @@ const ContractCopylinkModal = ({
       if (res.success) {
         let generatedLinkValue
 
+        res.data.recipient.forEach((value) => {
+          if (!submitClientIdList.includes(value)) {
+              submitClientIdList.push(value);
+          }
+        });      
+
         submitClientIdList.forEach((item, index) => {
           generatedLinkValue = `${CONTRACT_LINK_URL}${profile.company}/${res.data.uuid}/${res.data.docusignEnvelopeId}/${item}`;
           console.log("CONTRACT_DATA_URI", generatedLinkValue)
