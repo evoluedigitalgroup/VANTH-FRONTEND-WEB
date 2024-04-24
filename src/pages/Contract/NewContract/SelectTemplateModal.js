@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { contractModels, contractNewFileSelected } from "../../../recoil/Atoms";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { contractModels, contractNewFileSelected, contractSelectedInvitors, contractSelectedUsers } from "../../../recoil/Atoms";
 import {
   openPDFEditor,
   openPreviewContract,
@@ -20,6 +20,19 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
   const [templatesList, setTemplatesList] = useRecoilState(templatesListAtom);
 
   const [showCopyLink, setShowCopyLink] = useState(false);
+
+  const setSelectionList = useSetRecoilState(contractSelectedUsers);
+  const setInvitorsList = useSetRecoilState(contractSelectedInvitors);
+
+  const clearCurrentStates = () => {
+    setSelectionList([])
+    setInvitorsList([])
+  }
+
+  const handleOnHide = () => {
+    onHide()
+    clearCurrentStates()
+  }
 
   const handlePdfSelect = (file) => {
     setSelectedFile(file);
@@ -99,7 +112,7 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
 
   return (
     <>
-      <Modal size="md" show={show} onHide={onHide} centered className="zindex">
+      <Modal size="md" show={show} onHide={handleOnHide} centered className="zindex">
         <div className="" style={{ position: "relative", padding: "20px" }}>
           <div className="d-flex justify-content-between">
             <h6 className="fw-bold mt-1">
@@ -107,7 +120,7 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
             </h6>
             {/* <Button onClick={onHide} className="bg-white border-0 text-dark"> */}
             <img
-              onClick={onHide}
+              onClick={handleOnHide}
               src="/assets/img/close.png"
               style={{ height: "15px", width: "15px", cursor: "pointer" }}
             ></img>

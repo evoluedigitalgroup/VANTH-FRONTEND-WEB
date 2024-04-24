@@ -340,11 +340,6 @@ const PurchasePlan = () => {
                           placeholder="CPF/CNPJ"
                           type="text"
                           className="border-0 Cardinput badge-relative"
-                          as={ReactInputMask}
-                          mask={[
-                            "999.999.999-99",
-                            "99.999.999/9999-99",
-                          ]}
                           style={{
                             fontSize: "14px",
                           }}

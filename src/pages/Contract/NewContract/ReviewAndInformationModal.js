@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 //  
 import Loader from "../../../components/Loader";
 import { createContract, getTemplates } from "../api";
 import PDFEditor from "../../../library/pdfme/PDFEditor";
 import { templatesListAtom } from "../../../recoil/ContractAtoms/Templates";
-import { contractModels, contractNewFileSelected } from "../../../recoil/Atoms";
+import { contractModels, contractNewFileSelected, contractSelectedInvitors, contractSelectedUsers } from "../../../recoil/Atoms";
 import { openSelectTemplate, resetModels } from "../../../recoil/helpers/contractModels";
 
 const ReviewAndInformationModal = ({
@@ -22,12 +22,25 @@ const ReviewAndInformationModal = ({
   const setModals = useSetRecoilState(contractModels);
   const setSelectedPdf = useSetRecoilState(contractNewFileSelected);;
 
+  const setSelectionList = useSetRecoilState(contractSelectedUsers);
+  const setInvitorsList = useSetRecoilState(contractSelectedInvitors);
+
   useEffect(() => {
     if (show) {
       const data = window.URL.createObjectURL(selectedPdf);
       setBase64(data);
     }
   }, [selectedPdf, show]);
+
+  const clearCurrentStates = () => {
+    setSelectionList([])
+    setInvitorsList([])
+  }
+
+  const handleOnHide = () => {
+    onHide()
+    clearCurrentStates()
+  }
 
 
   const onReadyForSignature = async (templates) => {
@@ -52,13 +65,13 @@ const ReviewAndInformationModal = ({
 
   return (
     <>
-      <Modal size="xl" show={show} onHide={onHide} centered className="zindex">
+      <Modal size="xl" show={show} onHide={handleOnHide} centered className="zindex">
         <div className="" style={{ position: "relative", padding: "20px" }}>
           <div className="d-flex justify-content-between">
             <h6 className="fw-bold mt-1">{title}</h6>
             <img
               onClick={() => {
-                onHide();
+                handleOnHide();
                 setBase64(null);
                 setSelectedPdf(null);
               }}

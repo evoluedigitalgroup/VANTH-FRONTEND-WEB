@@ -14,25 +14,25 @@ const envData = (ENV, local, test, production) => {
   }
 };
 
-export const ENV_TYPE = "production"; // local // test // production
+export const ENV_TYPE = "local"; // local // test // production
 
 export const BASE_URL = envData(
   ENV_TYPE,
-  "http://localhost:3000/api/v1/",
+  "http://localhost:3006/api/v1/",
   "https://api.vanthdocs.com.br/api/v1/",
   "https://api.vanthdocs.com.br/api/v1/"
 );
 
 export const LINK_URL = envData(
   ENV_TYPE,
-  "http://localhost:3000/document-verification/",
+  "http://localhost:3006/document-verification/",
   "https://system.vanthdocs.com.br/document-verification/",
   "https://system.vanthdocs.com.br/document-verification/"
 );
 
 export const CONTRACT_LINK_URL = envData(
   ENV_TYPE,
-  "http://localhost:3000/requested-signature/",
+  "http://localhost:3006/requested-signature/",
   "https://system.vanthdocs.com.br/requested-signature/",
   "https://system.vanthdocs.com.br/requested-signature/"
 );

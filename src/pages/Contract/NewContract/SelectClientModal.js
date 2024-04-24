@@ -7,7 +7,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import Select from "react-select";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 //
 import Loader from "../../../components/Loader";
 import { getContactList } from "../../Clients/api";
@@ -33,6 +33,8 @@ const SelectClientModal = ({ show, onHide }) => {
   const [selectionList, setSelectionList] = useRecoilState(contractSelectedUsers)
   const [invitors, setInvitors] = useRecoilState(contractSelectedInvitors)
 
+  const setInvitorsList = useSetRecoilState(contractSelectedInvitors);
+
   const handleShowTamplateModal = () => {
     if (selectionList.length != 0) {
       setModals(resetModels());
@@ -42,6 +44,17 @@ const SelectClientModal = ({ show, onHide }) => {
     }
   };
 
+  const clearCurrentStates = () => {
+    setSelectionList([])
+    setInvitorsList([])
+  }
+
+  const handleOnHide = () => {
+    onHide()
+    clearCurrentStates()
+  }
+
+  
   useEffect(() => {
     setLoading(true);
     getContactList(1, "", "all", 9999999).then((res) => {
@@ -114,7 +127,7 @@ const SelectClientModal = ({ show, onHide }) => {
 
   return (
     <>
-      <Modal size="lg" show={show} onHide={onHide} centered className="zindex">
+      <Modal size="lg" show={show} onHide={handleOnHide} centered className="zindex">
         <div
           className=""
           style={{ height: "540px", position: "relative", padding: "30px" }}
@@ -128,7 +141,7 @@ const SelectClientModal = ({ show, onHide }) => {
                   Link para solicitar assinatura de contrato
                 </h5>
                 <Button
-                  onClick={onHide}
+                  onClick={handleOnHide}
                   className="bg-white border-0 text-dark"
                 >
                   <img src="/assets/img/close.png"></img>
@@ -192,7 +205,7 @@ const SelectClientModal = ({ show, onHide }) => {
                 className="mt-3 selctedUserNameAndTelephoneLabel"
               >
                 <Select
-                  defaultValue={selectedOption}
+                  defaultValue={null}
                   formatOptionLabel={formatOptionLabel}
                   onChange={handleSelectChange}
                   options={contactsData}

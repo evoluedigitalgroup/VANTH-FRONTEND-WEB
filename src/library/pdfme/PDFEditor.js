@@ -14,31 +14,14 @@ const PDFEditor = ({ basePdf, onReadyForSignature }) => {
 
     const [template, setTemplate] = useState(blankTemplate);
 
+    const inputs = [{}]
+
     useEffect(() => {
         if (editorRef.current && template.basePdf) {
-            designerRef.current = new Designer({
+            designerRef.current = new Viewer({
                 domContainer: editorRef.current,
                 template,
-                options: {
-                    labels: {
-                        fieldsList: 'Lista de Campos',
-                        addNewField: 'Adicionar novo campo',
-                        editField: 'editar campo',
-                        bulkUpdateFieldName: 'Atualizar nomes de campos em massa',
-                        cancel: 'Cancelar',
-                        commitBulkUpdateFieldName: 'Salvar alterações',
-                        type: 'Tipo',
-                        align: 'Alinhar',
-                        width: 'Largura',
-                        height: 'Altura',
-                        opacity: 'Opacidade',
-                        rotate: 'Rotacionar',
-                        fieldName: 'Nome',
-                    },
-                },
-                plugins: {
-                    signature
-                },
+                inputs
             });
 
 

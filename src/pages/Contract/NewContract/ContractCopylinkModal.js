@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, InputGroup, Modal, Row, Spinner } from "react-bootstrap";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
 //
@@ -31,7 +31,10 @@ const ContractCopylinkModal = ({
   const profile = useRecoilValue(profileAtom);
 
   const selectionList = useRecoilValue(contractSelectedUsers);
+  const setSelectionList = useSetRecoilState(contractSelectedUsers);
+
   const [invitors, setInvitors] = useRecoilState(contractSelectedInvitors);
+  const setInvitorsList = useSetRecoilState(contractSelectedInvitors);
 
   const allTemplatesList = useRecoilValue(templatesListAtom);
   const [selectedTemplates, setSelectedTemplates] = useRecoilState(
@@ -45,6 +48,17 @@ const ContractCopylinkModal = ({
   useEffect(() => {
     setGeneratedLink(link);
   }, [link]);
+
+  const clearCurrentStates = () => {
+    setGeneratedLink(null)
+    setSelectionList([])
+    setInvitorsList([])
+  }
+
+  const handleOnHide = () => {
+    onHide()
+    clearCurrentStates()
+  }
 
   const handlePdfSelect = (file) => {
     setSelectedPdf(file);
@@ -346,13 +360,13 @@ const ContractCopylinkModal = ({
 
   return (
     <>
-      <Modal size="lg" show={show} onHide={onHide} centered className="zindex">
+      <Modal size="lg" show={show} onHide={handleOnHide} centered className="zindex">
         <div className="" style={{ position: "relative", padding: "30px" }}>
           <div className="d-flex justify-content-between">
             <h5 className="fw-bold mt-1">
               Link para solicitar assinatura de contrato
             </h5>
-            <Button onClick={onHide} className="bg-white border-0 text-dark">
+            <Button onClick={handleOnHide} className="bg-white border-0 text-dark">
               <img src="/assets/img/close.png"></img>
             </Button>
           </div>
