@@ -59,7 +59,7 @@ const SelectClientModal = ({ show, onHide }) => {
     setLoading(true);
     getContactList(1, "", "all", 9999999).then((res) => {
       if (res.success) {
-        let optionsData = res.data.findData.map((item) => {
+        let optionsData = res.data.clients.map((item) => {
           return {
             value: item.id,
             uuid: item.uuid,
@@ -138,7 +138,7 @@ const SelectClientModal = ({ show, onHide }) => {
             <>
               <div className="d-flex justify-content-between">
                 <h5 id="link" className="fw-bold mt-1">
-                  Link para solicitar assinatura de contrato
+                Links para compartilhar com os clientes
                 </h5>
                 <Button
                   onClick={handleOnHide}

@@ -16,7 +16,8 @@ const DocuSignReturn = () => {
     const res = await updateContractStatus({
       query: query.toString()
     });
-    console.log(' res ', res.data);
+    console.log('querystring', query)
+    
     if (res.success) {
       setResponse(res.data);
     }
@@ -26,7 +27,6 @@ const DocuSignReturn = () => {
   useEffect(() => {
     updateDetails();
   }, []);
-
 
   const RenderingResponse = () => {
     if (response === 'signed') {
@@ -46,7 +46,7 @@ const DocuSignReturn = () => {
     } else if (response === 'pending_others') {
       return (
         <div className="d-flex mt-5 flex-column align-items-center justify-content-center w-100">
-          <h4 className="fw-bold mt-5">Aguardando os outros assinantes!</h4>
+          <h4 className="fw-bold mt-5">Contrato assinado com sucesso!</h4>
           <img src="/assets/img/success.png" style={{ height: 200 }} />
         </div>
       );
