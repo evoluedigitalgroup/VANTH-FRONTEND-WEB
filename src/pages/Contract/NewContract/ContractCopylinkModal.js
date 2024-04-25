@@ -183,7 +183,15 @@ const ContractCopylinkModal = ({
         submitClientIdList.forEach((item, index) => {
           generatedLinkValue = `${CONTRACT_LINK_URL}${profile.company}/${res.data.uuid}/${res.data.docusignEnvelopeId}/${item}`;
           console.log("CONTRACT_DATA_URI", generatedLinkValue)
-          generatedLinks.push(generatedLinkValue)
+
+          res.contacts.forEach((contact) => {
+            if (contact.id === item) {
+              generatedLinks.push({
+                name: contact.name,
+                link: generatedLinkValue
+              })
+            }
+          })
 
           setGeneratedLink(generatedLinks)
         })
@@ -220,21 +228,6 @@ const ContractCopylinkModal = ({
             <Col md={12}>
               <InputGroup className="mb-3" style={{ borderRadius: "6px" }}>
                 {generatedLink.map((item, i) => {
-
-                  if (!item.name) {
-                    return (
-                      <div
-                        key={i}
-                      >
-                        <Form.Control
-                          className="p-2 border-0 fw-bold shadow-none"
-                          style={{ backgroundColor: "#F4F6F8" }}
-                          value={item}
-                        />
-                      </div>
-                    )
-                  }
-
                   return (
                     <div
                       key={i}
