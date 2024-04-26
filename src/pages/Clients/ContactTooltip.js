@@ -64,28 +64,8 @@ const ContactTooltip = ({
 
                 <Col md={6}>
                   <Button
-                    variant="danger"
-                    disabled={loading}
-                    className="d-flex align-items-center px-3 border-0"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      handleSubmit("rejected")
-                    }}
-                  >
-                    <img src="/assets/img/X.png"></img>
-                    &nbsp;
-                    <span
-                      style={{ fontSize: "12px" }}
-                      className=" mt-1 fw-bold"
-                    >
-                      Reprovado
-                    </span>
-                  </Button>
-                </Col>
-                <Col md={6}>
-                  <Button
                     style={{ background: "#58A43D" }}
-                    className="d-flex align-items-center px-3 border-0"
+                    className="d-flex align-items-center mb-2 px-3 border-0"
                     disabled={loading}
                     onClick={(event) => {
                       event.stopPropagation();
@@ -110,6 +90,27 @@ const ContactTooltip = ({
                         style={{ color: "#85A6A2" }}
                       ></div>
                     )}
+                  </Button>
+                </Col>
+
+                <Col md={6}>
+                  <Button
+                    variant="danger"
+                    disabled={loading}
+                    className="d-flex align-items-center px-3 border-0"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleSubmit("rejected")
+                    }}
+                  >
+                    <img src="/assets/img/X.png"></img>
+                    &nbsp;
+                    <span
+                      style={{ fontSize: "12px" }}
+                      className=" mt-1 fw-bold"
+                    >
+                      Reprovado
+                    </span>
                   </Button>
                 </Col>
 

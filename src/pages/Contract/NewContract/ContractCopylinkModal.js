@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, InputGroup, Modal, Row, Spinner } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Form,
+  InputGroup,
+  Modal,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
@@ -14,7 +22,13 @@ import {
 } from "../../../recoil/ContractAtoms/Templates";
 import { generateContractLink, getContractList } from "../api";
 import { CONTRACT_LINK_URL } from "../../../config";
-import { contractModels, contractSelectedUsers, profileAtom, contractSelectedInvitors } from "../../../recoil/Atoms";
+import {
+  contractModels,
+  contractSelectedUsers,
+  profileAtom,
+  contractSelectedInvitors,
+} from "../../../recoil/Atoms";
+import copyToClipboard from "copy-text-to-clipboard";
 
 const ContractCopylinkModal = ({
   show,
@@ -22,9 +36,8 @@ const ContractCopylinkModal = ({
   selectedOption,
   refresh,
   setRefresh,
-  link
+  link,
 }) => {
-
   const [loading, setLoading] = useState(false);
   const [generatedLink, setGeneratedLink] = useState([link]);
   const [documents, setDocuments] = useState([]);
@@ -50,15 +63,15 @@ const ContractCopylinkModal = ({
   }, [link]);
 
   const clearCurrentStates = () => {
-    setGeneratedLink(null)
-    setSelectionList([])
-    setInvitorsList([])
-  }
+    setGeneratedLink(null);
+    setSelectionList([]);
+    setInvitorsList([]);
+  };
 
   const handleOnHide = () => {
-    onHide()
-    clearCurrentStates()
-  }
+    onHide();
+    clearCurrentStates();
+  };
 
   const handlePdfSelect = (file) => {
     setSelectedPdf(file);
@@ -132,17 +145,13 @@ const ContractCopylinkModal = ({
 
   const AddNewDocument = () => {
     return (
-      <Col
-        lg={3}
-        md={3}
-        xs={6}
-      >
+      <Col lg={3} md={3} xs={6}>
         <img
           alt="Add new document"
           style={{
             height: "200px",
             width: "100%",
-            objectFit: "contain"
+            objectFit: "contain",
           }}
           onClick={() => {
             setModals(resetModels());
@@ -155,12 +164,12 @@ const ContractCopylinkModal = ({
   };
 
   const onGenerateLink = () => {
-    let generatedLinks = []
+    let generatedLinks = [];
 
-    setLoading(true)
+    setLoading(true);
 
-    let submitClientIdList = []
-    selectionList.forEach((item) => submitClientIdList.push(item.value))
+    let submitClientIdList = [];
+    selectionList.forEach((item) => submitClientIdList.push(item.value));
 
     const submitData = {
       selectedTemplates: selectedTemplates,
@@ -168,47 +177,57 @@ const ContractCopylinkModal = ({
       visitorsBody: invitors.length > 0 ? invitors : undefined,
     };
 
-    console.log('submitData', submitData);
+    console.log("submitData", submitData);
 
     generateContractLink(submitData).then((res) => {
       if (res.success) {
-        let generatedLinkValue
+        let generatedLinkValue;
 
         res.data.recipient.forEach((value) => {
           if (!submitClientIdList.includes(value)) {
-              submitClientIdList.push(value);
+            submitClientIdList.push(value);
           }
-        });      
+        });
 
         submitClientIdList.forEach((item, index) => {
           generatedLinkValue = `${CONTRACT_LINK_URL}${profile.company}/${res.data.uuid}/${res.data.docusignEnvelopeId}/${item}`;
-          console.log("CONTRACT_DATA_URI", generatedLinkValue)
+          console.log("CONTRACT_DATA_URI", generatedLinkValue);
 
           res.contacts.forEach((contact) => {
             if (contact.id === item) {
               generatedLinks.push({
                 name: contact.name,
-                link: generatedLinkValue
-              })
+                link: generatedLinkValue,
+              });
             }
-          })
+          });
 
-          setGeneratedLink(generatedLinks)
-        })
+          setGeneratedLink(generatedLinks);
+        });
 
-        setGeneratedLink(generatedLinks)
+        setGeneratedLink(generatedLinks);
       } else {
-        toast.error(res.message)
+        toast.error(res.message);
       }
-      setLoading(false)
+      setLoading(false);
       setRefresh(refresh + 1);
     });
-  }
+  };
 
   const submitForm = () => {
     copy(generatedLink);
     toast.success("Link copiado com sucesso");
-  }
+  };
+
+  const onCopyLink = (link) => {
+    try {
+      copyToClipboard(link);
+
+      toast.success("Link copiado com sucesso");
+    } catch (error) {
+      toast.error("Erro ao copiar o link, tente novamente");
+    }
+  };
 
   const LinkBlocks = () => {
     return !!generatedLink ? (
@@ -229,9 +248,7 @@ const ContractCopylinkModal = ({
               <InputGroup className="mb-3" style={{ borderRadius: "6px" }}>
                 {generatedLink.map((item, i) => {
                   return (
-                    <div
-                      key={i}
-                    >
+                    <div key={i}>
                       <h7 className="fw-bold p-2">Link de {item.name}</h7>
 
                       <Form.Control
@@ -239,8 +256,16 @@ const ContractCopylinkModal = ({
                         style={{ backgroundColor: "#F4F6F8" }}
                         value={item.link}
                       />
+
+                      <Button
+                        className="m-2 px-3"
+                        style={{ background: "#0068ff", border: "none", marginLeft: 'auto', marginRight: 'auto' }}
+                        onClick={() => onCopyLink(item.link)}
+                      >
+                        Copiar link
+                      </Button>
                     </div>
-                  )
+                  );
                 })}
               </InputGroup>
             </Col>
@@ -263,15 +288,12 @@ const ContractCopylinkModal = ({
             </div>
           </Col>
           <Col xs={12} md={4}>
-            <div className="d-flex justify-content-md-end justify-content-center mt-md-4">
-
-            </div>
+            <div className="d-flex justify-content-md-end justify-content-center mt-md-4"></div>
           </Col>
         </Row>
       </>
-    ) : null
-  }
-
+    ) : null;
+  };
 
   //Copy link button
 
@@ -341,31 +363,38 @@ const ContractCopylinkModal = ({
               onClick={onGenerateLink}
             >
               Gerar&nbsp;link
-
-              {loading
-                ? <Spinner
+              {loading ? (
+                <Spinner
                   animation="grow"
                   variant="light"
                   className="ms-3 fw-bold fs-5"
                 />
-                : null
-              }
+              ) : null}
             </button>
           </div>
         </Col>
       </Row>
     ) : null;
-  }
+  };
 
   return (
     <>
-      <Modal size="lg" show={show} onHide={handleOnHide} centered className="zindex">
+      <Modal
+        size="lg"
+        show={show}
+        onHide={handleOnHide}
+        centered
+        className="zindex"
+      >
         <div className="" style={{ position: "relative", padding: "30px" }}>
           <div className="d-flex justify-content-between">
             <h5 className="fw-bold mt-1">
               Link para solicitar assinatura de contrato
             </h5>
-            <Button onClick={handleOnHide} className="bg-white border-0 text-dark">
+            <Button
+              onClick={handleOnHide}
+              className="bg-white border-0 text-dark"
+            >
               <img src="/assets/img/close.png"></img>
             </Button>
           </div>
@@ -378,10 +407,7 @@ const ContractCopylinkModal = ({
                 .filter((obj) => selectedTemplates.indexOf(obj.id) > -1)
                 .map((item, index) => (
                   <DocumentBlock data={item} />
-                ))
-
-
-              }
+                ))}
               <AddNewDocument />
             </Row>
           </div>

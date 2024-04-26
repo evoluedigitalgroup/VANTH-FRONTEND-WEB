@@ -93,7 +93,7 @@ const ContractTable = ({
               ? "document-pending"
               : obj?.recipient?.contactApprove === "rejected"
               ? "contact-wait"
-              : "document-success"
+              : "document-approved"
           }
         >
           {obj?.recipient?.contactApprove === "pending"
@@ -318,9 +318,9 @@ const ContractTable = ({
       } else if (status === "rejected") {
         return "contact-wait";
       } else if (status === "signed") {
-        return "document-success";
+        return "document-approved";
       } else {
-        return "document-success";
+        return "document-approved";
       }
     };
 
@@ -330,11 +330,11 @@ const ContractTable = ({
       } else if (status === "rejected") {
         return "Assinatura recusada";
       } else if (status === "signed") {
-        return "Aprovado";
+        return "Assinado";
       } else if (status === "pending_others") {
         return "Aguardando todas as assinaturas"
       } else {
-        return "Assinada";
+        return "Assinado";
       }
     };
 

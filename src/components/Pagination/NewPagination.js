@@ -23,7 +23,7 @@ const NewPagination = ({
               <>
                 <li
                   className="pagination-btn mx-2 cursor-pointer"
-                  onClick={() => setActivePage(1)}
+                  onClick={() => setActivePage(prevPage)}
                 >
                   <div>
                     <i className="bi bi-arrow-left-short fs-5 pagination-btn-shadow"></i>
@@ -52,7 +52,7 @@ const NewPagination = ({
 
                 <li
                   className="pagination-btn mx-2 cursor-pointer"
-                  onClick={() => setActivePage(totalPage)}
+                  onClick={() => setActivePage(nextPage)}
                 >
                   <div>
                     <i className="bi bi-arrow-right-short fs-5 pagination-btn-shadow"></i>
