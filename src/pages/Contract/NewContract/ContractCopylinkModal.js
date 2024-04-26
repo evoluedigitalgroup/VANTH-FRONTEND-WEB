@@ -232,7 +232,7 @@ const ContractCopylinkModal = ({
                     <div
                       key={i}
                     >
-                      <h7 className="fw-bold">Link de {item.name}</h7>
+                      <h7 className="fw-bold p-2">Link de {item.name}</h7>
 
                       <Form.Control
                         className="p-2 border-0 fw-bold shadow-none"
