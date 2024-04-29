@@ -66,10 +66,12 @@ export default function Clients() {
   const [table, setTable] = useRecoilState(contactTableData);
 
   useEffect(() => {
+    console.log('The function to retrive the data are successfully called')
     getContactList(1, search).then((res) => {
       if (res.success) {
-        setTable(res.data.findData);
-        setTableRow(res.data.findData);
+        console.log('The data are successfully retrieved', res.data)
+        setTable(res.data.clients);
+        setTableRow(res.data.clients);
       } else {
         setTable([]);
         setTableRow([]);

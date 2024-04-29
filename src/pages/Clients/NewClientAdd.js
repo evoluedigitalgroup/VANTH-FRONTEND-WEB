@@ -47,8 +47,6 @@ const NewClientAdd = ({ show, handleClose, refresh, setRefresh }) => {
   };
 
   const handleSubmitData = () => {
-    console.log("formValues : ", formValues);
-    console.log("otherInformation : ", otherInformation);
     const submitData = {
       ...formValues,
       otherInformation,
