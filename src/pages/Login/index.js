@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { Helmet } from "react-helmet";
@@ -28,9 +28,11 @@ const Login = () => {
   const [JWT, setJwt] = useRecoilState(jwtAtom);
   const [profileItem, setProfileItem] = useRecoilState(profileAtom);
 
-  const [login, setLogin] = useState(true);
+  const { register } = useParams();
+
+  const [login, setLogin] = useState(!register);
   const [loading, setLoading] = useState(false);
-  const [account, setAccount] = useState(false);
+  const [account, setAccount] = useState(register);
   const [hidePassword, setHidePassword] = useState(false);
   const [hideConfirmPassword, setHideConfirmPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -66,7 +68,7 @@ const Login = () => {
       localStorage.clear();
     }
   }, []);
-
+  
   const hidePwd = () => {
     setHidePassword(!hidePassword);
   };

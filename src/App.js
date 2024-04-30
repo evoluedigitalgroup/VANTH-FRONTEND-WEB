@@ -42,7 +42,8 @@ function App() {
         <Route path="/" element={<Show />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="*" element={<Navigate to="error" replace />} />
-        <Route path="/login" element={<Protected Component={Login} />} />
+        <Route path="/login" element={<Protected Component={Login}/>} />
+        <Route path="/login/:register" element={<Protected Component={Login}/>} />
 
         <Route
           path="/insights"

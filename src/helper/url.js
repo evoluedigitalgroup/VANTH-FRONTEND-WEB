@@ -1,5 +1,6 @@
 // AUTH APIs
 export const LOGIN_ADMIN = "auth/login";
+export const LOGIN_REGISTER_ADMIN = "auth/login/register";
 export const REGISTER_ADMIN = "auth/sign-up";
 export const CONTACT_FORM = "contact/submit-contact";
 export const SUBMIT_DOCUMENT = "doc/submit-documents";
