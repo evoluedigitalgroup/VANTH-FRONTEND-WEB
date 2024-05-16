@@ -81,7 +81,7 @@ const DocumentTable = ({
     return {
       pending: "Pendente",
       'wait-review': "A. Revisão",
-      'wait-documents': "A. Documentos",
+      'wait-documents': "Aguardando Doc.",
       approved: "Aprovado",
     }[allStatus] || "Não definido";
   };

@@ -172,7 +172,7 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
                     fontWeight: 700,
                   }}
                 >
-                  Criar&nbsp;modelo
+                  Anexar&nbsp;modelo
                 </button>
               </Col>
               <Col md={6} className="mt-2 mt-md-0">
