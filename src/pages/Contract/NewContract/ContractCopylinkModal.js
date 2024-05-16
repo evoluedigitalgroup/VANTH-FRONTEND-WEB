@@ -232,45 +232,6 @@ const ContractCopylinkModal = ({
   const LinkBlocks = () => {
     return !!generatedLink ? (
       <>
-        <>
-          <div className="mt-4">
-            <h6
-              style={{
-                fontWeight: 700,
-                fontSize: "14px",
-              }}
-            >
-              Links para compartilhar com os clientes
-            </h6>
-          </div>
-          <Row>
-            <Col md={12}>
-              <InputGroup className="mb-3" style={{ borderRadius: "6px" }}>
-                {generatedLink.map((item, i) => {
-                  return (
-                    <div key={i}>
-                      <h7 className="fw-bold p-2">Link de {item.name}</h7>
-
-                      <Form.Control
-                        className="p-2 border-0 fw-bold shadow-none"
-                        style={{ backgroundColor: "#F4F6F8" }}
-                        value={item.link}
-                      />
-
-                      <Button
-                        className="m-2 px-3"
-                        style={{ background: "#0068ff", border: "none", marginLeft: 'auto', marginRight: 'auto' }}
-                        onClick={() => onCopyLink(item.link)}
-                      >
-                        Copiar link
-                      </Button>
-                    </div>
-                  );
-                })}
-              </InputGroup>
-            </Col>
-          </Row>
-        </>
         <Row>
           <Col md={8}>
             <div className="d-flex">
@@ -389,7 +350,7 @@ const ContractCopylinkModal = ({
         <div className="" style={{ position: "relative", padding: "30px" }}>
           <div className="d-flex justify-content-between">
             <h5 className="fw-bold mt-1">
-              Link para solicitar assinatura de contrato
+              Gerar nova assinatura
             </h5>
             <Button
               onClick={handleOnHide}

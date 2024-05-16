@@ -138,61 +138,13 @@ const SelectClientModal = ({ show, onHide }) => {
             <>
               <div className="d-flex justify-content-between">
                 <h5 id="link" className="fw-bold mt-1">
-                Links para compartilhar com os clientes
+                Gerar nova assinatura
                 </h5>
                 <Button
                   onClick={handleOnHide}
                   className="bg-white border-0 text-dark"
                 >
                   <img src="/assets/img/close.png"></img>
-                </Button>
-              </div>
-              <h5 style={{
-                fontSize: "20px",
-                fontWeight: "400",
-                marginTop: "20px",
-              }}>Adicionar novo assinante</h5>
-              <div style={{ display: "flex", alignItems: "center", width: "100%", gap: "1rem" }}>
-                <Form style={{ width: "100%" }}>
-                  <Form.Label className="Doc-Font-Color">
-                    Nome
-                  </Form.Label>
-                  <FormGroup className="" style={{ position: "relative" }}>
-                    <InputGroup className="mb-3 rounded">
-                      <Form.Control
-                        placeholder="Ana Júlia Garcia"
-                        type="text"
-                        name="name"
-                        className="Cardinput border-0  badge-relative"
-                        value={invitor.name}
-                        onChange={(e) =>
-                          setInvitor({ ...invitor, name: e.target.value })
-                        }
-                      />
-                    </InputGroup>
-                  </FormGroup>
-                </Form>
-                <Form style={{ width: "100%" }}>
-                  <Form.Label className="Doc-Font-Color">
-                    Email
-                  </Form.Label>
-                  <FormGroup className="" style={{ position: "relative" }}>
-                    <InputGroup className="mb-3 rounded">
-                      <Form.Control
-                        placeholder="ana@email.com"
-                        type="e-mail"
-                        name="email"
-                        className="Cardinput border-0  badge-relative"
-                        value={invitor.email}
-                        onChange={(e) =>
-                          setInvitor({ ...invitor, email: e.target.value })
-                        }
-                      />
-                    </InputGroup>
-                  </FormGroup>
-                </Form>
-                <Button onClick={() => handleAddInvitor(invitor)}>
-                  Adicionar
                 </Button>
               </div>
               <h5 style={{
@@ -248,8 +200,56 @@ const SelectClientModal = ({ show, onHide }) => {
                 />
               </div>
               <div>
-
-                <div className="my-4">
+              </div>
+              <h5 style={{
+                fontSize: "20px",
+                fontWeight: "400",
+                marginTop: "20px",
+              }}>Adicionar novo assinante</h5>
+              <div style={{ display: "flex", alignItems: "center", width: "100%", gap: "1rem" }}>
+                <Form style={{ width: "100%" }}>
+                  <Form.Label className="Doc-Font-Color">
+                    Nome
+                  </Form.Label>
+                  <FormGroup className="" style={{ position: "relative" }}>
+                    <InputGroup className="mb-3 rounded">
+                      <Form.Control
+                        placeholder="Ana Júlia Garcia"
+                        type="text"
+                        name="name"
+                        className="Cardinput border-0  badge-relative"
+                        value={invitor.name}
+                        onChange={(e) =>
+                          setInvitor({ ...invitor, name: e.target.value })
+                        }
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                </Form>
+                <Form style={{ width: "100%" }}>
+                  <Form.Label className="Doc-Font-Color">
+                    Email
+                  </Form.Label>
+                  <FormGroup className="" style={{ position: "relative" }}>
+                    <InputGroup className="mb-3 rounded">
+                      <Form.Control
+                        placeholder="ana@email.com"
+                        type="e-mail"
+                        name="email"
+                        className="Cardinput border-0  badge-relative"
+                        value={invitor.email}
+                        onChange={(e) =>
+                          setInvitor({ ...invitor, email: e.target.value })
+                        }
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                </Form>
+                <Button onClick={() => handleAddInvitor(invitor)}>
+                  Adicionar
+                </Button>
+              </div>
+              <div className="my-4">
                   {Boolean(selectionList.length) && (
                     <>
                       <h6 className="font-bold">Clientes Selecionados</h6>
@@ -283,8 +283,6 @@ const SelectClientModal = ({ show, onHide }) => {
                     </>
                   )}
                 </div>
-
-              </div>
               <div>
                 <button
                   onClick={handleShowTamplateModal}
