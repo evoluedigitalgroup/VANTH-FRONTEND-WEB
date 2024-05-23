@@ -64,7 +64,7 @@ const SelectClientModal = ({ show, onHide }) => {
             value: item.id,
             uuid: item.uuid,
             label: item.name,
-            phoneNumber: item.phone,
+            email: item.email,
           };
         });
         setContactsData(optionsData);
@@ -109,18 +109,15 @@ const SelectClientModal = ({ show, onHide }) => {
   };
 
 
-  const formatOptionLabel = ({ label, phoneNumber }) => (
+  const formatOptionLabel = ({ label, email }) => (
     <div className="d-flex justify-content-between mx-md-4">
       <div>
         <i className="bi bi-person-fill px-1" style={{ color: "#BAC4C8" }}></i>
         {label}
       </div>
       <div>
-        <i
-          className="bi bi-telephone-fill px-1"
-          style={{ color: "#BAC4C8" }}
-        ></i>
-        {formatPhoneNumber(phoneNumber)}
+      <i className="bi bi-person-fill px-1" style={{ color: "#BAC4C8" }}></i>
+        {email}
       </div>
     </div>
   );
@@ -258,7 +255,7 @@ const SelectClientModal = ({ show, onHide }) => {
                           <div key={index} className="d-flex align-items-center align-center gap-4">
                             <div className="d-flex align-items-center">
                               <i className="bi bi-person-fill px-1" style={{ color: "#BAC4C8" }}></i>
-                              {item.label} <i> - </i>  {formatPhoneNumber(item.phoneNumber)}
+                              {item.label} &nbsp;-&nbsp;  { item.email}
                             </div>
                             <h6 style={{ color: 'blue', cursor: 'pointer' }} className="m-0" onClick={() => { setSelectionList(selectionList.filter((k) => k.label !== item.label)) }}>X</h6>
                           </div>
