@@ -59,7 +59,7 @@ const ProfileTable = ({ tableRow }) => {
                     className="border-0 p-0"
                     size="md"
                   >
-                    Respondido
+                    Ativo
                   </Button>
                 </td>
               </tr>

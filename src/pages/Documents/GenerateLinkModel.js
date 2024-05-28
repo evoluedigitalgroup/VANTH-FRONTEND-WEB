@@ -198,7 +198,6 @@ export default function GenerateLinkModel({
                     border: 0,
                   }}
                   onChange={(e) => {
-                    console.log("e.target.value", e.target.value);
                     setOtherInfo({
                       key: e.target.value,
                       value: "",
