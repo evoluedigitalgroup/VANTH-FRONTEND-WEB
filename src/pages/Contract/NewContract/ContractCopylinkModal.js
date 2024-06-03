@@ -54,11 +54,12 @@ const ContractCopylinkModal = ({
     selectedTemplatesAtom
   );
 
-  // const [documents, setDocuments] = useState([]);
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [models, setModals] = useRecoilState(contractModels);
 
   const [generateLinkClicked, setGenerateLinkClicked] = useState(false);
+
+  const [showAddNewDocument, setShowAddNewDocument] = useState(true);
 
   useEffect(() => {
     setGeneratedLink(link);
@@ -68,6 +69,7 @@ const ContractCopylinkModal = ({
     setGeneratedLink(null);
     setSelectionList([]);
     setInvitorsList([]);
+    setShowAddNewDocument(true); // Reset showAddNewDocument
   };
 
   const handleOnHide = () => {
@@ -178,8 +180,6 @@ const ContractCopylinkModal = ({
       visitorsBody: invitors.length > 0 ? invitors : undefined,
     };
 
-    console.log("submitData", submitData);
-
     generateContractLink(submitData).then((res) => {
       if (res.success) {
         let generatedLinkValue;
@@ -192,7 +192,6 @@ const ContractCopylinkModal = ({
 
         submitClientIdList.forEach((item, index) => {
           generatedLinkValue = `${CONTRACT_LINK_URL}${profile.company}/${res.data.uuid}/${res.data.docusignEnvelopeId}/${item}`;
-          console.log("CONTRACT_DATA_URI", generatedLinkValue);
 
           res.contacts.forEach((contact) => {
             if (contact.id === item) {
@@ -217,6 +216,7 @@ const ContractCopylinkModal = ({
 
   const handleGenerateLinkClick = () => {
     setGenerateLinkClicked(true);
+    setShowAddNewDocument(false); // Hide AddNewDocument when generating link
     onGenerateLink();
   };
 
@@ -309,9 +309,7 @@ const ContractCopylinkModal = ({
       >
         <div className="" style={{ position: "relative", padding: "30px" }}>
           <div className="d-flex justify-content-between">
-            <h5 className="fw-bold mt-1">
-              Gerar nova assinatura
-            </h5>
+            <h5 className="fw-bold mt-1">Gerar nova assinatura</h5>
             <Button
               onClick={handleOnHide}
               className="bg-white border-0 text-dark"
@@ -329,7 +327,7 @@ const ContractCopylinkModal = ({
                 .map((item, index) => (
                   <DocumentBlock key={index} data={item} />
                 ))}
-              {!generateLinkClicked && <AddNewDocument />}
+              {showAddNewDocument && <AddNewDocument />}
             </Row>
           </div>
           <LinkBlocks />
