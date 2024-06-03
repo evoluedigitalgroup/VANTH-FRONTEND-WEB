@@ -58,6 +58,8 @@ const ContractCopylinkModal = ({
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [models, setModals] = useRecoilState(contractModels);
 
+  const [generateLinkClicked, setGenerateLinkClicked] = useState(false);
+
   useEffect(() => {
     setGeneratedLink(link);
   }, [link]);
@@ -108,7 +110,6 @@ const ContractCopylinkModal = ({
             className="mb-0"
             style={{
               fontSize: "12px",
-              // overflow-wrap: break-word;
               overflowWrap: "anywhere",
             }}
           >
@@ -214,6 +215,11 @@ const ContractCopylinkModal = ({
     });
   };
 
+  const handleGenerateLinkClick = () => {
+    setGenerateLinkClicked(true);
+    onGenerateLink();
+  };
+
   const submitForm = () => {
     copy(generatedLink);
     toast.success("Link copiado com sucesso");
@@ -256,53 +262,7 @@ const ContractCopylinkModal = ({
     ) : null;
   };
 
-  //Copy link button
-
-  /*
-                <button
-                className="py-2"
-                style={{
-                  width: "100%",
-                  fontSize: "12px",
-                  fontWeight: 400,
-                  background: "#0068FF",
-                  border: "0",
-                  borderRadius: "6px",
-                  color: "white",
-                  fontWeight: 800,
-                }}
-                onClick={submitForm}
-              >
-                Copiar&nbsp;link
-              </button>
-
-
-
-                Share Buttons:
-
-
-                <a href={`https://wa.me/?text=${encodeURI(generatedLink)}`}>
-                  <img
-                    // style={{ height: "60px", width: "60px" }}
-                    src="/assets/img/whatsApp.svg"
-                  />
-                </a>
-                <a href={`mailto:?body=${generatedLink}`}>
-                  <img
-                    // style={{ height: "39px", width: "39px" }}
-                    src="/assets/img/mail.png"
-                  />
-                </a>
-                <a href={`sms:?body=${generatedLink}`}>
-                  <img
-                    // style={{ height: "39px", width: "39px" }}
-                    src="/assets/img/sms.png"
-                  />
-                </a>
-
-  */
-
-  const GenerateLinkBlock = () => {
+  const GenerateLinkBlock = ({ onGenerateLinkClick }) => {
     return !generatedLink ? (
       <Row>
         <Col md={8}></Col>
@@ -321,7 +281,7 @@ const ContractCopylinkModal = ({
                 fontWeight: 800,
               }}
               disabled={loading}
-              onClick={onGenerateLink}
+              onClick={onGenerateLinkClick}
             >
               Gerar&nbsp;link
               {loading ? (
@@ -367,13 +327,13 @@ const ContractCopylinkModal = ({
               {allTemplatesList
                 .filter((obj) => selectedTemplates.indexOf(obj.id) > -1)
                 .map((item, index) => (
-                  <DocumentBlock data={item} />
+                  <DocumentBlock key={index} data={item} />
                 ))}
-              <AddNewDocument />
+              {!generateLinkClicked && <AddNewDocument />}
             </Row>
           </div>
           <LinkBlocks />
-          <GenerateLinkBlock />
+          <GenerateLinkBlock onGenerateLinkClick={handleGenerateLinkClick} />
         </div>
       </Modal>
     </>
