@@ -42,14 +42,14 @@ import { isMobile } from "react-device-detect";
 const Insights = () => {
   registerLocale("pt-BR", pt);
   const [active, setActive] = useState({
-    month: true,
+    month: false,
     year: false,
-    week: false,
+    week: true,
     date: false,
   });
   const login = useRecoilValue(loginAtom);
   const permissions = login?.permissions;
-  const [status, setStatus] = useState("monthly");
+  const [status, setStatus] = useState("week");
   const [open, setOpen] = useState(true);
   const [tableRow, setTableRow] = useState([]);
   const [refresh, setRefresh] = useState(0);
