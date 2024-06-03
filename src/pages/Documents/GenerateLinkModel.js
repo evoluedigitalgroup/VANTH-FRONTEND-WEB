@@ -24,6 +24,7 @@ import { sendClientSms } from "./api";
 import { FaWhatsapp } from "react-icons/fa";
 import { FaSms } from "react-icons/fa";
 import { FaRegEnvelope } from "react-icons/fa";
+import { useDelayedState } from "../../hooks/use-delayed-state.hook";
 
 export default function GenerateLinkModel({
   open,
@@ -50,7 +51,7 @@ export default function GenerateLinkModel({
     });
   }, []);
 
-  const [formValues, setFormValues] = useState({});
+  const [formValues, setFormValues, delayedFormValues] = useDelayedState({});
 
   useEffect(() => {
     const setFormValuesData = async () => {
@@ -102,6 +103,8 @@ export default function GenerateLinkModel({
         [e.target.name]: e.target.checked,
       };
 
+      setFormValues(newFormValues); 
+
       const response = await generateLink({
         permission: newFormValues,
         contactId: editData.id,
@@ -120,6 +123,30 @@ export default function GenerateLinkModel({
       toast.error('Erro ao atualizar os dados');
     }
   };
+
+  useEffect(async () => {
+    async function teste() {
+      try {
+        const response = await generateLink({
+          permission: formValues,
+          contactId: editData.id,
+          requestId: editData.documentRequest.id,
+          generateLink: link,
+        })
+  
+        if (!response.success) {
+          toast.error('Erro ao atualizar os dados');
+          return;
+        }
+       
+        setRefresh(refresh + 1)
+      } catch (error) {
+        toast.error('Erro ao atualizar os dados');
+      }
+    }
+    
+    teste()
+  }, [delayedFormValues])
 
   const isValid = Object.keys(formValues).filter((key) => formValues[key] === true).length >= 1;
 
