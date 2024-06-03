@@ -51,7 +51,7 @@ export default function GenerateLinkModel({
     });
   }, []);
 
-  const [formValues, setFormValues, delayedFormValues] = useDelayedState({});
+  const [formValues, setFormValues, delayedFormValues] = useDelayedState({}, 600);
 
   useEffect(() => {
     const setFormValuesData = async () => {
@@ -94,6 +94,12 @@ export default function GenerateLinkModel({
     setFormValuesData();
   }, []);
 
+
+  const onClose = () => {
+    if (JSON.stringify(formValues) === JSON.stringify(delayedFormValues)) {
+      handleClose();
+    }
+  };
   const link = `${LINK_URL}${profile.company}/${editData.id}/${editData.documentRequest.id}`;
 
   const handleCheck = async (e) => {
@@ -103,7 +109,7 @@ export default function GenerateLinkModel({
         [e.target.name]: e.target.checked,
       };
 
-      setFormValues(newFormValues); 
+      setFormValues(newFormValues);
 
       const response = await generateLink({
         permission: newFormValues,
@@ -124,27 +130,27 @@ export default function GenerateLinkModel({
     }
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     async function teste() {
       try {
         const response = await generateLink({
-          permission: formValues,
+          permission: delayedFormValues,
           contactId: editData.id,
           requestId: editData.documentRequest.id,
           generateLink: link,
         })
-  
+
         if (!response.success) {
           toast.error('Erro ao atualizar os dados');
           return;
         }
-       
+
         setRefresh(refresh + 1)
       } catch (error) {
         toast.error('Erro ao atualizar os dados');
       }
     }
-    
+
     teste()
   }, [delayedFormValues])
 
@@ -254,13 +260,13 @@ export default function GenerateLinkModel({
       <Modal
         className="zindex"
         show={open}
-        onHide={handleClose}
+        onHide={onClose}
         aria-labelledby="contained-modal-title-vcenter"
         centered
         size="lg"
       >
         <ModalCardRow
-          handleClose={handleClose}
+          handleClose={onClose}
           id="contained-modal-title-vcenter"
           editData={editData}
           switchesData={switchesData}
