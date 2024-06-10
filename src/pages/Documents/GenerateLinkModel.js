@@ -24,6 +24,7 @@ import { sendClientSms } from "./api";
 import { FaWhatsapp } from "react-icons/fa";
 import { FaSms } from "react-icons/fa";
 import { FaRegEnvelope } from "react-icons/fa";
+import { useDelayedState } from "../../hooks/use-delayed-state.hook";
 
 export default function GenerateLinkModel({
   open,
@@ -50,7 +51,7 @@ export default function GenerateLinkModel({
     });
   }, []);
 
-  const [formValues, setFormValues] = useState({});
+  const [formValues, setFormValues, delayedFormValues] = useDelayedState({}, 600);
 
   useEffect(() => {
     const setFormValuesData = async () => {
@@ -93,6 +94,12 @@ export default function GenerateLinkModel({
     setFormValuesData();
   }, []);
 
+
+  const onClose = () => {
+    if (JSON.stringify(formValues) === JSON.stringify(delayedFormValues)) {
+      handleClose();
+    }
+  };
   const link = `${LINK_URL}${profile.company}/${editData.id}/${editData.documentRequest.id}`;
 
   const handleCheck = async (e) => {
@@ -101,6 +108,8 @@ export default function GenerateLinkModel({
         ...formValues,
         [e.target.name]: e.target.checked,
       };
+
+      setFormValues(newFormValues);
 
       const response = await generateLink({
         permission: newFormValues,
@@ -120,6 +129,30 @@ export default function GenerateLinkModel({
       toast.error('Erro ao atualizar os dados');
     }
   };
+
+  useEffect(() => {
+    async function teste() {
+      try {
+        const response = await generateLink({
+          permission: delayedFormValues,
+          contactId: editData.id,
+          requestId: editData.documentRequest.id,
+          generateLink: link,
+        })
+
+        if (!response.success) {
+          toast.error('Erro ao atualizar os dados');
+          return;
+        }
+
+        setRefresh(refresh + 1)
+      } catch (error) {
+        toast.error('Erro ao atualizar os dados');
+      }
+    }
+
+    teste()
+  }, [delayedFormValues])
 
   const isValid = Object.keys(formValues).filter((key) => formValues[key] === true).length >= 1;
 
@@ -227,13 +260,13 @@ export default function GenerateLinkModel({
       <Modal
         className="zindex"
         show={open}
-        onHide={handleClose}
+        onHide={onClose}
         aria-labelledby="contained-modal-title-vcenter"
         centered
         size="lg"
       >
         <ModalCardRow
-          handleClose={handleClose}
+          handleClose={onClose}
           id="contained-modal-title-vcenter"
           editData={editData}
           switchesData={switchesData}

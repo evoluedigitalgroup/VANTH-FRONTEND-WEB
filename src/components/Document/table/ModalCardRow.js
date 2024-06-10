@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 
 export default function ModalCardRow({ handleClose, editData, switchesData }) {
+	console.log('editData : ' ,editData)
+	console.log('switchesData : ' ,switchesData)
+
 	return (
 		<div>
 			<Row className='p-3 px-4'>
