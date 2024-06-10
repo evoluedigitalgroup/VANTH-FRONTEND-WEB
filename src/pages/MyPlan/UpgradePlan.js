@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
-import { useNavigate, useRoutes } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "react-bootstrap/Button";
 import { removePlanSubscription } from "./api";
@@ -23,76 +23,91 @@ const plansImages = [
 ];
 
 const UpgradePlan = ({ data, isUpdate, index }) => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [isCanceled, setIsCanceled] = useState(false);
   const profile = useRecoilValue(profileAtom);
 
   const onClickPurchase = () => {
-    navigate(`/profile/my-plan/purchase/plan/${data.id}`)
+    navigate(`/profile/my-plan/purchase/plan/${data.id}`);
   };
-  
+
   const onClickCancel = () => {
     setShowModal(true);
-  }
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
-  }
+  };
 
   const ClickCancelComponent = () => {
     return (
-    <Modal size="lg" show={showModal} centered className="zindex" onHide={handleCloseModal}>
-      <Modal.Header closeButton>
-        <Modal.Title>Você deseja cancelar seu plano?</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h1>Confirmando abaixo, seu plano será cancelado!</h1>
-        <p>Ao cancelar o seu plano, você concorda que o mesmo permanecerá 
-        ativo até o término da data estipulada na compra do plano. Esteja ciente de que, mesmo após o cancelamento, 
-        você continuará desfrutando dos benefícios e serviços associados ao plano até o período especificado na sua aquisição.</p>
+      <Modal size="lg" show={showModal} centered className="zindex" onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Você deseja cancelar seu plano?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h1>Confirmando abaixo, seu plano será cancelado!</h1>
+          <p>
+            Ao cancelar o seu plano, você concorda que o mesmo permanecerá ativo até o término da data estipulada na compra do plano. Esteja ciente de que, mesmo após o cancelamento, você continuará desfrutando dos benefícios e serviços associados ao plano até o período especificado na sua aquisição.
+          </p>
+          <div style={{ width: '100%', height: '50px' }} />
+          <Button
+            variant="danger"
+            className="d-flex align-items-center px-3 border-0"
+            onClick={async () => {
+              try {
+                const { subscription, id } = profile.companyData;
+                const submitData = { subscription, id };
 
-        <div style={{ width: '100%', height: '50px' }}/>
+                const res = await removePlanSubscription(submitData);
 
-        <Button
-        variant="danger"
-        className="d-flex align-items-center px-3 border-0"
-        onClick={() => {
+                if (res.success) {
+                  toast.success(res.message);
+                  // Definir o estado como cancelado
+                  setIsCanceled(true);
+                  setShowModal(false);
+                } else {
+                  toast.warn(res.message);
+                }
+              } catch (err) {
+                toast.warn("Erro!");
+              }
+            }}
+          >
+            <img src="/assets/img/X.png" alt="Cancelar" />
+            &nbsp;
+            <span style={{ fontSize: "15px" }} className="fw-bold">
+              Cancelar Assinatura
+            </span>
+          </Button>
+        </Modal.Body>
+      </Modal>
+    );
+  };
 
-          try {
-
-            const { subscription, id } = profile.companyData
-            const submitData = {
-              subscription, 
-              id
-            }
-
-            console.log(submitData)
-
-            const res = removePlanSubscription(submitData)
-            console.log(res)
-
-            toast.success(res.message)
-          } catch(err) {
-            toast.warn("Erro!")
-            console.log(err)
-          }
-
-        }}
-        >
-        <img src="/assets/img/X.png"></img>
-        &nbsp;
-        <span
-          style={{ fontSize: "15px" }}
-          className="fw-bold"
-        >
-          Cancelar Assinatura
-        </span>
-        </Button>
-      </Modal.Body>
-    </Modal>
-    )
-  }
+  const CancelConfirmationModal = () => {
+    return (
+      <Modal size="lg" show={isCanceled} centered className="zindex" onHide={() => setIsCanceled(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Plano Cancelado</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h1>Seu plano foi cancelado com sucesso!</h1>
+          <p>
+            Seu plano permanecerá ativo até o término da data estipulada na compra do plano. 
+            Você continuará desfrutando dos benefícios e serviços associados ao plano até o período especificado na sua aquisição.
+          </p>
+          <Button
+            variant="primary"
+            onClick={() => setIsCanceled(false)}
+          >
+            Fechar
+          </Button>
+        </Modal.Body>
+      </Modal>
+    );
+  };
 
   return (
     <div>
@@ -142,17 +157,17 @@ const UpgradePlan = ({ data, isUpdate, index }) => {
                 }}
                 onClick={data.selected ? onClickCancel : onClickPurchase}
               >
-                {isUpdate ? (data.selected ? "Cancelar Assinatura" : "Upgrade") : 'Comprar'}
+                {isUpdate ? (data.selected ? "Cancelar Assinatura" : "Trocar Plano") : 'Comprar'}
               </Button>
             </Col>
             <Col xs={3} md={3}>
               <div>
-                <img src={data.selected ? `${plansImages[index].imageSelected}` : `${plansImages[index].image}`} />
+                <img src={data.selected ? `${plansImages[index].imageSelected}` : `${plansImages[index].image}`} alt="Plano" />
               </div>
             </Col>
           </Row>
-
           <ClickCancelComponent />
+          <CancelConfirmationModal />
         </div>
       </div>
     </div>
