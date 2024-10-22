@@ -191,7 +191,7 @@ const ContractCopylinkModal = ({
         });
 
         submitClientIdList.forEach((item, index) => {
-          generatedLinkValue = `${CONTRACT_LINK_URL}${profile.company}/${res.data.uuid}/${res.data.docusignEnvelopeId}/${item}`;
+          generatedLinkValue = `${CONTRACT_LINK_URL}${profile.company}/${res.data.uuid}/${res.data.signatureEnvelopeId}/${item}`;
 
           res.contacts.forEach((contact) => {
             if (contact.id === item) {

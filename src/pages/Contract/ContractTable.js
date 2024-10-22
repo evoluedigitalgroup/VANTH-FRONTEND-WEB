@@ -193,7 +193,7 @@ const ContractTable = ({
     obj?.recipient.forEach((item, i) => {
       linkList.push({
         name: item.name,
-        link: `${CONTRACT_LINK_URL}${profile.company}/${obj.uuid}/${obj.docusignEnvelopeId}/${item.id}`,
+        link: `${CONTRACT_LINK_URL}${profile.company}/${obj.uuid}/${obj.signatureEnvelopeId}/${item.id}`,
       })
     })
 

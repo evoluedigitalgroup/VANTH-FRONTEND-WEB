@@ -96,11 +96,11 @@ function App() {
           element={<DocumentVerification />}
         />
         <Route
-          path="/requested-signature/:companyId/:contractId/:docusignEnvelopeId/:recipientViwer"
+          path="/requested-signature/:companyId/:contractId/:signatureEnvelopeId/:recipientViwer"
           element={<RequestedSignature />}
         />
         <Route
-          path="/contract/docusign/return-url"
+          path="/contract/signed-document/return-url"
           element={<DocuSignReturn />}
         />
         <Route
