@@ -163,10 +163,10 @@ const PurchasePlan = () => {
     { label: "Tocantins", value: "TO" },
   ];
 
-  const today = new Date();
-  const afterSevenDays = new Date(today);
-  afterSevenDays.setDate(afterSevenDays.getDate() + 7);
-  const afterSevenDaysFormatted = `${afterSevenDays.getDate()}/${afterSevenDays.getMonth() + 1}/${afterSevenDays.getFullYear()}`;
+  // const today = new Date();
+  // const afterSevenDays = new Date(today);
+  // afterSevenDays.setDate(afterSevenDays.getDate() + 7);
+  // const afterSevenDaysFormatted = `${afterSevenDays.getDate()}/${afterSevenDays.getMonth() + 1}/${afterSevenDays.getFullYear()}`;
 
   return (
     <>
@@ -190,7 +190,7 @@ const PurchasePlan = () => {
                 ></img>
                 <div className="fw-bold fs-5 mx-1 ">Insira os dados do seu cartão de pagamento:</div>
               </div>
-              {
+              {/* {
                 !profile?.companyData?.selectedPlan ? (
                   <div
                     className="mx-2"
@@ -198,7 +198,7 @@ const PurchasePlan = () => {
                   >sua compra será só debitada após o término do período de teste grátis, em 7 dias (seu teste expira em {afterSevenDaysFormatted})
                   </div>
                 ) : null
-              }
+              } */}
               <Row>
                 <Col sm={12} md={6}>
                   <div className="d-flex mt-md-5 mt-4">
