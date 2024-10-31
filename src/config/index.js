@@ -32,7 +32,7 @@ export const LINK_URL = envData(
 
 export const CONTRACT_LINK_URL = envData(
   ENV_TYPE,
-//  "http://localhost:3000/requested-signature/",
+  "http://localhost:3000/requested-signature/",
   "https://system.vanthdocs.com.br/requested-signature/",
   "https://system.vanthdocs.com.br/requested-signature/"
 );
