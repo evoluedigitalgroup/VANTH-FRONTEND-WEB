@@ -158,7 +158,7 @@ const AddUser = ({ open, handleClose }) => {
       >
         <Modal.Body className="">
           <div className="d-flex justify-content-between">
-            <h6 className="fw-bolder fs-5 my-3">Código para nova conta</h6>
+            <h6 className="fw-bolder fs-5 my-3">Gerar novo usuário</h6>
             <Button
               onClick={handleClose}
               className="border-0 text-dark p-0 mx-4 fs-5 bg-white "

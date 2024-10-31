@@ -146,7 +146,7 @@ const ProfileCard = ({
                 style={{ backgroundColor: "#0068FF" }}
               >
                 <i className="bi bi-link-45deg mx-1"></i>
-                Gerar novo Usuário
+                Gerar novo usuário
               </Button>
             )}
             <div
