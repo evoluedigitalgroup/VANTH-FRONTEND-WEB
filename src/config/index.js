@@ -18,7 +18,7 @@ export const ENV_TYPE = "production"; // local // test // production
 
 export const BASE_URL = envData(
   ENV_TYPE,
-  "http://localhost:3007/api/v1/",
+  "http://localhost:3000/api/v1/",
   "https://api.vanthdocs.com.br/api/v1/",
   "https://api.vanthdocs.com.br/api/v1/"
 );
@@ -42,4 +42,4 @@ export const PAGE_LIMIT = 5;
 export default config;
 
 export const whatsappNumber = "5511993000803";
- 
+
