@@ -21,15 +21,12 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
     console.log('item', item)
     const selectedDocument = templatesData.data.contractDocumentIds.find((obj) => obj.template.id === item.template.id);
     console.log('selectedDocument', selectedDocument)
-    const url = selectedDocument.signedDocument;
+    const url = selectedDocument.signedDocumentUrl;
     const documentId = selectedDocument.documentId;
 
 
     const isAnyRejected = templatesData.data.contractDocumentIds.some((obj) => obj.isApproved === "rejected");
     console.log('isAnyRejected', isAnyRejected)
-
-    const isApproved = selectedDocument.isApproved === "approved";
-    const isRejected = selectedDocument.isApproved === "rejected";
 
     setContractApprovalData({
       data: templatesData,
@@ -37,7 +34,7 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
       uuid: templatesData.data.uuid,
       documentId,
       url,
-      showButtons: (!isApproved && !isRejected) && !isAnyRejected
+      showButtons: false,
     });
     setModels(openContractReview());
   };
@@ -48,9 +45,7 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
         <div
           className="d-flex align-items-start justify-content-between px-2 py-1 me-3"
           style={{
-            backgroundColor: data.isApproved === 'approved'
-              ? "#58a43d"
-              : data.isApproved === 'rejected' ? "#ae2424" : "white",
+            backgroundColor: "#58a43d",
             borderRadius: "5px 5px 0 0",
 
             border: "1px solid #00000040",
@@ -65,8 +60,7 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
             }}
           >
             <a href={data?.signedDocument} target="__blank" style={{
-              color: data.isApproved === 'pending'
-                ? "black" : "white",
+              color: "white",
             }}>
               {data?.template?.originalFileName}
             </a>

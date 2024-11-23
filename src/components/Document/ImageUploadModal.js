@@ -140,7 +140,7 @@ const ImageUploadModal = ({
               <a
                 href={documents.docs[documents?.type]?.url}
                 target="_blank"
-                style={{ textDecoration: "none" }}
+                style={{ textDecoration: "none" }} rel="noreferrer"
               >
                 <Button
                   style={{

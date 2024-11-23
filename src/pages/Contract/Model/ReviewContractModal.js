@@ -18,7 +18,6 @@ const ReviewContractModal = ({
   data,
   setReviewTemplates
 }) => {
-
   const [models, setModels] = useRecoilState(contractModels);
 
   const [reload, setReload] = useState(false);
@@ -127,7 +126,7 @@ const ReviewContractModal = ({
               <a
                 href={url}
                 target="_blank"
-                style={{ textDecoration: "none" }}
+                style={{ textDecoration: "none" }} rel="noreferrer"
               >
                 <Button
                   style={{

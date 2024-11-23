@@ -92,15 +92,15 @@ const ContractTable = ({
             obj?.recipient?.contactApprove === "pending"
               ? "document-pending"
               : obj?.recipient?.contactApprove === "rejected"
-              ? "contact-wait"
-              : "document-approved"
+                ? "contact-wait"
+                : "document-approved"
           }
         >
           {obj?.recipient?.contactApprove === "pending"
             ? "Aguardando"
             : obj?.recipient?.contactApprove === "rejected"
-            ? "Reprovado"
-            : "Aprovado"}
+              ? "Reprovado"
+              : "Aprovado"}
         </Button>
       </td>
     );
@@ -110,12 +110,12 @@ const ContractTable = ({
     const isApproved =
       obj?.contractDocumentIds.filter((val) => val.isApproved === "approved")
         .length === obj?.contractDocumentIds.length;
-        
+
     const idRejected = !!obj?.contractDocumentIds.filter(
       (val) => val.isApproved === "rejected"
     ).length;
 
-    const classValue = () => {  
+    const classValue = () => {
       if (obj?.status === "pending") {
         return "document-pending";
       } else if (obj?.status === "pending_others") {
@@ -123,13 +123,7 @@ const ContractTable = ({
       } else if (obj?.status === "rejected") {
         return "contact-wait";
       } else if (obj?.status === "signed") {
-        if (!isApproved && !idRejected) {
-          return "document-wait";
-        } else if (!isApproved) {
-          return "contact-wait";
-        } else if (isApproved) {
-          return "document-success";
-        }
+        return "document-success";
       } else {
         return "document-success";
       }
@@ -141,13 +135,7 @@ const ContractTable = ({
       } else if (obj?.status === "rejected") {
         return "Assinatura recusada";
       } else if (obj?.status === "signed") {
-        if (!isApproved && !idRejected) {
-          return "Aguardando revisão";
-        } else if (idRejected && !isApproved) {
-          return "Reprovado";
-        } else if (isApproved) {
-          return "Aprovado";
-        }
+        return "Aprovado";
       } else if (obj?.status === "pending_others") {
         return "Aguardando Assinaturas"
       } else {
@@ -218,13 +206,6 @@ const ContractTable = ({
   };
 
   const ActionBtn = ({ data: obj, index }) => {
-    const isApproved =
-      obj?.contractDocumentIds.filter((val) => val.isApproved === "approved")
-        .length === obj?.contractDocumentIds.length;
-    const idRejected = !!obj?.contractDocumentIds.filter(
-      (val) => val.isApproved === "rejected"
-    ).length;
-
     if (obj?.status === "pending") {
       return (
         <GenerateLinkBtn
@@ -256,50 +237,27 @@ const ContractTable = ({
         />
       );
     } else if (obj?.status === "signed") {
-      if (!isApproved && !idRejected) {
-        return (
-          <ReviewContractBtn
-            onClick={() => {
-              onReviewLink(obj);
-            }}
-            obj={obj}
-            md={12}
-          />
-        );
-      } else if (idRejected) {
-        return (
-          <ViewContractBtn
-            onClick={() => {
-              onReviewLink(obj);
-            }}
-            obj={obj}
-            md={12}
-          />
-        );
-        return null;
-      } else if (isApproved) {
-        return (
-          <ViewContractBtn
-            onClick={() => {
-              onReviewLink(obj);
-            }}
-            obj={obj}
-            md={12}
-          />
-        );
-      }
+      return (
+        <ViewContractBtn
+          onClick={() => {
+            onReviewLink(obj);
+          }}
+          obj={obj}
+          md={12}
+        />
+      );
     } else {
-      return <ViewContractBtn onClick={() => {}} obj={obj} md={12} />;
+      return <ViewContractBtn onClick={() => { }} obj={obj} md={12} />;
     }
   };
 
   const ListClientsAndState = ({ data: obj }) => {
     console.log(obj)
     let getNameAndStatusList = []
-    
+
     obj?.recipient.forEach((item, i) => {
       obj?.recipientsStatus.forEach((o, i) => {
-        if(item.id == o.recipient) {
+        if (item.id == o.recipient) {
           getNameAndStatusList.push({
             name: item.name,
             status: o.status,
@@ -310,7 +268,7 @@ const ContractTable = ({
 
     console.log(getNameAndStatusList)
 
-    const classValue = (status) => {  
+    const classValue = (status) => {
       if (status === "pending") {
         return "document-pending";
       } else if (status === "pending_others") {
@@ -341,37 +299,37 @@ const ContractTable = ({
     return (
       <div width={isDesktop ? "25%" : "50%"} style={{ paddingBottom: '5px', paddingTop: '50px' }} className="container d-flex flex-column mb-3">
         <div className="container mt-1 mb-3 overflow-auto" style={{ maxHeight: '600px' }}>
-        {getNameAndStatusList.map((item, index) => {
-          return (
-            <div className="row" style={{ marginBottom: index < getNameAndStatusList.length - 1 ? '15px' : '5px', marginTop: '5px' }} key={index}>
-              <div className="col-md-6">
-                <p className="mb-0 fw-bold">Nome - {item.name}</p>
+          {getNameAndStatusList.map((item, index) => {
+            return (
+              <div className="row" style={{ marginBottom: index < getNameAndStatusList.length - 1 ? '15px' : '5px', marginTop: '5px' }} key={index}>
+                <div className="col-md-6">
+                  <p className="mb-0 fw-bold">Nome - {item.name}</p>
+                </div>
+                <div className="col-md-6 d-flex align-items-center">
+                  <p className="mb-0 mr-4 ml-5 fw-bold">Status de Assinatura</p>
+                  <p style={{ width: '10px' }} />
+                  <Button
+                    className={`${classValue(item.status)} mr-2 -none d-md-table-cell fw-bold`}
+                    style={{
+                      width: "150px",
+                      fontSize: "12px",
+                      borderRadius: "3px",
+                      border: "0px",
+                      fontWeight: "normal",
+                      padding: "0",
+                    }}
+                  >
+                    {labelValue(item.status)}
+                  </Button>
+                </div>
               </div>
-              <div className="col-md-6 d-flex align-items-center">
-                <p className="mb-0 mr-4 ml-5 fw-bold">Status de Assinatura</p>
-                <p style={{ width: '10px'}}/>
-                <Button
-                  className={`${classValue(item.status)} mr-2 -none d-md-table-cell fw-bold`}
-                  style={{
-                    width: "150px",
-                    fontSize: "12px",
-                    borderRadius: "3px",
-                    border: "0px",
-                    fontWeight: "normal",
-                    padding: "0",
-                  }}
-                >
-                  {labelValue(item.status)}
-                </Button>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
         </div>
       </div>
     );
-    
-    
+
+
   }
 
   return (
@@ -407,24 +365,24 @@ const ContractTable = ({
                   <ContractStatus data={obj} />
 
                   {idArray.includes(obj.id) ? (
-                  <>  
-                    <Row
-                      className="position-absolute mt-5 my-2"
-                      style={{
-                        left: "0",
-                        bottom: "",
-                        width: "100%",
-                        top: "",
-                        maxHeight: "200px", // Defina uma altura máxima aqui
-                        overflowY: idArray.includes(obj.id) ? "scroll" : "unset",
-                      }}
-                    >
-                      <ListClientsAndState data={obj}/>
+                    <>
+                      <Row
+                        className="position-absolute mt-5 my-2"
+                        style={{
+                          left: "0",
+                          bottom: "",
+                          width: "100%",
+                          top: "",
+                          maxHeight: "200px", // Defina uma altura máxima aqui
+                          overflowY: idArray.includes(obj.id) ? "scroll" : "unset",
+                        }}
+                      >
+                        <ListClientsAndState data={obj} />
 
-                      <ActionBtn style={{
-                        padding: '40px'
-                      }} data={obj} index={i} />
-                    </Row>
+                        <ActionBtn style={{
+                          padding: '40px'
+                        }} data={obj} index={i} />
+                      </Row>
                     </>
                   ) : null}
                 </tr>
