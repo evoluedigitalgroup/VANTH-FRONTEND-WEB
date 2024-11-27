@@ -101,10 +101,9 @@ const ContractCopylinkModal = ({
     return (
       <Col md={3} xs={6} className="p-0 mb-2">
         <div
-          className="d-flex align-items-start justify-content-between px-2 py-1 me-3"
+          className="d-flex align-items-start justify-content-between px-2 py-1"
           style={{
             backgroundColor: "white",
-            borderRadius: "5px 5px 0 0",
             border: "1px solid #00000040",
           }}
         >
@@ -127,20 +126,6 @@ const ContractCopylinkModal = ({
               removeSelectedTemplates(data.id);
             }}
           ></i>
-        </div>
-        <div
-          className="p-2 me-3"
-          style={{
-            height: "174px",
-            backgroundColor: "#0000001A",
-            borderRadius: "0px 0px 5px 5px",
-            border: "1px solid #00000040",
-          }}
-        >
-          <img
-            style={{ height: "100%", width: "100%" }}
-            src={data?.templatePreviewImageFile}
-          />
         </div>
       </Col>
     );

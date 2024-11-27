@@ -43,7 +43,7 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
     return (
       <Col md={12} xs={12} className="p-0 mb-2 position-relative" onClick={onClick} style={{ cursor: "pointer" }}>
         <div
-          className="d-flex align-items-start justify-content-between px-2 py-1 me-3"
+          className="d-flex align-items-start justify-content-between px-2 py-1"
           style={{
             backgroundColor: "#58a43d",
             border: "1px solid #00000040",

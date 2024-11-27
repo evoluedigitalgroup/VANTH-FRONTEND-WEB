@@ -64,12 +64,11 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
 
   const DocumentBlock = ({ data }) => {
     return (
-      <Col md={6} xs={6} className="p-0 mb-2">
+      <Col md={12} xs={12} className="p-0 mb-2">
         <div
-          className="d-flex align-items-start justify-content-between px-2 py-1 me-3"
+          className="d-flex align-items-start justify-content-between px-2 py-1"
           style={{
             backgroundColor: "white",
-            borderRadius: "5px 5px 0 0",
             border: "1px solid #00000040",
           }}
         >
@@ -92,20 +91,6 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
             style={{ height: "10px", width: "10px", marginTop: "2px" }}
           />
         </div>
-        <div
-          className="p-2 me-3"
-          style={{
-            height: "174px",
-            backgroundColor: "#0000001A",
-            borderRadius: "0px 0px 5px 5px",
-            border: "1px solid #00000040",
-          }}
-        >
-          <img
-            style={{ height: "100%", width: "100%" }}
-            src={data?.templatePreviewImageFile}
-          />
-        </div>
       </Col>
     );
   };
@@ -118,7 +103,6 @@ const SelectTemplateModal = ({ show, onHide, selectedOption }) => {
             <h6 className="fw-bold mt-1">
               Selecione um modelo para solicitar assinatura
             </h6>
-            {/* <Button onClick={onHide} className="bg-white border-0 text-dark"> */}
             <img
               onClick={handleOnHide}
               src="/assets/img/close.png"
