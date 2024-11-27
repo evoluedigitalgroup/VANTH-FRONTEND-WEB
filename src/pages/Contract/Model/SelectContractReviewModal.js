@@ -33,7 +33,7 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
       id: templatesData.data.id,
       uuid: templatesData.data.uuid,
       documentId,
-      url,
+      url: templatesData.signedDocumentUrl,
       showButtons: false,
     });
     setModels(openContractReview());
@@ -41,13 +41,11 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
 
   const DocumentBlock = ({ data, onClick = () => { } }) => {
     return (
-      <Col md={6} xs={6} className="p-0 mb-2 position-relative" onClick={onClick} style={{ cursor: "pointer" }}>
+      <Col md={12} xs={12} className="p-0 mb-2 position-relative" onClick={onClick} style={{ cursor: "pointer" }}>
         <div
           className="d-flex align-items-start justify-content-between px-2 py-1 me-3"
           style={{
             backgroundColor: "#58a43d",
-            borderRadius: "5px 5px 0 0",
-
             border: "1px solid #00000040",
           }}
         >
@@ -66,21 +64,6 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
             </a>
           </h6>
         </div>
-        <div
-          className="p-2 me-3"
-          style={{
-            height: "174px",
-            backgroundColor: "#0000001A",
-            borderRadius: "0px 0px 5px 5px",
-            border: "1px solid #00000040",
-          }}
-        >
-          <img
-            style={{ height: "100%", width: "100%" }}
-            src={data?.template?.templatePreviewImageFile}
-          />
-        </div>
-
       </Col>
     );
   };
@@ -93,20 +76,12 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
             <h6 className="fw-bold mt-1">
               Selecione o modelo de contrato para revisar
             </h6>
-            {/* <Button onClick={onHide} className="bg-white border-0 text-dark"> */}
-            <img
-              onClick={onHide}
-              src="/assets/img/close.png"
-              style={{ height: "15px", width: "15px", cursor: "pointer" }}
-            ></img>
-            {/* </Button> */}
           </div>
           <div
             className="mt-3 px-3"
             style={{ height: "380px", width: "100%", overflowY: "scroll" }}
           >
             <Row>
-
               {templatesData?.data?.contractDocumentIds?.map((item, index) => (
                 <>
                   <DocumentBlock key={index} data={item} onClick={() => {
