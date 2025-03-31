@@ -14,12 +14,12 @@ const RequestedSignature = () => {
 
   const getDetails = async () => {
     console.log('params : ', params)
-    const { companyId, contractId, docusignEnvelopeId, recipientViwer } = params;
+    const { companyId, contractId, signatureEnvelopeId, recipientViwer } = params;
 
     const res = await getPublicContractDetails({
       companyId,
       contractId,
-      docusignEnvelopeId,
+      signatureEnvelopeId,
       recipientViwer
     });
     console.log(' res ', res.data);
@@ -52,7 +52,7 @@ const RequestedSignature = () => {
     if (responseType === 'pending') {
       return (
         <div className="d-flex flex-column align-items-center justify-content-center w-100">
-          <iframe src={contractData?.docusignUrl} style={{ height: '100%', width: '100%' }} />
+          <iframe src={contractData?.signedDocumentUrl} style={{ height: '100%', width: '100%' }} />
         </div>
       );
     } else if (responseType === 'signed') {
@@ -65,7 +65,7 @@ const RequestedSignature = () => {
     } else if (responseType === 'pending_others') {
       return (
         <div className="d-flex flex-column align-items-center justify-content-center w-100">
-          <iframe src={contractData?.docusignUrl} style={{ height: '100%', width: '100%' }} />
+          <iframe src={contractData?.signedDocumentUrl} style={{ height: '100%', width: '100%' }} />
         </div>
       );
     } else if (responseType === 'rejected') {
