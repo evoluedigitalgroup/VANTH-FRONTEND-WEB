@@ -30,17 +30,14 @@ const ClientData = ({
     })
   );
 
-  const [reloadVal, reloadData] = useRecoilState(toReloadContactData);
-
   const totalPage = Math.ceil((tableData?.count || 1) / PAGE_LIMIT);
 
   useEffect(() => {
-    reloadData(reloadVal + 1);
-  }, [refresh]);
-
-  useEffect(() => {
-    setTableRow(tableData?.clients);
-  }, [tableData]);
+    if (tableData?.clients?.length > 0) {
+      console.log("Updating table row from Recoil data");
+      setTableRow(tableData.clients);
+    }
+  }, [tableData, setTableRow]);
 
   return (
     <Suspense fallback={<Loader />}>
@@ -60,22 +57,40 @@ export default function Clients() {
   const [refresh, setRefresh] = useState(0);
   const [status, setStatus] = useState("all"); // all, approved, reproved, pending
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const [table, setTable] = useRecoilState(contactTableData);
+  const [reloadVal, reloadData] = useRecoilState(toReloadContactData);
 
   useEffect(() => {
-    console.log("The function to retrive the data are successfully called");
-    getContactList(1, search).then((res) => {
-      if (res.success) {
-        console.log("The data are successfully retrieved", res.data.findData);
-        setTable(res.data.findData);
-        setTableRow(res.data.findData);
-      } else {
+    console.log("Initializing client data...");
+    setLoading(true);
+
+    // First load with direct API call
+    getContactList(1, search, status)
+      .then((res) => {
+        if (res.success) {
+          console.log("Client data loaded successfully:", res.data);
+          setTable(res.data.findData || []);
+          setTableRow(res.data.findData || []);
+
+          // Important: trigger Recoil state update
+          reloadData(reloadVal + 1);
+        } else {
+          console.error("Failed to load client data");
+          setTable([]);
+          setTableRow([]);
+        }
+      })
+      .catch((error) => {
+        console.error("Error loading client data:", error);
         setTable([]);
         setTableRow([]);
-      }
-    });
-  }, [refresh]);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [refresh, search, status]);
 
   const [showNovaClientButtonClick, setShowNovaClientButtonClick] =
     useState(false);
