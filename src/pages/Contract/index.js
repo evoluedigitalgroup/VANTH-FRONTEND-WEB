@@ -1,15 +1,14 @@
-import React, { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 //
-import { PAGE_LIMIT } from "../../config";
-import ContractTable from "./ContractTable";
+import { Helmet } from "react-helmet";
+import { toast } from "react-toastify";
 import AfterAuth from "../../HOC/AfterAuth";
 import Loader from "../../components/Loader";
 import TableNavbar from "../../components/TableNavbar";
-import { usageAtom } from "../../recoil/UsageAtoms/Usage";
-import { getContractList, updateContractApprovalStatus } from "./api";
+import { PAGE_LIMIT } from "../../config";
 import {
   contractModels,
   contractNewFileSelected,
@@ -18,24 +17,25 @@ import {
   profileAtom,
   showTutorialAtom,
 } from "../../recoil/Atoms";
-import SelectClientModal from "./NewContract/SelectClientModal";
-import SelectTemplateModal from "./NewContract/SelectTemplateModal";
+import { contractApprovalDataAtom } from "../../recoil/ContractAtoms/Templates";
+import {
+  contractPaginationData,
+  toReloadContractData,
+} from "../../recoil/PaginationAtoms/Contract";
+import { usageAtom } from "../../recoil/UsageAtoms/Usage";
 import {
   openReviewTemplateSelect,
   openSelectClient,
   resetModels,
 } from "../../recoil/helpers/contractModels";
+import ContractTable from "./ContractTable";
+import ReviewContractModal from "./Model/ReviewContractModal";
+import SelectContractReviewModal from "./Model/SelectContractReviewModal";
 import ContractCopylinkModal from "./NewContract/ContractCopylinkModal";
 import ReviewAndInformationModal from "./NewContract/ReviewAndInformationModal";
-import SelectContractReviewModal from "./Model/SelectContractReviewModal";
-import {
-  contractPaginationData,
-  toReloadContractData,
-} from "../../recoil/PaginationAtoms/Contract";
-import { Helmet } from "react-helmet";
-import ReviewContractModal from "./Model/ReviewContractModal";
-import { contractApprovalDataAtom } from "../../recoil/ContractAtoms/Templates";
-import { toast } from "react-toastify";
+import SelectClientModal from "./NewContract/SelectClientModal";
+import SelectTemplateModal from "./NewContract/SelectTemplateModal";
+import { getContractList, updateContractApprovalStatus } from "./api";
 
 const ContractData = ({
   search,

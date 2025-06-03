@@ -1,19 +1,19 @@
-import React, { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
+import { Helmet } from "react-helmet";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { getContactList } from "./api";
-import ContactTable from "./ContactTable";
-import { PAGE_LIMIT } from "../../config";
-import AfterAuth from "../../HOC/AfterAuth";
 import Loader from "../../components/Loader";
 import TableNavbar from "../../components/TableNavbar";
+import { PAGE_LIMIT } from "../../config";
+import AfterAuth from "../../HOC/AfterAuth";
 import { contactTableData } from "../../recoil/Atoms";
-import NewClientAdd from "./NewClientAdd";
 import {
   contactPaginationData,
   toReloadContactData,
 } from "../../recoil/PaginationAtoms/Contact";
-import { Helmet } from "react-helmet";
+import { getContactList } from "./api";
+import ContactTable from "./ContactTable";
+import NewClientAdd from "./NewClientAdd";
 
 const ClientData = ({
   search = "",
@@ -32,9 +32,7 @@ const ClientData = ({
 
   const [reloadVal, reloadData] = useRecoilState(toReloadContactData);
 
-  const totalPage = Math.ceil(
-    (tableData?.count || 1) / PAGE_LIMIT
-  );
+  const totalPage = Math.ceil((tableData?.count || 1) / PAGE_LIMIT);
 
   useEffect(() => {
     reloadData(reloadVal + 1);
@@ -66,12 +64,12 @@ export default function Clients() {
   const [table, setTable] = useRecoilState(contactTableData);
 
   useEffect(() => {
-    console.log('The function to retrive the data are successfully called')
+    console.log("The function to retrive the data are successfully called");
     getContactList(1, search).then((res) => {
       if (res.success) {
-        console.log('The data are successfully retrieved', res.data)
-        setTable(res.data.clients);
-        setTableRow(res.data.clients);
+        console.log("The data are successfully retrieved", res.data.findData);
+        setTable(res.data.findData);
+        setTableRow(res.data.findData);
       } else {
         setTable([]);
         setTableRow([]);
@@ -139,12 +137,14 @@ export default function Clients() {
       </AfterAuth>
     </>
   );
-};
+}
 
 function StatusSelectorButton({ active, onClick, children }) {
   return (
     <Button
-      className={`fs-color mx-1 border-0 ${active ? "activeBtnTable" : "inActiveBtnTable"}`}
+      className={`fs-color mx-1 border-0 ${
+        active ? "activeBtnTable" : "inActiveBtnTable"
+      }`}
       onClick={onClick}
     >
       {children}
