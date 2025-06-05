@@ -1,5 +1,5 @@
-import { api } from "../../helper";
 import { PAGE_LIMIT } from "../../config";
+import { api } from "../../helper";
 import {
   CREATE_TEMPLATE,
   GENERATE_CONTRACT_LINK,
@@ -40,7 +40,7 @@ export const createContract = (submitData) => {
   });
 };
 
-// 
+//
 export const getTemplates = () => {
   return new Promise((resolve, reject) => {
     api(GET_TEMPLATES, "post", {})
@@ -58,11 +58,11 @@ export const generateContractLink = (submitData) => {
   return new Promise((resolve, reject) => {
     api(GENERATE_CONTRACT_LINK, "post", submitData)
       .then((res) => {
-        console.log(res.data)
         resolve(res.data);
       })
       .catch((err) => {
-        reject();
+        console.error("API error:", err);
+        reject(err);
       });
   });
 };
@@ -70,7 +70,7 @@ export const generateContractLink = (submitData) => {
 //
 export const getPublicContractDetails = (submitData) => {
   return new Promise((resolve, reject) => {
-    console.log('sended data : ', submitData)
+    console.log("sended data : ", submitData);
     api(GET_CONTRACT_DETAILS_LINK, "post", submitData)
       .then((res) => {
         resolve(res.data);
@@ -92,4 +92,4 @@ export const updateContractApprovalStatus = (submitData) => {
         reject();
       });
   });
-}
+};
