@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col, Form, FormGroup } from "react-bootstrap";
-import { isMobile } from "react-device-detect";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Col, Form, FormGroup, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
+import { isMobile } from "react-device-detect";
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { getAllDocumentsList } from "./api";
+import RecordFound from "../../components/RecordFound";
 import { loginAtom } from "../../recoil/Atoms";
 import {
   documentActivePageAtom,
@@ -14,15 +14,19 @@ import {
   documentShowFirstPageSelector,
   documentShowLastPageSelector,
 } from "../../recoil/PaginationAtoms/Document";
+import { usageAtom } from "../../recoil/UsageAtoms/Usage";
+import { getAllDocumentsList } from "./api";
 import GenerateLinkBtn from "./GenerateLinkBtn";
 import GenerateLinkModel from "./GenerateLinkModel";
-import RecordFound from "../../components/RecordFound";
-import { usageAtom } from "../../recoil/UsageAtoms/Usage";
 
-import NewPagination from "../../components/Pagination/NewPagination";
 import ImageUploadModal from "../../components/Document/ImageUploadModal";
 import TableRowDocument from "../../components/Document/table/TableRowDocument";
-import { formatarCNPJ, formatarCPF, formatarTelefone } from "../../library/contentformater/ContentFormater";
+import NewPagination from "../../components/Pagination/NewPagination";
+import {
+  formatarCNPJ,
+  formatarCPF,
+  formatarTelefone,
+} from "../../library/contentformater/ContentFormater";
 
 const DocumentTable = ({
   tableRow,
@@ -46,7 +50,6 @@ const DocumentTable = ({
 
   const getAllDocumentListData = async () => {
     const documentList = await getAllDocumentsList();
-    console.log("documentList", documentList);
     setDocumentListData(documentList.data);
   };
 
@@ -54,7 +57,6 @@ const DocumentTable = ({
     setTableData(tableRow);
     getAllDocumentListData();
   }, [tableRow, isMobile]);
-
 
   const handleShowImageModal = (data, type) => {
     setDocument({
@@ -78,21 +80,25 @@ const DocumentTable = ({
   };
 
   const getAllStatusText = (allStatus) => {
-    return {
-      pending: "Pendente",
-      'wait-review': "A. Revisão",
-      'wait-documents': "Aguardando Doc.",
-      approved: "Aprovado",
-    }[allStatus] || "Não definido";
+    return (
+      {
+        pending: "Pendente",
+        "wait-review": "A. Revisão",
+        "wait-documents": "Aguardando Doc.",
+        approved: "Aprovado",
+      }[allStatus] || "Não definido"
+    );
   };
 
   const getAllStatusClassname = (allStatus) => {
-    return {
-      pending: "document-pending",
-      'wait-review': "document-wait",
-      'wait-documents': "document-wait",
-      approved: "document-approved",
-    }[allStatus] || "";
+    return (
+      {
+        pending: "document-pending",
+        "wait-review": "document-wait",
+        "wait-documents": "document-wait",
+        approved: "document-approved",
+      }[allStatus] || ""
+    );
   };
 
   return (
@@ -123,29 +129,17 @@ const DocumentTable = ({
                     fontSize: "14px",
                   }}
                 >
-                  <td className="fw-bold">
-                    {obj.name}
-                  </td>
+                  <td className="fw-bold">{obj.name}</td>
                   <td>{formatarCPF(obj.CPF)}</td>
-                  <td
-                    className="d-none d-md-table-cell"
-                  >
+                  <td className="d-none d-md-table-cell">
                     {formatarCNPJ(obj.CNPJ)}
                   </td>
-                  <td
-                    className="d-none d-md-table-cell"
-                  >
+                  <td className="d-none d-md-table-cell">
                     {formatarTelefone(obj.phone)}
                   </td>
                   <td>{obj.date}</td>
-                  <td
-                    className="d-none d-md-table-cell"
-                  >
-                    {obj.time}
-                  </td>
-                  <td
-                    className="position-relative text-start"
-                  >
+                  <td className="d-none d-md-table-cell">{obj.time}</td>
+                  <td className="position-relative text-start">
                     <Button
                       style={{
                         width: "125px",
@@ -168,9 +162,13 @@ const DocumentTable = ({
                     display: idArray.includes(obj.id) ? "table-row" : "none",
                   }}
                 >
-                  <td colSpan={7} className="my-3 mx-3" style={{
-                    width: "100%",
-                  }}>
+                  <td
+                    colSpan={7}
+                    className="my-3 mx-3"
+                    style={{
+                      width: "100%",
+                    }}
+                  >
                     <Row className="mt-5 mt-md-0">
                       <Col md={4} xs={12}>
                         <Form>
@@ -264,9 +262,7 @@ const DocumentTable = ({
                                   placeholder={info?.placeholder}
                                   type="text"
                                   readOnly
-                                  value={
-                                    info?.value || info?.placeholder || ""
-                                  }
+                                  value={info?.value || info?.placeholder || ""}
                                   name={info?.key}
                                 />
                               </FormGroup>
@@ -282,11 +278,14 @@ const DocumentTable = ({
                         documentListData={documentListData}
                         handleShowImageModal={handleShowImageModal}
                       />
-                      <div className={`${isMobile ? 'mt-0' : 'mt-4'}`} style={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                      }}>
+                      <div
+                        className={`${isMobile ? "mt-0" : "mt-4"}`}
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          alignItems: "center",
+                        }}
+                      >
                         <GenerateLinkBtn
                           onClick={() => handleShowLinkModal(obj)}
                           obj={obj}
@@ -339,10 +338,7 @@ const DocumentTable = ({
         )}
       </Table>
       <NewPagination
-        show={
-          tableDataArray?.contacts?.length &&
-          tableDataArray?.count
-        }
+        show={tableDataArray?.findContactData?.length && tableDataArray?.count}
         atom={documentActivePageAtom}
         prevSelector={documentPrevPageSelector}
         nextSelector={documentNextPageSelector}
@@ -350,7 +346,7 @@ const DocumentTable = ({
         showLastSelector={documentShowLastPageSelector}
         totalPage={totalPage}
       />
-    </div >
+    </div>
   );
 };
 

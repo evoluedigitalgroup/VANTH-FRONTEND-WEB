@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Modal,
-  Form,
-  FormGroup,
-  InputGroup,
-} from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Button, Form, FormGroup, InputGroup, Modal } from "react-bootstrap";
 import Select from "react-select";
 import { useRecoilState, useSetRecoilState } from "recoil";
 //
+import { toast } from "react-toastify";
 import Loader from "../../../components/Loader";
-import { getContactList } from "../../Clients/api";
-import { contractSelectedUser, contractSelectedUsers, contractModels, contractSelectedInvitors } from "../../../recoil/Atoms";
+import {
+  contractModels,
+  contractSelectedInvitors,
+  contractSelectedUser,
+  contractSelectedUsers,
+} from "../../../recoil/Atoms";
 import {
   openSelectTemplate,
   resetModels,
 } from "../../../recoil/helpers/contractModels";
-import { toast } from "react-toastify";
+import { getContactList } from "../../Clients/api";
 
 const SelectClientModal = ({ show, onHide }) => {
   const options = [
@@ -30,8 +29,10 @@ const SelectClientModal = ({ show, onHide }) => {
   const [contactsData, setContactsData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const [selectionList, setSelectionList] = useRecoilState(contractSelectedUsers)
-  const [invitors, setInvitors] = useRecoilState(contractSelectedInvitors)
+  const [selectionList, setSelectionList] = useRecoilState(
+    contractSelectedUsers
+  );
+  const [invitors, setInvitors] = useRecoilState(contractSelectedInvitors);
 
   const setInvitorsList = useSetRecoilState(contractSelectedInvitors);
 
@@ -40,49 +41,55 @@ const SelectClientModal = ({ show, onHide }) => {
       setModals(resetModels());
       setModals(openSelectTemplate());
     } else {
-      toast.error('Você precisa selecionar pelo menos um cliente!')
+      toast.error("Você precisa selecionar pelo menos um cliente!");
     }
   };
 
   const clearCurrentStates = () => {
-    setSelectionList([])
-    setInvitorsList([])
-  }
+    setSelectionList([]);
+    setInvitorsList([]);
+  };
 
   const handleOnHide = () => {
-    onHide()
-    clearCurrentStates()
-  }
+    onHide();
+    clearCurrentStates();
+  };
 
-  
   useEffect(() => {
     setLoading(true);
-    getContactList(1, "", "all", 9999999).then((res) => {
-      if (res.success) {
-        let optionsData = res.data.clients.map((item) => {
-          return {
-            value: item.id,
-            uuid: item.uuid,
-            label: item.name,
-            email: item.email,
-          };
-        });
-        setContactsData(optionsData);
+    getContactList(1, "", "all", 1000)
+      .then((res) => {
+        if (res.success) {
+          let optionsData = res.data.findData.map((item) => {
+            return {
+              value: item.id,
+              uuid: item.uuid,
+              label: item.name,
+              email: item.email,
+            };
+          });
+          setContactsData(optionsData);
+        } else {
+          toast.error("Erro ao carregar a lista de contatos");
+        }
+      })
+      .catch((err) => {
+        console.error("API error:", err);
+        toast.error("Erro de conexão ao carregar contatos");
+      })
+      .finally(() => {
         setLoading(false);
-      } else {
-        setLoading(false);
-      }
-    });
+      });
   }, []);
 
   const formatPhoneNumber = (number) => {
     if (number != undefined && number != null) {
-      const clearNumber = number.replace(/\D/g, '')
-      return clearNumber.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3')
+      const clearNumber = number.replace(/\D/g, "");
+      return clearNumber.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
     } else {
-      return number
+      return number;
     }
-  }
+  };
 
   const handleSelectChange = (option) => {
     if (!option) {
@@ -90,10 +97,10 @@ const SelectClientModal = ({ show, onHide }) => {
     }
 
     setSelectedOption(option);
-    if (!selectionList.some(item => item.label === option.label)) {
+    if (!selectionList.some((item) => item.label === option.label)) {
       setSelectionList([...selectionList, option]);
     }
-  }
+  };
 
   const [invitor, setInvitor] = useState({
     name: "",
@@ -108,7 +115,6 @@ const SelectClientModal = ({ show, onHide }) => {
     setInvitors([...invitors, invitor]);
   };
 
-
   const formatOptionLabel = ({ label, email }) => (
     <div className="d-flex justify-content-between mx-md-4">
       <div>
@@ -116,7 +122,7 @@ const SelectClientModal = ({ show, onHide }) => {
         {label}
       </div>
       <div>
-      <i className="bi bi-person-fill px-1" style={{ color: "#BAC4C8" }}></i>
+        <i className="bi bi-person-fill px-1" style={{ color: "#BAC4C8" }}></i>
         {email}
       </div>
     </div>
@@ -124,7 +130,13 @@ const SelectClientModal = ({ show, onHide }) => {
 
   return (
     <>
-      <Modal size="lg" show={show} onHide={handleOnHide} centered className="zindex">
+      <Modal
+        size="lg"
+        show={show}
+        onHide={handleOnHide}
+        centered
+        className="zindex"
+      >
         <div
           className=""
           style={{ height: "540px", position: "relative", padding: "30px" }}
@@ -135,7 +147,7 @@ const SelectClientModal = ({ show, onHide }) => {
             <>
               <div className="d-flex justify-content-between">
                 <h5 id="link" className="fw-bold mt-1">
-                Gerar nova assinatura
+                  Gerar nova assinatura
                 </h5>
                 <Button
                   onClick={handleOnHide}
@@ -144,11 +156,15 @@ const SelectClientModal = ({ show, onHide }) => {
                   <img src="/assets/img/close.png"></img>
                 </Button>
               </div>
-              <h5 style={{
-                fontSize: "20px",
-                fontWeight: "400",
-                marginTop: "20px",
-              }}>Adicionar cliente como assinante</h5>
+              <h5
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "400",
+                  marginTop: "20px",
+                }}
+              >
+                Adicionar cliente como assinante
+              </h5>
               <div
                 id="selectUserNameAndTelephone"
                 className="mt-3 selctedUserNameAndTelephoneLabel"
@@ -169,45 +185,57 @@ const SelectClientModal = ({ show, onHide }) => {
                       display: "flex",
                       alignItems: "center",
                     }),
-                    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+                    option: (
+                      styles,
+                      { data, isDisabled, isFocused, isSelected }
+                    ) => {
                       return {
                         ...styles,
                         backgroundColor: isDisabled
                           ? null
                           : isSelected
-                            ? "#0068FF"
-                            : isFocused
-                              ? "#0068FF"
-                              : null,
+                          ? "#0068FF"
+                          : isFocused
+                          ? "#0068FF"
+                          : null,
                         color: isDisabled
                           ? "#ccc"
                           : isSelected
-                            ? "white"
-                            : isFocused
-                              ? "white"
-                              : "black",
+                          ? "white"
+                          : isFocused
+                          ? "white"
+                          : "black",
                         cursor: isDisabled ? "not-allowed" : "default",
                         ":active": {
                           ...styles[":active"],
-                          backgroundColor: !isDisabled && (isSelected ? "#0053cc" : "#dcdcdc"),
+                          backgroundColor:
+                            !isDisabled && (isSelected ? "#0053cc" : "#dcdcdc"),
                         },
                       };
                     },
                   }}
                 />
               </div>
-              <div>
-              </div>
-              <h5 style={{
-                fontSize: "20px",
-                fontWeight: "400",
-                marginTop: "20px",
-              }}>Adicionar novo assinante</h5>
-              <div style={{ display: "flex", alignItems: "center", width: "100%", gap: "1rem" }}>
+              <div></div>
+              <h5
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "400",
+                  marginTop: "20px",
+                }}
+              >
+                Adicionar novo assinante
+              </h5>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  width: "100%",
+                  gap: "1rem",
+                }}
+              >
                 <Form style={{ width: "100%" }}>
-                  <Form.Label className="Doc-Font-Color">
-                    Nome
-                  </Form.Label>
+                  <Form.Label className="Doc-Font-Color">Nome</Form.Label>
                   <FormGroup className="" style={{ position: "relative" }}>
                     <InputGroup className="mb-3 rounded">
                       <Form.Control
@@ -224,9 +252,7 @@ const SelectClientModal = ({ show, onHide }) => {
                   </FormGroup>
                 </Form>
                 <Form style={{ width: "100%" }}>
-                  <Form.Label className="Doc-Font-Color">
-                    Email
-                  </Form.Label>
+                  <Form.Label className="Doc-Font-Color">Email</Form.Label>
                   <FormGroup className="" style={{ position: "relative" }}>
                     <InputGroup className="mb-3 rounded">
                       <Form.Control
@@ -247,49 +273,78 @@ const SelectClientModal = ({ show, onHide }) => {
                 </Button>
               </div>
               <div className="my-4">
-                  {Boolean(selectionList.length) && (
-                    <>
-                      <h6 className="font-bold">Clientes Selecionados</h6>
-                      {selectionList.map((item, index) => {
-                        return (
-                          <div key={index} className="d-flex align-items-center align-center gap-4">
-                            <div className="d-flex align-items-center">
-                              <i className="bi bi-person-fill px-1" style={{ color: "#BAC4C8" }}></i>
-                              {item.label} &nbsp;-&nbsp;  { item.email}
-                            </div>
-                            <h6 style={{ color: 'blue', cursor: 'pointer' }} className="m-0" onClick={() => { setSelectionList(selectionList.filter((k) => k.label !== item.label)) }}>X</h6>
+                {Boolean(selectionList.length) && (
+                  <>
+                    <h6 className="font-bold">Clientes Selecionados</h6>
+                    {selectionList.map((item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="d-flex align-items-center align-center gap-4"
+                        >
+                          <div className="d-flex align-items-center">
+                            <i
+                              className="bi bi-person-fill px-1"
+                              style={{ color: "#BAC4C8" }}
+                            ></i>
+                            {item.label} &nbsp;-&nbsp; {item.email}
                           </div>
-                        )
-                      })}
-                    </>
-                  )}
-                  {Boolean(invitors.length) && (
-                    <>
-                      <h6 className="font-bold">Assinantes Adicionados</h6>
-                      {invitors.map((item, index) => {
-                        return (
-                          <div key={index} className="d-flex align-items-center align-center gap-4">
-                            <div className="d-flex align-items-center">
-                              <i className="bi bi-person-fill px-1" style={{ color: "#BAC4C8" }}></i>
-                              {` ${item.name} - ${item.email} `}
-                            </div>
-                            <h6 style={{ color: 'blue', cursor: 'pointer' }} className="m-0" onClick={() => { setInvitors(invitors.filter((k) => k.name !== item.name)) }}>X</h6>
+                          <h6
+                            style={{ color: "blue", cursor: "pointer" }}
+                            className="m-0"
+                            onClick={() => {
+                              setSelectionList(
+                                selectionList.filter(
+                                  (k) => k.label !== item.label
+                                )
+                              );
+                            }}
+                          >
+                            X
+                          </h6>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
+                {Boolean(invitors.length) && (
+                  <>
+                    <h6 className="font-bold">Assinantes Adicionados</h6>
+                    {invitors.map((item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="d-flex align-items-center align-center gap-4"
+                        >
+                          <div className="d-flex align-items-center">
+                            <i
+                              className="bi bi-person-fill px-1"
+                              style={{ color: "#BAC4C8" }}
+                            ></i>
+                            {` ${item.name} - ${item.email} `}
                           </div>
-                        )
-                      })}
-                    </>
-                  )}
-                </div>
+                          <h6
+                            style={{ color: "blue", cursor: "pointer" }}
+                            className="m-0"
+                            onClick={() => {
+                              setInvitors(
+                                invitors.filter((k) => k.name !== item.name)
+                              );
+                            }}
+                          >
+                            X
+                          </h6>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
+              </div>
               <div>
                 <button
                   onClick={handleShowTamplateModal}
                   disabled={selectedOption == null}
-                  cLink
-                  para
-                  solicitar
-                  assinatura
-                  de
-                  contratolassName="py-2 px-6"
+                  className="py-2 px-6"
                   style={{
                     background: "#0068FF",
                     border: "0",
