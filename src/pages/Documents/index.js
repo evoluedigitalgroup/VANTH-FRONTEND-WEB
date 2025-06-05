@@ -1,18 +1,18 @@
-import React, { useState, useEffect, Suspense } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Suspense, useEffect, useState } from "react";
+import { Button, Card } from "react-bootstrap";
+import { Helmet } from "react-helmet";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { PAGE_LIMIT } from "../../config";
-import AfterAuth from "../../HOC/AfterAuth";
-import DocumentTable from "./DocumentTable";
+import NewMemberAdd from "../../components/Document/NewMemberAdd";
 import Loader from "../../components/Loader";
 import TableNavbar from "../../components/TableNavbar";
+import { PAGE_LIMIT } from "../../config";
+import AfterAuth from "../../HOC/AfterAuth";
 import { showTutorialAtom } from "../../recoil/Atoms";
-import NewMemberAdd from "../../components/Document/NewMemberAdd";
 import {
   documentPaginationData,
   toReloadDocumentData,
 } from "../../recoil/PaginationAtoms/Document";
-import { Helmet } from "react-helmet";
+import DocumentTable from "./DocumentTable";
 
 function DocumentData({
   search,
@@ -37,16 +37,15 @@ function DocumentData({
 
   const [reloadVal, reloadData] = useRecoilState(toReloadDocumentData);
 
-  const totalPage = Math.ceil(
-    (tableData?.count || 1) / PAGE_LIMIT
-  );
+  const totalPage = Math.ceil((tableData?.count || 1) / PAGE_LIMIT);
 
   useEffect(() => {
     reloadData(reloadVal + 1);
   }, [refresh]);
 
   useEffect(() => {
-    setTableRow(tableData?.contacts);
+    console.log("Table Data:", tableData);
+    setTableRow(tableData?.findContactData);
   }, [tableData]);
 
   return (
@@ -66,13 +65,13 @@ function DocumentData({
       />
     </Suspense>
   );
-};
+}
 
 export default function Documents() {
   const [tableRow, setTableRow] = useState([]);
   const [refresh, setRefresh] = useState(0);
 
-  const [status, setStatus] = useState("all") // all, pending, approved
+  const [status, setStatus] = useState("all"); // all, pending, approved
   const [search, setSearch] = useState(""); // search value
 
   const [id, setId] = useState(null);
@@ -143,13 +142,14 @@ export default function Documents() {
       </AfterAuth>
     </>
   );
-};
-
+}
 
 function StatusSelectorButton({ active, onClick, children }) {
   return (
     <Button
-      className={`fs-color  mx-1 border-0 ${active ? "activeBtnTable" : "inActiveBtnTable"}`}
+      className={`fs-color  mx-1 border-0 ${
+        active ? "activeBtnTable" : "inActiveBtnTable"
+      }`}
       onClick={onClick}
     >
       {children}
