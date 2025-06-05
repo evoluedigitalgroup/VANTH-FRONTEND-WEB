@@ -50,7 +50,6 @@ const DocumentTable = ({
 
   const getAllDocumentListData = async () => {
     const documentList = await getAllDocumentsList();
-    console.log("documentList", documentList);
     setDocumentListData(documentList.data);
   };
 

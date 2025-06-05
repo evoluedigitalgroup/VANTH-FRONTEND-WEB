@@ -1,21 +1,12 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
-import Table from "react-bootstrap/Table";
+import { useEffect, useState } from "react";
 import { Button, Row } from "react-bootstrap";
+import Table from "react-bootstrap/Table";
 //
-import {
-  contractActivePageAtom,
-  contractNextPageSelector,
-  contractPrevPageSelector,
-  contractShowFirstPageSelector,
-  contractShowLastPageSelector,
-} from "../../recoil/PaginationAtoms/Contract";
+import { isDesktop } from "react-device-detect";
+import { useRecoilState, useRecoilValue } from "recoil";
 import NewPagination from "../../components/Pagination/NewPagination";
 import RecordFound from "../../components/RecordFound";
-import GenerateLinkBtn from "./GenerateLinkBtn";
-import ReviewContractBtn from "./ReviewContractBtn";
-import ViewContractBtn from "./ViewContractBtn";
 import { CONTRACT_LINK_URL } from "../../config";
-import { useRecoilState, useRecoilValue } from "recoil";
 import {
   contractModels,
   contractSelectedUser,
@@ -27,7 +18,15 @@ import {
   openReviewTemplateSelect,
   resetModels,
 } from "../../recoil/helpers/contractModels";
-import { isDesktop } from "react-device-detect";
+import {
+  contractActivePageAtom,
+  contractNextPageSelector,
+  contractPrevPageSelector,
+  contractShowFirstPageSelector,
+  contractShowLastPageSelector,
+} from "../../recoil/PaginationAtoms/Contract";
+import GenerateLinkBtn from "./GenerateLinkBtn";
+import ViewContractBtn from "./ViewContractBtn";
 
 const ContractTable = ({
   idArray,
@@ -59,7 +58,7 @@ const ContractTable = ({
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    console.log(tableRow)
+    console.log(tableRow);
     setTableData(tableRow);
   }, [tableRow]);
 
@@ -92,15 +91,15 @@ const ContractTable = ({
             obj?.recipient?.contactApprove === "pending"
               ? "document-pending"
               : obj?.recipient?.contactApprove === "rejected"
-                ? "contact-wait"
-                : "document-approved"
+              ? "contact-wait"
+              : "document-approved"
           }
         >
           {obj?.recipient?.contactApprove === "pending"
             ? "Aguardando"
             : obj?.recipient?.contactApprove === "rejected"
-              ? "Reprovado"
-              : "Aprovado"}
+            ? "Reprovado"
+            : "Aprovado"}
         </Button>
       </td>
     );
@@ -137,7 +136,7 @@ const ContractTable = ({
       } else if (obj?.status === "signed") {
         return "Aprovado";
       } else if (obj?.status === "pending_others") {
-        return "Aguardando Assinaturas"
+        return "Aguardando Assinaturas";
       } else {
         return "Assinada";
       }
@@ -176,16 +175,16 @@ const ContractTable = ({
       phoneNumber: obj.recipient.phone,
     });
 
-    let linkList = []
+    let linkList = [];
 
     obj?.recipient.forEach((item, i) => {
       linkList.push({
         name: item.name,
         link: `${CONTRACT_LINK_URL}${profile.company}/${obj.uuid}/${obj.docusignEnvelopeId}/${item.id}`,
-      })
-    })
+      });
+    });
 
-    setContractLink(linkList)
+    setContractLink(linkList);
 
     setModels(resetModels());
     setModels(openPreviewContract());
@@ -193,7 +192,7 @@ const ContractTable = ({
 
   const onReviewLink = (obj) => {
     const templatesValue = obj?.contractDocumentIds.map((val) => val.template);
-    console.log(templatesValue)
+    console.log(templatesValue);
     const setValue = {
       data: obj,
       templatesList: templatesValue,
@@ -247,13 +246,12 @@ const ContractTable = ({
         />
       );
     } else {
-      return <ViewContractBtn onClick={() => { }} obj={obj} md={12} />;
+      return <ViewContractBtn onClick={() => {}} obj={obj} md={12} />;
     }
   };
 
   const ListClientsAndState = ({ data: obj }) => {
-    console.log(obj)
-    let getNameAndStatusList = []
+    let getNameAndStatusList = [];
 
     obj?.recipient.forEach((item, i) => {
       obj?.recipientsStatus.forEach((o, i) => {
@@ -261,12 +259,12 @@ const ContractTable = ({
           getNameAndStatusList.push({
             name: item.name,
             status: o.status,
-          })
+          });
         }
-      })
-    })
+      });
+    });
 
-    console.log(getNameAndStatusList)
+    console.log(getNameAndStatusList);
 
     const classValue = (status) => {
       if (status === "pending") {
@@ -290,26 +288,43 @@ const ContractTable = ({
       } else if (status === "signed") {
         return "Assinado";
       } else if (status === "pending_others") {
-        return "Aguardando todas as assinaturas"
+        return "Aguardando todas as assinaturas";
       } else {
         return "Assinado";
       }
     };
 
     return (
-      <div width={isDesktop ? "25%" : "50%"} style={{ paddingBottom: '5px', paddingTop: '50px' }} className="container d-flex flex-column mb-3">
-        <div className="container mt-1 mb-3 overflow-auto" style={{ maxHeight: '600px' }}>
+      <div
+        width={isDesktop ? "25%" : "50%"}
+        style={{ paddingBottom: "5px", paddingTop: "50px" }}
+        className="container d-flex flex-column mb-3"
+      >
+        <div
+          className="container mt-1 mb-3 overflow-auto"
+          style={{ maxHeight: "600px" }}
+        >
           {getNameAndStatusList.map((item, index) => {
             return (
-              <div className="row" style={{ marginBottom: index < getNameAndStatusList.length - 1 ? '15px' : '5px', marginTop: '5px' }} key={index}>
+              <div
+                className="row"
+                style={{
+                  marginBottom:
+                    index < getNameAndStatusList.length - 1 ? "15px" : "5px",
+                  marginTop: "5px",
+                }}
+                key={index}
+              >
                 <div className="col-md-6">
                   <p className="mb-0 fw-bold">Nome - {item.name}</p>
                 </div>
                 <div className="col-md-6 d-flex align-items-center">
                   <p className="mb-0 mr-4 ml-5 fw-bold">Status de Assinatura</p>
-                  <p style={{ width: '10px' }} />
+                  <p style={{ width: "10px" }} />
                   <Button
-                    className={`${classValue(item.status)} mr-2 -none d-md-table-cell fw-bold`}
+                    className={`${classValue(
+                      item.status
+                    )} mr-2 -none d-md-table-cell fw-bold`}
                     style={{
                       width: "150px",
                       fontSize: "12px",
@@ -328,9 +343,7 @@ const ContractTable = ({
         </div>
       </div>
     );
-
-
-  }
+  };
 
   return (
     <div>
@@ -374,14 +387,20 @@ const ContractTable = ({
                           width: "100%",
                           top: "",
                           maxHeight: "200px", // Defina uma altura máxima aqui
-                          overflowY: idArray.includes(obj.id) ? "scroll" : "unset",
+                          overflowY: idArray.includes(obj.id)
+                            ? "scroll"
+                            : "unset",
                         }}
                       >
                         <ListClientsAndState data={obj} />
 
-                        <ActionBtn style={{
-                          padding: '40px'
-                        }} data={obj} index={i} />
+                        <ActionBtn
+                          style={{
+                            padding: "40px",
+                          }}
+                          data={obj}
+                          index={i}
+                        />
                       </Row>
                     </>
                   ) : null}
