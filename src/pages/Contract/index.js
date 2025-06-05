@@ -60,8 +60,6 @@ const ContractData = ({
   const totalPage = Math.ceil((tableData?.totalFindData || 1) / PAGE_LIMIT);
   const [table, setTable] = useRecoilState(contractTableData);
 
-  console.log("tableData", tableData);
-
   useEffect(() => {
     reloadData(reloadVal + 1);
     setSearchResult(false);
@@ -183,8 +181,6 @@ const Contact = () => {
         setLoading(false);
       }
     });
-
-    console.log("selectedPdf : ", selectedPdf);
   }, [refresh, selectedPdf]);
 
   const onEnter = (e) => {

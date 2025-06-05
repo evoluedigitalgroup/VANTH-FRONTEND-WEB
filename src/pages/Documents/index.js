@@ -44,7 +44,6 @@ function DocumentData({
   }, [refresh]);
 
   useEffect(() => {
-    console.log("Table Data:", tableData);
     setTableRow(tableData?.findContactData);
   }, [tableData]);
 

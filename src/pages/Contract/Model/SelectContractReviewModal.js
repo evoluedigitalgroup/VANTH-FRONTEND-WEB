@@ -1,32 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { Button, Col, Modal, Row } from "react-bootstrap";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useState } from "react";
+import { Col, Modal, Row } from "react-bootstrap";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { contractModels, contractNewFileSelected } from "../../../recoil/Atoms";
-import {
-  openContractReview,
-} from "../../../recoil/helpers/contractModels";
-import { templatesListAtom, selectedTemplatesAtom, contractApprovalDataAtom } from '../../../recoil/ContractAtoms/Templates';
-import { getTemplates } from "../../Contract/api";
-import { set } from "react-hook-form";
+import { contractApprovalDataAtom } from "../../../recoil/ContractAtoms/Templates";
+import { openContractReview } from "../../../recoil/helpers/contractModels";
 
 const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
   const [loading, setLoading] = useState(true);
-  const setContractApprovalData = useSetRecoilState(contractApprovalDataAtom)
+  const setContractApprovalData = useSetRecoilState(contractApprovalDataAtom);
   const [models, setModels] = useRecoilState(contractModels);
   const [selectedFile, setSelectedFile] = useRecoilState(
     contractNewFileSelected
   );
 
   const handleContractSelected = (item) => {
-    console.log('item', item)
-    const selectedDocument = templatesData.data.contractDocumentIds.find((obj) => obj.template.id === item.template.id);
-    console.log('selectedDocument', selectedDocument)
+    const selectedDocument = templatesData.data.contractDocumentIds.find(
+      (obj) => obj.template.id === item.template.id
+    );
     const url = selectedDocument.signedDocumentUrl;
     const documentId = selectedDocument.documentId;
 
-
-    const isAnyRejected = templatesData.data.contractDocumentIds.some((obj) => obj.isApproved === "rejected");
-    console.log('isAnyRejected', isAnyRejected)
+    const isAnyRejected = templatesData.data.contractDocumentIds.some(
+      (obj) => obj.isApproved === "rejected"
+    );
+    console.log("isAnyRejected", isAnyRejected);
 
     setContractApprovalData({
       data: templatesData,
@@ -39,9 +36,15 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
     setModels(openContractReview());
   };
 
-  const DocumentBlock = ({ data, onClick = () => { } }) => {
+  const DocumentBlock = ({ data, onClick = () => {} }) => {
     return (
-      <Col md={12} xs={12} className="p-0 mb-2 position-relative" onClick={onClick} style={{ cursor: "pointer" }}>
+      <Col
+        md={12}
+        xs={12}
+        className="p-0 mb-2 position-relative"
+        onClick={onClick}
+        style={{ cursor: "pointer" }}
+      >
         <div
           className="d-flex align-items-start justify-content-between px-2 py-1"
           style={{
@@ -57,9 +60,13 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
               overflowWrap: "anywhere",
             }}
           >
-            <a href={data?.signedDocument} target="__blank" style={{
-              color: "white",
-            }}>
+            <a
+              href={data?.signedDocument}
+              target="__blank"
+              style={{
+                color: "white",
+              }}
+            >
               {data?.template?.originalFileName}
             </a>
           </h6>
@@ -84,9 +91,13 @@ const SelectContractReviewModal = ({ show, onHide, templatesData }) => {
             <Row>
               {templatesData?.data?.contractDocumentIds?.map((item, index) => (
                 <>
-                  <DocumentBlock key={index} data={item} onClick={() => {
-                    handleContractSelected(item)
-                  }} />
+                  <DocumentBlock
+                    key={index}
+                    data={item}
+                    onClick={() => {
+                      handleContractSelected(item);
+                    }}
+                  />
                 </>
               ))}
               {templatesData?.data?.contractDocumentIds?.length === 0 && (
