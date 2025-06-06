@@ -6,7 +6,7 @@ const env = "production";
 const buildPath = process.cwd() + "/build";
 const configFile = process.cwd() + "/src/config/index.js";
 
-const s3BucketName = "system.vanthdocs.com.br";
+const s3BucketName = "app.vanthdocs.com.br";
 
 const currentEnv = getEnvType(configFile);
 console.log("currentEnv : ", currentEnv);
