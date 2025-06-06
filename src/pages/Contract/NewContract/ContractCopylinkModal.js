@@ -1,34 +1,26 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Form,
-  InputGroup,
-  Modal,
-  Row,
-  Spinner,
-} from "react-bootstrap";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
+import { useEffect, useState } from "react";
+import { Button, Col, Modal, Row, Spinner } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 //
+import copyToClipboard from "copy-text-to-clipboard";
+import { CONTRACT_LINK_URL } from "../../../config";
 import {
-  openSelectTemplate,
-  resetModels,
-} from "../../../recoil/helpers/contractModels";
+  contractModels,
+  contractSelectedInvitors,
+  contractSelectedUsers,
+  profileAtom,
+} from "../../../recoil/Atoms";
 import {
   selectedTemplatesAtom,
   templatesListAtom,
 } from "../../../recoil/ContractAtoms/Templates";
-import { generateContractLink, getContractList } from "../api";
-import { CONTRACT_LINK_URL } from "../../../config";
 import {
-  contractModels,
-  contractSelectedUsers,
-  profileAtom,
-  contractSelectedInvitors,
-} from "../../../recoil/Atoms";
-import copyToClipboard from "copy-text-to-clipboard";
+  openSelectTemplate,
+  resetModels,
+} from "../../../recoil/helpers/contractModels";
+import { generateContractLink } from "../api";
 
 const ContractCopylinkModal = ({
   show,
@@ -153,7 +145,6 @@ const ContractCopylinkModal = ({
 
   const onGenerateLink = () => {
     let generatedLinks = [];
-
     setLoading(true);
 
     let submitClientIdList = [];
@@ -165,38 +156,46 @@ const ContractCopylinkModal = ({
       visitorsBody: invitors.length > 0 ? invitors : undefined,
     };
 
-    generateContractLink(submitData).then((res) => {
-      if (res.success) {
-        let generatedLinkValue;
+    generateContractLink(submitData)
+      .then((res) => {
+        if (res.success) {
+          let generatedLinkValue;
 
-        res.data.recipient.forEach((value) => {
-          if (!submitClientIdList.includes(value)) {
-            submitClientIdList.push(value);
-          }
-        });
-
-        submitClientIdList.forEach((item, index) => {
-          generatedLinkValue = `${CONTRACT_LINK_URL}${profile.company}/${res.data.uuid}/${res.data.docusignEnvelopeId}/${item}`;
-
-          res.contacts.forEach((contact) => {
-            if (contact.id === item) {
-              generatedLinks.push({
-                name: contact.name,
-                link: generatedLinkValue,
-              });
+          res.data.contractRequest.recipient.forEach((value) => {
+            if (!submitClientIdList.includes(value)) {
+              submitClientIdList.push(value);
             }
           });
 
-          setGeneratedLink(generatedLinks);
-        });
+          submitClientIdList.forEach((item, index) => {
+            generatedLinkValue = `${CONTRACT_LINK_URL}${profile.company}/${res.data.contractRequest.uuid}/${res.data.contractRequest.docusignEnvelopeId}/${item}`;
 
-        setGeneratedLink(generatedLinks);
-      } else {
-        toast.error(res.message);
-      }
-      setLoading(false);
-      setRefresh(refresh + 1);
-    });
+            console.log("Generated Link Value: ", res);
+            res.data.contacts.forEach((contact) => {
+              if (contact.id === item) {
+                generatedLinks.push({
+                  name: contact.name,
+                  link: generatedLinkValue,
+                });
+              }
+            });
+
+            setGeneratedLink(generatedLinks);
+          });
+
+          setGeneratedLink(generatedLinks);
+        } else {
+          toast.error(res.message || "Erro ao gerar link");
+        }
+      })
+      .catch((error) => {
+        console.error("Error generating contract link:", error);
+        toast.error("Falha ao gerar link. Por favor, tente novamente.");
+      })
+      .finally(() => {
+        setLoading(false);
+        setRefresh(refresh + 1);
+      });
   };
 
   const handleGenerateLinkClick = () => {

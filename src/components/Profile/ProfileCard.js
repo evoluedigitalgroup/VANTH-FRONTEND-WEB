@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Row, Col } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Col, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
-import Table from "react-bootstrap/Table";
-import InputGroup from "react-bootstrap/InputGroup";
-import Form from "react-bootstrap/Form";
-import Pagination from "react-bootstrap/Pagination";
 import Card from "react-bootstrap/Card";
-import { profileAtom } from "../../recoil/Atoms";
+import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import ProfileTable from "./ProfileTable";
 import { profileHistory } from "../../pages/Login/Profile";
-import Loader from "../Loader";
-import TableNavbar from "../TableNavbar";
-import NewProgressbar from "../NewProgressbar";
+import { profileAtom } from "../../recoil/Atoms";
 import { usageAtom } from "../../recoil/UsageAtoms/Usage";
+import Loader from "../Loader";
+import NewProgressbar from "../NewProgressbar";
+import TableNavbar from "../TableNavbar";
+import ProfileTable from "./ProfileTable";
 
 const ProfileCard = ({
   showProfilePicture,
@@ -52,6 +48,7 @@ const ProfileCard = ({
         search,
       };
       profileHistory(submitData).then((res) => {
+        console.log("Histórico ", res);
         if (res.success) {
           setLoading(false);
           setTableRow(res.data);
