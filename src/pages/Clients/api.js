@@ -1,20 +1,25 @@
-import { api } from "../../helper/index";
 import { PAGE_LIMIT } from "../../config";
+import { api } from "../../helper/index";
 import {
-  GET_CONTACT,
-  GENERATE_LINK,
-  CONTACT_FORM,
-  GENERATE_NEW_LINK,
-  ATTACH_DOCUMENT,
-  APPROVE_VISITOR,
-  GET_ALL_DOCUMENTS_LIST,
   ADD_NEW_DOCUMENT_TYPE,
+  APPROVE_VISITOR,
+  ATTACH_DOCUMENT,
+  CONTACT_FORM,
+  GENERATE_LINK,
+  GENERATE_NEW_LINK,
+  GET_ALL_DOCUMENTS_LIST,
   GET_ALL_DOCUMENTS_LIST_PUBLIC,
+  GET_CONTACT,
   PUBLIC_UPDATE_CONTACT,
   REMOVE_DOCUMENT_TYPE,
 } from "../../helper/url";
 
-export const getContactList = (page = 1, search = "", status = "", limit = PAGE_LIMIT) => {
+export const getContactList = (
+  page = 1,
+  search = "",
+  status = "",
+  limit = PAGE_LIMIT
+) => {
   return new Promise((resolve, reject) => {
     const submitData = {
       start: (page - 1) * limit,
@@ -65,7 +70,7 @@ export const addNewDocumentType = (submitData) => {
       .catch((err) => {
         reject();
       });
-  })
+  });
 };
 
 export const removeDocumentType = (submitData) => {
@@ -77,7 +82,7 @@ export const removeDocumentType = (submitData) => {
       .catch((err) => {
         reject();
       });
-  })
+  });
 };
 
 export const generateNewLink = (submitData) => {
@@ -123,11 +128,10 @@ export const attachDocument = (submitData) => {
         resolve(res.data);
       })
       .catch((err) => {
-        reject();
+        reject(err);
       });
   });
 };
-
 
 export const updateClientContact = (submitData) => {
   return new Promise((resolve, reject) => {
