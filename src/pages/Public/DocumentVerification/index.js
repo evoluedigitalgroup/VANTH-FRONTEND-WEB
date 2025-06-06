@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
@@ -8,16 +9,19 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import _ from 'lodash';
-import TableRowDocument from "../../../components/Document/table/TableRowDocument";
-import { attachDocument, getAllDocumentsList, getAllDocumentsPublicList, updateClientContact } from "../../Clients/api";
-import { getDocument } from "../../../helper/API/document";
-import { incrementCounter } from "../../../helper/API/auth";
-import ImageUploadModal from "../../../components/Document/ImageUploadModal";
 import ReactInputMask from "react-input-mask";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import ImageUploadModal from "../../../components/Document/ImageUploadModal";
+import TableRowDocument from "../../../components/Document/table/TableRowDocument";
+import { incrementCounter } from "../../../helper/API/auth";
+import { getDocument } from "../../../helper/API/document";
 import removeNonNumericChars from "../../../utils/remove-non-numeric-chars";
+import {
+  attachDocument,
+  getAllDocumentsPublicList,
+  updateClientContact,
+} from "../../Clients/api";
 
 const DocumentVerification = () => {
   const inputRef = useRef();
@@ -54,18 +58,20 @@ const DocumentVerification = () => {
   const { companyId, contactId, requestId } = useParams();
 
   const getAllDocumentsListData = async () => {
-    const documentList = await getAllDocumentsPublicList({ company: companyId });
+    const documentList = await getAllDocumentsPublicList({
+      company: companyId,
+    });
     console.log("documentList : ", documentList);
     setDocumentListData(documentList.data);
   };
 
   const incrementVisiterCounter = () => {
     const submitData = {
-      company: companyId
-    }
+      company: companyId,
+    };
 
     incrementCounter(submitData);
-  }
+  };
 
   useEffect(() => {
     incrementVisiterCounter();
@@ -85,7 +91,6 @@ const DocumentVerification = () => {
   }, [refresh]);
 
   const handleFileChange = (e, name, remove = false) => {
-
     if (remove) {
       let dataValue = data;
       dataValue.docs[name] = null;
@@ -116,9 +121,7 @@ const DocumentVerification = () => {
     }
   };
 
-
   const imageSubmitData = () => {
-
     let submitCallArray = Object.keys(images).map((key, i) => {
       const formData = new FormData();
       formData.append("addressProof", images[key]);
@@ -126,11 +129,13 @@ const DocumentVerification = () => {
       formData.append("type", key);
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          attachDocument(formData).then((res) => {
-            resolve(res);
-          }).catch((err) => {
-            reject(err)
-          });
+          attachDocument(formData)
+            .then((res) => {
+              resolve(res);
+            })
+            .catch((err) => {
+              reject(err);
+            });
         }, i * 1000);
       });
     });
@@ -138,61 +143,56 @@ const DocumentVerification = () => {
     console.log("submitCallArray : ", submitCallArray);
 
     return submitCallArray;
-  }
+  };
 
   const textSubmitData = (submitCallArray) => {
-
     const blankValues = otherInfoForm.filter((info) => info.value === "");
     if (blankValues.length === 0) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           const submitData = {
-            companyId, contactId, requestId,
-            otherInformation: otherInfoForm
-          }
+            companyId,
+            contactId,
+            requestId,
+            otherInformation: otherInfoForm,
+          };
 
-          updateClientContact(submitData).then((res) => {
-            if (res.success) {
-              resolve(res);
-            } else {
-              reject(res.message);
-            }
-          }).catch((err) => {
-            reject(err)
-          });
-        }, submitCallArray.length * 1000);
-      })
+          updateClientContact(submitData)
+            .then((res) => {
+              if (res.success) {
+                resolve(res);
+              } else {
+                reject(res.message);
+              }
+            })
+            .catch((err) => {
+              reject(err);
+            });
+        }, 500);
+      });
     } else {
       return new Promise((resolve, reject) => {
         resolve();
       });
     }
-
-  }
+  };
 
   const handleSubmit = async () => {
     setLoading(true);
-
 
     const blankValues = otherInfoForm.filter((info) => info.value === "");
 
     if (blankValues.length > 0) {
       toast.error("Por favor, preencha todos os campos obrigatórios");
       setLoading(false);
-      return
+      return;
     }
 
     const submitImageCallArray = imageSubmitData();
 
-    console.log("submitImageCallArray : ", submitImageCallArray)
-
     const submitTextCallArray = textSubmitData(submitImageCallArray);
 
-    console.log("submitTextCallArray : ", submitTextCallArray)
-
     const finalArray = [...submitImageCallArray, submitTextCallArray];
-
-    console.log("finalArray : ", finalArray);
 
     Promise.all(finalArray)
       .then((responses) => {
@@ -203,18 +203,25 @@ const DocumentVerification = () => {
           setDisable(true);
         }
       })
-      .catch((err) => setDisable(true));
+      .catch((err) => {
+        setLoading(false);
+        setDisable(true);
+        toast.error("Erro ao enviar documentos");
+        console.error("Error submitting documents: ", err);
+      });
   };
 
   const showButton = (() => {
-    const savedBlankValues = data?.otherInformation ? data?.otherInformation?.filter((info) => info.value === "") : [];
+    const savedBlankValues = data?.otherInformation
+      ? data?.otherInformation?.filter((info) => info.value === "")
+      : [];
     const blankValues = otherInfoForm.filter((info) => info.value === "");
-    if (!disable || (blankValues.length != savedBlankValues.length)) {
+    if (!disable || blankValues.length != savedBlankValues.length) {
       return true;
     } else {
       return false;
     }
-  })()
+  })();
 
   return (
     <>
@@ -224,15 +231,17 @@ const DocumentVerification = () => {
           className="d-flex flex-column align-items-center justify-content-center"
         >
           <div className="TBA-Logo d-flex align-items-center justify-content-center">
-            <img alt="Vanth Logo" src="/assets/img/vancehDigital.svg" style={{ height: 200 }} />
+            <img
+              alt="Vanth Logo"
+              src="/assets/img/vancehDigital.svg"
+              style={{ height: 200 }}
+            />
           </div>
           <Card className="m-2 p-4" style={{ width: "80%" }}>
             <>
               <Row>
                 <Col md={6} xs={12}>
-                  <h6 className="fw-bold">
-                    Envie as seguintes informações:
-                  </h6>
+                  <h6 className="fw-bold">Envie as seguintes informações:</h6>
                 </Col>
               </Row>
               <Row className="mt-3">
@@ -383,7 +392,11 @@ const DocumentVerification = () => {
                           <Form.Control
                             type="text"
                             className="Cardinput"
-                            placeholder={info?.placeholder ? info?.placeholder : "Sua informação"}
+                            placeholder={
+                              info?.placeholder
+                                ? info?.placeholder
+                                : "Sua informação"
+                            }
                             onChange={(e) => {
                               setOtherInfoForm((prev) => {
                                 let temp = [...prev];
@@ -392,15 +405,17 @@ const DocumentVerification = () => {
                               });
                             }}
                             disabled={info?.value ? true : false}
-                            value={info?.value ? info?.value : otherInfoForm[index].value}
+                            value={
+                              info?.value
+                                ? info?.value
+                                : otherInfoForm[index].value
+                            }
                           />
                         </InputGroup>
                       </Form>
                     </Col>
                   ))}
-
                 </Row>
-
               </Row>
               <Row className="mt-3 gx-2">
                 <TableRowDocument
@@ -418,13 +433,13 @@ const DocumentVerification = () => {
 
               <Col md={6} xs={12}>
                 <div className="d-flex">
-                  {(
+                  {
                     <Button
                       onClick={handleSubmit}
                       className="p-3 px-4 fw-bold border-0"
                       disabled={loading || !showButton}
                       style={{
-                        marginTop: '10px',
+                        marginTop: "10px",
                         opacity: showButton ? 1 : 0.5,
                         width: "fit-content",
                         background: "#0068ff",
@@ -439,10 +454,9 @@ const DocumentVerification = () => {
                         />
                       )}
                     </Button>
-                  )}
+                  }
                 </div>
               </Col>
-
             </>
           </Card>
         </Col>
