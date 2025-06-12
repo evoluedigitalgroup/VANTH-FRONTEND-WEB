@@ -20,21 +20,21 @@ export const BASE_URL = envData(
   ENV_TYPE,
   "http://localhost:3000/api/v1/",
   "https://api.vanthdocs.com.br/api/v1/",
-  "https://api.vanthdocs.com.br/api/v1/"
+  "http://localhost:3001/api/v1/"
 );
 
 export const LINK_URL = envData(
   ENV_TYPE,
   "http://localhost:3000/document-verification/",
-  "https://system.vanthdocs.com.br/document-verification/",
-  "https://system.vanthdocs.com.br/document-verification/"
+  "https://app.vanthdocs.com.br/document-verification/",
+  "https://app.vanthdocs.com.br/document-verification/"
 );
 
 export const CONTRACT_LINK_URL = envData(
   ENV_TYPE,
   "http://localhost:3000/requested-signature/",
-  "https://system.vanthdocs.com.br/requested-signature/",
-  "https://system.vanthdocs.com.br/requested-signature/"
+  "https://app.vanthdocs.com.br/requested-signature/",
+  "https://app.vanthdocs.com.br/requested-signature/"
 );
 
 export const PAGE_LIMIT = 5;
@@ -42,4 +42,3 @@ export const PAGE_LIMIT = 5;
 export default config;
 
 export const whatsappNumber = "5511993000803";
-
