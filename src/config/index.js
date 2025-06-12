@@ -20,7 +20,7 @@ export const BASE_URL = envData(
   ENV_TYPE,
   "http://localhost:3000/api/v1/",
   "https://api.vanthdocs.com.br/api/v1/",
-  "http://localhost:3001/api/v1/"
+  "https://api.vanthdocs.com.br/api/v1/"
 );
 
 export const LINK_URL = envData(
